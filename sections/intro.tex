@@ -1,2 +1,110 @@
-
 \section{Introduction}
+
+\def\S{\mathbb{S}}
+\def\L{\mathbb{L}}
+\def\funct{\longrightarrow}
+
+Let $\S$ and $\L$ be two 2-categories. Eventually we will require additional
+structure to be present in these, but for now we want to consider them as
+context categories for two different type theories. We will consider
+2-morphisms to be rewriting rules, and 1-morphisms to be terms, in the style of
+  [CITE].
+
+We want to view $\S$ as the "high-level", nice category that we want to write
+our programs in. On the other hand, $\L$ is the "low-level", ugly category that
+we actually execute our programs in. It is ugly from the point of view of the
+programmer, but nice from the point of view of a machine, because it closely
+follows the way the machine actually executes the program.
+
+Since we have a high-level and a low-level category, we want to have a way to
+translate between them. We will do this by defining two functors:
+\begin{itemize}
+  \item A functor $C : \S \funct \L $, called the \emph{compilation} functor. It takes
+        a program in $\S$ and compiles it to a program in $\L$.
+  \item A functor $Q : \L \funct \S $, called the \emph{quoting} functor. it allows us
+        to opaquely operate on program fragments from $\L$ within $\S$.
+\end{itemize}
+
+Importantly, both of these functors are \emph{lax}, meaning that they only
+respect functoriality up to 2-morphisms. In other words, compiling a high-level
+program $C(f \circ g)$ is not necessarily the same as compiling $C(f)$ and then
+$C(g)$ separately, but there is a 2-morphism $ C(f) \circ C(g) \Rightarrow C(f
+  \circ g)$ implying that one evaluates to the other.
+
+The quoting functor $Q$ is left-adjoint to the compilation functor $C$, in the
+sense that compiling a quoted program yields the same program. Commonly this
+adjunction is strict.
+
+\section{Features of $\S$}
+
+Since $\S$ is the site of our high-level programs, we want it to have a lot of
+the things that we expect from a programming language. In particular, we want
+it to be cartesian closed, and we want it to admit fixpoints of endofunctors.
+
+\section{Features of $\L$}
+
+We require much less convenience in the structure of $\L$, instead relying on
+the functor $C$ to translate human-friendly programs into machine-friendly
+ones.
+
+Commonly $\L$ will not be closed, and it might be a Kleisli category with
+respect to some monad (probably a monad holding the state of the
+stack/heap/environment/etc).
+
+We will commonly want to restrict $\L$ to only be monoidal in some
+less-than-cartesian way, for example to model a linear logic for the tracking
+and preservation of resources.
+
+\section{Compilation}
+
+This setup of having two sites of "programming" is not a new concept. In fact,
+it could be argued that this is exactly how the process of standard compilation
+works. We have a high-level language, which is compiled into a low-level
+language, which is then executed on a machine.
+
+However, the process of compilation is usually not considered to be part of the
+high-level program itself. Rather, it is the job of the compiler to figure out
+exactly what is the optimal representation of a high-level program in the
+low-level language. This is especially the case when the discrepancy between
+the levels becomes great, for example in functional languages such as Haskell
+or ML. In these languages, the programmer has very little control over the
+eventual representation of their program in the low-level language, unless they
+use specialised primitives which are meant to mirror the low-level capabilities
+of the target system.
+
+This is what we are aiming to change with this formalism. We envision a process
+of compilation in which the programmer has a lot more control over the
+representation of their program in the low-level language, while still keeping
+a clear separation between that and the core logic of the high-level program
+itself. In a way, we are trying to create a principled and ubiquitous version
+of "directive annotations" in high-level languages which aim to address a
+particular low-level concern about a program (for example, whether to keep the
+field of a data type behind a pointer.)
+
+\section{Translation of logic and data}
+
+In the present categorical presentation of this process, we want each program
+to construct its own customised compilation functor $C$. This functor will be
+constructed by the programmer, just like the rest of the high-level logic of
+the program.
+
+One might remark that this sounds like a lot of work for the programmer.
+Imagine having to not only write a program, but also write a customised
+compiler for that very program, and doing that each time you want to write a
+program. However, we will see that this is not the case. In fact, we will see
+that the compilation functor can be constructed automatically based on a set of
+core "data type representations" that are provided by the programmer. These
+data type representations will be the only thing that the programmer will have
+to write, and they will be reusable across many different programs.
+
+Furthermore, there will be a trade-off at play. The more custom parts of the
+compilation functor the programmer writes, the more control they have over the
+eventual representation, but the more coupling there is between the high-level
+program and the low-level representation. Crucially however, this coupling is
+never present in the high-level program itself, but rather sits alongside it.
+
+\section{Algebra-coalgebra pairs as the primitive of representation}
+
+Consider that we have an endofunctor $F : \S \funct \S$ which admits a least
+fixpoint, which we will denote $\mu F$.
+
