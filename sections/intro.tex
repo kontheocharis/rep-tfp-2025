@@ -3,6 +3,10 @@
 \def\S{\mathbb{S}}
 \def\L{\mathbb{L}}
 \def\funct{\longrightarrow}
+\def\Ob{\mathrm{Ob}}
+\def\Hom{\mathrm{Hom}}
+\def\Cat{\mathbf{Cat}}
+\def\Set{\mathbf{Set}}
 
 Let $\S$ and $\L$ be two 2-categories. Eventually we will require additional
 structure to be present in these, but for now we want to consider them as
@@ -40,6 +44,7 @@ adjunction is strict.
 Since $\S$ is the site of our high-level programs, we want it to have a lot of
 the things that we expect from a programming language. In particular, we want
 it to be cartesian closed, and we want it to admit fixpoints of endofunctors.
+Furthermore, we expect that there exists a terminal object $1 \in \Ob(\S)$.
 
 \section{Features of $\L$}
 
@@ -106,5 +111,50 @@ never present in the high-level program itself, but rather sits alongside it.
 \section{Algebra-coalgebra pairs as the primitive of representation}
 
 Consider that we have an endofunctor $F : \S \funct \S$ which admits a least
-fixpoint, which we will denote $\mu F$.
+fixpoint, which we will denote $\mu F$. This is a certain kind of free
+structure in $\S$: an inductive data type. We will mostly focus on least
+fixpoints, however it might be worth considering the dual case of greatest
+fixpoints as well.
 
+We want to be able to represent this in $\L$. We will do this by defining an
+algebra and a coalgebra in $\S$ over a chosen object $I_F \in \Ob(\S)$,
+\begin{equation}
+  \begin{tikzcd}
+    F(I_F) \arrow[r, "w", shift left] & I_F \arrow[l, "u", shift left]
+  \end{tikzcd}.
+\end{equation}
+This pair of morphisms allows us to "peel away" a layer of $F$ from $I_F$, as
+well as "wrap" a layer of $F$ around $I_F$. Conceptually, $I_F$ represents an
+intermediary descriptive object which is used to gather and encode data about
+the structure of an inhabitant of $\mu F$.
+
+Furthermore, $I_F$ must satisfy a second property: there must exist another
+pair of morphisms
+\begin{equation}
+  \begin{tikzcd}
+    I_F \arrow[r, "r", shift left] & Q(R_F) \arrow[l, "i", shift left]
+  \end{tikzcd}.
+\end{equation}
+with the quoted object $Q(R_F)$, making it so that $R_F \in \Ob(\L)$ is the chosen low-level
+representation of $\mu F$.
+
+In general we do not expect that $r$ and $i$, or $w$ and $u$ are strict
+inverses. In fact, them being strict inverses would imply a very trivial
+correspondence that probably does not contain significant information. However,
+we do expect that there exist two pairs of 2-morphisms
+\begin{equation}
+  \nu : u \circ w \Rightarrow \mathrm{id}_{F(I_F)} \text{ and } \nu' : w \circ u \Rightarrow \mathrm{id}_{I_F}
+\end{equation}
+and
+\begin{equation}
+  \mu : i \circ r \Rightarrow \mathrm{id}_{I_F} \text{ and } \mu' : r \circ i \Rightarrow \mathrm{id}_{Q(R_F)} \,.
+\end{equation}
+TODO: do we really need both directions here?
+These 2-morphisms are the key to the correspondence between the high-level and
+low-level representations. They ensure that no matter how different the composition of
+encoding and decoding morphisms is, the result always evaluates to the same term.
+
+% For example, consider $F(X) = 1 + AX$ for some $A \in \Ob(\S)$. Then we can
+% define $I_F = $, with
+
+\section{An example: Lists as heap arrays}
