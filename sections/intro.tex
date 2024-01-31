@@ -1,62 +1,57 @@
 \section{Introduction}
 
-\def\S{\mathbb{S}}
-\def\L{\mathbb{L}}
-\def\funct{\longrightarrow}
-\def\Ob{\mathrm{Ob}}
-\def\Hom{\mathrm{Hom}}
-\def\Cat{\mathbf{Cat}}
-\def\Set{\mathbf{Set}}
-
-Let $\S$ and $\L$ be two 2-categories. Eventually we will require additional
-structure to be present in these, but for now we want to consider them as
-context categories for two different type theories. We will consider
+Let $\cat S$ and $\cat L$ be two 2-categories. Eventually we will require
+additional structure to be present in these, but for now we want to consider
+them as context categories for two different type theories. We will consider
 2-morphisms to be rewriting rules, and 1-morphisms to be terms, in the style of
   [CITE].
 
-We want to view $\S$ as the "high-level", nice category that we want to write
-our programs in. On the other hand, $\L$ is the "low-level", ugly category that
-we actually execute our programs in. It is ugly from the point of view of the
-programmer, but nice from the point of view of a machine, because it closely
-follows the way the machine actually executes the program.
+We want to view $\cat S$ as the "high-level", nice category that we want to
+write our programs in. On the other hand, $\cat L$ is the "low-level", ugly
+category that we actually execute our programs in. It is ugly from the point of
+view of the programmer, but nice from the point of view of a machine, because
+it closely follows the way the machine actually executes the program.
 
 Since we have a high-level and a low-level category, we want to have a way to
 translate between them. We will do this by defining two functors:
 \begin{itemize}
-  \item A functor $C : \S \funct \L $, called the \emph{compilation} functor. It takes
-        a program in $\S$ and compiles it to a program in $\L$.
-  \item A functor $Q : \L \funct \S $, called the \emph{quoting} functor. it allows us
-        to opaquely operate on program fragments from $\L$ within $\S$.
+  \item A functor $\fun C : \cat S \funArrow \cat L $, called the \emph{compilation}
+        functor. It takes a program in $\S$ and compiles it to a program in $\cat L$.
+  \item A functor $\fun Q : \cat L \funArrow \cat S $, called the \emph{quoting}
+        functor. it allows us to opaquely operate on program fragments from $\cat L$
+        within $\cat S$.
 \end{itemize}
 
 Importantly, both of these functors are \emph{lax}, meaning that they only
 respect functoriality up to 2-morphisms. In other words, compiling a high-level
-program $C(f \circ g)$ is not necessarily the same as compiling $C(f)$ and then
-$C(g)$ separately, but there is a 2-morphism $ C(f) \circ C(g) \Rightarrow C(f
-  \circ g)$ implying that one evaluates to the other.
+program $\fun C(f \circ g)$ is not necessarily the same as compiling $\fun
+  C(f)$ and then $\fun C(g)$ separately, but there is a 2-morphism $\fun C(f)
+  \circ \fun C(g) \Rightarrow \fun C(f \circ g)$ implying that one evaluates to
+the other.
 
-The quoting functor $Q$ is left-adjoint to the compilation functor $C$, in the
-sense that compiling a quoted program yields the same program. Commonly this
-adjunction is strict.
+The quoting functor $\fun Q$ is left-adjoint to the compilation functor $\fun
+  C$, in the sense that compiling a quoted program yields the same program.
+Commonly this adjunction is strict.
 
-\section{Features of $\S$}
+\section{Features of $\cat S$}
 
-Since $\S$ is the site of our high-level programs, we want it to have a lot of
-the things that we expect from a programming language. In particular, we want
-it to be cartesian closed, and we want it to admit fixpoints of endofunctors.
-Furthermore, we expect that there exists a terminal object $1 \in \Ob(\S)$.
+Since $\cat S$ is the site of our high-level programs, we want it to have a lot
+of the things that we expect from a programming language. In particular, we
+want it to be cartesian closed, and we want it to admit fixpoints of
+endofunctors. Furthermore, we expect that there exists a terminal object $1 \in
+  \Ob(\cat S)$.
 
-\section{Features of $\L$}
+\section{Features of $\cat L$}
 
-We require much less convenience in the structure of $\L$, instead relying on
-the functor $C$ to translate human-friendly programs into machine-friendly
-ones.
+We require much less convenience in the structure of $\cat L$, instead relying
+on the functor $\fun C$ to translate human-friendly programs into
+machine-friendly ones.
 
-Commonly $\L$ will not be closed, and it might be a Kleisli category with
+Commonly $\cat L$ will not be closed, and it might be a Kleisli category with
 respect to some monad (probably a monad holding the state of the
 stack/heap/environment/etc).
 
-We will commonly want to restrict $\L$ to only be monoidal in some
+We will commonly want to restrict $\cat L$ to only be monoidal in some
 less-than-cartesian way, for example to model a linear logic for the tracking
 and preservation of resources.
 
@@ -89,8 +84,8 @@ field of a data type behind a pointer.)
 \section{Translation of logic and data}
 
 In the present categorical presentation of this process, we want each program
-to construct its own customised compilation functor $C$. This functor will be
-constructed by the programmer, just like the rest of the high-level logic of
+to construct its own customised compilation functor $\fun C$. This functor will
+be constructed by the programmer, just like the rest of the high-level logic of
 the program.
 
 One might remark that this sounds like a lot of work for the programmer.
@@ -110,51 +105,74 @@ never present in the high-level program itself, but rather sits alongside it.
 
 \section{Algebra-coalgebra pairs as the primitive of representation}
 
-Consider that we have an endofunctor $F : \S \funct \S$ which admits a least
-fixpoint, which we will denote $\mu F$. This is a certain kind of free
-structure in $\S$: an inductive data type. We will mostly focus on least
-fixpoints, however it might be worth considering the dual case of greatest
-fixpoints as well.
+Consider that we have an endofunctor $\fun F : \cat S \funArrow \cat S$ which
+admits a least fixpoint, which we will denote $\mu \fun F$. This is a certain
+kind of free structure in $\cat S$: an inductive data type. We will mostly
+focus on least fixpoints, however it might be worth considering the dual case
+of greatest fixpoints as well.
 
-We want to be able to represent this in $\L$. We will do this by defining an
-algebra and a coalgebra in $\S$ over a chosen object $I_F \in \Ob(\S)$,
+We want to be able to represent this in $\cat L$. We will do this by defining
+an algebra and a coalgebra in $\cat S$ over a chosen object $I_{\fun F} \in
+  \Ob(\cat S)$,
 \begin{equation}
   \begin{tikzcd}
-    F(I_F) \arrow[r, "w", shift left] & I_F \arrow[l, "u", shift left]
+    F(I_{\fun F}) \arrow[r, "w", shift left] & I_{\fun F} \arrow[l, "u", shift left]
   \end{tikzcd}.
 \end{equation}
-This pair of morphisms allows us to "peel away" a layer of $F$ from $I_F$, as
-well as "wrap" a layer of $F$ around $I_F$. Conceptually, $I_F$ represents an
+This pair of morphisms allows us to "peel away" a layer of $\fun F$ from $I_{\fun F}$, as
+well as "wrap" a layer of $\fun F$ around $I_{\fun F}$. Conceptually, $I_{\fun F}$ represents an
 intermediary descriptive object which is used to gather and encode data about
 the structure of an inhabitant of $\mu F$.
 
-Furthermore, $I_F$ must satisfy a second property: there must exist another
-pair of morphisms
+Furthermore, $I_{\fun F}$ must satisfy a second property: there must exist
+another pair of morphisms
 \begin{equation}
   \begin{tikzcd}
-    I_F \arrow[r, "r", shift left] & Q(R_F) \arrow[l, "i", shift left]
+    I_{\fun F} \arrow[r, "r", shift left] & \fun Q(R_{\fun F}) \arrow[l, "i", shift left]
   \end{tikzcd}.
 \end{equation}
-with the quoted object $Q(R_F)$, making it so that $R_F \in \Ob(\L)$ is the chosen low-level
-representation of $\mu F$.
+with the quoted object $\fun Q(R_{\fun F})$, making it so that $R_{\fun F} \in \Ob(\cat L)$ is the chosen low-level
+representation of $\mu \fun F$.
 
 In general we do not expect that $r$ and $i$, or $w$ and $u$ are strict
 inverses. In fact, them being strict inverses would imply a very trivial
 correspondence that probably does not contain significant information. However,
 we do expect that there exist two pairs of 2-morphisms
 \begin{equation}
-  \nu : u \circ w \Rightarrow \mathrm{id}_{F(I_F)} \text{ and } \nu' : w \circ u \Rightarrow \mathrm{id}_{I_F}
+  \nu : u \circ w \Rightarrow \mathrm{id}_{\fun F(I_{\fun F})} \text{ and } \nu' : w \circ u \Rightarrow \mathrm{id}_{I_{\fun F}}
 \end{equation}
 and
 \begin{equation}
-  \mu : i \circ r \Rightarrow \mathrm{id}_{I_F} \text{ and } \mu' : r \circ i \Rightarrow \mathrm{id}_{Q(R_F)} \,.
+  \mu : i \circ r \Rightarrow \mathrm{id}_{I_{\fun F}} \text{ and } \mu' : r \circ i \Rightarrow \mathrm{id}_{\fun Q(R_{\fun F})} \,.
 \end{equation}
 TODO: do we really need both directions here?
 These 2-morphisms are the key to the correspondence between the high-level and
-low-level representations. They ensure that no matter how different the composition of
-encoding and decoding morphisms is, the result always evaluates to the same term.
+low-level representations. They ensure that no matter how different the composition of the
+encoding and decoding morphisms is from "doing nothing", the result always evaluates to the same term.
 
 % For example, consider $F(X) = 1 + AX$ for some $A \in \Ob(\S)$. Then we can
 % define $I_F = $, with
 
 \section{An example: Lists as heap arrays}
+
+We will define and work in the internal languages of $\cat S$ and $\cat L$.
+
+For $\cat S$:
+
+\begin{align}
+  x,y  \tag{variables}                                                                                                                                                                 \\
+  A, B    & ::=  A \to B \mid A \times B \mid A + B \mid \mu x . A \mid 1 \tag{types}                                                                                                  \\
+  t, u, v & ::= \lambda x . t \mid x \mid t\,u \mid (t, u) \mid \int{p}_1(t) \mid \int{p}_2(t) \mid \int{inl}(t) \mid \int{inr}(t) \mid \int{case}(t, x.u, y.v) \mid \star \tag{terms}
+\end{align}
+
+For $\cat L$:
+
+\begin{align}
+  x  \tag{variables}                                                                                                                                                                               \\
+  n \tag{finite natural numbers, word size}                                                                                                                                                        \\
+  s    & ::= \varnothing \mid [s, t] \tag{sequences}                                                                                                                                               \\
+  A, B & ::= A \multimap B \mid \Sigma x . A \mid \int{W} \mid A ^n \mid \square A \mid \int{I} \tag{types}                                                                                        \\
+  t, u & ::= \lambda x . t \mid x \mid t\,u \mid \langle n, t \rangle \mid n \mid s \mid \int{box}(t) \mid \int{letbox}(t, x.t) \mid \int{letseq}(t, x.t) \mid \int{num}(t) \mid \star \tag{terms}
+\end{align}
+
+\section{Slice categories and dependent types}
