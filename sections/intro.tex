@@ -178,22 +178,29 @@ $\cat S$ in $\cat L$. There are a few key functors here:
 
 Each object $R \in \Repr _{\cat L} ^{\cat S}$ contains the following data:
 \begin{itemize}
-  \item A source type $\fun \mu \fun {Src} _R \in \cat S$.
+  \item An object $\fun \mu \fun {Src} _R \in \cat S$ which is the source type.
   \item An endofunctor $\fun {Src} _R : \cat S \funArrow \cat S$ whose fixpoint is $\mu
           \fun {Src} _R$.
+  \item An object $\fun {Tar} _R \in \cat L$ which is the low-level representation of
+        $\mu \fun {Src} _R$.
   \item An object $\fun {Int}_R \in \cat S$ which represents an intermediate
         descriptive object that captures information about $\mu \fun {Src} _R$ during a
         translation process. In simple cases the intermediate object will be something
         like $\fun {Int}_R = \mu \fun {Src} _R + Q \fun {Tar}_R$.
   \item A morphism $$\fun {IntAlg} _R \in \cat S (\fun {Src}_R (\fun {Int}_R), \fun
           {Int}_R)$$ which calculates the structure of the intermediate descriptive
-        object by a fold.
+        object by a fold over the syntactical term structure of the high-level program.
+        For example, this can condense sequences of constructors of the high-level
+        inductive type into a single constructor of the intermediate descriptive
+        object, depending on what the algebra dictates.
   \item A morphism $$\fun {IntCoAlg} _R \in \prod _{L \in \Repr _{\cat L} ^{\cat S}}
           \cat S ( \fun {Int}_L ^{\fun {Src}_R (\fun {Int}_R)}, \fun {Int}_L ^{\fun
           {Int}_R})$$ which calculates the structure of a function on the intermediate
         object, given a function on the source object. It is almost a coalgebra, if the
         bound of the product was over all of $\cat S$ rather than just the image of
-        $\fun {Int}$.
+        $\fun {Int}$. Syntactically, it is used to transform pattern matches on the
+        high-level inductive type into pattern matches on the intermediate descriptive
+        object.
   \item A morphism $$\fun {Comp} _R \in \cat S (\fun {Int}_R , Q \fun {Tar}_R)$$ that
         "compiles" the intermediate descriptive object into the low-level
         representation (quoted).
@@ -205,7 +212,7 @@ Each object $R \in \Repr _{\cat L} ^{\cat S}$ contains the following data:
 Each morphism $f \in \Repr _{\cat L} ^{\cat S} (R, R')$ contains the following
 data:
 \begin{itemize}
-  \item TODO: Basically a morphism of each of the above data?
+  \item TODO: Basically a morphism of each of the above data
 \end{itemize}
 
 From all this data, we should be able to construct the following functions
