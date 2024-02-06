@@ -1,22 +1,22 @@
 # Fdb version 4
-["biber .out/main"] 1706890176 ".out/main.bcf" ".out/main.bbl" ".out/main" 1707081181 0
+["biber .out/main"] 1706890176 ".out/main.bcf" ".out/main.bbl" ".out/main" 1707220115 0
   "./bib.bib" 1706094687 9430 b0ec8835a1ae1b5daaa966ed37e88350 ""
-  ".out/main.bcf" 1707081180 117232 09475c61f150ac34535b0915415216be "pdflatex"
+  ".out/main.bcf" 1707220115 117232 09475c61f150ac34535b0915415216be "pdflatex"
   (generated)
   ".out/main.bbl"
   ".out/main.blg"
   (rewritten before read)
-["pdflatex"] 1707081178 "/Users/kt81/git/rep-icfp-2024/main.tex" ".out/main.pdf" "main" 1707081181 0
-  ".out/comment.cut" 1707081180 18 177cdc5ac2e6233427281177e03f4afc "pdflatex"
-  ".out/main.aux" 1707081180 3099 4912fd543e0fcd5ee3f548c6b3895336 "pdflatex"
+["pdflatex"] 1707220113 "/Users/kt81/git/rep-icfp-2024/main.tex" ".out/main.pdf" "main" 1707220115 0
+  ".out/comment.cut" 1707220115 18 177cdc5ac2e6233427281177e03f4afc "pdflatex"
+  ".out/main.aux" 1707220115 4180 d8ab56d69bef1b8aabcfa1305e4111e3 "pdflatex"
   ".out/main.bbl" 1706890180 466 ee04f40f768daeed26442158e95aba61 "biber .out/main"
-  ".out/main.out" 1707081180 3078 32ace75c0ea1567ef0c78655da084816 "pdflatex"
-  ".out/main.run.xml" 1707081180 2578 b1c5921f4737efb6424dbd70c9441347 "pdflatex"
+  ".out/main.out" 1707220115 3820 65780c92468962fdf901c48d8b25ff8b "pdflatex"
+  ".out/main.run.xml" 1707220115 2578 b1c5921f4737efb6424dbd70c9441347 "pdflatex"
   "/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmart.cls" 1705864358 116238 6a517980974a2590e70ec0b7ab8bbdff ""
   "/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmdatamodel.dbx" 1705882010 1093 d912da952f00f54f864aca0b3811e58a ""
   "/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmnumeric.bbx" 1705882010 19840 1f62ef4e2520c776941c4c07fde74475 ""
   "/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmnumeric.cbx" 1705882010 90 c8972fc9c13cc3031e8a6e7930e7b84a ""
-  "/Users/kt81/git/rep-icfp-2024/main.tex" 1706285333 624 0b2e06e819137e794418090770f8b016 ""
+  "/Users/kt81/git/rep-icfp-2024/main.tex" 1707220110 802 b7f4059634d297a4d849039ca56d51d0 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc" 1490131464 2921 8ca0eb0831f9bc5da080d3697cfe67bf ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc" 1490131464 2933 9ad527ce78d7c5fa0a642dead095f172 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc" 1490131464 2934 a4a9158faed2e9e89c771b4e3b7fc12f ""
@@ -318,7 +318,7 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1700228867 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1700228797 7883458 3f97d787793517afcea8c453fb5cc732 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "main.tex" 1706285333 624 0b2e06e819137e794418090770f8b016 ""
+  "main.tex" 1707220110 802 b7f4059634d297a4d849039ca56d51d0 ""
   "misc/abstract.tex" 1706094925 48 5e823a04dfe6fb551404793200d8b1fd ""
   "misc/ccs.tex" 1706094930 1310 a9241fb5ff7aff212cd4e46948b4ccf5 ""
   "misc/macros.tex" 1707076193 249 f472918bf184a435dfecf36b1decb8e0 ""
@@ -327,7 +327,13 @@
   "misc/title.tex" 1706094966 398 ad6a76785fcebaeced3bc036a371edbc ""
   "sections/acks.tex" 1706094996 43 1a6655a87024eaecf59653c4d0fc8681 ""
   "sections/conclusion.tex" 1706094874 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "sections/intro.tex" 1707081178 25385 a7471454095c62ffc6487d82450d883c ""
+  "sections/examples.tex" 1707220049 39 1d904b798d0938f3a9f6d09975431b99 ""
+  "sections/intro.tex" 1707220097 40 ea528259dde0ae7d007d1c5de60ee407 ""
+  "sections/model.tex" 1707219981 45 abc63ba861eb6c087df5d55ddf29fc85 ""
+  "sections/notes.tex" 1707220091 25410 40c5bdb052b6b4c561adbcdef188d383 ""
+  "sections/prelim.tex" 1707219934 42 8797022edc920dbebac152b1b68077bb ""
+  "sections/related.tex" 1707219991 42 3ad8a7ade3db1ca1995ac16c34eae8be ""
+  "sections/technique.tex" 1707220054 41 9912494c944b522604791f8154a3ba7a ""
   (generated)
   ".out/comment.cut"
   ".out/main.aux"
