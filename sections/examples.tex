@@ -1,1 +1,110 @@
 \section{Examples}\label{sec:examples}
+
+\subsection{Manual boxing and sequences in the simply-typed lambda calculus}
+
+We will define and work in the internal languages of $\cat S$ and $\cat L$. By
+internal language we mean that the objects of each category are the types, and
+the morphisms are the terms within a given context.
+
+For example, a morphism in $\cat S$ $$ f \in \cat S (\Gamma, A) $$ will
+correspond to a term inside a context in the internal language of $\cat S$, $$
+  \Gamma \vdash f : A $$.
+
+\subsection{Definition of $\cat S$}
+
+\begin{align*}
+  x,y  \tag{variables}                                                                                                                               \\
+  l,m  \tag{labels}                                                                                                                                  \\
+  A, B    & ::=  A \to B \mid A \times B \mid A + B \mid \mu x . A \mid 1 \mid (l, A) \mid \int{Q} C \tag{types}                                     \\
+  t, u, v & ::= \lambda x . t \mid x \mid t\,u \mid (t, u) \mid \int{p}_1(t) \mid \int{p}_2(t) \mid \int{inl}(t) \mid \int{inr}(t)                   \\
+          & \mid \int{case}(t, x.u, y.v) \mid \int{q}(t) \mid \int{let}(t, u, x.v) \mid \int{letrec}(t, y.u, x.v) \mid (l, t) \mid \star \tag{terms}
+\end{align*}
+
+Why this language?
+
+\begin{itemize}
+  \item We want to be able to express inductive data types $\mu x . A$, for lists,
+        numbers, trees, etc.
+  \item We also want to be able to handle quoted terms of the lower language: $\int{Q}
+          C$/$\int{q}(t)$, so that we can define translation functions in the language.
+  \item We want to be able to explicitly label certain types and their inhabitants $(l,
+          A)$/$(l, t)$, even though they might be functionally identical to some others.
+        This is so that we can consider them as different objects in the category, and
+        thus have the compilation functor produce different results for each one of
+        them.
+  \item We want to be able to express the usual constructs of a functional language:
+        functions, pairs, sums, recursion, etc.
+\end{itemize}
+
+Still to do: typing rules, operational semantics.
+
+Still to do: need an extra calculus of representations so that we can define
+the extra data from $\Repr _{\cat L} ^{\cat S}$ i.e. algebras and coalgebras.
+
+\subsection{Definition of $\cat L$}
+
+\begin{align*}
+  x,y  \tag{variables}                                                                                                         \\
+  n \tag{finite natural numbers, word size}                                                                                    \\
+  s    & ::= \varnothing \mid [s, t] \tag{sequences}                                                                           \\
+  S    & ::= \varnothing \mid [S, C] \tag{type sequences}                                                                      \\
+  C, D & ::= C \multimap D \mid \Sigma x _{n} . C \mid \int{W} \mid S[n] \mid C ^n \mid \square C \mid \int{I} \tag{types}     \\
+  t, u & ::= \lambda x . t \mid x \mid t\,u \mid \langle n, t \rangle \mid \int{letpair}(t, u, x.y.v) \mid n \mid \int{box}(t) \\
+       & \mid \int{letbox}(t, u, x.v) \mid s \mid \int{letseq}(t, u, x.v) \mid \int{num}(t) \mid \star \tag{terms}
+\end{align*}
+
+Why this language?
+
+\begin{itemize}
+  \item Once again we want a language based on the lambda calculus---for now we will
+        not go too low-level.
+  \item We want this language to be able to represent boxed types, because we want to
+        have lower-level control over the memory representation of inductive data types
+        (usually in the form $(l, \mu x . A)$).
+  \item We allow a restricted form of dependent types in the form of $\Sigma x_n . C$
+        types parameterised over some word size $\int W$. This is because sequence
+        types $C^n$ are indexed by $W$, and if we have some sequence that is of some
+        runtime size, we want to be able to represent the fact that some stored size is
+        the size of that sequence.
+  \item We want to be able to represent sequences $C^n$ for the reason above. We can
+        also have sequence types which can be used to model disjoint unions (same as
+        unions in C). The only difference here is we can represent tagged unions by
+        using the $\Sigma$ type: $\Sigma x_2 . [A, B][x]$ is kind of like $A + B$ in
+        the high-level language.
+  \item Due to the presence of boxed types, we want the language to be linear. In other
+        words we do not allow weakening or contraction of the context (unclear if we
+        want to allow contraction or not---we do not have explicit destructors so maybe
+        we really want an affine system).
+  \item We don't care about labels here since that is only a concern during
+        compilation.
+  \item We have different let expressions for the different linear types, to be able to
+        extract their inner data all at once or not at all.
+  \item The category $\cat L$ is still a monoidal closed category (specifically a
+        symmetric monoidal closed category), so we still allow lambdas to capture
+        variables (i.e. closures). Compiling these to boxed closures is a different
+        matter..
+\end{itemize}
+
+Still to do: typing rules, operational semantics.
+
+\subsection{Lists to arrays and natural numbers to big unsigned integers}
+
+\begin{align}
+  \usr{List}(A)  & := \mu X . (A \times X + 1) \tag{lists} \\
+  \usr{Array}(A) & := \Sigma n . \square A ^n \tag{arrays}
+\end{align}
+
+\begin{align}
+  \usr{Nat}     & := \mu X . (1 + X) \tag{numbers}                             \\
+  \usr{BigUInt} & := \Sigma n . \square \int{W} ^n \tag{big unsigned integers}
+\end{align}
+
+Fully write out the representations of these types in $\cat S$ and $\cat L$.
+
+Find less trivial examples.
+
+\subsection{$\cat S$ and $\cat L$ in one using dependent types}
+
+We should be able to embed the data of $\Repr ^{\cat S} _{\cat L}$ inside $\cat
+  S$ if the latter has sufficient quantification structure. In other words, its
+internal language is some kind of dependent type theory.

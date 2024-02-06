@@ -1,1 +1,176 @@
 \section{Categorical model}\label{sec:model}
+
+Let $\cat S$ and $\cat L$ be two 2-categories. Eventually we will require
+additional structure to be present in these, but for now we want to consider
+them as context categories for two different type theories. We will consider
+2-morphisms to be rewriting rules, and 1-morphisms to be terms, in the style of
+  [CITE].
+
+We want to view $\cat S$ as the "high-level", nice category that we want to
+write our programs in. On the other hand, $\cat L$ is the "low-level", ugly
+category that we actually execute our programs in. It is ugly from the point of
+view of the programmer, but nice from the point of view of a machine, because
+it closely follows the way the machine actually executes the program.
+
+Since we have a high-level and a low-level category, we want to have a way to
+translate between them. We will do this by defining two functors:
+\begin{itemize}
+  \item A functor $\fun C : \cat S \funArrow \cat L $, called the \emph{compilation}
+        functor. It takes a program in $\cat S$ and compiles it to a program in $\cat
+          L$.
+  \item A functor $\fun Q : \cat L \funArrow \cat S $, called the \emph{quoting}
+        functor. it allows us to opaquely operate on program fragments from $\cat L$
+        within $\cat S$.
+\end{itemize}
+
+Importantly, both of these functors are \emph{lax}, meaning that they only
+respect functoriality up to 2-morphisms. In other words, compiling a high-level
+program $\fun C(f \circ g)$ is not necessarily the same as compiling $\fun
+  C(f)$ and then $\fun C(g)$ separately, but there is a 2-morphism $\fun C(f)
+  \circ \fun C(g) \Rightarrow \fun C(f \circ g)$ implying that one evaluates to
+the other.
+
+The quoting functor $\fun Q$ is left-adjoint to the compilation functor $\fun
+  C$, in the sense that compiling a quoted program yields the same program.
+Commonly this adjunction is strict.
+
+\subsection{Features of $\cat S$}
+
+Since $\cat S$ is the site of our high-level programs, we want it to have a lot
+of the things that we expect from a programming language. In particular, we
+want it to be cartesian closed, and we want it to admit fixpoints of
+endofunctors. Furthermore, we expect that there exists a terminal object $1 \in
+  \Ob(\cat S)$.
+
+\subsection{Features of $\cat L$}
+
+We require much less convenience in the structure of $\cat L$, instead relying
+on the functor $\fun C$ to translate human-friendly programs into
+machine-friendly ones.
+
+Commonly $\cat L$ will not be closed, but for this paper we will assume it is.
+It might sometimes be a Kleisli category with respect to some monad (probably a
+monad holding the state of the stack/heap/environment/etc).
+
+We will commonly want to restrict $\cat L$ to only be monoidal in some
+less-than-cartesian way, for example to model a linear logic for the tracking
+and preservation of resources.
+
+\subsection{The category $\Repr _{\cat L} ^{\cat S}$}
+
+The data about how to translate high-level programs into low-level programs
+will be stored in a category $\Repr _{\cat L} ^{\cat S}$.
+
+Consider the following diagram:
+
+\begin{equation}
+  \begin{tikzcd}
+    \cat S \arrow[r, bend right, "\sigma"]
+    & [25pt] \Repr _{\cat L} ^{\cat S} \arrow[l, bend right, swap, "\fun {Int}"] \arrow[l, swap, "\mu \fun {Src}"] \arrow[r, "\fun {Tar}"] \arrow[d, "\fun {Src}"]
+    & \cat L \\
+    & {[\cat S, \cat S]} \arrow[ul, bend left, "\mu"] &
+  \end{tikzcd}
+\end{equation}
+
+The category $\Repr _{\cat L} ^{\cat S}$ is the category of representations of
+$\cat S$ in $\cat L$. There are a few key functors here:
+\begin{itemize}
+  \item $\fun {Src} : \Repr _{\cat L} ^{\cat S} \funArrow [\cat S, \cat S]$ is the source
+        functor. It takes a representation of $\cat S$ in $\cat L$ and returns the
+        original high-level inductive type as an endofunctor in $[\cat S, \cat S]$.
+        Can be considered one of the bundle projections.
+  \item $\fun {Tar} : \Repr _{\cat L} ^{\cat S} \funArrow \cat L$ is the target
+        functor. It takes a representation of $\cat S$ in $\cat L$ and returns the
+        low-level representation of the given high-level inductive type. Can be considered
+        the other bundle projection.
+  \item $\mu : [\cat S, \cat S] \funArrow \cat S$ is the
+        functor that takes an endofunctor in $[\cat S, \cat S]$ and returns the
+        least fixpoint of that endofunctor in $\cat S$.
+  \item $\sigma : \cat S \funArrow \Repr _{\cat L} ^{\cat S}$ is the functor
+        that takes an object in $\cat S$ and returns the representation of that
+        object in $\cat L$. It is a section of $\mu \fun {Src}$.
+\end{itemize}
+
+Each object $R \in \Repr _{\cat L} ^{\cat S}$ contains the following data:
+\begin{itemize}
+  \item An object $\fun \mu \fun {Src} _R \in \cat S$ which is the source type.
+  \item An endofunctor $\fun {Src} _R : \cat S \funArrow \cat S$ whose fixpoint is $\mu
+          \fun {Src} _R$.
+  \item An object $\fun {Tar} _R \in \cat L$ which is the low-level representation of
+        $\mu \fun {Src} _R$.
+  \item An object $\fun {Int}_R \in \cat S$ which represents an intermediate
+        descriptive object that captures information about $\mu \fun {Src} _R$ during a
+        translation process. In simple cases the intermediate object will be something
+        like $\fun {Int}_R = \mu \fun {Src} _R + Q \fun {Tar}_R$.
+  \item A morphism $$\fun {IntAlg} _R \in \cat S (\fun {Src}_R (\fun {Int}_R), \fun
+          {Int}_R)$$ which calculates the structure of the intermediate descriptive
+        object by a fold over the syntactical term structure of the high-level program.
+        For example, this can condense sequences of constructors of the high-level
+        inductive type into a single constructor of the intermediate descriptive
+        object, depending on what the algebra dictates.
+  \item A morphism $$\fun {IntCoAlg} _R \in \prod _{L \in \Repr _{\cat L} ^{\cat S}}
+          \cat S ( \fun {Int}_L ^{\fun {Src}_R (\fun {Int}_R)}, \fun {Int}_L ^{\fun
+          {Int}_R})$$ which calculates the structure of a function on the intermediate
+        object, given a function on the source object. It is almost a coalgebra, if the
+        bound of the product was over all of $\cat S$ rather than just the image of
+        $\fun {Int}$. Syntactically, it is used to transform pattern matches on the
+        high-level inductive type into pattern matches on the intermediate descriptive
+        object.
+  \item A morphism $$\fun {Comp} _R \in \cat S (\fun {Int}_R , Q \fun {Tar}_R)$$ that
+        "compiles" the intermediate descriptive object into the low-level
+        representation (quoted).
+  \item A morphism $$\fun {Decomp} _R \in \cat S (Q \fun {Tar}_R, \fun {Int}_R)$$ that
+        "decompiles" the low-level representation into the intermediate descriptive
+        object.
+\end{itemize}
+
+Each morphism $f \in \Repr _{\cat L} ^{\cat S} (R, R')$ contains the following
+data:
+\begin{itemize}
+  \item TODO: Basically a morphism of each of the above data
+\end{itemize}
+
+From all this data, we should be able to construct the following functions
+(morphisms in $\Set$):
+
+\begin{itemize}
+  \item A function $$\fun {int} _{\sigma, \Gamma, T} : \cat S (\Gamma, T) \to \cat S (Q
+          \fun {Tar}_{\sigma \Gamma}, \fun {Int} _{\sigma T})$$ which applies all the
+        $\fun {IntAlg}$ and $\fun {IntCoAlg}$ morphisms by folding and unfolding over
+        the syntactical term structure of the high-level program.
+  \item A function $$\fun {comp} _{\sigma, \Gamma, T} : \cat S (Q \fun {Tar}_{\sigma
+            \Gamma}, \fun {Int} _{\sigma T}) \to \cat S (Q \fun {Tar}_{\sigma \Gamma}, Q
+          \fun {Tar}_{\sigma T})$$ which applies the $\fun {Comp}$ morphism to the
+        intermediate descriptive object.
+  \item A function $$\fun {un}Q _{\sigma, \Gamma, T} : \cat S (Q \fun {Tar}_{\sigma
+            \Gamma}, Q \fun {Tar}_{\sigma T}) \to \cat L (\fun {Tar}_{\sigma \Gamma}, \fun
+          {Tar} _{\sigma T})$$ which essentially unquotes the result, yielding a term in
+        the low-level language.
+\end{itemize}
+
+Finally, for a given section $\sigma$ of the bundle of representations, we
+should be able to define the functor $\fun C$ as follows:
+\begin{align*}
+  \fun C_\sigma     & : \cat S \funArrow \cat L                                                                                           \\
+  \fun C_\sigma (T) & := \fun {Tar} _{\sigma T}                                                                                           \\
+  \fun C_\sigma (f) & := \fun {un}Q _{\sigma, \Gamma, T} \circ \fun {comp} _{\sigma, \Gamma, T} \circ \fun {int} _{\sigma, \Gamma, T} (f)
+\end{align*}
+
+NOTICE: We have not at all defined what the internal language of $\cat S$ or
+$\cat L$ looks like. An advantage of this formalism is that the compilation
+process in terms of algebras and coalgebras can be defined independently of the
+actual syntax and semantics of the languages (modulo some requirements such as
+cartesian closedness for $\cat S$).
+
+\subsection{Properties of the compilation functor}
+
+The compilation functor should be coherent with respect to operational
+reduction in both languages.
+
+We can draw the following lax-commutative square:
+\begin{equation}
+  \begin{tikzcd}
+    \cat S \arrow[r, "\mathrm{eval}"] \arrow[d, "\fun C"] & \cat S \arrow[d, "\fun C"] \\
+    \cat L \arrow[r, "\mathrm{run}"]  \arrow[Rightarrow,ur]                   & \cat L
+  \end{tikzcd}
+\end{equation}

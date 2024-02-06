@@ -1,1 +1,70 @@
 \section{Introduction}\label{sec:intro}
+
+There is a fundamental gap between programs written for human convenience and
+programs written for machine efficiency. It can be argued that a large segment
+of programming language design aims to bridge this gap, by providing
+abstraction techniques that allow programmers to write programs in a high-level
+language, and then compile them to a low-level language that can be executed
+efficiently.
+
+However, as the source programs become increasingly abstract and high-level,
+and the compilation techniques become increasinly sophisticated in order to
+keep up with the larger gap, it is very difficult to predict the final
+low-level code output. As such, there can be an observed performance ceiling
+for programs written in high-level languages, which can only be broken by
+"getting one's hands dirty" and dropping down to low-level code, where human
+intuition and insight is more effective at selecting the correct algorithms and
+data structures for a given task.
+
+This is unfortunate, however, because making this transition leads to a loss of
+abstraction, and thus a loss of many things including ease of readability, ease
+of modification, or even correctness guarantees. It appears as if there is a
+trade-off at play. But what if we could have the best of both worlds? What if
+we can write programs in a high-level, expressive, abstract language with all
+the fancy features under the sun, and at the same time be able to
+\emph{specify} how these programs are to be represented in a lower-level sense,
+but without requiring us to repeat ourselves in terms of business logic and
+data?
+
+\subsection{The high-level idea}
+
+This setup of having two sites of "programming" is not a new concept. In fact,
+it could be argued that this is exactly how the process of standard compilation
+works. We have a high-level language, which is compiled into a low-level
+language, which is then executed on a machine.
+
+However, the process of compilation is usually not considered to be part of the
+high-level program itself. Rather, it is the job of the compiler to figure out
+exactly what is the optimal representation of a high-level program in the
+low-level language. This is especially the case when the discrepancy between
+the levels becomes great, for example in functional languages such as Haskell
+or ML. In these languages, the programmer has very little control over the
+eventual representation of their program in the low-level language, unless they
+use specialised primitives which are meant to mirror the low-level capabilities
+of the target system.
+
+This is what we are aiming to change with this formalism. We envision a process
+of compilation in which the programmer has a lot more control over the
+representation of their program in the low-level language, while still keeping
+a clear separation between that and the core logic of the high-level program
+itself.
+
+\subsection{Translation of logic and data}
+
+In the present categorical presentation of this process, we want each program
+to construct its own customised compilation functor $\fun C$. This functor will
+be constructed by the programmer, just like the rest of the high-level logic of
+the program.
+
+One might remark that this sounds like a lot of work for the programmer.
+However, we will see that the compilation functor can be constructed
+automatically based on a set of core "data type representations" that are
+provided by the programmer. These data type representations will be the only
+thing that the programmer will have to write, and they will be reusable across
+many different programs.
+
+Furthermore, there will be a trade-off at play. The more custom parts of the
+compilation functor that are written, the more control they have over the
+eventual representation, but the more coupling there is between the high-level
+program and the low-level representation. Crucially however, this coupling is
+never present in the high-level program itself, but rather sits alongside it.
