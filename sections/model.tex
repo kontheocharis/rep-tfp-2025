@@ -1,5 +1,14 @@
 \section{Categorical model}\label{sec:model}
 
+A categorical model will help to abstract the compilation process away from the
+specifics of the languages involved.
+
+\subsection{The setup}
+
+\begin{tikzcd}
+  \cat S & \arrow[l, hook'] \cat S_{\bullet} \arrow[r, "\fun{Int}"] & \cat S_{\fun{Int}} \arrow[r, "\fun{C}"] & \cat L \\
+\end{tikzcd}
+
 Let $\cat S$ and $\cat L$ be two 2-categories. Eventually we will require
 additional structure to be present in these, but for now we want to consider
 them as context categories for two different type theories. We will consider
@@ -15,13 +24,15 @@ it closely follows the way the machine actually executes the program.
 Since we have a high-level and a low-level category, we want to have a way to
 translate between them. We will do this by defining two functors:
 \begin{itemize}
-  \item A functor $\fun C : \cat S \funArrow \cat L $, called the \emph{compilation}
-        functor. It takes a program in $\cat S$ and compiles it to a program in $\cat
-          L$.
+  \item A functor $\fun C : \cat S^{\bullet} \funArrow \cat L $, called the
+        \emph{compilation} functor. It takes a program in $\cat S$ and compiles it to a
+        program in $\cat L$.
   \item A functor $\fun Q : \cat L \funArrow \cat S $, called the \emph{quoting}
         functor. it allows us to opaquely operate on program fragments from $\cat L$
         within $\cat S$.
 \end{itemize}
+
+--
 
 Importantly, both of these functors are \emph{lax}, meaning that they only
 respect functoriality up to 2-morphisms. In other words, compiling a high-level

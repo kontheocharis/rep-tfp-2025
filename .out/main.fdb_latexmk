@@ -1,22 +1,21 @@
 # Fdb version 4
-["biber .out/main"] 1707241892 ".out/main.bcf" ".out/main.bbl" ".out/main" 1707242154 0
+["biber .out/main"] 1707311290 ".out/main.bcf" ".out/main.bbl" ".out/main" 1707311912 0
   "./bib.bib" 1706094687 9430 b0ec8835a1ae1b5daaa966ed37e88350 ""
-  ".out/main.bcf" 1707242153 117232 09475c61f150ac34535b0915415216be "pdflatex"
+  ".out/main.bcf" 1707311912 117232 09475c61f150ac34535b0915415216be "pdflatex"
   (generated)
   ".out/main.bbl"
   ".out/main.blg"
   (rewritten before read)
-["pdflatex"] 1707242151 "/Users/kt81/git/rep-icfp-2024/main.tex" ".out/main.pdf" "main" 1707242154 0
-  ".out/comment.cut" 1707242153 18 177cdc5ac2e6233427281177e03f4afc "pdflatex"
-  ".out/main.aux" 1707242153 4375 f7c83861b057fbe51b85ed5194ba0be0 "pdflatex"
-  ".out/main.bbl" 1707241902 466 ee04f40f768daeed26442158e95aba61 "biber .out/main"
-  ".out/main.out" 1707242153 4141 54bdffc5e98c2dbab95933038d851b6b "pdflatex"
-  ".out/main.run.xml" 1707242153 2578 b1c5921f4737efb6424dbd70c9441347 "pdflatex"
-  "/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmart.cls" 1705864358 116238 6a517980974a2590e70ec0b7ab8bbdff ""
+["pdflatex"] 1707311910 "/Users/kt81/git/rep-icfp-2024/main.tex" ".out/main.pdf" "main" 1707311912 0
+  ".out/comment.cut" 1707311912 18 177cdc5ac2e6233427281177e03f4afc "pdflatex"
+  ".out/main.aux" 1707311912 4491 a5ff0a81971c9b680fc21bde2addf063 "pdflatex"
+  ".out/main.bbl" 1707311294 466 ee04f40f768daeed26442158e95aba61 "biber .out/main"
+  ".out/main.out" 1707311912 4270 6a78c1c7800046e7dbbdc53fc367a027 "pdflatex"
+  ".out/main.run.xml" 1707311912 2578 b1c5921f4737efb6424dbd70c9441347 "pdflatex"
   "/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmdatamodel.dbx" 1705882010 1093 d912da952f00f54f864aca0b3811e58a ""
   "/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmnumeric.bbx" 1705882010 19840 1f62ef4e2520c776941c4c07fde74475 ""
   "/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmnumeric.cbx" 1705882010 90 c8972fc9c13cc3031e8a6e7930e7b84a ""
-  "/Users/kt81/git/rep-icfp-2024/main.tex" 1707220282 802 2413db5d31152b50821b3a38217dd834 ""
+  "/Users/kt81/git/rep-icfp-2024/main.tex" 1707311780 802 2413db5d31152b50821b3a38217dd834 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc" 1490131464 2921 8ca0eb0831f9bc5da080d3697cfe67bf ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc" 1490131464 2933 9ad527ce78d7c5fa0a642dead095f172 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc" 1490131464 2934 a4a9158faed2e9e89c771b4e3b7fc12f ""
@@ -323,7 +322,8 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1700228867 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1700228797 7883458 3f97d787793517afcea8c453fb5cc732 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "main.tex" 1707220282 802 2413db5d31152b50821b3a38217dd834 ""
+  "acmart.cls" 1707311909 117695 a40be085effc98c5c429e2762469c799 ""
+  "main.tex" 1707311780 802 2413db5d31152b50821b3a38217dd834 ""
   "misc/abstract.tex" 1706094925 48 5e823a04dfe6fb551404793200d8b1fd ""
   "misc/ccs.tex" 1706094930 1310 a9241fb5ff7aff212cd4e46948b4ccf5 ""
   "misc/macros.tex" 1707240979 688 8f786b16aec7ff61a10afe0fdd87403c ""
@@ -334,7 +334,7 @@
   "sections/conclusion.tex" 1707220393 1277 592198f4806809709fafd3b1d0d75c03 ""
   "sections/examples.tex" 1707242151 8454 a6bf76f2bb9b991d7939449c2bfedabf ""
   "sections/intro.tex" 1707220433 3983 49c1b58914dadcd80529694ae0c22db1 ""
-  "sections/model.tex" 1707220431 9409 8a0280eab55fd82e8d265ed5413dc14a ""
+  "sections/model.tex" 1707311817 9714 0a671344820238600c3a6540e67222ec ""
   "sections/notes.tex" 1707220399 4137 3604de06aebb624cdf0b6631446e80f7 ""
   "sections/prelim.tex" 1707219934 42 8797022edc920dbebac152b1b68077bb ""
   "sections/related.tex" 1707220370 705 8ad5276f751b1e25b4bc29a899ced27c ""
