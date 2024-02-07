@@ -6,17 +6,17 @@
 \def\Hom{\mathrm{Hom}}
 \def\Cat{\mathbf{Cat}}
 \def\Set{\mathbf{Set}}
-\def\int{\mathsf}
+\newcommand{\inte}[1]{\textsf{\textbf{#1}}}
 \def\usr{\mathrm}
 \def\implies{\Longrightarrow}
 \def\Repr{\mathrm{Repr}}
 
 \newcommand{\mta}[1]{\text{#1}}
 \newcommand{\istype}[1]{{#1} \, \mta{type}}
-\newcommand{\caseof}[1]{\int{case}\; {#1}\; \int{of}}
+\newcommand{\caseof}[1]{\inte{case}\; {#1}\; \inte{of}}
 \newcommand{\case}[2]{{#1} \mapsto {#2}}
-\newcommand{\letin}[3]{\int{let}\; {#1} = {#2}\; \int{in}\; {#3}}
-\newcommand{\letrecin}[3]{\int{letrec}\; {#1} = {#2}\; \int{in}\; {#3}}
+\newcommand{\letin}[3]{\inte{let}\; {#1} = {#2}\; \inte{in}\; {#3}}
+\newcommand{\letrecin}[3]{\inte{letrec}\; {#1} = {#2}\; \inte{in}\; {#3}}
 
 \newcommand{\infname}[1]{\textsc{#1}}
-\newcommand{\infrule}[3][]{\frac{#2}{#3}\,{\infname{#1}}}
+\newcommand{\infrule}[3][]{{\infname{#1}}\,\frac{#2}{#3}}

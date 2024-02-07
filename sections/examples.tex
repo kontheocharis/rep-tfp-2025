@@ -13,12 +13,12 @@ correspond to a term inside a context in the internal language of $\cat S$, $$
 \subsection{Definition of $\cat S$}
 
 \begin{align*}
-  x,y, X  \tag{variables}                                                                                         \\
-  L  \tag{type labels}                                                                                            \\
-  F       & ::= \Lambda X .  \, L \, (\, x \, A^* \,)^* \tag{inductive types}                                     \\
-  A, B    & ::= X \mid A \to B \mid \mu F \mid F(A)  \mid \int{Q} C \tag{types}                                   \\
-  t, u, v & ::= \lambda x . t \mid x \mid t\,u \mid L / x \mid \caseof{t}\; (\, \case{u}{v} \,)^* \mid \int{q}(t) \\
-          & \mid \letin{x}{t}{u} \mid \int{wrap} \mid \int{unwrap} \mid \int{fold} \mid \int{unfold} \tag{terms}
+  x,y, X  \tag{variables}                                                                                            \\
+  L  \tag{type labels}                                                                                               \\
+  F       & ::= \Lambda X .  \, L \, (\, x \, A^* \,)^* \tag{type endofunctors}                                      \\
+  A, B    & ::= X \mid A \to B \mid \mu F \mid F(A)  \mid \inte{Q} C \tag{types}                                     \\
+  t, u, v & ::= \lambda x . t \mid x \mid t\,u \mid F / x \mid \caseof{t}\; (\, \case{u}{v} \,)^* \mid \inte{q}(c)   \\
+          & \mid \letin{x}{t}{u} \mid \inte{wrap} \mid \inte{unwrap} \mid \inte{fold} \mid \inte{unfold} \tag{terms}
 \end{align*}
 
 Why this language?
@@ -26,8 +26,8 @@ Why this language?
 \begin{itemize}
   \item We want to be able to express inductive data types $\mu x . A$, for lists,
         numbers, trees, etc.
-  \item We also want to be able to handle quoted terms of the lower language: $\int{Q}
-          C$/$\int{q}(t)$, so that we can define translation functions in the language.
+  \item We also want to be able to handle quoted terms of the lower language: $\inte{Q}
+          C$/$\inte{q}(t)$, so that we can define translation functions in the language.
   \item We want to be able to explicitly label certain types and their inhabitants $(l,
           A)$/$(l, t)$, even though they might be functionally identical to some others.
         This is so that we can consider them as different objects in the category, and
@@ -47,57 +47,49 @@ are visually shown as lists of pairs of variable and type, but when considering
 $\cat S$ each morphism is identified modulo alpha-equivalence.
 
 $$
-  \infrule[Var]{(x : T) \in \Gamma}{\Gamma \vdash x : T}
+  \text{List}_T = \mu (\Lambda X. \text{List}_T \, (\text{nil}, \text{cons}\; T\, X) )
 $$
 
-$$
-  \infrule[App]{\Gamma \vdash f : A \to B \quad \Gamma \vdash a : A}{\Gamma \vdash f\,a : B}
-$$
-
-$$
-  \infrule[Lam]{\Gamma, x : A \vdash b : B}{\Gamma \vdash \lambda x . b : A \to B}
-$$
-
-$$
-  \infrule{\Gamma \vdash \istype{A}}{\Gamma \vdash \istype{A}[X]}
-$$
-
-$$
-  \infrule{}{\Gamma \vdash \istype{X}[X]}
-$$
-
-$$
-  \infrule{\Gamma \vdash \istype{A}[X] \quad \Gamma \vdash \istype{B}}{\Gamma \vdash \istype{A[X \mapsto B]}}
-$$
-
-$$
-  \infrule[Endo]{
-    \forall i \in I,j \in J_i. \; \Gamma \vdash \istype{A_{ij}}[X] \quad
-    F = \Lambda X . (x_i \, (A_{ij})_{j \in J_i})_{i \in I}
-  }{\Gamma \vdash \istype{F(A)}}
-$$
-
-$$
-  \infrule[Mu]{
-    \Gamma \vdash \istype{F(A)}
-  }{\Gamma \vdash \istype{\mu F}}
-$$
-
-$$
-  \infrule[Case]{F = \Lambda X . (c_i \, (A_{ij})_{j \in J_i})_{i \in I} \quad \Gamma \vdash t : F (T) . \quad \forall i \in I . \; \Gamma , (y_j : A_{ij}[X \mapsto T])_{j \in J} \vdash u_i : U}
-  {\Gamma \vdash \caseof{t}\; (\,\case{c_i (y_j)_{j \in J_i}}{u_i}\,)_{i \in I} : U}
-$$
+\begin{figure}
+  \begin{equation*}
+    \setlength{\jot}{2.5ex}
+    \begin{gathered}
+      \infrule[Fn]{\Gamma \vdash \istype{A} \quad \Gamma \vdash \istype{B}}{\Gamma \vdash \istype{A \to B}} \qquad
+      \infrule[TyWeak]{\Gamma \vdash \istype{A}}{\Gamma \vdash \istype{A}[X]} \\
+      \infrule[TyId]{}{\Gamma \vdash \istype{X}[X]} \qquad
+      \infrule[TySub]{\Gamma \vdash \istype{A}[X] \quad \Gamma \vdash \istype{B}}{\Gamma \vdash \istype{A[X \mapsto B]}} \\
+      \infrule[Endo]{
+        \forall i \in I,j \in J_i. \; \Gamma \vdash \istype{A_{ij}}[X]
+      }{\Gamma \vdash \istype{(\Lambda X .\, L\,  (x_i \, (A_{ij})_{j \in J_i})_{i \in I})(A)}} \qquad
+      \infrule[Mu]{
+        \Gamma \vdash \istype{F(A)}
+      }{\Gamma \vdash \istype{\mu F}} \\
+      \infrule[Var]{(x : T) \in \Gamma}{\Gamma \vdash x : T} \qquad
+      \infrule[Lam]{\Gamma, x : A \vdash b : B}{\Gamma \vdash \lambda x . b : A \to B} \qquad
+      \infrule[App]{\Gamma \vdash f : A \to B \quad \Gamma \vdash a : A}{\Gamma \vdash f\,a : B} \\
+      \infrule[Ctor]{F = \Lambda X .\, L\, (x_i \, (A_{ij})_{j \in J_i})_{i \in I} \quad \Gamma \vdash \istype{F(A)} \quad
+        \exists i \in I, j \in J_i . \; \Gamma \vdash a_{ij} : A_{ij}[X \mapsto A]}
+      {\Gamma \vdash F / x_i \, (a_{ij})_{j \in J_i} : F(A)} \\
+      \infrule[Case]{F = \Lambda X .\, L\,  (x_i \, (A_{ij})_{j \in J_i})_{i \in I} \quad \Gamma \vdash t : F (T) \quad \forall i \in I . \; \Gamma , (y_j : A_{ij}[X \mapsto T])_{j \in J} \vdash u_i : U}
+      {\Gamma \vdash \caseof{t}\; (\,\case{x_i (y_j)_{j \in J_i}}{u_i}\,)_{i \in I} : U} \\
+      \infrule[Let]{\Gamma \vdash a : A \quad \Gamma, x : A \vdash b : B}{\Gamma \vdash \letin{x}{a}{b} : B} \qquad
+      \infrule[Fold]{\Gamma \vdash \istype{F(A)}}{\Gamma \vdash \inte{fold} : (F(A) \to A) \to \mu F \to A} \\
+      \infrule[Unfold]{\Gamma \vdash \istype{F(A)}}{\Gamma \vdash \inte{unfold} : (A \to F(A)) \to A \to \mu F}
+    \end{gathered}
+  \end{equation*}
+  \caption{Typing rules for $\cat S$}
+\end{figure}
 
 \subsection{Definition of $\cat L$}
 
 \begin{align*}
-  x,y  \tag{variables}                                                                                                         \\
-  n \tag{finite natural numbers, word size}                                                                                    \\
-  s    & ::= \varnothing \mid [s, t] \tag{sequences}                                                                           \\
-  S    & ::= \varnothing \mid [S, C] \tag{type sequences}                                                                      \\
-  C, D & ::= C \multimap D \mid \Sigma x _{n} . C \mid \int{W} \mid S[n] \mid C ^n \mid \square C \mid \int{I} \tag{types}     \\
-  t, u & ::= \lambda x . t \mid x \mid t\,u \mid \langle n, t \rangle \mid \int{letpair}(t, u, x.y.v) \mid n \mid \int{box}(t) \\
-       & \mid \int{letbox}(t, u, x.v) \mid s \mid \int{letseq}(t, u, x.v) \mid \int{num}(t) \mid \star \tag{terms}
+  x,y  \tag{variables}                                                                                                           \\
+  n \tag{finite natural numbers, word size}                                                                                      \\
+  s    & ::= \varnothing \mid [s, t] \tag{sequences}                                                                             \\
+  S    & ::= \varnothing \mid [S, C] \tag{type sequences}                                                                        \\
+  C, D & ::= C \multimap D \mid \Sigma x _{n} . C \mid \inte{W} \mid S[n] \mid C ^n \mid \square C \mid \inte{I} \tag{types}     \\
+  t, u & ::= \lambda x . t \mid x \mid t\,u \mid \langle n, t \rangle \mid \inte{letpair}(t, u, x.y.v) \mid n \mid \inte{box}(t) \\
+       & \mid \inte{letbox}(t, u, x.v) \mid s \mid \inte{letseq}(t, u, x.v) \mid \inte{num}(t) \mid \star \tag{terms}
 \end{align*}
 
 Why this language?
@@ -109,7 +101,7 @@ Why this language?
         have lower-level control over the memory representation of inductive data types
         (usually in the form $(l, \mu x . A)$).
   \item We allow a restricted form of dependent types in the form of $\Sigma x_n . C$
-        types parameterised over some word size $\int W$. This is because sequence
+        types parameterised over some word size $\inte W$. This is because sequence
         types $C^n$ are indexed by $W$, and if we have some sequence that is of some
         runtime size, we want to be able to represent the fact that some stored size is
         the size of that sequence.
@@ -142,8 +134,8 @@ Still to do: typing rules, operational semantics.
 \end{align}
 
 \begin{align}
-  \usr{Nat}     & := \mu X . (1 + X) \tag{numbers}                             \\
-  \usr{BigUInt} & := \Sigma n . \square \int{W} ^n \tag{big unsigned integers}
+  \usr{Nat}     & := \mu X . (1 + X) \tag{numbers}                              \\
+  \usr{BigUInt} & := \Sigma n . \square \inte{W} ^n \tag{big unsigned integers}
 \end{align}
 
 Fully write out the representations of these types in $\cat S$ and $\cat L$.
