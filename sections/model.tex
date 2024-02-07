@@ -5,15 +5,48 @@ specifics of the languages involved.
 
 \subsection{The setup}
 
-\begin{tikzcd}
-  \cat S & \arrow[l, hook'] \cat S_{\bullet} \arrow[r, "\fun{Int}"] & \cat S_{\fun{Int}} \arrow[r, "\fun{C}"] & \cat L \\
-\end{tikzcd}
+Let $\cat S$ and $\cat L$ be two 2-categories. These represent context
+categories for two different type theories. The 1-cells represent substitutions
+modulo $\beta \eta$, and the 2-cells represent reductions. These fit together
+into the chain of functors $$
+  \begin{tikzcd}
+    \cat S & \arrow[l, hook'] \cat S_{\bullet} \arrow[r, "\fun{C}"] & \cat L
+  \end{tikzcd} .
+$$
+The internal language of $\cat S$ is the site of our high-level programs. Its
+subcategory $\cat S_{\bullet}$, represents the high-level programs which can be
+compiled into low-level programs. This separation exists because some
+constructs in the high-level language might not have a direct representation in
+the low-level language. For example, in a dependently-typed language, a
+morphism $\cat S(1, \inte{Type})$ might not have a direct representation in the
+low-level language.
 
-Let $\cat S$ and $\cat L$ be two 2-categories. Eventually we will require
-additional structure to be present in these, but for now we want to consider
-them as context categories for two different type theories. We will consider
-2-morphisms to be rewriting rules, and 1-morphisms to be terms, in the style of
-  [CITE].
+The categories $\cat S$ and $\cat L$ come with an identity-on-objects
+normalisation endofunctor, which we will denote $\fun{Norm}$:
+\begin{align*}
+  \fun{Norm}_{\cat S} & : \cat S \funArrow \cat S \\
+  \fun{Norm}_{\cat L} & : \cat L \funArrow \cat L
+\end{align*}
+We require that $\cat S_{\bullet}$ is closed under the normalisation functor;
+reducing a representable program should yield another representable program.
+Finally, we require the following constraints for all 2-categories involved:
+\begin{itemize}
+  \item If $\fun{Norm} (f) = g$ then exists a 2-cell $h : f \Rightarrow g$.
+  \item $\fun{Norm} \circ \fun{Norm} = \fun{Id}$.
+\end{itemize}
+
+\subsection{Intermediate representations}
+
+We will focus on the cases when the compilation functor $\fun C$ factors into
+two pieces through a subcategory $\cat S _{\fun{Int}}$, which we will call the
+\emph{intermediate subcategory} of $\cat S$: $$
+  \begin{tikzcd}
+    & & \cat S_{\fun{Int}} \arrow[dr, "\fun{Tar}"] & \\
+    \cat S & \arrow[l, hook'] \cat S_{\bullet} \arrow[ur, "\fun{Int}"] \arrow[rr, "\fun{C}"] & & \cat L .
+  \end{tikzcd}
+$$
+We will consider 2-morphisms to be rewriting rules, and 1-morphisms to be
+terms, in the style of [CITE].
 
 We want to view $\cat S$ as the "high-level", nice category that we want to
 write our programs in. On the other hand, $\cat L$ is the "low-level", ugly

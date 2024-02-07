@@ -1,20 +1,18 @@
 # Fdb version 4
-["biber .out/main"] 1707311290 ".out/main.bcf" ".out/main.bbl" ".out/main" 1707311912 0
+["biber .out/main"] 1707317384 ".out/main.bcf" ".out/main.bbl" ".out/main" 1707318173 0
   "./bib.bib" 1706094687 9430 b0ec8835a1ae1b5daaa966ed37e88350 ""
-  ".out/main.bcf" 1707311912 117232 09475c61f150ac34535b0915415216be "pdflatex"
+  ".out/main.bcf" 1707318172 117232 09475c61f150ac34535b0915415216be "pdflatex"
   (generated)
   ".out/main.bbl"
   ".out/main.blg"
   (rewritten before read)
-["pdflatex"] 1707311910 "/Users/kt81/git/rep-icfp-2024/main.tex" ".out/main.pdf" "main" 1707311912 0
-  ".out/comment.cut" 1707311912 18 177cdc5ac2e6233427281177e03f4afc "pdflatex"
-  ".out/main.aux" 1707311912 4491 a5ff0a81971c9b680fc21bde2addf063 "pdflatex"
-  ".out/main.bbl" 1707311294 466 ee04f40f768daeed26442158e95aba61 "biber .out/main"
-  ".out/main.out" 1707311912 4270 6a78c1c7800046e7dbbdc53fc367a027 "pdflatex"
-  ".out/main.run.xml" 1707311912 2578 b1c5921f4737efb6424dbd70c9441347 "pdflatex"
+["pdflatex"] 1707318170 "/Users/kt81/git/rep-icfp-2024/main.tex" ".out/main.pdf" "main" 1707318173 0
+  ".out/comment.cut" 1707318172 18 177cdc5ac2e6233427281177e03f4afc "pdflatex"
+  ".out/main.aux" 1707318172 4626 433bd23e6eaa851d361b2dbd5f56578a "pdflatex"
+  ".out/main.bbl" 1707317390 466 ee04f40f768daeed26442158e95aba61 "biber .out/main"
+  ".out/main.out" 1707318172 4494 dd569576d638942a8e76336816f413db "pdflatex"
+  ".out/main.run.xml" 1707318172 2578 b1c5921f4737efb6424dbd70c9441347 "pdflatex"
   "/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmdatamodel.dbx" 1705882010 1093 d912da952f00f54f864aca0b3811e58a ""
-  "/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmnumeric.bbx" 1705882010 19840 1f62ef4e2520c776941c4c07fde74475 ""
-  "/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmnumeric.cbx" 1705882010 90 c8972fc9c13cc3031e8a6e7930e7b84a ""
   "/Users/kt81/git/rep-icfp-2024/main.tex" 1707311780 802 2413db5d31152b50821b3a38217dd834 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc" 1490131464 2921 8ca0eb0831f9bc5da080d3697cfe67bf ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc" 1490131464 2933 9ad527ce78d7c5fa0a642dead095f172 ""
@@ -323,6 +321,8 @@
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1700228797 7883458 3f97d787793517afcea8c453fb5cc732 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
   "acmart.cls" 1707311909 117695 a40be085effc98c5c429e2762469c799 ""
+  "acmnumeric.bbx" 1705882010 19840 1f62ef4e2520c776941c4c07fde74475 ""
+  "acmnumeric.cbx" 1705882010 90 c8972fc9c13cc3031e8a6e7930e7b84a ""
   "main.tex" 1707311780 802 2413db5d31152b50821b3a38217dd834 ""
   "misc/abstract.tex" 1706094925 48 5e823a04dfe6fb551404793200d8b1fd ""
   "misc/ccs.tex" 1706094930 1310 a9241fb5ff7aff212cd4e46948b4ccf5 ""
@@ -334,7 +334,7 @@
   "sections/conclusion.tex" 1707220393 1277 592198f4806809709fafd3b1d0d75c03 ""
   "sections/examples.tex" 1707242151 8454 a6bf76f2bb9b991d7939449c2bfedabf ""
   "sections/intro.tex" 1707220433 3983 49c1b58914dadcd80529694ae0c22db1 ""
-  "sections/model.tex" 1707311817 9714 0a671344820238600c3a6540e67222ec ""
+  "sections/model.tex" 1707318170 11301 6998a37c0ba4df324b09f0516e62d77b ""
   "sections/notes.tex" 1707220399 4137 3604de06aebb624cdf0b6631446e80f7 ""
   "sections/prelim.tex" 1707219934 42 8797022edc920dbebac152b1b68077bb ""
   "sections/related.tex" 1707220370 705 8ad5276f751b1e25b4bc29a899ced27c ""

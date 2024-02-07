@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.17)  7 FEB 2024 13:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.17)  7 FEB 2024 15:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -784,7 +784,7 @@ File: biblatex.def 2023/03/05 v3.19 biblatex compatibility (PK/MW)
 )
 Package biblatex Info: Trying to load bibliography style 'acmnumeric'...
 Package biblatex Info: ... file 'acmnumeric.bbx' found.
- (/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmnumeric.bbx
+ (./acmnumeric.bbx
 File: acmnumeric.bbx 2017-09-27 v0.1 biblatex bibliography style
 Package biblatex Info: Trying to load bibliography style 'trad-plain'...
 Package biblatex Info: ... file 'trad-plain.bbx' found.
@@ -812,7 +812,7 @@ xurl: Set penalties for biblatex
 )))
 Package biblatex Info: Trying to load citation style 'acmnumeric'...
 Package biblatex Info: ... file 'acmnumeric.cbx' found.
- (/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmnumeric.cbx
+ (./acmnumeric.cbx
 File: acmnumeric.cbx 2017-09-27 v0.1
 Package biblatex Info: Trying to load citation style 'numeric'...
 Package biblatex Info: ... file 'numeric.cbx' found.
@@ -1313,55 +1313,60 @@ LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 10.0pt on input line 55.
 ) (./sections/prelim.tex) (./sections/technique.tex) (./sections/model.tex
-LaTeX Font Info:    Trying to load font information for U+bbold on input line 9.
+LaTeX Font Info:    Trying to load font information for U+bbold on input line 8.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/bbold/Ubbold.fd)
 
 LaTeX Font Warning: Font shape `U/bbold/m/n' in size <5.5> not available
-(Font)              size <5> substituted on input line 9.
+(Font)              size <5> substituted on input line 8.
 
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 7.3pt on input line 21.
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 5.5pt on input line 21.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 8.0pt on input line 33.
+(Font)              scaled to size 8.0pt on input line 34.
 [2.2{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 48.
+(hyperref)                removing `math shift' on input line 81.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 48.
+(hyperref)                removing `math shift' on input line 81.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 56.
+(hyperref)                removing `math shift' on input line 89.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 56.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 70.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 70.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `superscript' on input line 70.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 70.
+(hyperref)                removing `math shift' on input line 89.
 
 [3.3]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 103.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 103.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `superscript' on input line 103.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 103.
+
+[4.4]
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/sb/n' will be
-(Font)              scaled to size 10.0pt on input line 145.
+(Font)              scaled to size 10.0pt on input line 178.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/sb/n' will be
-(Font)              scaled to size 7.3pt on input line 145.
+(Font)              scaled to size 7.3pt on input line 178.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/sb/n' will be
-(Font)              scaled to size 5.5pt on input line 145.
- [4.4{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_fygcup.enc}]) (./sections/examples.tex
+(Font)              scaled to size 5.5pt on input line 178.
+) (./sections/examples.tex [5.5{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_fygcup.enc}]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 13.
@@ -1370,16 +1375,10 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 13.
 
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 7.3pt on input line 22.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 5.5pt on input line 22.
-[5.5]
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
 (Font)              scaled to size 10.0pt on input line 57.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/sb/n' will be
 (Font)              scaled to size 9.0pt on input line 80.
-
 
 Class acmart Warning: A possible image without description on input line 81.
 
@@ -1391,7 +1390,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 83.
 
-[6.6{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_ncsllp.enc}]
+[6.6] [7.7{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_ncsllp.enc}]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 145.
@@ -1408,10 +1407,10 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 145.
 
-) (./sections/related.tex) (./sections/conclusion.tex [7.7]) (./sections/acks.tex Processing 'acks' comment.
+) (./sections/related.tex) (./sections/conclusion.tex) (./sections/acks.tex Processing 'acks' comment.
 \openout3 = `comment.cut'.
 
- Comment 'acks' writing to comment.cut. Straight input of comment.cut. (.out/comment.cut)) (./sections/notes.tex)
+ Comment 'acks' writing to comment.cut. Straight input of comment.cut. (.out/comment.cut)) (./sections/notes.tex [8.8])
 
 LaTeX Warning: Empty bibliography on input line 46.
 
@@ -1425,30 +1424,30 @@ Class acmart Warning: \vspace should only be used to provide space above/below s
 File: se-pdfdoc.def 2019/11/29 v1.12 stringenc: PDFDocEncoding
 ) (/usr/local/texlive/2023/texmf-dist/tex/generic/stringenc/se-utf8.def
 File: se-utf8.def 2019/11/29 v1.12 stringenc: UTF-8
-) [8.8] (.out/main.aux)
+) [9.9] (.out/main.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.5pt have occurred.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 6A78C1C7800046E7DBBDC53FC367A027;4270.
+(rerunfilecheck)             Checksum: DD569576D638942A8E76336816F413DB;4494.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39351 strings out of 476025
- 746209 string characters out of 5790016
- 1873388 words of memory out of 5000000
- 58438 multiletter control sequences out of 15000+600000
+ 39391 strings out of 476025
+ 746931 string characters out of 5790016
+ 1877388 words of memory out of 5000000
+ 58476 multiletter control sequences out of 15000+600000
  712445 words of font info for 366 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
  90i,15n,131p,1031b,986s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathRM.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineTZ.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/NewTXMI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/bbold-type1/bbold10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/bbold-type1/bbold5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/bbold-type1/bbold7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txexs.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/txfonts/txsya.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on .out/main.pdf (8 pages, 551452 bytes).
+Output written on .out/main.pdf (9 pages, 554877 bytes).
 PDF statistics:
- 302 PDF objects out of 1000 (max. 8388607)
- 245 compressed objects within 3 object streams
- 52 named destinations out of 1000 (max. 500000)
- 108765 words of extra memory for PDF output out of 128383 (max. 10000000)
+ 310 PDF objects out of 1000 (max. 8388607)
+ 252 compressed objects within 3 object streams
+ 54 named destinations out of 1000 (max. 500000)
+ 108773 words of extra memory for PDF output out of 128383 (max. 10000000)
 
