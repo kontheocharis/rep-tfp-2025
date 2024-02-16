@@ -1,0 +1,557 @@
+%%%	 Use this file as a template for your submission to your conference, and to prepare
+%%%	the final version of your paper, if accepted, for the conference Proceedings.
+%%%	You can use it "as is" for your initial submission, but alterations may be required if
+%%%	there is a preliminary Proceedings for distribution at the meeting, and additional changes
+%%%	are mandatory for the final version for publication in the official conference Proceedings.
+%%%. 	If you are preparing your paper in final form for the conference proceedings,
+%%%. 	add the option "final" to \documentclass{entics} below
+
+\documentclass[twoside,11pt]{entics}
+\usepackage{enticsmacro}
+\usepackage{graphicx}
+\usepackage[all]{xy}
+%\usepackage{url}
+\sloppy
+% The following is enclosed to allow easy detection of differences in
+% ascii coding.
+% Upper-case    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+% Lower-case    a b c d e f g h i j k l m n o p q r s t u v w x y z
+% Digits        0 1 2 3 4 5 6 7 8 9
+% Exclamation   !           Double quote "          Hash (number) #
+% Dollar        $           Percent      %          Ampersand     &
+% Acute accent  '           Left paren   (          Right paren   )
+% Asterisk      *           Plus         +          Comma         ,
+% Minus         -           Point        .          Solidus       /
+% Colon         :           Semicolon    ;          Less than     <
+% Equals        =3D           Greater than >          Question mark ?
+% At            @           Left bracket [          Backslash     \
+% Right bracket ]           Circumflex   ^          Underscore    _
+% Grave accent  `           Left brace   {          Vertical bar  |
+% Right brace   }           Tilde        ~
+
+% A couple of exemplary definitions:
+
+\newcommand{\Nat}{{\mathbb N}}
+\newcommand{\Real}{{\mathbb R}}
+
+%%%Fill in the following%%%%
+%%%%%%%%	Your Corresponding Editor will provide the following information:
+\def\conf{MFPS 2024} 	%%Fill in the acronym for your conference (with year)
+\volume{NN}			%Fill in the ENTICS volume number here
+\def\volu{NN}			% and here
+\def\papno{nn}			%Fill in your paper number here
+%%%%%%%%Please fill in the following information:
+\def\lastname{List Authors' Lastnames Here} %Lastnames appear in the running header
+%									on odd pages. If more than three authors, use et al
+\def\runtitle{List a short title here} %Short title appears in the running header on even pages.
+%%
+\def\copynames{A. Author1, B. Author2, \ldots}    %% Fill in the first initial and last name of the authors
+%%%%%%%%%%%%%%%%%%%		claiming Creative Commons copyright here.
+\def\CCB{CC@symbol}		%%%%%%	Also, be sure the correct Creative Commons
+%%%%%%%%%%%%%					copyright symbol is chosen - see Section 2 of
+%%%%%%%%%%		https://mirrors.concertpass.com/tex-archive/fonts/ccicons/ccicons.pdf
+\begin{document}
+%%%Note the beginning and end of the frontmatter section that starts here%%%%%
+\begin{frontmatter}
+  \title{An Example Paper\thanksref{ALL}} 						%%Title here and the
+  \thanks[ALL]{General thanks to everyone who should be thanked.}   %%Text of \thanks[ALL} here..
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%			This Thanks is optional.
+  %%%%Now the author(s) names(s)%%%%%
+  \author{My Name\thanksref{a}\thanksref{myemail}}	%%Note NO SPACE between
+  \author{My Co-author\thanksref{b}\thanksref{coemail}}		%last name and \thanksref{...}
+  %%%Next come the addresses%%%%
+  \address[a]{My Department\\ My University\\				%or between \thanksrefs...
+    My City, My Country}
+  \thanks[myemail]{Email: \href{mailto:myuserid@mydept.myinst.myedu} {\texttt{\normalshape
+        myuserid@mydept.myinst.myedu}}}
+  %%%Note: if both authors share same institution, only list the address once, after the second
+  %%%author.
+  %%%There also is a link from the first author to the co-author's address to show how to list
+  %%%affiliations to more than one institution, when needed.
+  \address[b]{My Co-author's Department\\My Co-author's University\\
+    My Co-author's City, My Co-author's Country}
+  \thanks[coemail]{Email:  \href{mailto:couserid@codept.coinst.coedu} {\texttt{\normalshape
+        couserid@codept.coinst.coedu}}}
+  \begin{abstract}
+    This is a short example to demonstrate the \LaTeX\ style files used to prepare
+    submissions for \conf, and for preparing the final version of papers
+    accepted for the conference.
+    These Proceedings will appear in the \emph{Electronic Notes in Theoretical Informatics and
+      Computer Science} (ENTICS), a new series that is published under the
+    auspices of Epsiciences.org, the French national organization that supports open
+    access overlay publications in a broad range of scientific disciplines.
+  \end{abstract}
+  \begin{keyword}
+    Please list keywords from your paper here, separated by commas.
+  \end{keyword}
+\end{frontmatter}
+\section{Introduction}\label{intro}
+This short example serves as a template for using the \LaTeX\ macro package for
+use in preparing submissions for \conf. Authors of papers accepted for
+presentation at \conf\ will be asked to provide updated versions for the
+\emph{Preliminary Proceedings} of \conf, which will be distributed to the
+participants at the meeting.
+
+The \emph{Proceedings} of \conf\ will be published after the meeting. They will
+appear later this year, as a volume in the forthcoming series \textit{\jour}.
+ENTICS is an open access, online series published using the support and
+facilities of Episciences.org~\url{https://episciences.org}. You may be
+familiar with Episciences.org, which also hosts \emph{Logical Methods in
+  Computer Science}. ENTICS is the first series devoted to online publication of
+conference proceedings to be hosted by Episciences.org. The webpages for ENTICS
+will be on the Episciences platform, with information about the series, details
+about each volume, together with links to the papers in each volume. ENTICS is
+an overlay series, with papers published in the series located on one of the
+repositories, the \href{https://arxiv.org}{CORR archive} hosted at Cornell
+University, the \href{https://hal.archives-ouvertes.fr}{HAL archive} hosted in
+the French repository, or the \href{https://zenodo.org}{Zenado} archive, hosted
+at \href{https://home.cern}{CERN}. Detailed instructions, together with the
+updated style files for preparing the final version of papers accepted for
+\conf, will be provided later.
+
+The ENTICS \LaTeX\ macros are derived from the macros used by its predecessor,
+\emph{Electronic Notes in Theoretical Computer Science}, which was the first
+solely online series devoted to conference proceedings. That series ceased
+publication at the end of 2020.
+
+This package consists of three files:
+\begin{description}
+  \item[\texttt{entics.bst},] a style file for formatting bibliographic entries,
+  \item[\texttt{entics.cls},] the basic style file, and
+  \item[\texttt{enticsmacro.sty},] a macro file containing the
+        definitions of some of the theorem-like environments and a few other
+        tidbits.
+\end{description}
+The formatting these style files impose should \emph{not} be altered
+-- they are used to establish and maintain a uniform format for the
+papers accepted for presentation at \conf. In particular,
+the font choices should not be changed -- ENTICS uses the standard CMR Type 1 fonts
+for the text body of papers appearing in the series, and while other fonts may be
+used to specialized purposes, such as fonts to support special math symbols,
+changing the text font is not allowed. In particular, the \texttt{Times Roman} fonts should \emph{not} be used for the text body, and the \texttt{txfonts} should be avoided because they break some of the macros used in this package.
+
+Additional macro files can be added using \verb+\usepackage{...}+. The file
+\texttt{entics\-macro.sty} \emph{must} be included in the list, as is done at
+the start of the source file for this document. Nonstandard macros can be used,
+\emph{as long as they do not interfere with} \texttt{entics.cls} \emph{or}
+\texttt{enticsmacro.sty}. It's a good idea to list \texttt{enticsmacro.sty} as
+the last \verb+\usepackage{...}+ called in preliminary portion of your
+document, since \LaTeX\ will report errors if there are conflicts with other
+packages you want to use.
+
+The ENTICS package requires \LaTeX 2e, which is needed to produce pdf files as
+the final output. Since ENTICS is published online, we also utilize the
+\texttt{hyperref} package, which supports active hyperlinks in pdf documents.
+While the use of pdf\LaTeX\ is preferred for producing a pdf file as the final
+output, authors who need to include Postscript graphics in their papers may
+wish to utilize the older combination of \LaTeX 2e and dvips, In order to
+support this, entics.cls includes the \texttt{ifpdf} package to differentiate
+between pdf\LaTeX\ on one hand, or \LaTeX 2e followed by dvips and then ps2pdf,
+to produce the final output file.
+
+\section{Frontmatter}
+The biggest difference between a \LaTeX\ style file such as
+\texttt{article.sty} and the file \texttt{entics.cls} is that
+\texttt{entics.cls} requires the title, author's name or names, abstract,
+keywords and ``thanks'' all to be included within the \texttt{frontmatter}
+environment. You'll notice this at the beginning of the source file for this
+template. Also, you'll also notice that the usual \verb+\maketitle+ is absent;
+it no longer is needed. The ENTICS style package automatically generates the
+title, author's name and address, and related material at the beginning of the
+paper.
+
+One important point to note is that \LaTeX\ is unable to generate addresses or
+footnotes from within the \verb+\author{...}+ field in the \texttt{frontmatter}
+environment, so the macro requires the use of \verb+\thanksref{xx}+ within the
+\verb+\author{...}+ field, followed by a corresponding \verb+\thanks[xx]{...}+
+as a separate entry outside the \verb+\author{...}+. field. Thus,
+\verb+\thanksref{xx}+ places a superscript $^{\texttt{xx}}$ next to the
+author's last name, which provides an active link to the footnote created by
+\verb+\thanks[xx]{..}+. Note that both the \verb+\thanksref{...}+ and the
+\verb+\thanks[xx]{...}+ must appear within the \texttt{frontmatter}
+environment.
+
+The ENTICS macro package provides two alternatives for listing authors'
+addresses. The simplest method is to list each author and his or her address in
+turn, as is done in this example. But, if there are several authors and two or
+more share the same address (but not all authors are at this address), then the
+preferred method is to list all authors first, each with a separate
+\verb+\author{...}+, and then to list the addresses. Then each author can be
+linked to the appropriate address(es) by using a \verb+\thanksref{xx}+ to
+indicate that author has an affiliation to the address listed as
+\verb+\address[xx]{...}+. This is illustrated in this example, where the first
+author has a link to the co-author's \verb+\address{...}+ to indicate there is
+an affiliation at that address as well. This mechanism is handy when there are
+several authors and some of them share the same affiliation.
+%The preferred method is to list all the authors' names first, each with a separate \verb+\author{...}+, and then to provide a list of addresses, again with each having a separate \verb+\address{...}+ listing, and to use the \verb+\thankrsref{xx}+ and \verb+\thanks[xx]{...}+ mechanism to link each author to the appropriate address(es).
+
+Also, notice that acknowledgment of support (as the contents of a
+\verb+\thanks{...}+) can be done by a separate listing of, e.g.,
+\verb+\thanks[NSF]{To the NSF}+ with the optional argument -- \verb+[NSF]+ --
+used for a \verb+\thanksref{NSF}+ that is attached to those authors
+acknowledging that support.
+
+It is important that the \verb+\thanks+ not be included within the scope of
+\verb+\author{}+ or of \verb+\title{}+, but it must be within the scope of the
+environment \texttt{frontmatter}.
+
+The \texttt{frontmatter} section also contains an abstract environment, as well
+as one for key words. These will be required for the final version of an
+accepted paper.
+
+More details about added terms such as \verb+\collab+ can be found in
+\texttt{inst.dvi}, if they are needed.
+
+Also, notice that the command \verb+\lastname{Please list Your Lastname Here}+
+that appears \emph{before} the \verb+\begin{document}+. This command should
+contain the last names of the authors of the paper. If there are no more than
+three authors, then they should be listed with the word ``and'' between the
+last two; if more than three authors collaborated on the paper, then the first
+author only should be listed, together with \verb+\emph{et al}+. This command
+creates the headline for each page after page 1.
+
+\section{Sectioning and Environments}
+The ENTICS package supports the standard sectioning commands,
+\verb+\section,\subsection, \paragraph+ and \verb+\subparagraph.+ The numbering
+scheme used is one under which Theorem 1.2.3 is the third numbered item in
+second subsection of the first section of the paper. In order to facilitate
+cross-references, all of the named environments given below are numbered, and
+all use the same number scheme. For example, there are:
+\begin{definition}
+  A file is \emph{derived} from another if it is obtained with some modifications from the original file.
+\end{definition}
+
+\begin{theorem}
+  The file \texttt{\normalshape entics.cls} is derived from
+  \texttt{\normalshape entcs.cls}.
+\end{theorem}
+\begin{proof}
+  This is clear from the similarity of the output to the output from
+  the ENTCS style files.
+\end{proof}
+
+Starting a proof with a descriptive word, such as ``sketch'', is supported by
+using the \verb+\begin{proof*}...\end{proof*}+ environment, as in
+
+\begin{proof*}{Proof (Sketch)}
+  This can be derived from simple observations.
+\end{proof*}
+
+Note that unnumbered sectioning also is supported, as in \verb+\section*{...}+,
+etc. But these sections will not support cross references within the document,
+so they should be used only for material that doesn't need to be
+cross-referenced.
+
+Again, the purpose of \texttt{entics.cls} and \texttt{enticsmacro.sty} is to
+impose a uniform format on the output file, so please don't include spurious
+spacing -- such as \verb+\vskip{...}+ or such -- within the document. It's also
+inappropriate to end a line with \verb+\\+, which starts the following line at
+the left margin. Doing this creates a very haphazard,, ugly format with ragged
+right justification. The goal is to have an easily recognizable format
+associated with the series \emph{Electronic Notes in Theoretical Informatics
+  and Computer Science}.
+
+%All of the usual features of \LaTeX\ are available with these
+%style files -- it is only the formatting that has been rigorously
+%defined.
+
+The file \texttt{enticsmacro.sty} contains additional information that is
+needed to typeset a paper. It also has the definitions of the $\cal AMS$
+\texttt{euler} and \texttt{blackboard bold} fonts builtin. If you want to use
+symbols for the natural numbers, the reals, etc., then we prefer that you use
+the blackboard bold fonts, and not plain bold fonts. This is accomplished by
+using the \verb+\mathbb+ font, as in $\Nat$ or $\Real$.
+
+The names of theorem-like environments are provided in
+\texttt{enticsmacro.sty}. With the exception of the Algorithm environment, the
+names of all of these are full name, rather than a shortened version. The
+environments provided and their names are
+\begin{itemize}
+  \item \verb+\begin{theorem} ... \end{theorem}+ for Theorems,
+  \item \verb+\begin{lemma} ... \end{lemma}+ for Lemmas,
+  \item \verb+\begin{corollary} ... \end{corollary}+ for Corollaries,
+  \item \verb+\begin{proposition} ... \end{proposition}+ for
+        Propositions,
+  \item \verb+\begin{criterion} ... \end{criterion}+ for Criteria,
+  \item \verb+\begin{alg} ... \end{alg}+ for Algorithms,
+  \item \verb+\begin{definition} ... \end{definition}+ for Definitions,
+  \item \verb+\begin{conjecture} ... \end{conjecture}+ for Conjectures,
+  \item \verb+\begin{example} ... \end{example}+ for Examples,
+  \item \verb+\begin{problem} ... \end{problem}+ for Problems,
+  \item \verb+\begin{remark} ... \end{remark}+ for Remarks,
+  \item \verb+\begin{note} ... \end{note}+ for Notes,
+  \item \verb+\begin{claim} ... \end{claim}+ for Claims,
+  \item \verb+\begin{summary} ... \end{summary}+ for Summary,
+  \item \verb+\begin{case} ... \end{case}+ for Cases, and
+  \item \verb+\begin{ack} ... \end{ack}+ for Acknowledgements.
+\end{itemize}
+
+For example,
+
+\begin{algorithm}[h]
+  \begin{alg} The algorithm for preparing a submission.\\
+    Step 1:  Write the paper\\
+    Step 2: Format it with the ENTICS macro package\\
+    Step 3:  Submit the paper to \conf. \\
+  \end{alg}
+\end{algorithm}
+
+In addition, the \verb+itemize, enumerate+ and \verb+description+ environments
+also are supported, as usual.
+
+\section{Tables, Figures and Graphics}
+
+Tables and figures are supported, and can be cross-referenced using
+\verb+\label+s. For example, here is Table~\ref{mytable}:
+
+\begin{table}[htp]
+  \caption{This is My Table}
+  \begin{center}
+    \begin{tabular}{|c|c|c|}
+      \hline X & Y & Z \\
+      \hline
+      A        & B & C \\
+      \hline
+    \end{tabular}\label{mytable}
+  \end{center}
+\end{table}
+
+Figures have a similar environment. We use Figure~\ref{myfigure} below to
+illustrate the figure environment with a graphic image; note we have included
+\verb+\usepackage{graphicx}+ at the beginning of this file. The graphicx
+package supports \verb+.png, .jpg,+ and \verb+.pdf+ images, which can be
+inserted in the document as follows:
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[scale=.2]{chess.pdf}
+    \caption{A Chess Board}\label{myfigure}
+  \end{center}
+\end{figure}
+Notice we have used the \verb+scale=.xin+ option to scale graphics so that the image is completely within the space for the text body, and doesn't ``bleed over" into the margins. We also have used it to assure the image fits close to the desired place in the document. Also, note the use of \verb+\begin{center} ... \end{center}+ in both tables and figures. This centers the body of the table or figure. Without it, the body will be left-justified.
+
+Both \verb+tables+ and \verb+\figures+ have a \verb+\caption{...}+, followed by
+a \verb+\label{...}+ for cross-referencing (if the \verb+\label{...}+ is not
+after to the \verb+\caption{...}+, then the reference numbering will be wrong
+-- try moving \verb+\label{...}+ before \verb+\caption{...}+ in either the
+table or figure above to see). Traditionally, tables have the caption at the
+top, while figures have them at the bottom, but either way works.
+
+In addition to inserting graphics into a document, \verb+entics.sty+ also
+supports diagram drawing packages, such as X\raisebox{-2pt}{Y}-pic,
+\texttt{tikzit} and Paul Taylor's diagrams package. For example, here's a
+diagram from the X\raisebox{-2pt}{Y}-pic Users Guide -- note the inclusion of
+\verb+\usepackage[all]{xy}+ at the beginning of this file:
+
+$$\xymatrix{
+  U \ar@/_/[ddr]_y \ar@/^/[drr]^x
+  \ar@{.>}[dr]|-{(x,y)}			\\
+  & X \times_Z Y \ar[d]^q \ar[r]_p
+  & X \ar[d]_f \\
+  & Y \ar[r]^g & Z }$$
+
+\subsection{Particulars about {\normalshape \texttt{.pdf} files}} We now require that \texttt{.pdf} files be provided for publication
+online. A \texttt{.pdf} file is viewable by Adobe's Acrobat$^{\tiny
+      \copyright}$ viewer, which can be configured to load automatically within a
+browser. Viewing a properly formatted \texttt{.pdf} file with Acrobat$^{\tiny
+      \copyright}$ allows the cross-references and links to URLs to be active. In
+fact, Elsevier utilizes \texttt{.pdf} files in order to take better advantage
+of the web's capabilities.
+
+But one point we want to emphasize is that you should be sure to use Type 1
+fonts when you typeset your \LaTeX\ source file. These fonts are scalable,
+meaning that they carry information that allows the devise viewing the final
+output to scale the fonts to suit the viewer being used -- from an onscreen
+viewer such as Adobe's Acrobat$^{\tiny \copyright}$ Reader, to printing the
+file on a printer. You can tell if you have used the right fonts by viewing the
+final output on your machine. It the fonts look grainy, then you have not used
+Type 1 fonts. They can be located at the CTAN archive \url{http://www.ctan.org}
+-- they are public domain fonts, and don't cost anything to add them to your
+system.
+
+%Assuming you have Type 1 fonts available, then there are there methods
+%for producing \texttt{.pdf} files.
+%
+%\paragraph{Using \texttt{dvips} and \texttt{ps2pdf}}
+%We list this option first since it appears to be the most reliable and
+%the easiest to use, especially if you include embedded PostScript
+%graphics (\texttt{.eps} files) in your source file. Simply run \LaTeX
+%2e on your source file, then apply \texttt{dvips} to produce a
+%PostScript file, and finally apply \texttt{ps2pdf} to obtain a
+%\texttt{.pdf} file.
+%
+%\paragraph{The \texttt{DVIPDFM} utility}
+%Another easy method for producing acceptable \texttt{.pdf} files is
+%via the utility \texttt{dvipdfm}. This utility is included in
+%distributions of Mik\TeX, which runs on Windows machines, but it
+%probably needs to be added to your te\TeX\ distribution, if you are
+%running \LaTeX\ on a UNIX machine. The utility and precise information
+%about installing it on your system can be found at the web page
+%\href{http://gaspra.kettering.edu/dvipdfm/}{\tt
+%  http://gaspra.kettering.edu/dvipdfm/}. In essence, this utility
+%converts a \texttt{.dvi} file into a \texttt{.pdf} file. So, one can
+%first prepare the \texttt{.dvi} file using \LaTeX, and then apply the
+%utility \texttt{dvipdfm} to produce the needed \texttt{.pdf}
+%file.\footnote{ \emph{Beware}! The utility \texttt{dvipdf} does
+%  \emph{not} produce acceptable \texttt{.pdf} files, and should not be
+%  used. Only \texttt{dvipdfm} should be used to produce \texttt{.pdf}
+%  files.} This utility makes inclusion of graphics particularly simple
+%-- those that are included in the \LaTeX\ source file are simply
+%converted to the \texttt{.pdf} format. As we note below, things are
+%not so simple with the second alternative, which is to use pdf\LaTeX.
+
+\paragraph{pdf\LaTeX}
+Since the required output for files published in ENTICS is a \texttt{.pdf}
+file, the easiest way to produce the output is by using pdf\LaTeX\ to process
+the source file. pdf\LaTeX\ is now included in \LaTeX\ distributions available
+from the standard CTAN sites \url{http://www.ctan.org}.
+
+There is one aspect of pdf\LaTeX\ that can create a problem. It's sometimes
+useful to produce a graphic image using PostScript, but pdf\LaTeX\ cannot
+process such files. The way to include them is to create the desired graphic
+image as a \verb+.eps+ file\footnote{eps stands for \emph{embedded
+    PostScript}.}, and then to use the utility \verb+epstopdf+ to convert the
+output to a \verb+.pdf+ file. This approach generates high quality graphics
+output. The resulting \verb+.pdf+ file then can be included by using the
+\verb+graphicx+ package, for example. The chess board example above was
+produced in this way. Here as well is a color image using pdf\LaTeX\ and
+\verb+.pdf+ input file:\\
+\begin{center}
+  \includegraphics[scale=.25]{tigre.pdf}
+\end{center}
+
+\section{References and Cross-references}
+All the cross-referencing facilities of \LaTeX\ are supported, so one can use
+\verb+\ref{}+ and \verb+\cite{}+ for cross-references within the paper and for
+references to bibliographic items. While the \textbf{References} can be
+composed with \verb+\begin{thebibliography}...\end{thebibliography}+, it is
+better to use Bib\TeX\ to compile the bibliography from a \verb+.bib+ file.
+Further details about the formatting requirements are given in
+Section~\ref{references} below.
+
+The package \texttt{hyperref} is automatically loaded by \texttt{entics.cls},
+and this makes all the cross-references within the document ``active'' when the
+pdf file of the paper is viewed with a pdf viewer supporting hyperlinks, such
+as Adobe's Acrobat$^{\tiny \copyright}$ Reader. The format for including a link
+is simple: simply insert \verb+\url{URL}{text}+ where \texttt{URL} is the URL
+to which you want the link to point, and \texttt{text} is the text you want to
+be highlighted, which when clicked upon will bring up the desired web page. You
+also can use \verb+\url{link}+ where \texttt{link} is the URL that is being
+pointed to.
+
+\section{Summary}  The ENTICS macro package is relatively easy to use and provides a uniform
+layout for all the papers that appear in ENTICS.
+
+\begin{problem}
+Finish your paper and submit it to EasyChair on time!
+\end{problem}
+
+%%When you have finished preparing your paper, send a copy of the
+%%\emph{source file}, together with any macro files that are needed to
+%%your Program Chairman.  If the files are extensive, you can place
+%%copies in the \texttt{pub/incoming} sub-directory of the ftp directory
+%%on the machine indicated by your Program Chairman using anonymous ftp.
+%%If you do this, please send me email to alert me that the file(s) are
+%%here.
+
+%%\paragraph{Assigning Volume / Issue Numbers}
+%%One additional point worth mentioning is that ENTICS is moving to
+%%ScienceDirect, Elsevier's main platform for publishing electronic
+%%series, Because ScienceDirect must publish entire volumes at the same
+%%time, we have changed the procedure for preparing final versions so
+%%that volume numbers will not be assigned until the final versions are
+%%ready. Guest Editors will now have to receive the final version of all
+%%papers in their \emph{Proceedings} before a volume and issue number
+%%will be assigned for the \emph{Proceedings}. Even with the move to
+%%ScienceDirect, the reference scheme already used for publications in
+%%ENTICS -- \texttt{http://www.elsevier/nl/locate/entcs/}
+%%\texttt{NNnn.html} remains the valid way to cite papers published in
+%%ENTICS, where \texttt{NN} denotes the number of the volume, and
+%%\texttt{nn} denotes the issue number.  Publications consisting of an
+%%entire volume should use \texttt{1} as the issue number.
+%%
+%%\paragraph{Copyright Transfer Forms}
+%%One result of the move to ScienceDirect is that the corresponding
+%%author of each paper published in ENTICS must complete an online Copyright
+%%Transfer Form. Information about this is sent to the corresponding author shortly
+%%before the paper is published online.
+%%
+%%\paragraph{Publication of Final Versions}
+%%Because ScienceDirect cannot easily accommodate changes to published
+%%material, the Proceedings in its entirety must be ready before it can
+%%be published. This is one reason why the volume and issue number is
+%%not assigned until the final versions of all papers have been sent to
+%%the Guest Editors for final processing.
+
+\section{Bibliographical references}\label{references}
+ENTICS employs the \texttt{entcs.bst} style file for bibliographic references.
+In this format, references are listed in alphabetical order, according the the
+first author's last name, and are sequentially numbered. In addition, the first
+item in each reference is the first author's last name, followed by their
+initials or first name, and then the other authors names are listed, etc, It's
+easiest to use Bib\TeX\ to generate the bibliography from a \verb+.bib+ file to
+implement these and the other requirements. There is a file
+\texttt{example.bib} containing a number of citations, with illustrations for
+how to enter articles (\cite{Civin-Yood,Freyd,Easdown-Munn}), books
+(\cite{Roscoe,Clifford-Preston,Weyl} and PhD theses (\cite{Shehadah}), as well
+as many others.
+
+The rules for references are the following:
+\begin{itemize}
+  \item Authors' names should be listed in alphabetical order, with the first author's
+        last name being the first listing, followed by the author's initials or first
+        name, and with the other authors names listed as \emph{first name, last name}.
+  \item Titles of articles in journals should be in \emph{emphasized} type.
+  \item Titles of books, monographs, etc.\ should be in quotations.
+  \item Journal names should be in plain roman type.
+  \item Journal volume numbers should be in boldface type, with the year of publication
+        immediately following in roman type, and enclosed in parentheses.
+  \item A DOI (digital object identifier) should be provided for each references that
+        has one. Links to URLs for those that don't have a DOI should be ``active'' and
+        the URL itself should be in typewriter font. The DOI / URL should be the last
+        item in the reference.
+  \item Article listings should include page numbers.
+\end{itemize}
+The criteria are illustrated in the following.
+
+\bibliographystyle{./entics}
+\bibliography{example}
+%\begin{thebibliography}{10}\label{bibliography}
+%\bibitem{cy} Civin, P., and B. Yood, \emph{Involutions on Banach
+%    algebras}, Pacific J. Math. \textbf{9} (1959), 415--436, \url{https://msp.org/pjm/1959/9-2/p07.xhtml}
+%
+%\bibitem{cp} Clifford, A. H., and G. B. Preston, ``The Algebraic
+%  Theory of Semigroups,'' Math. Surveys \textbf{7}, Amer. Math. Soc.,
+%  Providence, R.I., 1961. Electronic ISBN: 978-1-4704-1234-0 \url{https://www.ams.org/books/surv/007.1/surv007.1-endmatter.pdf}
+%
+%\bibitem{f} Freyd, Peter, Peter O'Hearn, John Power, Robert Tennent
+%  and Makoto Takeyama, \emph{Bireflectivity}, Electronic Notes in
+%  Theoretical Computer Science {\bf 1} (1995), DOI: \url{https://doi.org/10.1016/S1571-0661(04)00026-X}
+%
+%\bibitem{em2} Easdown, D., and W. D. Munn, \emph{Trace functions on
+%    inverse semigroup algebras}, Bulletin of the Australian Mathematical Society \textbf{52}(03):359 - 372
+%DOI: \url{http://dx.doi.org/10.1017/S0004972700014854}
+%
+%\bibitem{r} Roscoe, A. W., ``The Theory and Practice of Concurrency,''
+%  Prentice Hall Series in Computer Science, Prentice Hall Publishers,
+%  London, New York (1198), 565pp. ISBN 0-13-674409-5 With associated web site\\
+%  \url{http://www.comlab.ox.ac.uk/oucl/publications/books/concurrency/}
+%%  \href{http://www.comlab.ox.ac.uk/oucl/publications/books/concurrency/}
+%%  {\texttt{http://www.comlab.ox.ac.uk/oucl/publications/books/concurrency/}}.
+%
+%\bibitem{s} Shehadah, A. A., ``Embedding theorems for semigroups with
+%  involution, `` Ph.D.  thesis, Purdue University, Indiana, 1982. \url{https://docs.lib.purdue.edu/dissertations/AAI8300958/}
+%
+%\bibitem{w} Weyl, H., ``The Classical Groups,'' 2nd Ed., Princeton U.
+%  Press, Princeton, N.J., 1946. ISBN: 9780691057569
+%
+%\end{thebibliography}
+
+\appendix
+\section{An appendix}
+Any appendices should be included after the references, as is done here. The
+appendix starts with the command \verb+\appendix+, after which sections can be
+included; these are lettered, rather than numbered. \section*{Another appendix}
+One can also use \verb+\section*{...}+ to create an appendix without a letter
+attached.
+\end{document}

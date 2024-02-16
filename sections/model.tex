@@ -1,25 +1,135 @@
 \section{Categorical model}\label{sec:model}
 
-A categorical model will help to abstract the compilation process away from the
-specifics of the languages involved.
+In this section we explore a category-theoretic formulation of the process of
+compilation.
 
-\subsection{The setup}
+\begin{definition}
+  A \emph{compilation functor} is a lax functor $\fun C : \cat S \funArrow \cat L$
+  between weak 2-categories $\cat S$ and $\cat L$.
+\end{definition}
+Each of these categories is interpreted a language,
+where $\cat S$ is the source high-level language and $\cat L$ is the target
+low-level language. In the style of [CITE], the 2-category structure of these
+languages represents
+%
+\begin{itemize}
+  \item contexts in the language as objects,
+  \item terms in the language as 1-cells, and
+  \item term rewriting rules as 2-cells.
+\end{itemize}
+%
+$C$ being lax is because compositions of morphisms might only be
+preserved modulo reduction rules.
 
-Let $\cat S$ and $\cat L$ be two 2-categories. These represent context
-categories for two different type theories. The 1-cells represent substitutions
-modulo $\beta \eta$, and the 2-cells represent reductions. These fit together
-into the chain of functors $$
-  \begin{tikzcd}
-    \cat S & \arrow[l, hook'] \cat S_{\bullet} \arrow[r, "\fun{C}"] & \cat L
-  \end{tikzcd} .
-$$
-The internal language of $\cat S$ is the site of our high-level programs. Its
-subcategory $\cat S_{\bullet}$, represents the high-level programs which can be
-compiled into low-level programs. This separation exists because some
-constructs in the high-level language might not have a direct representation in
-the low-level language. For example, in a dependently-typed language, a
-morphism $\cat S(1, \inte{Type})$ might not have a direct representation in the
-low-level language.
+\subsection{Quoting}
+
+One desirable feature of compilation for our concerns is the ability of the
+high-level language to represent ``quoted" terms of the low-level language.
+
+\begin{definition}
+  A \emph{quoting} functor associated with a compilation functor $\fun C$
+  is an injective-on-objects, fully faithful functor $\fun Q$, right adjoint to $\fun C$,
+  %
+  $$
+    \begin{tikzcd}
+      \cat S \arrow[r, "\fun C", "\bot"'] & \cat L \arrow[l, hook', bend left=50, "\fun Q"]
+    \end{tikzcd}
+  $$
+  such that the adjunction is strict. From this, it follows that the counit of
+  the adjunction is a natural isomorphism (so that compilation cancels out
+  quoting). It also follows that $\cat L$ is a full subcategory of $\cat S$.
+\end{definition}
+
+\begin{definition}
+  A \emph{free quoting structure} on a compilation functor $\fun C : \cat S
+    \to \cat L$ consists of
+  \begin{itemize}
+    \item an extension $\cat S^\star$ of $\cat S$, constructed by adding a new object $Q
+            A$ for each object $A \in \cat L$, and a new morphism $Q f : Q A \to Q B$ for
+          each morphism $f : A \to B$ in $\cat L$, such that $Q \, \mta{id}_A = \,
+            \mta{id}_A$, and $Q (f \circ g) = Q f \circ Q g$, and
+    \item an extension $\fun C^\star : \cat S^\star \to \cat L$ of the compilation
+          functor $\fun C$ which maps each $Q A$ to $A$ and each $Q f$ to $f$.
+  \end{itemize}
+\end{definition}
+
+\begin{lemma}
+  The functor $\fun Q$ defined by the free quoting structure
+  by $\fun Q (A) = Q A$ and $\fun Q (f) = Q f$ is a quoting functor.
+
+  \begin{proof}
+    TODO
+  \end{proof}
+\end{lemma}
+
+\subsection{Intermediate representations}
+
+Most practical compilation processes involve more than two languages; often a
+source language is transformed into a sequence of increasingly low-level
+intermediate languages, before finally being translated into the target
+language.
+
+\begin{definition}
+  An $n$-\emph{stage} compilation functor is a sequence of compilation functors
+  %
+  $$
+    \begin{tikzcd}
+      \cat S \arrow[r, "\fun I_1"] & \cat I_1 \arrow[r, "\fun I_2"]
+      & \cdots \arrow[r, "\fun I_{n-1}"] & \cat I_{n-1} \arrow[r, "\fun C"] & \cat L
+    \end{tikzcd}
+  $$
+  %
+  starting at $\cat S$, passing through a sequence of intermediate languages
+  $\cat I_i$, and ending at $\cat L$.
+\end{definition}
+
+\subsection{Normalisation}
+
+\begin{definition}
+  A \emph{normalisable} 2-category is a 2-category $\cat C$ with an
+  endofunctor $\fun{Nm} : \cat C \funArrow \cat C$ such that
+  \begin{itemize}
+    \item If $\fun{Nm} (f) = g$ then exists a 2-cell $h : f \Rightarrow g$.
+    \item $\fun{Nm} \circ \fun{Nm} = \fun{Id}$.
+  \end{itemize}
+\end{definition}
+
+\begin{definition}
+  A normalisation functor $\fun{Nm} : \cat S \funArrow \cat S$
+  is \emph{compilation-compatible} if there exists a lax natural isomorphism
+  $\fun{C} \cong \fun{C} \circ \fun{Nm}$ in
+  $[\cat S, \cat L]$.
+\end{definition}
+
+% \subsection{Filtering compilation}
+
+% \begin{definition}
+%   A \emph{filtered} compilation functor $\fun C$ between 2-categories $\cat S$
+%   and $\cat L$ is a functor
+%   %
+%   $$
+%     \fun C : \cat S \funArrow \cat L + \mathbf{F}
+%   $$
+%   %
+%   separating the objects of $\cat S$ into those that are representable in $\cat
+%     L$ and those that are not, by means of a discrete category $\mathbf{F}$ of
+%   ``error objects".
+% \end{definition}
+
+\subsection{Picking a compilation functor}
+
+To aid in the process of picking a compilation functor, we will define a
+category of representations of $\cat S$ in $\cat L$, denoted $\Repr _{\cat L}
+  ^{\cat S}$.
+% This
+
+% Its
+% subcategory $\cat S_{\bullet}$, represents the high-level programs which can be
+% compiled into low-level programs. This separation exists because some
+% constructs in the high-level language might not have a direct representation
+% in the low-level language. For example, in a dependently typed language, a
+% morphism $\cat S(1, \inte{Type})$ might not have a direct representation in the
+% low-level language.
 
 The categories $\cat S$ and $\cat L$ come with an identity-on-objects
 normalisation endofunctor, which we will denote $\fun{Norm}$:
@@ -50,9 +160,9 @@ terms, in the style of [CITE].
 
 We want to view $\cat S$ as the "high-level", nice category that we want to
 write our programs in. On the other hand, $\cat L$ is the "low-level", ugly
-category that we actually execute our programs in. It is ugly from the point of
-view of the programmer, but nice from the point of view of a machine, because
-it closely follows the way the machine actually executes the program.
+category in which we execute our programs. It is ugly from the point of view of
+the programmer, but nice from the point of view of a machine, because it
+closely follows the way the machine actually executes the program.
 
 Since we have a high-level and a low-level category, we want to have a way to
 translate between them. We will do this by defining two functors:
@@ -92,12 +202,12 @@ We require much less convenience in the structure of $\cat L$, instead relying
 on the functor $\fun C$ to translate human-friendly programs into
 machine-friendly ones.
 
-Commonly $\cat L$ will not be closed, but for this paper we will assume it is.
+Commonly $\cat L$ will not be closed, but for this paper, we will assume it is.
 It might sometimes be a Kleisli category with respect to some monad (probably a
 monad holding the state of the stack/heap/environment/etc).
 
 We will commonly want to restrict $\cat L$ to only be monoidal in some
-less-than-cartesian way, for example to model a linear logic for the tracking
+less-than-cartesian way, for example, to model a linear logic for the tracking
 and preservation of resources.
 
 \subsection{The category $\Repr _{\cat L} ^{\cat S}$}

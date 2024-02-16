@@ -14,9 +14,16 @@
 \newcommand{\mta}[1]{\text{#1}}
 \newcommand{\istype}[1]{{#1} \, \mta{type}}
 \newcommand{\caseof}[1]{\inte{case}\; {#1}\; \inte{of}}
-\newcommand{\case}[2]{{#1} \mapsto {#2}}
+\newcommand{\branch}[2]{{#1} \mapsto {#2}}
 \newcommand{\letin}[3]{\inte{let}\; {#1} = {#2}\; \inte{in}\; {#3}}
 \newcommand{\letrecin}[3]{\inte{letrec}\; {#1} = {#2}\; \inte{in}\; {#3}}
 
 \newcommand{\infname}[1]{\textsc{#1}}
 \newcommand{\infrule}[3][]{{\infname{#1}}\,\frac{#2}{#3}}
+
+% Theorems
+% \newtheorem{theorem}{Theorem}[section]
+% \newtheorem{corollary}{Corollary}[theorem]
+% \newtheorem{lemma}[theorem]{Lemma}
+% \theoremstyle{definition}
+% \newtheorem{definition}{Definition}[section]

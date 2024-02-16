@@ -1,13 +1,5 @@
-%TC:macro \cite [option:text,text]
-%TC:macro \citep [option:text,text]
-%TC:macro \citet [option:text,text]
-%TC:envir table 0 1
-%TC:envir table* 0 1
-%TC:envir tabular [ignore] word
-%TC:envir displaymath 0 word
-%TC:envir math 0 word
-%TC:envir comment 0 0
-\documentclass[acmsmall,natbib=false]{acmart}
+\documentclass[twoside,11pt]{entics}
+\usepackage{enticsmacro}
 
 \input{misc/packages.tex}
 
@@ -17,13 +9,7 @@
 
 \begin{document}
 
-\input{misc/title.tex}
-
-\input{misc/abstract.tex}
-
-\input{misc/ccs.tex}
-
-\maketitle
+\input{misc/frontmatter.tex}
 
 \input{sections/intro.tex}
 
@@ -43,9 +29,9 @@
 
 \input{sections/notes.tex}
 
-\printbibliography
-
-\appendix
+% \bibliographystyle{./entics}
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{bib.bib}
 
 \end{document}
-\endinput
