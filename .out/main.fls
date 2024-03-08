@@ -1,8 +1,8 @@
-PWD /Users/kt81/git/rep-icfp-2024
+PWD /Users/kt81/git/rep-mfps-2024
 INPUT /usr/local/texlive/2023/texmf.cnf
 INPUT /usr/local/texlive/2023/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/kt81/git/rep-icfp-2024/main.tex
+INPUT /Users/kt81/git/rep-mfps-2024/main.tex
 OUTPUT .out/main.log
 INPUT ./entics.cls
 INPUT ./entics.cls
@@ -886,9 +886,6 @@ INPUT sections/intro.tex
 INPUT ./sections/intro.tex
 INPUT sections/intro.tex
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
-INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmsl9.tfm
-INPUT /usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT ./sections/prelim.tex
 INPUT sections/prelim.tex
 INPUT ./sections/prelim.tex
@@ -902,6 +899,7 @@ INPUT sections/model.tex
 INPUT ./sections/model.tex
 INPUT sections/model.tex
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/bbold/Ubbold.fd
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/bbold/Ubbold.fd
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/bbold/Ubbold.fd
@@ -909,9 +907,15 @@ INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/bbold/Ubbold.fd
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/bbold/bbold10.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/bbold/bbold8.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/bbold/bbold6.tfm
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmsl9.tfm
+INPUT /usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbxti10.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx6.tfm
+INPUT ./sections/properties.tex
+INPUT sections/properties.tex
+INPUT ./sections/properties.tex
+INPUT sections/properties.tex
 INPUT ./sections/examples.tex
 INPUT sections/examples.tex
 INPUT ./sections/examples.tex
