@@ -1,25 +1,32 @@
+\newcommand\cat{\mathbb}
+\newcommand\Set{\mathbf{Set}}
 
-\def\cat{\mathbb}
+\newcommand{\hs}{\mintinline{haskell}}
+\newcommand{\fto}{\longrightarrow}
+\newcommand\funct[1]{\text{#1}}
+
+\newcommand{\infname}[1]{\textsc{#1}}
+\newcommand{\infrule}[3][]{{\infname{#1}}\,\frac{#2}{#3}}
+
+\newcommand{\caseof}[1]{\inte{case}\; {#1}\; \inte{of}}
+\newcommand{\branch}[2]{{#1} \mapsto {#2}}
+\newcommand{\inte}[1]{\textsf{\textbf{#1}}}
+\newcommand{\mta}[1]{\text{#1}}
+\newcommand{\istype}[1]{{#1} \, \mta{type}}
+\newcommand{\lbl}{\textsf}
+\newcommand{\letin}[3]{\inte{let}\; {#1} = {#2}\; \inte{in}\; {#3}}
+\newcommand{\letrecin}[3]{\inte{letrec}\; {#1} = {#2}\; \inte{in}\; {#3}}
+
+%%%%%%%%
+
 \def\fun{\mathrm}
 \def\funArrow{\longrightarrow}
 \def\Ob{\mathrm{Ob}}
 \def\Hom{\mathrm{Hom}}
 \def\Cat{\mathbf{Cat}}
-\def\Set{\mathbf{Set}}
-\newcommand{\inte}[1]{\textsf{\textbf{#1}}}
 \def\usr{\mathrm}
 \def\implies{\Longrightarrow}
 \def\Repr{\mathrm{Repr}}
-
-\newcommand{\mta}[1]{\text{#1}}
-\newcommand{\istype}[1]{{#1} \, \mta{type}}
-\newcommand{\caseof}[1]{\inte{case}\; {#1}\; \inte{of}}
-\newcommand{\branch}[2]{{#1} \mapsto {#2}}
-\newcommand{\letin}[3]{\inte{let}\; {#1} = {#2}\; \inte{in}\; {#3}}
-\newcommand{\letrecin}[3]{\inte{letrec}\; {#1} = {#2}\; \inte{in}\; {#3}}
-
-\newcommand{\infname}[1]{\textsc{#1}}
-\newcommand{\infrule}[3][]{{\infname{#1}}\,\frac{#2}{#3}}
 
 % Theorems
 % \newtheorem{theorem}{Theorem}[section]
@@ -27,3 +34,46 @@
 % \newtheorem{lemma}[theorem]{Lemma}
 % \theoremstyle{definition}
 % \newtheorem{definition}{Definition}[section]
+
+\AtBeginDocument{\colorlet{defaultcolor}{.}}
+
+\newcommand\val[1]{\text{#1}}
+% \newcommand\funct[1]{\rv{\text{#1}}}
+% \newcommand\catt[1]{\mathbb{#1}}
+\newcommand\repr[2]{\cat{Repr}_{\catt{#2}}^{\catt{#1}}}
+
+\newcommand{\hv}{\textcolor{Violet}}
+\newcommand{\lv}{\textcolor{RedViolet}}
+\newcommand{\iv}{\textcolor{PineGreen}}
+\newcommand{\rv}{\textcolor{defaultcolor}}
+
+\newcommand{\cattH}{{\hv{\catt{H}}}}
+\newcommand{\cattL}{{\lv{\catt{L}}}}
+\newcommand{\cattI}{{\iv{\catt{I}}}}
+\newcommand{\repalg}{{\hv{\textbf{rep-alg}}}}
+\newcommand{\repcoalg}{{\hv{\textbf{rep-coalg}}}}
+\newcommand{\spec}[1]{{\lv{\textbf{spec}_{\hv{#1}}}}}
+\newcommand{\isspec}{{{\textbf{is-\lv{spec}}}}}
+\newcommand{\Rep}[1]{{\lv{\textbf{Rep}_{\hv{#1}}}}}
+\newcommand{\Int}[1]{{\hv{\textbf{Int}_{\hv{#1}}}}}
+\newcommand{\native}[1]{{{\textsf{\textbf{#1}}}}}
+
+\newcommand{\lam}{\lambda}
+\newcommand{\ap}{{\textbf{\textsf{ap}}}}
+% \newcommand{\case}{{\textbf{\textsf{case}}}}
+\newcommand{\inl}{{\textsf{inl}}}
+\newcommand{\inr}{{\textsf{inr}}}
+\newcommand{\inn}{{\textbf{\textsf{in}}}}
+\newcommand{\Q}{{\hv{\textbf{\textsf{Q}}}}}
+\newcommand{\C}{\lv{\textbf{\textsf{C}}}}
+
+\newcommand{\Nat}{\hv{\mathbb{N}}}
+\newcommand{\z}{{\hv{\textsf{z}}}}
+\newcommand{\s}{{\hv{\textsf{s}}}}
+\newcommand{\NatF}{{\hv{\mathbb{N}\text{F}}}}
+\newcommand{\Word}{\lv{\mathcal{W}}}
+\newcommand{\ifthen}[3]{\textbf{\lv{\textsf{if}}} \; #1 \; \lv{\textbf{\textsf{then}}} \; #2 \; \lv{\textbf{\textsf{else}}} \; #3}
+\newcommand{\sif}{\textbf{\lv{\textsf{if}}}}
+\newcommand{\sthen}{\textbf{\lv{\textsf{then}}}}
+\newcommand{\selse}{\textbf{\lv{\textsf{else}}}}
+

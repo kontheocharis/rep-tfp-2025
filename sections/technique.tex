@@ -1,1 +1,28 @@
 \section{Technique}\label{sec:technique}
+
+Consider a lambda calculus with endofunctors and least fixpoints
+$\cat{H}_\lambda$, defined by the grammar
+\begin{align*}
+  x,y, X  \tag{variables}                                                                                                \\
+  l  \tag{labels}                                                                                                        \\
+  F       & ::= \Lambda X .  \, l \, (\, l : A^* \,)^* \tag{type endofunctors}                                           \\
+  A, B    & ::= X \mid A \to B \mid \mu F \mid F(A) \tag{types}                                                          \\
+  t, u, v & ::= \lambda x . t \mid x \mid t\,u \mid F / l \mid \caseof{t}\; (\, \branch{u}{v} \,)^*                      \\
+          & \mid \letin{x}{t}{u} \mid \inte{wrap} \mid \inte{unwrap} \mid \inte{fold} \mid \inte{unfold} \,. \tag{terms}
+\end{align*}
+We will usually abbreviate $F / l$ as $l$ when the functor is clear from the context.
+
+In this language, we can define the natural numbers as a least fixpoint
+\[
+  \lbl{Nat} := \mu (\Lambda X . \, \lbl{Nat} \, (\lbl{z} : (\,),\, \lbl{s} : X))
+\]
+and define the usual operations, such as addition
+\begin{align*}
+  \lbl{add} := \inte{fold} (\lam \, x . \, \lam \, y . \, \caseof{x}\; & \branch{\lbl{z}}{y}                                 \\
+                                                                       & \branch{\lbl{s}\,x'}{\lbl{s}\,(\lbl{add}\,x'\, y)}) \\
+\end{align*}
+or multiplication
+\begin{align*}
+  \lbl{mult} := \lam \, x . \, \lam \, y . \, \caseof{x}\; & \branch{\lbl{z}}{\lbl{z}}                                    \\
+                                                           & \branch{\lbl{s}\,x'}{\lbl{add}\,y\,(\lbl{mult}\,x'\, y)} \,.
+\end{align*}

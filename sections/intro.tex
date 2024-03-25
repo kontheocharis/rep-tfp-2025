@@ -1,37 +1,49 @@
 \section{Introduction}\label{sec:intro}
 
-There is a fundamental gap between programs written for human convenience and
-programs written for machine efficiency. It can be argued that a large segment
-of programming language design aims to bridge this gap, by providing
-abstraction techniques that allow programmers to write programs in a high-level
-language, and then compile them to a low-level language that can be executed
-efficiently. However, as the source programs become increasingly abstract and
-high-level, and the compilation techniques become increasinly sophisticated in
-order to keep up with the larger gap, it is very difficult to predict the final
-low-level code output [CITE]. As such, there can be an observed performance
-ceiling for programs written in high-level languages, which can only be broken
-by dropping down to low-level code, where human insight is often more effective
-at selecting the correct algorithms and data structures for a given task
-  [CITE]. This is unfortunate, however, because making this transition leads to a
-loss of abstraction, readability, ease of modification, or even correctness
-guarantees.
+The techinque of program staging aims to separate the high-level structure of a
+program in a way that is convenient for abstraction and manipulation, from the
+low-level eventual representation of the program that is efficient for machine
+execution. This is done by separating a language into two parts: the
+\emph{meta} fragment and the \emph{object} fragment. The meta fragment is the
+site in which the program is synthesised, and the object fragment is the output
+of the synthesis process. This is made possible by the ability to manipulate
+object-level fragments inside the meta language.
 
-The work we present here allows expression of the representation of a
-high-level program in terms of a chosen low-level language, as an additional
-but separate part of the high-level program itself. The following contributions
-are made:
-\begin{itemize}
-  \item We present a formalism for the expression of a choice of representation for
-        inductive data types.
-  \item We extend a choice of representation to include "short-circuiting" to enable
-        the fine-tuning of the low-level code output for a chosen set of "critical"
-        terms.
-  \item We apply this formalism to a simple functional language with inductive
-        constructions represented in terms of a low-level language with memory
-        primitives.
-  \item We explore the categorical semantics of this translation operation and identify
-        the minimal requirements for a pair of languages to support this translation.
-\end{itemize}
+The approach we follow mirrors the setup of \cite{Kovacs2022-vb}. We consider a
+\emph{two-level type theory} $\cat{G}$, with the following
+
+% There is a fundamental gap between programs written for human convenience and
+% programs written for machine efficiency. It can be argued that a large segment
+% of programming language design aims to bridge this gap, by providing
+% abstraction techniques that allow programmers to write programs in a high-level
+% language, and then compile them to a low-level language that can be executed
+% efficiently. However, as the source programs become increasingly abstract and
+% high-level, and the compilation techniques become increasinly sophisticated in
+% order to keep up with the larger gap, it is very difficult to predict the final
+% low-level code output [CITE]. As such, there can be an observed performance
+% ceiling for programs written in high-level languages, which can only be broken
+% by dropping down to low-level code, where human insight is often more effective
+% at selecting the correct algorithms and data structures for a given task
+%   [CITE]. This is unfortunate, however, because making this transition leads to a
+% loss of abstraction, readability, ease of modification, or even correctness
+% guarantees.
+
+% The work we present here allows expression of the representation of a
+% high-level program in terms of a chosen low-level language, as an additional
+% but separate part of the high-level program itself. The following contributions
+% are made:
+% \begin{itemize}
+%   \item We present a formalism for the expression of a choice of representation for
+%         inductive data types.
+%   \item We extend a choice of representation to include "short-circuiting" to enable
+%         the fine-tuning of the low-level code output for a chosen set of "critical"
+%         terms.
+%   \item We apply this formalism to a simple functional language with inductive
+%         constructions represented in terms of a low-level language with memory
+%         primitives.
+%   \item We explore the categorical semantics of this translation operation and identify
+%         the minimal requirements for a pair of languages to support this translation.
+% \end{itemize}
 
 % \subsection{The high-level idea}
 

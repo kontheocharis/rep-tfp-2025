@@ -3,46 +3,49 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: plain.bst
 Database file #1: bib.bib
-Warning--empty journal in Castellan2019-qo
-You've used 1 entry,
+Warning--empty journal in Annenkov2017-pd
+Warning--empty journal in Boulier2018-zy
+Warning--empty journal in Castellan2019-sh
+Warning--empty journal in Kovacs2022-vb
+You've used 12 entries,
             2118 wiz_defined-function locations,
-            502 strings with 4154 characters,
-and the built_in function-call counts, 292 in all, are:
-= -- 24
-> -- 18
-< -- 0
-+ -- 7
-- -- 6
-* -- 21
-:= -- 59
-add.period$ -- 3
-call.type$ -- 1
-change.case$ -- 6
+            579 strings with 5954 characters,
+and the built_in function-call counts, 3779 in all, are:
+= -- 373
+> -- 172
+< -- 2
++ -- 71
+- -- 56
+* -- 258
+:= -- 639
+add.period$ -- 39
+call.type$ -- 12
+change.case$ -- 64
 chr.to.int$ -- 0
-cite$ -- 2
-duplicate$ -- 10
-empty$ -- 18
-format.name$ -- 6
-if$ -- 53
+cite$ -- 16
+duplicate$ -- 148
+empty$ -- 289
+format.name$ -- 56
+if$ -- 780
 int.to.chr$ -- 0
-int.to.str$ -- 1
-missing$ -- 1
-newline$ -- 8
-num.names$ -- 2
-pop$ -- 8
+int.to.str$ -- 12
+missing$ -- 11
+newline$ -- 64
+num.names$ -- 24
+pop$ -- 73
 preamble$ -- 1
-purify$ -- 5
+purify$ -- 52
 quote$ -- 0
-skip$ -- 7
+skip$ -- 107
 stack$ -- 0
-substring$ -- 5
-swap$ -- 0
-text.length$ -- 0
+substring$ -- 199
+swap$ -- 27
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 4
-warning$ -- 1
-while$ -- 2
-width$ -- 2
-write$ -- 11
-(There was 1 warning)
+type$ -- 48
+warning$ -- 4
+while$ -- 37
+width$ -- 14
+write$ -- 129
+(There were 4 warnings)

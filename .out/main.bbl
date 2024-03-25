@@ -1,8 +1,64 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
-\bibitem{Castellan2019-qo}
+\bibitem{Altenkirch2015-yl}
+Thorsten Altenkirch, Neil Ghani, Peter Hancock, Conor Mcbride, and Peter Morris.
+\newblock Indexed containers.
+\newblock {\em J. Funct. Programming}, 25:e5, January 2015.
+
+\bibitem{Annenkov2017-pd}
+Danil Annenkov, Paolo Capriotti, Nicolai Kraus, and Christian Sattler.
+\newblock {Two-Level} type theory and applications.
+\newblock May 2017.
+
+\bibitem{Boulier2018-zy}
+S~Boulier.
+\newblock Extending type theory with syntactic models.
+\newblock November 2018.
+
+\bibitem{Boulier2017-cm}
+Simon Boulier, Pierre-Marie P{\'e}drot, and Nicolas Tabareau.
+\newblock The next 700 syntactical models of type theory.
+\newblock In {\em Proceedings of the 6th {ACM} {SIGPLAN} Conference on Certified Programs and Proofs}, CPP 2017, pages 182--194, New York, NY, USA, January 2017. Association for Computing Machinery.
+
+\bibitem{Brady2010-sf}
+Edwin~C Brady and Kevin Hammond.
+\newblock Scrapping your inefficient engine: using partial evaluation to improve domain-specific language implementation.
+\newblock {\em SIGPLAN Not.}, 45(9):297--308, September 2010.
+
+\bibitem{Castellan2019-sh}
 Simon Castellan, Pierre Clairambault, and Peter Dybjer.
 \newblock Categories with families: Unityped, simply typed, and dependently typed.
 \newblock April 2019.
+
+\bibitem{Hewer2024-cc}
+Brandon Hewer and Graham Hutton.
+\newblock Quotient haskell: Lightweight quotient types for all.
+\newblock {\em Proc. ACM Program. Lang.}, 8(POPL):785--815, January 2024.
+
+\bibitem{Kovacs2022-vb}
+Andr{\'a}s Kov{\'a}cs.
+\newblock Staged compilation with two-level type theory.
+\newblock September 2022.
+
+\bibitem{Sato2001-ap}
+M~Sato, Takafumi Sakurai, and Yukiyoshi Kameyama.
+\newblock A simply typed context calculus with first-class environments.
+\newblock {\em J. Funct. Log. Prog.}, pages 359--374, March 2001.
+
+\bibitem{Viera2006-xq}
+Marcos Viera and Alberto Pardo.
+\newblock A multi-stage language with intensional analysis.
+\newblock In {\em {GPCE} '06: Proceedings of the 5th International Conference on Generative Programming and Component Engineering}. unknown, October 2006.
+
+\bibitem{Yallop2017-cg}
+Jeremy Yallop.
+\newblock Staged generic programming.
+\newblock {\em Proc. ACM Program. Lang.}, 1(ICFP):1--29, August 2017.
+
+\bibitem{Yallop_undated-sh}
+Robert Atkey Sam~Lindley Yallop.
+\newblock Unembedding {Domain-Specific} languages.
+\newblock \url{https://bentnib.org/unembedding.pdf}.
+\newblock Accessed: 2024-2-22.
 
 \end{thebibliography}

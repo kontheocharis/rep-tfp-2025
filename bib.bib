@@ -1,5 +1,193 @@
 
-@article{Castellan2019-qo,
+
+@article{Altenkirch2015-yl,
+  title     = {Indexed containers},
+  author    = {Altenkirch, Thorsten and Ghani, Neil and Hancock, Peter and
+               Mcbride, Conor and Morris, Peter},
+  abstract  = {We show that the syntactically rich notion of strictly positive
+               families can be reduced to a core type theory with a fixed
+               number of type constructors exploiting the novel notion of
+               indexed containers. As a result, we show indexed containers
+               provide normal forms for strictly positive families in much the
+               same way that containers provide normal forms for strictly
+               positive types. Interestingly, this step from containers to
+               indexed containers is achieved without having to extend the core
+               type theory. Most of the construction presented here has been
+               formalized using the Agda system.},
+  journal   = {J. Funct. Programming},
+  publisher = {Cambridge University Press},
+  volume    = 25,
+  pages     = {e5},
+  month     = jan,
+  year      = 2015
+}
+
+@inproceedings{Boulier2017-cm,
+  title     = {The next 700 syntactical models of type theory},
+  booktitle = {Proceedings of the 6th {ACM} {SIGPLAN} Conference on Certified
+               Programs and Proofs},
+  author    = {Boulier, Simon and P{\'e}drot, Pierre-Marie and Tabareau,
+               Nicolas},
+  abstract  = {A family of syntactic models for the calculus of construction
+               with universes (CC$\omega$) is described, all of them preserving
+               conversion of the calculus definitionally, and thus giving rise
+               directly to a program transformation of CC$\omega$ into itself.
+               Those models are based on the remark that negative type
+               constructors (e.g. dependent product, coinductive types or
+               universes) are underspecified in type theory-which leaves some
+               freedom on extra intensional specifications. The model
+               construction can be seen as a compilation phase from a complex
+               type theory into a simpler type theory. Such models can be used
+               to derive (the negative part of) independence results with
+               respect to CC$\omega$, such as functional extensionality,
+               propositional extensionality, univalence or the fact that
+               bisimulation on a coinductive type may not coincide with
+               equality. They can also be used to add new principles to the
+               theory, which we illustrate by defining a version of CC$\omega$
+               with ad-hoc polymorphism that shows in particular that
+               parametricity is not an implicit requirement of type theory. The
+               correctness of some of the models/program transformations have
+               been checked in the Coq proof assistant and have been
+               instrumented as a Coq plugin.},
+  publisher = {Association for Computing Machinery},
+  pages     = {182--194},
+  series    = {CPP 2017},
+  month     = jan,
+  year      = 2017,
+  address   = {New York, NY, USA},
+  keywords  = {Dependent type theory, Program translation},
+  location  = {Paris, France}
+}
+
+@article{Boulier2018-zy,
+  title    = {Extending type theory with syntactic models},
+  author   = {Boulier, S},
+  abstract = {This thesis is about the metatheory of intuitionnistic type
+              theory. The considered systems are variants of Martin-Lof type
+              theory of Calculus of Constructions, and we are interested in the
+              coherence of those systems and in the independence of axioms with
+              respect to those systems. The common theme of this thesis is the
+              construction of syntactic models, which are models reusing type
+              theory to interpret type theory. In a first part, we introduce
+              type theory by a minimal system and several possible extensions.
+              In a second part, we introduce the syntactic models given by
+              program translation and give several examples. In a third part,
+              we present Template-Coq, a plugin for metaprogramming in Coq. We
+              demonstrate how to use it to implement directly some syntactic
+              models. Last, we consider type theories with two equalities: one
+              strict and one univalent. We propose a re-reading of works of
+              Coquand et.al. and of Orton and Pitts on the cubical model by
+              introducing degenerate fibrancy.},
+  month    = nov,
+  year     = 2018
+}
+
+@article{Hewer2024-cc,
+  title     = {Quotient Haskell: Lightweight Quotient Types for All},
+  author    = {Hewer, Brandon and Hutton, Graham},
+  abstract  = {Subtypes and quotient types are dual type abstractions. However,
+               while subtypes are widely used both explicitly and implicitly,
+               quotient types have not seen much practical use outside of proof
+               assistants. A key difficulty to wider adoption of quotient types
+               lies in the significant burden of proof-obligations that arises
+               from their use. In this article, we address this issue by
+               introducing a class of quotient types for which the
+               proof-obligations are decidable by an SMT solver. We demonstrate
+               this idea in practice by presenting Quotient Haskell, an
+               extension of Liquid Haskell with support for quotient types.},
+  journal   = {Proc. ACM Program. Lang.},
+  publisher = {Association for Computing Machinery},
+  volume    = 8,
+  number    = {POPL},
+  pages     = {785--815},
+  month     = jan,
+  year      = 2024,
+  address   = {New York, NY, USA},
+  keywords  = {quotient types, refinement types, static verification}
+}
+
+@inproceedings{Viera2006-xq,
+  title     = {A multi-stage language with intensional analysis},
+  booktitle = {{GPCE} '06: Proceedings of the 5th International Conference on
+               Generative Programming and Component Engineering},
+  author    = {Viera, Marcos and Pardo, Alberto},
+  abstract  = {This paper presents the definition of a language with reflection
+               primitives. The language is a homogeneous multi-stage language
+               that provides the capacity of code analysis by the inclusion of
+               a pattern matching mechanism that permits inspection of the
+               structure of quoted expressions and their destruction into
+               component subparts. Quoted expressions include an explicit
+               annotation of their context which is used for dynamic inference
+               of type, where a dynamic typing discipline based on Hinze and
+               Cheney's approach is used for typing quoted expressions.This
+               paper follows the approach of Sheard and Pasalic about the use
+               of the meta-language $\Omega$mega as a tool for language design.
+               In this sense, it is shown how to represent the syntax, the
+               static as well as the dynamic semantics of the proposed language
+               in terms of $\Omega$mega constructs.},
+  publisher = {unknown},
+  month     = oct,
+  year      = 2006
+}
+
+@article{Kovacs2022-vb,
+  title         = {Staged compilation with two-level type theory},
+  author        = {Kov{\'a}cs, Andr{\'a}s},
+  abstract      = {The aim of staged compilation is to enable metaprogramming
+                   in a way such that we have guarantees about the
+                   well-formedness of code output, and we can also mix together
+                   object-level and meta-level code in a concise and convenient
+                   manner. In this work, we observe that two-level type theory
+                   (2LTT), a system originally devised for the purpose of
+                   developing synthetic homotopy theory, also serves as a
+                   system for staged compilation with dependent types. 2LTT has
+                   numerous good properties for this use case: it has a concise
+                   specification, well-behaved model theory, and it supports a
+                   wide range of language features both at the object and the
+                   meta level. First, we give an overview of 2LTT's features
+                   and applications in staging. Then, we present a staging
+                   algorithm and prove its correctness. Our algorithm is
+                   ``staging-by-evaluation'', analogously to the technique of
+                   normalization-by-evaluation, in that staging is given by the
+                   evaluation of 2LTT syntax in a semantic domain. The staging
+                   algorithm together with its correctness constitutes a proof
+                   of strong conservativity of 2LLT over the object theory. To
+                   our knowledge, this is the first description of staged
+                   compilation which supports full dependent types and
+                   unrestricted staging for types.},
+  month         = sep,
+  year          = 2022,
+  archiveprefix = {arXiv},
+  primaryclass  = {cs.PL},
+  eprint        = {2209.09729}
+}
+
+@article{Yallop2017-cg,
+  title     = {Staged generic programming},
+  author    = {Yallop, Jeremy},
+  abstract  = {Generic programming libraries such as Scrap Your Boilerplate
+               eliminate the need to write repetitive code, but typically
+               introduce significant performance overheads. This leaves
+               programmers with the regrettable choice between writing succinct
+               but slow programs and writing tedious but efficient programs.
+               Applying structured multi-stage programming techniques
+               transforms Scrap Your Boilerplate from an inefficient library
+               into a typed optimising code generator, bringing its performance
+               in line with hand-written code, and so combining high-level
+               programming with uncompromised performance.},
+  journal   = {Proc. ACM Program. Lang.},
+  publisher = {Association for Computing Machinery},
+  volume    = 1,
+  number    = {ICFP},
+  pages     = {1--29},
+  month     = aug,
+  year      = 2017,
+  address   = {New York, NY, USA},
+  keywords  = {generic programming, metaprogramming, multi-stage programming,
+               partial evaluation}
+}
+
+@article{Castellan2019-sh,
   title         = {Categories with Families: Unityped, Simply Typed, and
                    Dependently Typed},
   author        = {Castellan, Simon and Clairambault, Pierre and Dybjer, Peter},
@@ -27,4 +215,95 @@
   archiveprefix = {arXiv},
   primaryclass  = {cs.LO},
   eprint        = {1904.00827}
+}
+
+@misc{Yallop_undated-sh,
+  title        = {Unembedding {Domain-Specific} Languages},
+  author       = {Yallop, Robert Atkey Sam Lindley},
+  howpublished = {\url{https://bentnib.org/unembedding.pdf}},
+  note         = {Accessed: 2024-2-22}
+}
+
+@article{Sato2001-ap,
+  title   = {A simply typed context calculus with first-class environments},
+  author  = {Sato, M and Sakurai, Takafumi and Kameyama, Yukiyoshi},
+  journal = {J. Funct. Log. Prog.},
+  pages   = {359--374},
+  month   = mar,
+  year    = 2001
+}
+
+@article{Brady2010-sf,
+  title     = {Scrapping your inefficient engine: using partial evaluation to
+               improve domain-specific language implementation},
+  author    = {Brady, Edwin C and Hammond, Kevin},
+  abstract  = {Partial evaluation aims to improve the efficiency of a program
+               by specialising it with respect to some known inputs. In this
+               paper, we show that partial evaluation can be an effective and,
+               unusually, easy to use technique for the efficient
+               implementation of embedded domain-specific languages. We achieve
+               this by exploiting dependent types and by following some simple
+               rules in the definition of the interpreter for the
+               domain-specific language. We present experimental evidence that
+               partial evaluation of programs in domain-specific languages can
+               yield efficient residual programs whose performance is
+               competitive with their Java and C equivalents and which are
+               also, through the use of dependent types, verifiably
+               resource-safe. Using our technique, it follows that a verifiably
+               correct and resource-safe program can also be an efficient
+               program},
+  journal   = {SIGPLAN Not.},
+  publisher = {Association for Computing Machinery},
+  volume    = 45,
+  number    = 9,
+  pages     = {297--308},
+  month     = sep,
+  year      = 2010,
+  address   = {New York, NY, USA},
+  keywords  = {dependent types, partial evaluation}
+}
+
+
+@article{Annenkov2017-pd,
+  title         = {{Two-Level} Type Theory and Applications},
+  author        = {Annenkov, Danil and Capriotti, Paolo and Kraus, Nicolai and
+                   Sattler, Christian},
+  abstract      = {We define and develop two-level type theory (2LTT), a
+                   version of Martin-L\textbackslash``of type theory which
+                   combines two different type theories. We refer to them as
+                   the inner and the outer type theory. In our case of
+                   interest, the inner theory is homotopy type theory (HoTT)
+                   which may include univalent universes and higher inductive
+                   types. The outer theory is a traditional form of type theory
+                   validating uniqueness of identity proofs (UIP). One point of
+                   view on it is as internalised meta-theory of the inner type
+                   theory. There are two motivations for 2LTT. Firstly, there
+                   are certain results about HoTT which are of meta-theoretic
+                   nature, such as the statement that semisimplicial types up
+                   to level $n$ can be constructed in HoTT for any externally
+                   fixed natural number $n$. Such results cannot be expressed
+                   in HoTT itself, but they can be formalised and proved in
+                   2LTT, where $n$ will be a variable in the outer theory. This
+                   point of view is inspired by observations about
+                   conservativity of presheaf models. Secondly, 2LTT is a
+                   framework which is suitable for formulating additional
+                   axioms that one might want to add to HoTT. This idea is
+                   heavily inspired by Voevodsky's Homotopy Type System (HTS),
+                   which constitutes one specific instance of a 2LTT. HTS has
+                   an axiom ensuring that the type of natural numbers behaves
+                   like the external natural numbers, which allows the
+                   construction of a universe of semisimplicial types. In 2LTT,
+                   this axiom can be stated simply be asking the inner and
+                   outer natural numbers to be isomorphic. After defining 2LTT,
+                   we set up a collection of tools with the goal of making 2LTT
+                   a convenient language for future developments. As a first
+                   such application, we develop the theory of Reedy fibrant
+                   diagrams in the style of Shulman. Continuing this line of
+                   thought, we suggest a definition of (infinity,1)-category
+                   and give some examples.},
+  month         = may,
+  year          = 2017,
+  archiveprefix = {arXiv},
+  primaryclass  = {cs.LO},
+  eprint        = {1705.03307}
 }
