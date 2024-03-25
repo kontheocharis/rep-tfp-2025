@@ -15,6 +15,11 @@ Steve Awodey.
 \newblock Natural models of homotopy type theory.
 \newblock June 2014.
 
+\bibitem{Baudon2023-cy}
+Tha{\"\i}s Baudon, Gabriel Radanne, and Laure Gonnord.
+\newblock {Bit-Stealing} made legal: Compilation for custom memory representations of algebraic data types.
+\newblock {\em Proc. ACM Program. Lang.}, 7(ICFP):813--846, August 2023.
+
 \bibitem{Boulier2018-zy}
 S~Boulier.
 \newblock Extending type theory with syntactic models.
@@ -40,6 +45,11 @@ Brandon Hewer and Graham Hutton.
 \newblock Quotient haskell: Lightweight quotient types for all.
 \newblock {\em Proc. ACM Program. Lang.}, 8(POPL):785--815, January 2024.
 
+\bibitem{Hinze2011-jx}
+Ralf Hinze.
+\newblock Type fusion.
+\newblock In {\em Algebraic Methodology and Software Technology}, pages 92--110. Springer Berlin Heidelberg, 2011.
+
 \bibitem{Kovacs2022-vb}
 Andr{\'a}s Kov{\'a}cs.
 \newblock Staged compilation with two-level type theory.
@@ -49,6 +59,11 @@ Andr{\'a}s Kov{\'a}cs.
 M~Sato, Takafumi Sakurai, and Yukiyoshi Kameyama.
 \newblock A simply typed context calculus with first-class environments.
 \newblock {\em J. Funct. Log. Prog.}, pages 359--374, March 2001.
+
+\bibitem{Shao1994-kp}
+Zhong Shao, John~H Reppy, and Andrew~W Appel.
+\newblock Unrolling lists.
+\newblock In {\em Proceedings of the 1994 {ACM} conference on {LISP} and functional programming}, LFP '94, pages 185--195, New York, NY, USA, July 1994. Association for Computing Machinery.
 
 \bibitem{Taha1997-ag}
 Walid Taha and Tim Sheard.

@@ -8,45 +8,45 @@ Warning--empty journal in Awodey2014-hh
 Warning--empty journal in Boulier2018-zy
 Warning--empty journal in Castellan2019-sh
 Warning--empty journal in Kovacs2022-vb
-You've used 15 entries,
+You've used 18 entries,
             2118 wiz_defined-function locations,
-            597 strings with 6372 characters,
-and the built_in function-call counts, 4662 in all, are:
-= -- 466
-> -- 199
-< -- 3
-+ -- 83
-- -- 64
-* -- 307
-:= -- 782
-add.period$ -- 49
-call.type$ -- 15
-change.case$ -- 77
+            620 strings with 6875 characters,
+and the built_in function-call counts, 5929 in all, are:
+= -- 604
+> -- 242
+< -- 5
++ -- 100
+- -- 78
+* -- 394
+:= -- 971
+add.period$ -- 60
+call.type$ -- 18
+change.case$ -- 93
 chr.to.int$ -- 0
-cite$ -- 20
-duplicate$ -- 191
-empty$ -- 362
-format.name$ -- 64
-if$ -- 972
+cite$ -- 23
+duplicate$ -- 246
+empty$ -- 467
+format.name$ -- 78
+if$ -- 1257
 int.to.chr$ -- 0
-int.to.str$ -- 15
-missing$ -- 14
-newline$ -- 79
-num.names$ -- 30
-pop$ -- 88
+int.to.str$ -- 18
+missing$ -- 17
+newline$ -- 94
+num.names$ -- 36
+pop$ -- 104
 preamble$ -- 1
-purify$ -- 62
+purify$ -- 75
 quote$ -- 0
-skip$ -- 141
+skip$ -- 183
 stack$ -- 0
-substring$ -- 247
-swap$ -- 38
-text.length$ -- 3
+substring$ -- 346
+swap$ -- 58
+text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 60
+type$ -- 72
 warning$ -- 5
-while$ -- 46
-width$ -- 17
-write$ -- 162
+while$ -- 60
+width$ -- 20
+write$ -- 199
 (There were 5 warnings)

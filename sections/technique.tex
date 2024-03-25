@@ -1,28 +1,98 @@
-\section{Technique}\label{sec:technique}
+\section{Examples and technique}\label{sec:technique}
 
-Consider a lambda calculus with endofunctors and least fixpoints
-$\cat{H}_\lambda$, defined by the grammar
-\begin{align*}
-  x,y, X  \tag{variables}                                                                                                \\
-  l  \tag{labels}                                                                                                        \\
-  F       & ::= \Lambda X .  \, l \, (\, l : A^* \,)^* \tag{type endofunctors}                                           \\
-  A, B    & ::= X \mid A \to B \mid \mu F \mid F(A) \tag{types}                                                          \\
-  t, u, v & ::= \lambda x . t \mid x \mid t\,u \mid F / l \mid \caseof{t}\; (\, \branch{u}{v} \,)^*                      \\
-          & \mid \letin{x}{t}{u} \mid \inte{wrap} \mid \inte{unwrap} \mid \inte{fold} \mid \inte{unfold} \,. \tag{terms}
-\end{align*}
-We will usually abbreviate $F / l$ as $l$ when the functor is clear from the context.
+The type of natural numbers is an example of a ubiquitous inductive data type
+that is used extensively in theorem proving and general functional programming,
+defined as
+\begin{equation}\label{eq:nat-ind}
+  \data{Nat} = \defin{Z} \mid \defin{S}\;\defin{Nat} \,.
+\end{equation}
+Such a definition in a language such as Haskell [CITE] would be represented as
+a linked list at runtime. That is, a memory representation of the form
 
-In this language, we can define the natural numbers as a least fixpoint
-\[
-  \lbl{Nat} := \mu (\Lambda X . \, \lbl{Nat} \, (\lbl{z} : (\,),\, \lbl{s} : X))
-\]
-and define the usual operations, such as addition
+... memory layout thing from SPLS talk
+
+Performing arithmetic operations on this data structure would involve
+traversing the linked list. On the other hand, computers allow the direct
+manipulation of bitvectors and offer native operations for arithmetic on them.
+Therefore, if we care about performance we should instead represent natural
+numbers as
+\begin{equation}\label{eq:nat-word}
+  \data{Nat} = \defin{MkNat} \; [\defin{Word}] \,.
+\end{equation}
+Unfortunately, even though arithmetic can be defined more efficiently on this
+representation, it is harder to work with, because its constructor structure
+diverges from the typical mathematical definition of natural numbers. More
+concretely, to define a function or predicate on the natural numbers, it
+suffices to define it on 0, and define it for $n + 1$ given the result for $n$.
+This strategy can be achieved in a concise and readable way using pattern
+matching on \defin{Nat} if it is defined as in \eqref{eq:nat-ind}:
 \begin{align*}
-  \lbl{add} := \inte{fold} (\lam \, x . \, \lam \, y . \, \caseof{x}\; & \branch{\lbl{z}}{y}                                 \\
-                                                                       & \branch{\lbl{s}\,x'}{\lbl{s}\,(\lbl{add}\,x'\, y)}) \\
+   & f : \defin{Nat} \to A        \\
+   & f\; \defin{Z} = \ldots       \\
+   & f\; (\defin{S}\; n) = \ldots
 \end{align*}
-or multiplication
+However, if \defin{Nat} is defined as in \eqref{eq:nat-word}, then the
+definition of $f$ becomes more cumbersome:
 \begin{align*}
-  \lbl{mult} := \lam \, x . \, \lam \, y . \, \caseof{x}\; & \branch{\lbl{z}}{\lbl{z}}                                    \\
-                                                           & \branch{\lbl{s}\,x'}{\lbl{add}\,y\,(\lbl{mult}\,x'\, y)} \,.
+   & f : \defin{Nat} \to A              \\
+   & f\; \defin{MkNat} \; [0] = \ldots  \\
+   & f\; n' = \letin{n}{n' - 1}{\ldots}
 \end{align*}
+
+The technique we present here allows the programmer to define the natural
+numbers as in \eqref{eq:nat-ind}, and then automatically transform the
+definition to the representation in \eqref{eq:nat-word} for runtime performance
+reasons.
+
+\subsection{Representations of inductive types}
+
+In $\Set$-based semantics of inductive types, we interpret an inductive data
+type $\defin{F}$ as the initial algebra of the associated endofunctor $F$. This
+takes a set $X$ to the set of constructors of $\defin{F}$, replacing each
+recursive parameter with $X$. The carrier of the initial algebra of $F$ is the
+least fixpoint of $F$, denoted $\mu F$, where $\mu F$ is equivalent to the
+actual data type $\defin{F}$. We have an isomorphism between $F(\mu F)$ and
+$\mu F$, denoted $(\mta{fix}\;F, \mta{unfix}\;F)$. Furthermore, by initiality
+of the algebra, we have a unique algebra morphism from the initial algebra to
+any other algebra of $F$, which materialises as folding in the programming
+language. These can be assembled into the diagram
+\begin{equation*}
+  \begin{tikzcd}[column sep=large, row sep=large]
+    F(\mu F) \ar[r, "F(\mta{fold}\;a)"] \ar[d, "\mta{fix} F"] & F(A) \ar[d, "a"] \\
+    \mu F \ar[u, bend left, "\mta{unfix}\;F"] \ar[r, "\mta{fold}\;a"] & A
+  \end{tikzcd} \,.
+\end{equation*}
+If we are to interpret inductive data types, we must be able to interpret
+this diagram, including the fixpoint maps, initiality maps, and the commutativity
+of the square.
+
+To do this, we will replace $\mu F$ with a chosen representation $R_F$, the
+fixpoint maps with a pair of maps $(\mta{collapse}\;F, \mta{inspect}\;F)$, and
+the initiality maps with a pair of maps $(\mta{wrap}\;F, \mta{unwrap}\;F)$.
+
+% Consider a lambda calculus with endofunctors and least fixpoints
+% $\cat{H}_\lambda$, defined by the grammar
+% \begin{align*}
+%   x,y, X  \tag{variables}                                                                                                \\
+%   l  \tag{labels}                                                                                                        \\
+%   F       & ::= \Lambda X .  \, l \, (\, l : A^* \,)^* \tag{type endofunctors}                                           \\
+%   A, B    & ::= X \mid A \to B \mid \mu F \mid F(A) \tag{types}                                                          \\
+%   t, u, v & ::= \lambda x . t \mid x \mid t\,u \mid F / l \mid \caseof{t}\; (\, \branch{u}{v} \,)^*                      \\
+%           & \mid \letin{x}{t}{u} \mid \inte{wrap} \mid \inte{unwrap} \mid \inte{fold} \mid \inte{unfold} \,. \tag{terms}
+% \end{align*}
+% We will usually abbreviate $F / l$ as $l$ when the functor is clear from the context.
+
+% In this language, we can define the natural numbers as a least fixpoint
+% \[
+%   \lbl{Nat} := \mu (\Lambda X . \, \lbl{Nat} \, (\lbl{z} : (\,),\, \lbl{s} : X))
+% \]
+% and define the usual operations, such as addition
+% \begin{align*}
+%   \lbl{add} := \inte{fold} (\lam \, x . \, \lam \, y . \, \caseof{x}\; & \branch{\lbl{z}}{y}                                 \\
+%                                                                        & \branch{\lbl{s}\,x'}{\lbl{s}\,(\lbl{add}\,x'\, y)}) \\
+% \end{align*}
+% or multiplication
+% \begin{align*}
+%   \lbl{mult} := \lam \, x . \, \lam \, y . \, \caseof{x}\; & \branch{\lbl{z}}{\lbl{z}}                                    \\
+%                                                            & \branch{\lbl{s}\,x'}{\lbl{add}\,y\,(\lbl{mult}\,x'\, y)} \,.
+% \end{align*}

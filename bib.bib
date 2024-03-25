@@ -386,3 +386,91 @@
   primaryclass  = {math.CT},
   eprint        = {1406.3219}
 }
+
+
+@article{Baudon2023-cy,
+  title     = {{Bit-Stealing} Made Legal: Compilation for Custom Memory
+               Representations of Algebraic Data Types},
+  author    = {Baudon, Tha{\"\i}s and Radanne, Gabriel and Gonnord, Laure},
+  abstract  = {Initially present only in functional languages such as OCaml and
+               Haskell, Algebraic Data Types (ADTs) have now become pervasive
+               in mainstream languages, providing nice data abstractions and an
+               elegant way to express functions through pattern matching.
+               Unfortunately, ADTs remain seldom used in low-level programming.
+               One reason is that their increased convenience comes at the cost
+               of abstracting away the exact memory layout of values. Even
+               Rust, which tries to optimize data layout, severely limits
+               control over memory representation. In this article, we present
+               a new approach to specify the data layout of rich data types
+               based on a dual view: a source type, providing a high-level
+               description available in the rest of the code, along with a
+               memory type, providing full control over the memory layout. This
+               dual view allows for better reasoning about memory layout, both
+               for correctness, with dedicated validity criteria linking the
+               two views, and for optimizations that manipulate the memory
+               view. We then provide algorithms to compile constructors and
+               destructors, including pattern matching, to their low-level
+               memory representation. We prove our compilation algorithms
+               correct, implement them in a tool called ribbit that compiles to
+               LLVM IR, and show some early experimental results.},
+  journal   = {Proc. ACM Program. Lang.},
+  publisher = {Association for Computing Machinery},
+  volume    = 7,
+  number    = {ICFP},
+  pages     = {813--846},
+  month     = aug,
+  year      = 2023,
+  address   = {New York, NY, USA},
+  keywords  = {Algebraic Data Types, Compilation, Data Layouts, Pattern
+               Matching}
+}
+
+@inproceedings{Hinze2011-jx,
+  title     = {Type Fusion},
+  booktitle = {Algebraic Methodology and Software Technology},
+  author    = {Hinze, Ralf},
+  abstract  = {Fusion is an indispensable tool in the arsenal of techniques for
+               program derivation. Less well-known, but equally valuable is
+               type fusion, which states conditions for fusing an application
+               of a functor with an initial algebra to form another initial
+               algebra. We provide a novel proof of type fusion based on
+               adjoint folds and discuss several applications: type
+               firstification, type specialisation and tabulation.},
+  publisher = {Springer Berlin Heidelberg},
+  pages     = {92--110},
+  year      = 2011
+}
+
+@inproceedings{Shao1994-kp,
+  title     = {Unrolling lists},
+  booktitle = {Proceedings of the 1994 {ACM} conference on {LISP} and
+               functional programming},
+  author    = {Shao, Zhong and Reppy, John H and Appel, Andrew W},
+  abstract  = {Lists are ubiquitous in functional programs, thus supporting
+               lists efficiently is a major concern to compiler writers for
+               functional languages. Lists are normally represented as linked
+               cons cells, with each cons cell containing a car (the data) and
+               a cdr (the link); this is inefficient in the use of space,
+               because 50\% of the storage is used for links. Loops and
+               recursions on lists are slow on modern machines because of the
+               long chains of control dependencies (in checking for nil) and
+               data dependencies (in fetching cdr fields).We present a data
+               structure for ``unrolled lists'', where each cell has several
+               data items (car fields) and one link (cdr). This reduces the
+               memory used for links, and it significantly shortens the length
+               of control-dependence and data-dependence chains in operations
+               on lists.We further present an efficient compile-time analysis
+               that transforms programs written for ``ordinary'' lists into
+               programs on unrolled lists. The use of our new representation
+               requires no change to existing programs.We sketch the proof of
+               soundness of our analysis---which is based on refinement
+               types---and present some preliminary measurements of our
+               technique.},
+  publisher = {Association for Computing Machinery},
+  pages     = {185--195},
+  series    = {LFP '94},
+  month     = jul,
+  year      = 1994,
+  address   = {New York, NY, USA},
+  location  = {Orlando, Florida, USA}
+}
