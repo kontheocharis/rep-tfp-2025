@@ -25,19 +25,16 @@ content.
 \subsection{Inductive data types}
 
 We allow inductive data types to be defined in the meta fragment of $\cat{G}$,
-as inductive families. These exist as first-class citizens, and as such we
-introduce a new judgement form
-\[
-  \Gamma \vdash \isind{A}{I} \,,
-\]
-denoting that $A$ is an inductive type in $\Gamma$, indexed by $I$, where
-$\Gamma \vdash I : \Um$. Each inductive type $A$ is defined by a set of
-constructors, each of which has a number of "positions".
+as inductive families. These exist as first-class citizens, and we follow the
+syntactical approach of \cite{Kaposi2020-is} ...
 
-We have
-\[
-  \infrule[Ind-Intro]{}{()}
-\]
+The judgement for inductive types is $\isind{(S, c)}$, where $S \in \Ty_s$ and
+$c \in \Con_p \, S$ are the type and constructor signatures of the inductive
+type.
+
+We have constructors and eliminators for inductive types in the meta fragment.
+
+...
 
 \subsection{Choice of representations}
 
@@ -47,8 +44,8 @@ Indeed, lifting an object type is one way to acquire a representable meta type.
 However, the more interesting way to do so is to attach a representation to a
 meta-level type. This is captured by the rule
 \[
-  \infrule[Repr-Mu]{\Gamma \vdash A : \Um \to \Um \quad \Gamma \vdash \isrepr{P}{A}}
-  {\Gamma \vdash \mu_R A : \Ur} \,.
+  \infrule[Repr-Mu]{\Gamma \vdash \isind{A} \quad \Gamma \vdash \isrepr{P}{A}}
+  {\Gamma \vdash A_R : \Ur} \,.
 \]
 It utilises a new judgement form $\isrepr{R}{A}$, which states that $R$ is a
 representation of the fixpoint of $A$.
@@ -57,7 +54,7 @@ The rule for introducing representations is
 \[
   \infrule[Repr-Intro]{
     \begin{gathered}
-      \Gamma \vdash A : \Um \to \Um \quad
+      \Gamma \vdash \isind{A} \quad
       \Gamma \vdash R_A : \Uv                                \\
       \Gamma \vdash c_A : A [\lift{R_A}] \to \Gen \, R_A \quad
       \Gamma \vdash i_A : \lift{R_A} \to \Gen \, A [\lift{R_A}]
@@ -75,6 +72,8 @@ where the \defin{Syntax} type family is defined by
 \[
   \data{Syntax} \,(M : \Um)\,(N : \Um) = \defin{known} \, M \mid \defin{opaque} \, N \,.
 \]
+(update to match "ind" judgement)
+
 The collapsing function is used to convert a partial syntactical representation
 of a term of the inductive type $\mu A$ into a value of a chosen representation
 type $R_A$.
@@ -85,4 +84,8 @@ defined as
 \[
   \data{Gen} \, (A : \Um) = \defin{unGen} \, (\{ R : \Uv \} \to (A \to \lift R) \to \lift R)
 \]
+
+The inspecting function is used to convert a value of the chosen representation
+type $R_A$ into a partial syntactical representation of a term of the inductive
+type $\mu A$.
 

@@ -50,6 +50,10 @@ Ralf Hinze.
 \newblock Type fusion.
 \newblock In {\em Algebraic Methodology and Software Technology}, pages 92--110. Springer Berlin Heidelberg, 2011.
 
+\bibitem{Kaposi2020-is}
+Ambrus Kaposi and Jakob von Raumer.
+\newblock A syntax for mutual inductive families, June 2020.
+
 \bibitem{Kovacs2022-vb}
 Andr{\'a}s Kov{\'a}cs.
 \newblock Staged compilation with two-level type theory.
