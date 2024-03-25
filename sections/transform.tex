@@ -1,26 +1,88 @@
 \section{The transformation}\label{sec:prelim}
 
-An $n$-level type theory ($n$LTT), a straightforward generalisation of 2LTT
-\cite{Kovacs2022-vb}, viewed from the perspective of \emph{categories with
-  families} \cite{Awodey2014-hh}, splits the terms and types at each context into
-distinct fragments corresonding to each of the stages.
+The technique for transforming inductive data types into custom data structures
+will be phrased in the language of 2-level type theory (2LTT)
+\cite{Kovacs2022-vb}.
 
-More precisely, a model of an $n$-level type theory consists of the following
-data:
-\begin{itemize}
-  \item A category $\cat{C}$ with a terminal object, with objects denoted
-        $\Con_\cat{C}$ and morphisms denoted $\Sub_\cat{C}$.
-  \item Two families of $n$ presheaves, $\Ty_i : \cat{C} \fto \Set$ and $\Tm_i :
-          \cat{C} \fto \Set$.
-  \item A family of $n$ representable natural transformations $\typeof_i : \Tm_i \fto
-          \Ty_i$.
-  \item A family of $n-1$ natural transformations $\Uparrow_i : \Ty_i \fto \Ty_{i + 1}$
-        and $(n-1)$ invertible natural transformations $\langle-\rangle_i : \Tm_{i + 1}
-          \fto \Tm_i$ with inverses $\sim_i(-)$. This creates a lifting structure, where
-        terms and types from level $i$ can be lifted to level $i + 1$.
-\end{itemize}
+\subsection{The 2-level type theory $\cat{G}$}
 
-The above data can also be formulated using \emph{categories with families}
-\cite{Castellan2019-sh}, where context comprehension is given by the fact that
-$\typeof_i$ is representable \cite{Uemura2019-cc}.
+We will work in a 2LTT which we denote $\cat{G}$. The meta fragment of
+$\cat{G}$ contains a universe hierarchy $\univ{\mta{Meta},i}$ of meta-level
+types, and a single universe of values $\Uv$. Additionally, the universe
+$\univ{\mta{Meta},0}$ has a subuniverse $\Ur$ of "representable" meta-level
+types. We have
+\[
+  \univ{\mta{Meta},i} : \univ{\mta{Meta},i+1} \qquad \Ur : \univ{\mta{Meta},1} \qquad \Uv : \univ{\mta{Meta},0} \,.
+\]
+
+Any object type $A$ can be lifted to the meta-level as $\lift A : \Ur$, and any
+object term $t : A$ can be lifted as $\quot t : \lift A$, similarly to the
+original presentation of 2LTT \cite{Kovacs2022-vb}. Splicing also works in the
+same way; if $t : \lift A$, then $\splice t : A$. Universe levels will be
+implicit in the rest of this presentation, as they are orthogonal to its main
+content.
+
+\subsection{Inductive data types}
+
+We allow inductive data types to be defined in the meta fragment of $\cat{G}$,
+as inductive families. These exist as first-class citizens, and as such we
+introduce a new judgement form
+\[
+  \Gamma \vdash \isind{A}{I} \,,
+\]
+denoting that $A$ is an inductive type in $\Gamma$, indexed by $I$, where
+$\Gamma \vdash I : \Um$. Each inductive type $A$ is defined by a set of
+constructors, each of which has a number of "positions".
+
+We have
+\[
+  \infrule[Ind-Intro]{}{()}
+\]
+
+\subsection{Choice of representations}
+
+Representable meta types, or inhabitants of $\Ur$, are meta types which can be
+staged into the object level, but are not necessarily just lifted object types.
+Indeed, lifting an object type is one way to acquire a representable meta type.
+However, the more interesting way to do so is to attach a representation to a
+meta-level type. This is captured by the rule
+\[
+  \infrule[Repr-Mu]{\Gamma \vdash A : \Um \to \Um \quad \Gamma \vdash \isrepr{P}{A}}
+  {\Gamma \vdash \mu_R A : \Ur} \,.
+\]
+It utilises a new judgement form $\isrepr{R}{A}$, which states that $R$ is a
+representation of the fixpoint of $A$.
+
+The rule for introducing representations is
+\[
+  \infrule[Repr-Intro]{
+    \begin{gathered}
+      \Gamma \vdash A : \Um \to \Um \quad
+      \Gamma \vdash R_A : \Uv                                \\
+      \Gamma \vdash c_A : A [\lift{R_A}] \to \Gen \, R_A \quad
+      \Gamma \vdash i_A : \lift{R_A} \to \Gen \, A [\lift{R_A}]
+    \end{gathered}
+  }{\Gamma \vdash \isrepr{(R_A, c_A, i_A)}{A}} \,.
+\]
+It states that a representation is a triple of an object type $R_A$, a
+\emph{collapsing} function $c_A$, and an \emph{inspecting} function $i_A$. The
+notation $A[B]$ is defined by
+\begin{align*}
+   & \wildp[\wildp] : (\Um \to \Um) \to \Um                                 \\
+   & A[B] =           \mu (\lambda X . \, \defin{Syntax} \, (A X) \, B) \,.
+\end{align*}
+where the \defin{Syntax} type family is defined by
+\[
+  \data{Syntax} \,(M : \Um)\,(N : \Um) = \defin{known} \, M \mid \defin{opaque} \, N \,.
+\]
+The collapsing function is used to convert a partial syntactical representation
+of a term of the inductive type $\mu A$ into a value of a chosen representation
+type $R_A$.
+
+The return type of the collapsing function is over the monad $\Gen$. This is
+the code generation monad, first described in [Kovacs unpublished], which is
+defined as
+\[
+  \data{Gen} \, (A : \Um) = \defin{unGen} \, (\{ R : \Uv \} \to (A \to \lift R) \to \lift R)
+\]
 

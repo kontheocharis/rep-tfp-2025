@@ -13,12 +13,15 @@
 \newcommand{\caseof}[1]{\inte{case}\; {#1}\; \inte{of}}
 \newcommand{\branch}[2]{{#1} \mapsto {#2}}
 \newcommand{\inte}[1]{\textsf{\textbf{#1}}}
-\newcommand{\mta}[1]{\text{#1}}
+\newcommand{\mta}[1]{\textbf{#1}}
 \newcommand{\defin}[1]{\textsf{#1}}
-\newcommand{\istype}[1]{{#1} \, \mta{type}}
+\newcommand{\istype}[1]{{#1} \; \mta{type}}
+\newcommand{\isrepr}[2]{{#1} \ \mta{repr}\;{#2}}
+\newcommand{\isind}[2]{{#1} \ \mta{ind}\;{#2}}
 \newcommand{\lbl}{\textsf}
 \newcommand{\letin}[3]{\inte{let}\; {#1} = {#2}\; \inte{in}\; {#3}}
 \newcommand{\letrecin}[3]{\inte{letrec}\; {#1} = {#2}\; \inte{in}\; {#3}}
+\newcommand{\wildp}{\underline{\hspace{0.8em}}}
 
 % CWF
 \newcommand{\Ty}{\fun{Ty}}
@@ -26,6 +29,17 @@
 \newcommand{\Con}{\fun{Con}}
 \newcommand{\Sub}{\fun{Sub}}
 \newcommand{\typeof}{\fun{typeof}}
+
+\newcommand{\univ}[1]{{\mathcal{U}_{{#1}}}}
+\newcommand{\Um}{{\univ{\mta{Meta}}}}
+\newcommand{\Ur}{{\univ{\mta{Repr}}}}
+\newcommand{\Uv}{{\univ{\mta{Val}}}}
+
+\newcommand{\lift}[1]{\text{$\Uparrow$}{#1}}
+\newcommand{\quot}[1]{\langle{#1}\rangle}
+\newcommand{\splice}[1]{\sim{#1}}
+
+\newcommand{\Gen}{\defin{Gen}}
 
 %%%%%%%%
 
