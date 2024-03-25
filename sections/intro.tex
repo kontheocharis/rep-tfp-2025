@@ -7,10 +7,23 @@ execution. This is done by separating a language into two parts: the
 \emph{meta} fragment and the \emph{object} fragment. The meta fragment is the
 site in which the program is synthesised, and the object fragment is the output
 of the synthesis process. This is made possible by the ability to manipulate
-object-level fragments inside the meta language.
+object-level fragments inside the meta language. ...
 
-The approach we follow mirrors the setup of \cite{Kovacs2022-vb}. We consider a
-\emph{two-level type theory} $\cat{G}$, with the following
+\subsection{Contributions}
+
+TODO
+
+\begin{itemize}
+  \item We present a formalism for the expression of a choice of representation for
+        inductive data types.
+  \item We develop a transformation procedure from inductive data types to their chosen
+        representation.
+  \item We extend the transformation to allow for an intermediate staging of inductive
+        constructors to further refine the staging output, emulating a kind of
+        intensional analysis.
+  \item We show semantic preservation of the entire transformation modulo its
+        preservation by each chosen representation.
+\end{itemize}
 
 % There is a fundamental gap between programs written for human convenience and
 % programs written for machine efficiency. It can be argued that a large segment

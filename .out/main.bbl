@@ -10,6 +10,11 @@ Danil Annenkov, Paolo Capriotti, Nicolai Kraus, and Christian Sattler.
 \newblock {Two-Level} type theory and applications.
 \newblock May 2017.
 
+\bibitem{Awodey2014-hh}
+Steve Awodey.
+\newblock Natural models of homotopy type theory.
+\newblock June 2014.
+
 \bibitem{Boulier2018-zy}
 S~Boulier.
 \newblock Extending type theory with syntactic models.
@@ -44,6 +49,16 @@ Andr{\'a}s Kov{\'a}cs.
 M~Sato, Takafumi Sakurai, and Yukiyoshi Kameyama.
 \newblock A simply typed context calculus with first-class environments.
 \newblock {\em J. Funct. Log. Prog.}, pages 359--374, March 2001.
+
+\bibitem{Taha1997-ag}
+Walid Taha and Tim Sheard.
+\newblock Multi-stage programming with explicit annotations.
+\newblock In {\em Proceedings of the 1997 {ACM} {SIGPLAN} symposium on Partial evaluation and semantics-based program manipulation}, PEPM '97, pages 203--217, New York, NY, USA, December 1997. Association for Computing Machinery.
+
+\bibitem{Uemura2019-cc}
+Taichi Uemura.
+\newblock A general framework for the semantics of type theory.
+\newblock {\em arXiv [math.CT]}, April 2019.
 
 \bibitem{Viera2006-xq}
 Marcos Viera and Alberto Pardo.

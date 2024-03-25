@@ -1,1 +1,25 @@
 \section{Preliminaries}\label{sec:prelim}
+
+An $n$-level type theory ($n$LTT), a straightforward generalisation of 2LTT
+\cite{Kovacs2022-vb}, viewed from the perspective of \emph{natural models of
+  type theory} \cite{Awodey2014-hh}, splits the terms and types at each context
+into distinct fragments corresonding to each of the stages.
+
+More precisely, an $n$-level type theory consists of the following data:
+\begin{itemize}
+  \item A category $\cat{C}$ with a terminal object, with objects denoted
+        $\Con_\cat{C}$ and morphisms denoted $\Sub_\cat{C}$.
+  \item Two families of $n$ presheaves, $\Ty_i : \cat{C} \fto \Set$ and $\Tm_i :
+          \cat{C} \fto \Set$.
+  \item A family of $n$ representable natural transformations $\typeof_i : \Tm_i \fto
+          \Ty_i$.
+  \item A family of $n-1$ natural transformations $\Uparrow_i : \Ty_i \fto \Ty_{i + 1}$
+        and $(n-1)$ invertible natural transformations $\langle-\rangle_i : \Tm_{i + 1}
+          \fto \Tm_i$ with inverses $\sim_i(-)$. This creates a lifting structure, where
+        terms and types from level $i$ can be lifted to level $i + 1$.
+\end{itemize}
+
+The above data can also be formulated using \emph{categories with families}
+\cite{Castellan2019-sh}, where context comprehension is given by the fact that
+$\typeof_i$ is representable \cite{Uemura2019-cc}.
+
