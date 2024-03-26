@@ -90,8 +90,22 @@ type $A$.
 
 The subuniverse $\Ur$ can be reflected into the metatheory as a structure over
 the base category $(\Sub_{\cat{G}}, \Con_{\cat{G}})$. The set
-$\Ty_{\cat{G},\mta{Repr}}\,\Gamma$ is the set of representable types in context
-$\Gamma$, defined as $\Tm_{\cat{G},\mta{Meta}}\,\Gamma\,\Ur$. Similarly, the
-set $\Tm_{\cat{G},\mta{Repr}}\,\Gamma\,A$ is the set of terms of representable
-type $A$ in context $\Gamma$, defined as $\Tm_{\cat{G},\mta{Meta}}\,\Gamma$
+$\Ty_{\cat{G},\mta{Repr}}\,\Gamma$ is the set of representable types in
+representable context $\Gamma$, defined as
+$\Tm_{\cat{G},\mta{Meta}}\,\Gamma\,\Ur$. Similarly, the set
+$\Tm_{\cat{G},\mta{Repr}}\,\Gamma\,A$ is the set of terms of representable type
+$A$ in context $\Gamma$, defined as $\Tm_{\cat{G},\mta{Meta}}\,\Gamma$
 restricted to $\Ty_{\cat{G},\mta{Repr}}\,\Gamma$.
+
+\subsection{Translating $\cat{G}_{\mta{Repr}}$ to $\cat{G}_{\mta{Val}}$}
+
+The translation of a representable meta-program into an object program is done
+through a syntactical CWF morphism
+\[
+  \cat{G}_{\mta{Repr}} \fto \cat{G}_{\mta{Val}}\,,
+\]
+where $\cat{G}_{m}$ is the CWF defined by $(\Con_{\cat{G}},
+  \Sub_{\cat{G}},\Ty_{\cat{G},m},\Tm_{\cat{G},m})$. Since these are syntactical
+CWFs, we exploit their initiality to define the translation inductively over
+the syntax.
+
