@@ -808,6 +808,17 @@ INPUT /usr/local/texlive/2023/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libr
 INPUT /usr/local/texlive/2023/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.meta.code.tex
 INPUT /usr/local/texlive/2023/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.meta.code.tex
 INPUT /usr/local/texlive/2023/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.meta.code.tex
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/esvect.sty
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/esvect.sty
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/esvect.sty
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/esvect.sty
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/esvect.sty
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/esvect.sty
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/esvect.sty
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/esvect.sty
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/esvect.sty
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/esvect.sty
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/esvect.sty
 INPUT ./misc/macros.tex
 INPUT misc/macros.tex
 INPUT ./misc/macros.tex
@@ -869,6 +880,13 @@ INPUT ./misc/frontmatter.tex
 INPUT misc/frontmatter.tex
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/uesvect.fd
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/uesvect.fd
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/uesvect.fd
+INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/esvect/uesvect.fd
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/esvect/vect10.tfm
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/esvect/vect8.tfm
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/esvect/vect6.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmr9.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmti9.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm
@@ -881,6 +899,8 @@ INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam1
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/esvect/vect9.tfm
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/esvect/vect5.tfm
 INPUT ./sections/intro.tex
 INPUT sections/intro.tex
 INPUT ./sections/intro.tex
@@ -978,3 +998,4 @@ INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.p
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/esvect/vect10.pfb

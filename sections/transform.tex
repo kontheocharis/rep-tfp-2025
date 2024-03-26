@@ -34,7 +34,7 @@ $\mta{Val}$.
 
 We allow inductive data types to be defined in the meta fragment of $\cat{G}$,
 as inductive families. These exist as first-class citizens, and we follow the
-syntactical approach of \cite{Kaposi2020-is} ...
+syntactical approach of \cite{Dybjer1994-zx} ...
 
 The sort for meta inductive types is $\Ui$, which is a subuniverse of $\Um$.
 This sort interprets signatures $(A : \Ty_s, \Con_s \, A)$.
@@ -142,17 +142,31 @@ inductively over its syntax:
 \end{align*}
 
 \begin{align*}
-   & \fun T            : \Tm_{\catG, \mR} \; \Gamma \; A \to \Tm_{\catG, \mV}\; \fun T\Gamma \; \fun T A                           \\
-   & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                                                 \\
-   & \fun T(a \, b)  = (\fun T a) \, (\fun T b)                                                                                    \\
-   & \fun T((a, b)) = (\fun T a, \fun T b)                                                                                         \\
-   & \fun T(x) = x                                                                                                                 \\
-   & \fun T(\star) = \star                                                                                                         \\
-   & \fun T(c \,@\, a)_{A = A_R} = \splice{(\defin{runGen} \ (R.\defin{c} \ (\defin{known}\ (c \,@\, \fun T'(a)))) \  \defin{id})} \\
-   & \fun T(a)_{A = A_R} = \splice{(\defin{runGen} \ (R.\defin{c} \ (\defin{opaque}\ \fun T(a))) \  \defin{id})}
+   & \fun T            : \Tm_{\catG, \mR} \; \Gamma \; A \to \Tm_{\catG, \mV}\; \fun T\Gamma \; \fun T A \\
+   & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                       \\
+   & \fun T(a \, b)  = (\fun T a) \, (\fun T b)                                                          \\
+   & \fun T((a, b)) = (\fun T a, \fun T b)                                                               \\
+   & \fun T(x) = x                                                                                       \\
+   & \fun T(\star) = \star                                                                               \\
+   & \fun T(a)_{A = A_R} = \splice{(\defin{runGen} \ (R.\defin{c} \ \fun T'(a)) \  \defin{id})}
 \end{align*}
 
 \begin{align*}
-   & \fun T'            : \Tm_{\catG, \mR} \; \Gamma \; (A_R) \to \Tm_{\catG}\; \inj{\Gamma} \; A[v] \\
+   & \fun T'            : \Tm_{\catG, \mR} \; \Gamma \; A_R \to \Tm_{\catG,\mR}\; \inj{\fun T \Gamma} \; A[\lift R.\defin{R}] \\
+   & \fun T'(c \, \hat{@} \, a \,@\, \vv{r})_{A = A_R} = \defin{known}\ (c \,@\, \fun T'(\vv{r}))                             \\
+   & \fun T'(a)_{A = A_R} = \defin{opaque}\ \quot{\fun T(a)}                                                                  \\
 \end{align*}
 
+Issues with the above:
+
+\begin{itemize}
+  \item Need to clarify order of execution; The $\fun T(a)$ in $\defin{opaque}\
+          \quot{\fun T(a)}$ should not go back to the constructor case, even if the type
+        is $A_R$.
+  \item Unclear what happens to the constructor data. \cite{Kaposi2020-is} leaves
+        non-recursive parameters as metatheoretic sets, which is not good enough! We
+        want these to be actual types in the language!
+\end{itemize}
+
+Coalgebra should be phrased in terms of views for semantic correctness
+\cite{Allais2023-pf,Allais2023-zq} ?

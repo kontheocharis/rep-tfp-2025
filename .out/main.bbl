@@ -1,5 +1,15 @@
 \begin{thebibliography}{10}
 
+\bibitem{Allais2023-pf}
+Guillaume Allais.
+\newblock Builtin types viewed as inductive families.
+\newblock In {\em Programming Languages and Systems}, pages 113--139. Springer Nature Switzerland, 2023.
+
+\bibitem{Allais2023-zq}
+Guillaume Allais.
+\newblock Seamless, correct, and generic programming over serialised data.
+\newblock October 2023.
+
 \bibitem{Altenkirch2015-yl}
 Thorsten Altenkirch, Neil Ghani, Peter Hancock, Conor Mcbride, and Peter Morris.
 \newblock Indexed containers.
@@ -39,6 +49,11 @@ Edwin~C Brady and Kevin Hammond.
 Simon Castellan, Pierre Clairambault, and Peter Dybjer.
 \newblock Categories with families: Unityped, simply typed, and dependently typed.
 \newblock April 2019.
+
+\bibitem{Dybjer1994-zx}
+Peter Dybjer.
+\newblock Inductive families.
+\newblock {\em Form. Asp. Comput.}, 6(4):440--465, January 1994.
 
 \bibitem{Hewer2024-cc}
 Brandon Hewer and Graham Hutton.
