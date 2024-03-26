@@ -89,23 +89,29 @@ type $R_A$ into a partial syntactical representation of a term of the inductive
 type $A$.
 
 The subuniverse $\Ur$ can be reflected into the metatheory as a structure over
-the base category $(\Sub_{\cat{G}}, \Con_{\cat{G}})$. The set
-$\Ty_{\cat{G},\mta{Repr}}\,\Gamma$ is the set of representable types in
-representable context $\Gamma$, defined as
-$\Tm_{\cat{G},\mta{Meta}}\,\Gamma\,\Ur$. Similarly, the set
-$\Tm_{\cat{G},\mta{Repr}}\,\Gamma\,A$ is the set of terms of representable type
-$A$ in context $\Gamma$, defined as $\Tm_{\cat{G},\mta{Meta}}\,\Gamma$
-restricted to $\Ty_{\cat{G},\mta{Repr}}\,\Gamma$.
+the base category $(\Sub_{\catG}, \Con_{\catG})$. The set
+$\Ty_{\catG,\mR}\,\Gamma$ is the set of representable types in representable
+context $\Gamma$, defined as $\Tm_{\catG,\mM}\,\Gamma\,\Ur$. Similarly, the set
+$\Tm_{\catG,\mR}\,\Gamma\,A$ is the set of terms of representable type $A$ in
+context $\Gamma$, defined as $\Tm_{\catG,\mM}\,\Gamma$ restricted to
+$\Ty_{\catG,\mR}\,\Gamma$.
 
-\subsection{Translating $\cat{G}_{\mta{Repr}}$ to $\cat{G}_{\mta{Val}}$}
+\subsection{Translating $\Ur$ to $\Uv$}
 
 The translation of a representable meta-program into an object program is done
-through a syntactical CWF morphism
-\[
-  \cat{G}_{\mta{Repr}} \fto \cat{G}_{\mta{Val}}\,,
-\]
-where $\cat{G}_{m}$ is the CWF defined by $(\Con_{\cat{G}},
-  \Sub_{\cat{G}},\Ty_{\cat{G},m},\Tm_{\cat{G},m})$. Since these are syntactical
-CWFs, we exploit their initiality to define the translation inductively over
+through a syntactical translation
+\begin{align*}
+  \fun{T} & : \Ty_{\catG,\mR} \; \inj{\Gamma} \to \Ty_{\catG,\mV} \; \inj{\Gamma}                   \\
+  \fun{T} & : \Tm_{\catG,\mR} \; \inj{\Gamma} \; A \to \Tm_{\catG,\mV} \; \inj{\Gamma}\; (\fun{T}A)
+\end{align*}
+We exploit the initiality of the CWF to define the translation inductively over
 the syntax.
+
+---
+
+The staging translation is done by through \emph{normalisation by evaluation}:
+\begin{align*}
+  \fun{C} & : \Ty_{\catG,\mV} \; \inj{\Gamma} \to \Ty_{\catL} \; \Gamma                                   \\
+  \fun{C} & : \Tm_{\catG,\mV} \; \inj{\Gamma} \; (\fun{T}A) \to \Tm_{\catL} \; \Gamma\; (\fun{C}\fun{T}A)
+\end{align*}
 
