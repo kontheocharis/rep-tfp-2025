@@ -134,27 +134,31 @@ inductively over its syntax:
 \end{align*}
 
 \begin{align*}
-   & \fun T            : \Ty_{\catG, \mR} \; \Gamma \to \Ty_{\catG, \mV}\; \fun T\Gamma \\
-   & \fun T(A \to B)  = \fun T A \to \fun T B                                           \\
-   & \fun T(A \times B) = \fun T A \times \fun T B                                      \\
-   & \fun T(1) = 1                                                                      \\
-   & \fun T(A_R) = R.\defin{R}
+   & \fun T            : \Ty_{\catG, \mR} \; {\Gamma} \to \Ty_{\catG, \mV}\; \fun T \Gamma \\
+   & \fun T(\Pi x : A .\, B)  = \Pi x : \fun T A . \fun T B                                \\
+   & \fun T(\lift V) = \lift V                                                             \\
+   & \fun T(A_R) = \lift R.\defin{R}
 \end{align*}
 
 \begin{align*}
-   & \fun T            : \Tm_{\catG, \mR} \; \Gamma \; A \to \Tm_{\catG, \mV}\; \fun T\Gamma \; \fun T A \\
-   & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                       \\
-   & \fun T(a \, b)  = (\fun T a) \, (\fun T b)                                                          \\
-   & \fun T((a, b)) = (\fun T a, \fun T b)                                                               \\
-   & \fun T(x) = x                                                                                       \\
-   & \fun T(\star) = \star                                                                               \\
-   & \fun T(a)_{A = A_R} = \splice{(\defin{runGen} \ (R.\defin{c} \ \fun T'(a)) \  \defin{id})}
+   & \fun T            : \Tm_{\catG, \mR} \; {\Gamma} \; A \to \Tm_{\catG, \mV}\; {\fun T \Gamma} \; \fun T A                                               \\
+   & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                                                                          \\
+   & \fun T(a \, b)  = (\fun T a) \, (\fun T b)                                                                                                             \\
+   & \fun T(x) = x                                                                                                                                          \\
+   & \fun T(\quot {p}) = \quot {p}                                                                                                                          \\
+   & \fun T(c_{A_R} \, \hat{@} \, \vv{a} \,@\, \vv{r}) =  \defin{runGen} \ (R.\defin{c} \ \fun S (c_{A_R} \, \hat{@} \, \vv{a} \,@\, \vv{r})) \  \defin{id} \\
+   & \fun T(\inte{case}_{A_R}\ m\ \vv{a}) =  \defin{runGen} \ (R.\defin{i} \ \fun T m) \  (\lambda x.\, \inte{case}\ x \ \vv{a})                            \\
 \end{align*}
 
 \begin{align*}
-   & \fun T'            : \Tm_{\catG, \mR} \; \Gamma \; A_R \to \Tm_{\catG,\mR}\; \inj{\fun T \Gamma} \; A[\lift R.\defin{R}] \\
-   & \fun T'(c \, \hat{@} \, a \,@\, \vv{r})_{A = A_R} = \defin{known}\ (c \,@\, \fun T'(\vv{r}))                             \\
-   & \fun T'(a)_{A = A_R} = \defin{opaque}\ \quot{\fun T(a)}                                                                  \\
+   & \fun S            : \Tm_{\catG, \mR} \; {\Gamma} \; A_R \to \Tm_{\catG,\mR}\; {\fun T \Gamma} \; A[\lift{R.\defin{R}}] \\
+   & \fun S(c_{A_R} \, \hat{@} \, \vv{a} \,@\, \vv{r}) = \defin{known}\ (c \, \hat{@} \, \fun S\vv{a} \,@\, \fun S\vv{r})   \\
+   & \fun S(a)  = \defin{opaque}\ (\fun T a)
+\end{align*}
+
+\begin{align*}
+   & \fun V            : \fun{Cases}_{\catG, \mR}\; \Gamma\; A_R \; C \to  \fun{Cases}_{\catG, \mR}\; \Gamma\; A[\lift{R.\defin{R}}] \; \fun T C                                                               \\
+   & \fun V((c_{i} \, \hat{@} \, \vv{x}_i \,@\, \vv{y}_i \mapsto r_i)_{i\in I}) = (\defin{known}\ (c_{i} \, \hat{@} \, \vv{x}_i \,@\, \vv{y}_i \mapsto r_i) \mapsto \fun T r_i)\; (\defin{opaque}\ z \mapsto )
 \end{align*}
 
 Issues with the above:
