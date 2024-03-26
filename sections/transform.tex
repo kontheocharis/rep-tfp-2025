@@ -57,10 +57,10 @@ meta-level type. This is captured by the rule
 In other words, any inductive type $A$ paired with a representation $R$ is a
 representable meta type. The type family $\Repr$ is defined as
 \begin{align*}
-   & \recordwhere[\,(A: \Ui)]{Repr}                       \\
-   & \quad R_A : \Uv                                      \\
-   & \quad    c_A : A [\lift{R_A}] \to \Gen \, R_A \quad  \\
-   & \quad    i_A : \lift{R_A} \to \Gen \, A [\lift{R_A}]
+   & \recordwhere[\,(A: \Ui)]{Repr}                                       \\
+   & \quad \defin{R} : \Uv                                                \\
+   & \quad    \defin{c} : A [\lift{\defin R}] \to \Gen \, \defin R \quad  \\
+   & \quad    \defin{i} : \lift{\defin R} \to \Gen \, A [\lift{\defin R}]
 \end{align*}
 It defines a representation to be a triple of an object type $R_A$, a
 \emph{collapsing} function $c_A$, and an \emph{inspecting} function $i_A$.
@@ -96,22 +96,56 @@ $\Tm_{\catG,\mR}\,\Gamma\,A$ is the set of terms of representable type $A$ in
 context $\Gamma$, defined as $\Tm_{\catG,\mM}\,\Gamma$ restricted to
 $\Ty_{\catG,\mR}\,\Gamma$.
 
-\subsection{Translating $\Ur$ to $\Uv$}
+\subsection{Translating $\catG_\mR$ to $\catG_\mV$}
+
+The CWF defined by $\catG$ is contextual \cite{Castellan2019-sh}, which means
+that the contexts are inductively defined as dependent lists of types
+$\Ty_\cat{G}$. Therefore, we can define restrictions of the objects
+$\Con_{\catG}$ and morphisms $\Sub_{\catG}$ to only contain representable
+types, which we call $\Con_{\catG,\mR}$ and $\Sub_{\catG,\mR}$. This makes
+\[
+  (\Con_{\catG, \mR}, \Sub_{\catG, \mR}, \Ty_{\catG, \mR}, \Tm_{\catG, \mR})
+\]
+into a syntactical (initial) CWF which we call $\catG_\mR$ (Proof?). We can
+perform a similar restriction on the object fragment to obtain
+\[
+  (\Con_{\catG, \mV}, \Sub_{\catG, \mV}, \Ty_{\catG, \mV}, \Tm_{\catG, \mV})
+\]
+which is also a syntactical CWF that we call $\catG_\mV$ (Proof?).
 
 The translation of a representable meta-program into an object program is done
-through a syntactical translation
+through a syntactical CWF morphism
 \begin{align*}
-  \fun{T} & : \Ty_{\catG,\mR} \; \inj{\Gamma} \to \Ty_{\catG,\mV} \; \inj{\Gamma}                   \\
-  \fun{T} & : \Tm_{\catG,\mR} \; \inj{\Gamma} \; A \to \Tm_{\catG,\mV} \; \inj{\Gamma}\; (\fun{T}A)
+  \fun{T} : \catG_\mR & \fto \catG_\mV
 \end{align*}
-We exploit the initiality of the CWF to define the translation inductively over
-the syntax.
+We exploit the initiality of the CWF $\catG_\mR$ to define the translation
+inductively over its syntax:
 
----
-
-The staging translation is done by through \emph{normalisation by evaluation}:
 \begin{align*}
-  \fun{C} & : \Ty_{\catG,\mV} \; \inj{\Gamma} \to \Ty_{\catL} \; \Gamma                                   \\
-  \fun{C} & : \Tm_{\catG,\mV} \; \inj{\Gamma} \; (\fun{T}A) \to \Tm_{\catL} \; \Gamma\; (\fun{C}\fun{T}A)
+   & \fun T            : \Con_{\catG, \mR} \to \Con_{\catG, \mV} \\
+   & \fun T(\cdot)     = \cdot                                   \\
+   & \fun T(\Gamma, A) = \fun T(\Gamma), \fun T(A)
+\end{align*}
+
+\begin{align*}
+   & \fun T            : \Sub_{\catG, \mR} \; \Gamma \; \Delta \to \Sub_{\catG, \mV}\; \fun T\Gamma \; \fun T\Delta \\
+   & \fun T(\mta{id})  = \mta{id}                                                                                   \\
+   & \fun T(\gamma, f) = \fun T \gamma , \fun T f
+\end{align*}
+
+\begin{align*}
+   & \fun T            : \Ty_{\catG, \mR} \; \Gamma \to \Ty_{\catG, \mV}\; \fun T\Gamma \\
+   & \fun T(A \to B)  = \fun T A \to \fun T B                                           \\
+   & \fun T(A \times B) = \fun T A \times \fun T B                                      \\
+   & \fun T(1) = 1                                                                      \\
+   & \fun T(A_R) = R.\defin{R}
+\end{align*}
+
+\begin{align*}
+   & \fun T            : \Tm_{\catG, \mR} \; \Gamma \; A \to \Tm_{\catG, \mV}\; \fun T\Gamma \; \fun T A                      \\
+   & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                                            \\
+   & \fun T((a, b)) = (\fun T a, \fun T b)                                                                                    \\
+   & \fun T(\star) = \star                                                                                                    \\
+   & \fun T(c \,@\, a)_{A = A_R} = \splice{(\defin{runGen} \ (R.\defin{c} \ (\defin{known}\ (c \,@\, T'(a)))) \  \defin{id})}
 \end{align*}
 
