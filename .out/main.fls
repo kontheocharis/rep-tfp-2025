@@ -945,6 +945,7 @@ INPUT .out/main.aux
 INPUT .out/main.out
 INPUT .out/main.out
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/bbold-type1/bbold10.pfb
+INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/bbold-type1/bbold7.pfb
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb

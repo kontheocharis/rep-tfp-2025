@@ -22,6 +22,14 @@ same way; if $t : \lift A$, then $\splice t : A$. Universe levels will be
 implicit in the rest of this presentation, as they are orthogonal to its main
 content.
 
+The universes $\Ur$ and $\Uv$ are closed under simple $\Sigma$ and $\Pi$ types,
+and the universe $\Um$ is closed under dependent $\Sigma$ and $\Pi$ types.
+
+The \emph{categories with families} interpretation of $\cat{G}$ is given by the
+symbols $\Ty_{\cat{G},m}$, $\Con_{\cat{G}}$, $\Sub_{\cat{G}}$, and
+$\Tm_{\cat{G},m}$, where $m$ ranges over the two stages $\mta{Meta}$ and
+$\mta{Val}$.
+
 \subsection{Inductive data types}
 
 We allow inductive data types to be defined in the meta fragment of $\cat{G}$,
@@ -78,5 +86,12 @@ defined as
 
 The inspecting function is used to convert a value of the chosen representation
 type $R_A$ into a partial syntactical representation of a term of the inductive
-type $\mu A$.
+type $A$.
 
+The subuniverse $\Ur$ can be reflected into the metatheory as a structure over
+the base category $(\Sub_{\cat{G}}, \Con_{\cat{G}})$. The set
+$\Ty_{\cat{G},\mta{Repr}}\,\Gamma$ is the set of representable types in context
+$\Gamma$, defined as $\Tm_{\cat{G},\mta{Meta}}\,\Gamma\,\Ur$. Similarly, the
+set $\Tm_{\cat{G},\mta{Repr}}\,\Gamma\,A$ is the set of terms of representable
+type $A$ in context $\Gamma$, defined as $\Tm_{\cat{G},\mta{Meta}}\,\Gamma$
+restricted to $\Ty_{\cat{G},\mta{Repr}}\,\Gamma$.
