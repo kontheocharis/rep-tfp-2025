@@ -144,10 +144,15 @@ inductively over its syntax:
 \begin{align*}
    & \fun T            : \Tm_{\catG, \mR} \; \Gamma \; A \to \Tm_{\catG, \mV}\; \fun T\Gamma \; \fun T A                           \\
    & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                                                 \\
+   & \fun T(a \, b)  = (\fun T a) \, (\fun T b)                                                                                    \\
    & \fun T((a, b)) = (\fun T a, \fun T b)                                                                                         \\
    & \fun T(x) = x                                                                                                                 \\
    & \fun T(\star) = \star                                                                                                         \\
    & \fun T(c \,@\, a)_{A = A_R} = \splice{(\defin{runGen} \ (R.\defin{c} \ (\defin{known}\ (c \,@\, \fun T'(a)))) \  \defin{id})} \\
    & \fun T(a)_{A = A_R} = \splice{(\defin{runGen} \ (R.\defin{c} \ (\defin{opaque}\ \fun T(a))) \  \defin{id})}
+\end{align*}
+
+\begin{align*}
+   & \fun T'            : \Tm_{\catG, \mR} \; \Gamma \; (A_R) \to \Tm_{\catG}\; \inj{\Gamma} \; A[v] \\
 \end{align*}
 
