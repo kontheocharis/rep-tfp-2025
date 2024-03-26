@@ -57,10 +57,10 @@ meta-level type. This is captured by the rule
 In other words, any inductive type $A$ paired with a representation $R$ is a
 representable meta type. The type family $\Repr$ is defined as
 \begin{align*}
-   & \recordwhere[\,(A: \Ui)]{Repr}                                       \\
-   & \quad \defin{R} : \Uv                                                \\
-   & \quad    \defin{c} : A [\lift{\defin R}] \to \Gen \, \defin R \quad  \\
-   & \quad    \defin{i} : \lift{\defin R} \to \Gen \, A [\lift{\defin R}]
+   & \recordwhere[\,(A: \Ui)]{Repr}                                             \\
+   & \quad \defin{R} : \Uv                                                      \\
+   & \quad    \defin{c} : A [\lift{\defin R}] \to \Gen \, \lift{\defin R} \quad \\
+   & \quad    \defin{i} : A [\lift{\defin R}] \to \Gen \, A
 \end{align*}
 It defines a representation to be a triple of an object type $R_A$, a
 \emph{collapsing} function $c_A$, and an \emph{inspecting} function $i_A$.
@@ -147,7 +147,7 @@ inductively over its syntax:
    & \fun T(x) = x                                                                                                                                          \\
    & \fun T(\quot {p}) = \quot {p}                                                                                                                          \\
    & \fun T(c_{A_R} \, \hat{@} \, \vv{a} \,@\, \vv{r}) =  \defin{runGen} \ (R.\defin{c} \ \fun S (c_{A_R} \, \hat{@} \, \vv{a} \,@\, \vv{r})) \  \defin{id} \\
-   & \fun T(\inte{case}_{A_R}\ m\ \vv{a}) =  \defin{runGen} \ (R.\defin{i} \ \fun T m) \  (\lambda x.\, \inte{case}\ x \ \vv{a})                            \\
+   & \fun T(\inte{case}_{A_R}\ m\ \vv{a}) =  \defin{runGen} \ (R.\defin{i} \ \fun S m) \  (\lambda x.\, \inte{case}\ x \ \fun T\vv{a})                      \\
 \end{align*}
 
 \begin{align*}
