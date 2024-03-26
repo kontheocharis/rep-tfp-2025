@@ -28,7 +28,7 @@ and the universe $\Um$ is closed under dependent $\Sigma$ and $\Pi$ types.
 The \emph{categories with families} interpretation of $\cat{G}$ is given by the
 symbols $\Ty_{\cat{G},m}$, $\Con_{\cat{G}}$, $\Sub_{\cat{G}}$, and
 $\Tm_{\cat{G},m}$, where $m$ ranges over the two stages $\mta{Meta}$ and
-$\mta{Val}$.
+$\mta{Obj}$.
 
 Is it fine to have a sort for $\Ur$?
 
@@ -98,25 +98,33 @@ $\Tm_{\catG,\mR}\,\Gamma\,A$ is the set of terms of representable type $A$ in
 context $\Gamma$, defined as $\Tm_{\catG,\mM}\,\Gamma$ restricted to
 $\Ty_{\catG,\mR}\,\Gamma$.
 
+\subsection{Specialising functions}
+
+\[
+  \infrule[Spec-Intro]{\Gamma \vdash A_R : \Ur \quad \Gamma \vdash B_S : \Ur \quad \Gamma, x : A_R \vdash b : B_S \quad \Gamma \vdash r : \lift{R.\defin R} \to \lift{S.\defin R}}
+  {\Gamma \vdash \lambda_r x . \, b : A_R \to B_R} \,.
+\]
+
 \subsection{Translating $\catG_\mR$ to $\catG_\mV$}
 
 The CWF defined by $\catG$ is contextual \cite{Castellan2019-sh}, which means
 that the contexts are inductively defined as dependent lists of types
 $\Ty_\cat{G}$. Therefore, we can define restrictions of the objects
 $\Con_{\catG}$ and morphisms $\Sub_{\catG}$ to only contain representable
-types, which we call $\Con_{\catG,\mR}$ and $\Sub_{\catG,\mR}$. This makes
+inductive types, which we call $\Con_{\catG,\mR}$ and $\Sub_{\catG,\mR}$. This
+makes
 \[
   (\Con_{\catG, \mR}, \Sub_{\catG, \mR}, \Ty_{\catG, \mR}, \Tm_{\catG, \mR})
 \]
 into a syntactical (initial) CWF which we call $\catG_\mR$ (Proof?). We can
-perform a similar restriction on the object fragment to obtain
+perform a similar restriction to no inductive types at all, to obtain
 \[
   (\Con_{\catG, \mV}, \Sub_{\catG, \mV}, \Ty_{\catG, \mV}, \Tm_{\catG, \mV})
 \]
 which is also a syntactical CWF that we call $\catG_\mV$ (Proof?).
 
-The translation of a representable meta-program into an object program is done
-through a syntactical CWF morphism
+The translation of a representable meta-program into a valuated meta-program is
+done through a syntactical CWF morphism
 \begin{align*}
   \fun{T} : \catG_\mR & \fto \catG_\mV
 \end{align*}
@@ -145,6 +153,7 @@ inductively over its syntax:
 \begin{align*}
    & \fun T            : \Tm_{\catG, \mR} \; {\Gamma} \; A \to \Tm_{\catG, \mV}\; {\fun T \Gamma} \; \fun T A                                                      \\
    & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                                                                                 \\
+   & \fun T(\lambda_r x . a)  = r                                                                                                                                  \\
    & \fun T(a \, b)  = (\fun T a) \, (\fun T b)                                                                                                                    \\
    & \fun T(x) = x                                                                                                                                                 \\
    & \fun T(\quot {p}) = \quot {p}                                                                                                                                 \\
@@ -161,9 +170,6 @@ inductively over its syntax:
 Issues with the above:
 
 \begin{itemize}
-  \item Need to clarify order of execution; The $\fun T(a)$ in $\defin{opaque}\
-          \quot{\fun T(a)}$ should not go back to the constructor case, even if the type
-        is $A_R$.
   \item Unclear what happens to the constructor data. \cite{Kaposi2020-is} leaves
         non-recursive parameters as metatheoretic sets, which is not good enough! We
         want these to be actual types in the language!
