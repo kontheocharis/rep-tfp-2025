@@ -30,6 +30,8 @@ symbols $\Ty_{\cat{G},m}$, $\Con_{\cat{G}}$, $\Sub_{\cat{G}}$, and
 $\Tm_{\cat{G},m}$, where $m$ ranges over the two stages $\mta{Meta}$ and
 $\mta{Val}$.
 
+Is it fine to have a sort for $\Ur$?
+
 \subsection{Inductive data types}
 
 We allow inductive data types to be defined in the meta fragment of $\cat{G}$,
@@ -57,18 +59,18 @@ meta-level type. This is captured by the rule
 In other words, any inductive type $A$ paired with a representation $R$ is a
 representable meta type. The type family $\Repr$ is defined as
 \begin{align*}
-   & \recordwhere[\,(A: \Ui)]{Repr}                                                \\
-   & \quad \defin{R} : \Uv                                                         \\
-   & \quad    \defin{c} : A(A [\lift{\defin R}]) \to \Gen \, \lift{\defin R} \quad \\
-   & \quad    \defin{i} : \lift{\defin R} \to \Gen \, A(A [\lift{\defin R}])
+   & \recordwhere[\,(A: \Ui)]{Repr}                                                   \\
+   & \quad \defin{R} : \Uv                                                            \\
+   & \quad    \defin{c} : \hat{A} [\lift{\defin R}] \to \Gen \, \lift{\defin R} \quad \\
+   & \quad    \defin{i} : \lift{\defin R} \to \Gen \, \hat{A}(\lift{\defin R})
 \end{align*}
 It defines a representation to be a triple of an object type $R_A$, a
 \emph{collapsing} function $c_A$, and an \emph{inspecting} function $i_A$.
 
-The notation $A[N]$ is shorthand for $\defin{Syntax}\,A\,N$, where the
+The notation $M[N]$ is shorthand for $\defin{Syntax}\,M\,N$, where the
 \defin{Syntax} type family is defined by
 \[
-  \data{Syntax} \,(A : \Ui)\,(N : \Um) = \defin{known} \, (A\,(\defin{Syntax}\,A\,N)) \mid \defin{opaque} \, N \,.
+  \data{Syntax} \,(M : \Um \to \Um)\,(N : \Um) = \defin{known} \, (M\,(\defin{Syntax}\,M\,N)) \mid \defin{opaque} \, N \,.
 \]
 where $A(B)$ is the endofunctor associated with the inductive type $A$ applied
 to the meta type $B$ (need rules for that too).
@@ -136,24 +138,24 @@ inductively over its syntax:
 \begin{align*}
    & \fun T            : \Ty_{\catG, \mR} \; {\Gamma} \to \Ty_{\catG, \mV}\; \fun T \Gamma \\
    & \fun T(\Pi x : A .\, B)  = \Pi x : \fun T A . \fun T B                                \\
-   & \fun T(\lift V) = V                                                                   \\
-   & \fun T(A_R) = R.\defin{R}
+   & \fun T(\lift V) = \lift V                                                             \\
+   & \fun T(A_R) = \lift R.\defin{R}
 \end{align*}
 
 \begin{align*}
-   & \fun T            : \Tm_{\catG, \mR} \; {\Gamma} \; A \to \Tm_{\catG, \mV}\; {\fun T \Gamma} \; \fun T A                                                                 \\
-   & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                                                                                            \\
-   & \fun T(a \, b)  = (\fun T a) \, (\fun T b)                                                                                                                               \\
-   & \fun T(x) = x                                                                                                                                                            \\
-   & \fun T(\quot {p}) = p                                                                                                                                                    \\
-   & \fun T(c_{A_R} \, \hat{@} \, \vv{a} \,@\, \vv{r}) =  \splice{(\defin{runGen} \ (R.\defin{c} \ (c_{A_R} \, \hat{@} \, \fun S \vv{a} \,@\, \fun S \vv{r})) \  \defin{id})} \\
-   & \fun T(\inte{case}_{A_R}\ m\ \vv{a}) = \splice{(\defin{runGen} \ (R.\defin{i} \ \quot{\fun T m}) \  (\lambda x.\, \inte{case}\ x \ \quot{\fun T\vv{a}}))}                \\
+   & \fun T            : \Tm_{\catG, \mR} \; {\Gamma} \; A \to \Tm_{\catG, \mV}\; {\fun T \Gamma} \; \fun T A                                                      \\
+   & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                                                                                 \\
+   & \fun T(a \, b)  = (\fun T a) \, (\fun T b)                                                                                                                    \\
+   & \fun T(x) = x                                                                                                                                                 \\
+   & \fun T(\quot {p}) = \quot {p}                                                                                                                                 \\
+   & \fun T(c_{A_R} \, \hat{@} \, \vv{a} \,@\, \vv{r}) =  \defin{runGen} \ (R.\defin{c} \ (c_{A_R} \, \hat{@} \, \fun S \vv{a} \,@\, \fun S \vv{r})) \  \defin{id} \\
+   & \fun T(\inte{case}_{A_R}\ m\ \vv{a}) =  \defin{runGen} \ (R.\defin{i} \ \fun T m) \  (\lambda x.\, \inte{case}\ x \ \fun T\vv{a})                             \\
 \end{align*}
 
 \begin{align*}
    & \fun S            : \Tm_{\catG, \mR} \; {\Gamma} \; A_R \to \Tm_{\catG,\mR}\; {\fun T \Gamma} \; A[\lift{R.\defin{R}}] \\
-   & \fun S(c_{A_R} \, \hat{@} \, \vv{a} \,@\, \vv{r}) = \defin{known}\ (c \, \hat{@} \, \fun S\vv{a} \,@\, \fun S\vv{r})   \\
-   & \fun S(a)  = \defin{opaque}\ \quot{\fun T a}
+   & \fun S(c \, \hat{@} \, \vv{a} \,@\, \vv{r}) = \defin{known}\ (c \, \hat{@} \, \fun S\vv{a} \,@\, \fun S\vv{r})         \\
+   & \fun S(a)  = \defin{opaque}\ (\fun T a)
 \end{align*}
 
 Issues with the above:
