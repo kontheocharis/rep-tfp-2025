@@ -28,9 +28,8 @@ We allow inductive data types to be defined in the meta fragment of $\cat{G}$,
 as inductive families. These exist as first-class citizens, and we follow the
 syntactical approach of \cite{Kaposi2020-is} ...
 
-The judgement for inductive types is $\isind{(S, c)}$, where $S \in \Ty_s$ and
-$c \in \Con_p \, S$ are the type and constructor signatures of the inductive
-type.
+The sort for meta inductive types is $\Ui$, which is a subuniverse of $\Um$.
+This sort interprets signatures $(A : \Ty_s, \Con_s \, A)$.
 
 We have constructors and eliminators for inductive types in the meta fragment.
 
@@ -44,35 +43,27 @@ Indeed, lifting an object type is one way to acquire a representable meta type.
 However, the more interesting way to do so is to attach a representation to a
 meta-level type. This is captured by the rule
 \[
-  \infrule[Repr-Mu]{\Gamma \vdash \isind{A} \quad \Gamma \vdash \isrepr{P}{A}}
+  \infrule[Repr-Intro]{\Gamma \vdash A : \Ui \quad \Gamma \vdash R : \defin{Repr}\,A}
   {\Gamma \vdash A_R : \Ur} \,.
 \]
-It utilises a new judgement form $\isrepr{R}{A}$, which states that $R$ is a
-representation of the fixpoint of $A$.
-
-The rule for introducing representations is
-\[
-  \infrule[Repr-Intro]{
-    \begin{gathered}
-      \Gamma \vdash \isind{A} \quad
-      \Gamma \vdash R_A : \Uv                                \\
-      \Gamma \vdash c_A : A [\lift{R_A}] \to \Gen \, R_A \quad
-      \Gamma \vdash i_A : \lift{R_A} \to \Gen \, A [\lift{R_A}]
-    \end{gathered}
-  }{\Gamma \vdash \isrepr{(R_A, c_A, i_A)}{A}} \,.
-\]
-It states that a representation is a triple of an object type $R_A$, a
-\emph{collapsing} function $c_A$, and an \emph{inspecting} function $i_A$. The
-notation $A[B]$ is defined by
+In other words, any inductive type $A$ paired with a representation $R$ is a
+representable meta type. The type family $\Repr$ is defined as
 \begin{align*}
-   & \wildp[\wildp] : (\Um \to \Um) \to \Um                                 \\
-   & A[B] =           \mu (\lambda X . \, \defin{Syntax} \, (A X) \, B) \,.
+   & \recordwhere[\,(A: \Ui)]{Repr}                       \\
+   & \quad R_A : \Uv                                      \\
+   & \quad    c_A : A [\lift{R_A}] \to \Gen \, R_A \quad  \\
+   & \quad    i_A : \lift{R_A} \to \Gen \, A [\lift{R_A}]
 \end{align*}
-where the \defin{Syntax} type family is defined by
+It defines a representation to be a triple of an object type $R_A$, a
+\emph{collapsing} function $c_A$, and an \emph{inspecting} function $i_A$.
+
+The notation $A[N]$ is shorthand for $\defin{Syntax}\,A\,N$, where the
+\defin{Syntax} type family is defined by
 \[
-  \data{Syntax} \,(M : \Um)\,(N : \Um) = \defin{known} \, M \mid \defin{opaque} \, N \,.
+  \data{Syntax} \,(A : \Ui)\,(N : \Um) = \defin{known} \, (A\,(\defin{Syntax}\,A\,N)) \mid \defin{opaque} \, N \,.
 \]
-(update to match "ind" judgement)
+where $A(B)$ is the endofunctor associated with the inductive type $A$ applied
+to the meta type $B$ (need rules for that too).
 
 The collapsing function is used to convert a partial syntactical representation
 of a term of the inductive type $\mu A$ into a value of a chosen representation
