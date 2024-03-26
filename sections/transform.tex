@@ -151,19 +151,19 @@ inductively over its syntax:
 \end{align*}
 
 \begin{align*}
-   & \fun T            : \Tm_{\catG, \mR} \; {\Gamma} \; A \to \Tm_{\catG, \mV}\; {\fun T \Gamma} \; \fun T A                                                      \\
-   & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                                                                                 \\
-   & \fun T(\lambda_r x . a)  = r                                                                                                                                  \\
-   & \fun T(a \, b)  = (\fun T a) \, (\fun T b)                                                                                                                    \\
-   & \fun T(x) = x                                                                                                                                                 \\
-   & \fun T(\quot {p}) = \quot {p}                                                                                                                                 \\
-   & \fun T(c_{A_R} \, \hat{@} \, \vv{a} \,@\, \vv{r}) =  \defin{runGen} \ (R.\defin{c} \ (c_{A_R} \, \hat{@} \, \fun S \vv{a} \,@\, \fun S \vv{r})) \  \defin{id} \\
-   & \fun T(\inte{case}_{A_R}\ m\ \vv{a}) =  \defin{runGen} \ (R.\defin{i} \ \fun T m) \  (\lambda x.\, \inte{case}\ x \ \fun T\vv{a})                             \\
+   & \fun T            : \Tm_{\catG, \mR} \; {\Gamma} \; A \to \Tm_{\catG, \mV}\; {\fun T \Gamma} \; \fun T A                                               \\
+   & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                                                                          \\
+   & \fun T(\lambda_r x . a)  = r                                                                                                                           \\
+   & \fun T(a \, b)  = (\fun T a) \, (\fun T b)                                                                                                             \\
+   & \fun T(x) = x                                                                                                                                          \\
+   & \fun T(\quot {p}) = \quot {p}                                                                                                                          \\
+   & \fun T(c_{A_R} \, \hat{@} \, \vv{a} \,@\, \vv{r}) =  \defin{runGen} \ (R.\defin{c} \ (c_{A_R} \, \hat{@} \, \vv{a} \,@\, \fun S \vv{r})) \  \defin{id} \\
+   & \fun T(\inte{case}_{A_R}\ m\ \vv{a}) =  \defin{runGen} \ (R.\defin{i} \ \fun T m) \  (\lambda x.\, \inte{case}\ x \ \fun T\vv{a})                      \\
 \end{align*}
 
 \begin{align*}
    & \fun S            : \Tm_{\catG, \mR} \; {\Gamma} \; A_R \to \Tm_{\catG,\mR}\; {\fun T \Gamma} \; A[\lift{R.\defin{R}}] \\
-   & \fun S(c \, \hat{@} \, \vv{a} \,@\, \vv{r}) = \defin{known}\ (c \, \hat{@} \, \fun S\vv{a} \,@\, \fun S\vv{r})         \\
+   & \fun S(c \, \hat{@} \, \vv{a} \,@\, \vv{r}) = \defin{known}\ (c \, \hat{@} \, \vv{a} \,@\, \fun S\vv{r})               \\
    & \fun S(a)  = \defin{opaque}\ (\fun T a)
 \end{align*}
 
