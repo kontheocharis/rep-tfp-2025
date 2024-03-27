@@ -2,7 +2,8 @@
 
 The technique for transforming inductive data types into custom data structures
 will be phrased in the language of 2-level type theory (2LTT)
-\cite{Kovacs2022-vb}.
+\cite{Kovacs2022-vb}. \todo{why? why this particular language? what does it
+  give you that other ways do not?}
 
 \subsection{The 2-level type theory $\cat{G}$}
 
@@ -20,10 +21,13 @@ object term $t : A$ can be lifted as $\quot t : \lift A$, similarly to the
 original presentation of 2LTT \cite{Kovacs2022-vb}. Splicing also works in the
 same way; if $t : \lift A$, then $\splice t : A$. Universe levels will be
 implicit in the rest of this presentation, as they are orthogonal to its main
-content.
+content. \todo{Please give an example}
 
 The universes $\Ur$ and $\Uo$ are closed under simple $\Sigma$ and $\Pi$ types,
 and the universe $\Um$ is closed under dependent $\Sigma$ and $\Pi$ types.
+\todo{why? also are you considering DTs as the meta language here? Why pi
+  types? The languages need defined or at least the assumptions about them need
+  to be given}
 
 The \emph{categories with families} interpretation of $\cat{G}$ is given by the
 symbols $\Ty_{\cat{G},m}$, $\Con_{\cat{G}}$, $\Sub_{\cat{G}}$, and

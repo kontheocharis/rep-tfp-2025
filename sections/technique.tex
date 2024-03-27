@@ -1,13 +1,13 @@
 \section{Examples and technique}\label{sec:technique}
 
-The type of natural numbers is an example of a ubiquitous inductive data type
-that is used extensively in theorem proving and general functional programming,
+The type of natural numbers is an example of a ubiquitous \todo{better to say common or typical} inductive data type
+that is used extensively in theorem proving and general functional programming \todo{more specifically DT languages},
 defined as
 \begin{equation}\label{eq:nat-ind}
   \data{Nat} = \defin{Z} \mid \defin{S}\;\defin{Nat} \,.
 \end{equation}
 Such a definition in a language such as Haskell [CITE] would be represented as
-a linked list at runtime. That is, a memory representation of the form
+a linked list at runtime. That is, a memory representation of the form \todo{but in Idris it wouldn't, and is represented by an actual number...}
 
 ... memory layout thing from SPLS talk
 
@@ -18,10 +18,10 @@ Therefore, if we care about performance we should instead represent natural
 numbers as
 \begin{equation}\label{eq:nat-word}
   \data{Nat} = \defin{MkNat} \; [\defin{Word}] \,.
-\end{equation}
+\end{equation} \todo{need to explain what this code does}
 Unfortunately, even though arithmetic can be defined more efficiently on this
 representation, it is harder to work with, because its constructor structure
-diverges from the typical mathematical definition of natural numbers. More
+diverges from the typical mathematical definition of natural numbers \todo{what do you mean by "harder" - that is a very subjective thing. I'd argue both are equivalent in expressiveness}. More
 concretely, to define a function or predicate on the natural numbers, it
 suffices to define it on 0, and define it for $n + 1$ given the result for $n$.
 This strategy can be achieved in a concise and readable way using pattern
@@ -37,15 +37,15 @@ definition of $f$ becomes more cumbersome:
    & f : \defin{Nat} \to A              \\
    & f\; \defin{MkNat} \; [0] = \ldots  \\
    & f\; n' = \letin{n}{n' - 1}{\ldots}
-\end{align*}
+\end{align*} \todo{these need explained and described}
 
 The technique we present here allows the programmer to define the natural
 numbers as in \eqref{eq:nat-ind}, and then automatically transform the
 definition to the representation in \eqref{eq:nat-word} for runtime performance
-reasons.
+reasons \todo{the technique is more general than that: it allows any inductive type to be defined as in 1, but transformed into a variant of 2}.
 
 \subsection{Representations of inductive types}
-
+\todo{This seems to come from nowhere and it's not easy to understand what it is for or how it connects to anything that came before}
 In $\Set$-based semantics of inductive types, we interpret an inductive data
 type $\defin{F}$ as the initial algebra of the associated endofunctor $F$. This
 takes a set $X$ to the set of constructors of $\defin{F}$, replacing each
@@ -64,7 +64,7 @@ language. These can be assembled into the diagram
 \end{equation*}
 If we are to interpret inductive data types, we must be able to interpret
 this diagram, including the fixpoint maps, initiality maps, and the commutativity
-of the square.
+of the square. \todo{why?}
 
 To do this, we will replace $\mu F$ with a chosen representation $R_F$, the
 fixpoint maps with a pair of maps $(\mta{collapse}\;F, \mta{inspect}\;F)$, and
