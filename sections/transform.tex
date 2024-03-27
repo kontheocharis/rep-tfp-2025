@@ -8,11 +8,11 @@ will be phrased in the language of 2-level type theory (2LTT)
 
 We will work in a 2LTT which we denote $\cat{G}$. The meta fragment of
 $\cat{G}$ contains a universe hierarchy $\univ{\mta{Meta},i}$ of meta-level
-types, and a single universe of values $\Uv$. Additionally, the universe
+types, and a single universe of values $\Uo$. Additionally, the universe
 $\univ{\mta{Meta},0}$ has a subuniverse $\Ur$ of "representable" meta-level
 types. We have
 \[
-  \univ{\mta{Meta},i} : \univ{\mta{Meta},i+1} \qquad \Ur : \univ{\mta{Meta},1} \qquad \Uv : \univ{\mta{Meta},0} \,.
+  \univ{\mta{Meta},i} : \univ{\mta{Meta},i+1} \qquad \Ur : \univ{\mta{Meta},1} \qquad \Uo : \univ{\mta{Meta},0} \,.
 \]
 
 Any object type $A$ can be lifted to the meta-level as $\lift A : \Ur$, and any
@@ -22,7 +22,7 @@ same way; if $t : \lift A$, then $\splice t : A$. Universe levels will be
 implicit in the rest of this presentation, as they are orthogonal to its main
 content.
 
-The universes $\Ur$ and $\Uv$ are closed under simple $\Sigma$ and $\Pi$ types,
+The universes $\Ur$ and $\Uo$ are closed under simple $\Sigma$ and $\Pi$ types,
 and the universe $\Um$ is closed under dependent $\Sigma$ and $\Pi$ types.
 
 The \emph{categories with families} interpretation of $\cat{G}$ is given by the
@@ -60,7 +60,7 @@ In other words, any inductive type $A$ paired with a representation $R$ is a
 representable meta type. The type family $\Repr$ is defined as
 \begin{align*}
    & \recordwhere[\,(A: \Ui)]{Repr}                                                   \\
-   & \quad \defin{R} : \Uv                                                            \\
+   & \quad \defin{R} : \Uo                                                            \\
    & \quad    \defin{c} : \hat{A} [\lift{\defin R}] \to \Gen \, \lift{\defin R} \quad \\
    & \quad    \defin{i} : \lift{\defin R} \to \Gen \, \hat{A}(\lift{\defin R})
 \end{align*}
@@ -72,18 +72,18 @@ The notation $M[N]$ is shorthand for $\defin{Syntax}\,M\,N$, where the
 \[
   \data{Syntax} \,(M : \Um \to \Um)\,(N : \Um) = \defin{known} \, (M\,(\defin{Syntax}\,M\,N)) \mid \defin{opaque} \, N \,.
 \]
-where $A(B)$ is the endofunctor associated with the inductive type $A$ applied
-to the meta type $B$ (need rules for that too).
+where $\hat{A}(B)$ is the endofunctor associated with the inductive type $A$
+applied to the meta type $B$ (need rules for that too).
 
 The collapsing function is used to convert a partial syntactical representation
-of a term of the inductive type $\mu A$ into a value of a chosen representation
+of a term of the inductive typ $\mu A$ into a value of a chosen representation
 type $R_A$.
 
 The return type of the collapsing function is over the monad $\Gen$. This is
 the code generation monad, first described in [Kovacs unpublished], which is
 defined as
 \[
-  \data{Gen} \, (A : \Um) = \defin{unGen} \, (\{ R : \Uv \} \to (A \to \lift R) \to \lift R)
+  \data{Gen} \, (A : \Um) = \defin{unGen} \, (\{ R : \Uo \} \to (A \to \lift R) \to \lift R)
 \]
 
 The inspecting function is used to convert a value of the chosen representation
@@ -177,3 +177,39 @@ Issues with the above:
 
 Coalgebra should be phrased in terms of views for semantic correctness
 \cite{Allais2023-pf,Allais2023-zq} ?
+
+\subsection{Global section of representations}
+
+Consider a "global section" of representations as a function
+\[
+  \sigma : \Um \to \Uo
+\]
+which picks an object type to represent each meta type with. This is called a
+global section because instead of separately defining a $\Repr$ for each meta
+type, we first pick all the $\defin R$ fields, and then we define $\defin c$
+and $\defin i$. This is because often, $\defin c$ and $\defin i$ need to know
+about the chosen representations of other data types.
+
+Having this, we can define the types $A[\sigma]$ and $A(\sigma)$ inductively,
+where $A : \Um$:
+
+\begin{align*}
+  (A \to B)[\sigma]                                                  & = \lift \sigma A \to \lift \sigma B                                                                                       \\
+  (A \times B)[\sigma]                                               & = \lift \sigma A \times \lift \sigma B                                                                                    \\
+  (1)[\sigma]                                                        & = 1                                                                                                                       \\
+  (F : \Um, (c_i : N_i \to (F)_{j \in J_i} \to F)_{i \in I})[\sigma] & = (F_\sigma : \Um, (c_i : N_i[\sigma] \to (F_\sigma)_{j \in J_i} \to F_\sigma)_{i \in I}, ?: \lift \sigma F \to F_\sigma)
+\end{align*}
+
+\begin{align*}
+  (A \to B)(\sigma)                                                  & = \lift \sigma A \to \lift \sigma B                                                            \\
+  (A \times B)(\sigma)                                               & = \lift \sigma A \times \lift \sigma B                                                         \\
+  (1)(\sigma)                                                        & = 1                                                                                            \\
+  (F : \Um, (c_i : N_i \to (F)_{j \in J_i} \to F)_{i \in I})(\sigma) & = (F^\sigma : \Um, (c_i : \lift \sigma N_i \to (F^\sigma)_{j \in J_i} \to F^\sigma)_{i \in I})
+\end{align*}
+
+With these types, the definition of $\Repr$ can be refined to
+\begin{align*}
+   & \recordwhere[\,(\sigma : \Um \to \Uo)\,(A: \Um)]{Repr}           \\
+   & \quad    \defin{c} : A[\sigma] \to \Gen \, \lift{\sigma A} \quad \\
+   & \quad    \defin{i} : \lift{\sigma A} \to \Gen \, A(\sigma)
+\end{align*}
