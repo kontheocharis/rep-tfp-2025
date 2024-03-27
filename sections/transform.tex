@@ -42,65 +42,74 @@ We allow inductive data types to be defined in the meta fragment of $\cat{G}$,
 as inductive families. These exist as first-class citizens, and we follow the
 syntactical approach of \cite{Dybjer1994-zx} ...
 
-The sort for meta inductive types is $\Ui$, which is a subuniverse of $\Um$.
-This sort interprets signatures $(A : \Ty_s, \Con_s \, A)$.
-
 We have constructors and eliminators for inductive types in the meta fragment.
 
 ...
 
-\subsection{Choice of representations}
+\subsection{Global section of representations}
 
-Representable meta types, or inhabitants of $\Ur$, are meta types which can be
-staged into the object level, but are not necessarily just lifted object types.
-Indeed, lifting an object type is one way to acquire a representable meta type.
-However, the more interesting way to do so is to attach a representation to a
-meta-level type. This is captured by the rule
+Our goal is to translate a program that lives in the $\Ur$ subuniverse, into an
+object program, i.e. a program that lives in the $\Uo$ universe.
+
+A type in the $\Ur$ universe needs to have a corresponding ``representation''
+object type. This means that we require a function of the form
 \[
-  \infrule[Repr-Intro]{\Gamma \vdash A : \Ui \quad \Gamma \vdash R : \defin{Repr}\,A}
-  {\Gamma \vdash A_R : \Ur} \,.
+  \sigma : \Ur \to \Uo
 \]
-In other words, any inductive type $A$ paired with a representation $R$ is a
-representable meta type. The type family $\Repr$ is defined as
+which assigns to each meta type a corresponding object type. This is in some
+sense a ``global section'' of representations, because for each representable
+type, we pick an object type to represent it with, among a set of candidate
+object types.
+
+\todo{Give an example of such a choice of representation}
+
+Having defined such a function $\sigma$, now we need to define how to translate
+a term of type $A$ in the $\Ur$ universe to a term of type $\sigma A$ in the
+$\Uo$ universe. This is done through the $\Repr$ meta type, defined as
 \begin{align*}
-   & \recordwhere[\,(A: \Ui)]{Repr}                                                   \\
-   & \quad \defin{R} : \Uo                                                            \\
-   & \quad    \defin{c} : \hat{A} [\lift{\defin R}] \to \Gen \, \lift{\defin R} \quad \\
-   & \quad    \defin{i} : \lift{\defin R} \to \Gen \, \hat{A}(\lift{\defin R})
+   & \recordwhere[\,(\sigma : \Ur \to \Uo)\,(A: \Ur)]{Repr}           \\
+   & \quad    \defin{c} : A[\sigma] \to \Gen \, \lift{\sigma A} \quad \\
+   & \quad    \defin{i} : \lift{\sigma A} \to \Gen \, A(\sigma)
 \end{align*}
-It defines a representation to be a triple of an object type $R_A$, a
-\emph{collapsing} function $c_A$, and an \emph{inspecting} function $i_A$.
+which defines a representation to be a pair of functions $\defin c$ and
+$\defin i$. The function $\defin c$ is used to convert a partial syntactical
+representation of a term of the representable type $A[\sigma]$ into a value of its
+representation type $\sigma A$. Similarly, the function $\defin i$ is used to
+convert a value of the representation type $\sigma A$ into a partial syntactical
+representation of a term of the representable type $A(\sigma)$.
 
-The notation $M[N]$ is shorthand for $\defin{Syntax}\,M\,N$, where the
-\defin{Syntax} type family is defined by
-\[
-  \data{Syntax} \,(M : \Um \to \Um)\,(N : \Um) = \defin{known} \, (M\,(\defin{Syntax}\,M\,N)) \mid \defin{opaque} \, N \,.
-\]
-where $\hat{A}(B)$ is the endofunctor associated with the inductive type $A$
-applied to the meta type $B$ (need rules for that too).
+In order to understand the meaning of this type, we first need to define the
+types $A[\sigma]$ and $A(\sigma)$. These are primitive types that exist within
+$\Um$, and are defined inductively over the structure of types in $\Ur$. The
+type $A[\sigma]$ is defined as
+\begin{align*}
+  (A \to B)[\sigma]                                                  & = \lift \sigma A \to \lift \sigma B                                                                                           \\
+  (A \times B)[\sigma]                                               & = \lift \sigma A \times \lift \sigma B                                                                                        \\
+  (1)[\sigma]                                                        & = 1                                                                                                                           \\
+  (F : \Ur, (c_i : N_i \to (F)_{j \in J_i} \to F)_{i \in I})[\sigma] & = (F_\sigma : \Ur, (c_i : N_i[\sigma] \to (F_\sigma)_{j \in J_i} \to F_\sigma)_{i \in I}, ?: \lift \sigma F \to F_\sigma) \,,
+\end{align*}
+and the type $A(\sigma)$ is defined as
+\begin{align*}
+  (A \to B)(\sigma)                                                  & = \lift \sigma A \to \lift \sigma B                                                                \\
+  (A \times B)(\sigma)                                               & = \lift \sigma A \times \lift \sigma B                                                             \\
+  (1)(\sigma)                                                        & = 1                                                                                                \\
+  (F : \Ur, (c_i : N_i \to (F)_{j \in J_i} \to F)_{i \in I})(\sigma) & = (F^\sigma : \Ur, (c_i : \lift \sigma N_i \to (F^\sigma)_{j \in J_i} \to F^\sigma)_{i \in I}) \,.
+\end{align*}
 
-The collapsing function is used to convert a partial syntactical representation
-of a term of the inductive typ $\mu A$ into a value of a chosen representation
-type $R_A$.
-
-The return type of the collapsing function is over the monad $\Gen$. This is
-the code generation monad, first described in [Kovacs unpublished], which is
-defined as
+The return type of the collapsing and inspecting functions is over the monad
+$\Gen$. This is the code generation monad, first described in [Kovacs
+    unpublished], which is defined as
 \[
   \data{Gen} \, (A : \Um) = \defin{unGen} \, (\{ R : \Uo \} \to (A \to \lift R) \to \lift R)
 \]
 
-The inspecting function is used to convert a value of the chosen representation
-type $R_A$ into a partial syntactical representation of a term of the inductive
-type $A$.
+\todo{Explain what $A[\sigma]$ and $A(\sigma)$ are supposed to represent}
+\todo{Surely this means that $\Ur$ is a closed universe so that we can define $\sigma$ by induction..}
 
-The subuniverse $\Ur$ can be reflected into the metatheory as a structure over
-the base category $(\Sub_{\catG}, \Con_{\catG})$. The set
-$\Ty_{\catG,\mR}\,\Gamma$ is the set of representable types in representable
-context $\Gamma$, defined as $\Tm_{\catG,\mM}\,\Gamma\,\Ur$. Similarly, the set
-$\Tm_{\catG,\mR}\,\Gamma\,A$ is the set of terms of representable type $A$ in
-context $\Gamma$, defined as $\Tm_{\catG,\mM}\,\Gamma$ restricted to
-$\Ty_{\catG,\mR}\,\Gamma$.
+We can similarly package choice of $\Repr$ as a global section
+\[
+  \tau : \prod_{A : \Ur} \Repr \, \sigma \, A
+\]
 
 \subsection{Specialising functions}
 
@@ -130,8 +139,9 @@ which is also a syntactical CWF that we call $\catG_\mV$ (Proof?).
 The translation of a representable meta-program into a valuated meta-program is
 done through a syntactical CWF morphism
 \begin{align*}
-  \fun{T} : \catG_\mR & \fto \catG_\mV
+  \fun{T}_{\sigma, \tau} : \catG_\mR & \fto \catG_\mV
 \end{align*}
+that is defined for a given representation choice $\sigma$.
 We exploit the initiality of the CWF $\catG_\mR$ to define the translation
 inductively over its syntax:
 
@@ -151,69 +161,26 @@ inductively over its syntax:
    & \fun T            : \Ty_{\catG, \mR} \; {\Gamma} \to \Ty_{\catG, \mV}\; \fun T \Gamma \\
    & \fun T(\Pi x : A .\, B)  = \Pi x : \fun T A . \fun T B                                \\
    & \fun T(\lift V) = \lift V                                                             \\
-   & \fun T(A_R) = \lift R.\defin{R}
+   & \fun T(A) = \lift \sigma A
 \end{align*}
 
 \begin{align*}
-   & \fun T            : \Tm_{\catG, \mR} \; {\Gamma} \; A \to \Tm_{\catG, \mV}\; {\fun T \Gamma} \; \fun T A                                               \\
-   & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                                                                          \\
-   & \fun T(\lambda_r x . a)  = r                                                                                                                           \\
-   & \fun T(a \, b)  = (\fun T a) \, (\fun T b)                                                                                                             \\
-   & \fun T(x) = x                                                                                                                                          \\
-   & \fun T(\quot {p}) = \quot {p}                                                                                                                          \\
-   & \fun T(c_{A_R} \, \hat{@} \, \vv{a} \,@\, \vv{r}) =  \defin{runGen} \ (R.\defin{c} \ (c_{A_R} \, \hat{@} \, \vv{a} \,@\, \fun S \vv{r})) \  \defin{id} \\
-   & \fun T(\inte{case}_{A_R}\ m\ \vv{a}) =  \defin{runGen} \ (R.\defin{i} \ \fun T m) \  (\lambda x.\, \inte{case}\ x \ \fun T\vv{a})                      \\
+   & \fun T            : \Tm_{\catG, \mR} \; {\Gamma} \; A \to \Tm_{\catG, \mV}\; {\fun T \Gamma} \; \fun T A                                                       \\
+   & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                                                                                  \\
+   & \fun T(a \, b)  = (\fun T a) \, (\fun T b)                                                                                                                     \\
+   & \fun T(x) = x                                                                                                                                                  \\
+   & \fun T(\quot {p}) = \quot {p}                                                                                                                                  \\
+   & \fun T(c_{A} \, \hat{@} \, \vv{a} \,@\, \vv{r}) =  \defin{runGen} \ (\tau A.\defin{c} \ (c_{A} \, \hat{@} \, \fun S \vv{a} \,@\, \fun S \vv{r})) \  \defin{id} \\
+   & \fun T(\inte{case}_{A}\ m\ \vv{a}) =  \defin{runGen} \ (\tau A.\defin{i} \ \fun T m) \  (\lambda x.\, \inte{case}\ x \ \fun T\vv{a})                           \\
 \end{align*}
 
 \begin{align*}
-   & \fun S            : \Tm_{\catG, \mR} \; {\Gamma} \; A_R \to \Tm_{\catG,\mR}\; {\fun T \Gamma} \; A[\lift{R.\defin{R}}] \\
-   & \fun S(c \, \hat{@} \, \vv{a} \,@\, \vv{r}) = \defin{known}\ (c \, \hat{@} \, \vv{a} \,@\, \fun S\vv{r})               \\
-   & \fun S(a)  = \defin{opaque}\ (\fun T a)
+   & \fun S            : \Tm_{\catG, \mR} \; {\Gamma} \; A_R \to \Tm_{\catG,\mR}\; {\fun T \Gamma} \; A[\sigma] \\
+   & \fun S(c \, \hat{@} \, \vv{a} \,@\, \vv{r}) = (c \, \hat{@} \, \fun S \vv{a} \,@\, \fun S\vv{r})           \\
+   & \fun S(a)  =\ ? (\fun T a)
 \end{align*}
 
 Issues with the above:
 
-\begin{itemize}
-  \item Unclear what happens to the constructor data. \cite{Kaposi2020-is} leaves
-        non-recursive parameters as metatheoretic sets, which is not good enough! We
-        want these to be actual types in the language!
-\end{itemize}
-
-Coalgebra should be phrased in terms of views for semantic correctness
+Coalgebra could be phrased in terms of views for semantic correctness
 \cite{Allais2023-pf,Allais2023-zq} ?
-
-\subsection{Global section of representations}
-
-Consider a "global section" of representations as a function
-\[
-  \sigma : \Um \to \Uo
-\]
-which picks an object type to represent each meta type with. This is called a
-global section because instead of separately defining a $\Repr$ for each meta
-type, we first pick all the $\defin R$ fields, and then we define $\defin c$
-and $\defin i$. This is because often, $\defin c$ and $\defin i$ need to know
-about the chosen representations of other data types.
-
-Having this, we can define the types $A[\sigma]$ and $A(\sigma)$ inductively,
-where $A : \Um$:
-
-\begin{align*}
-  (A \to B)[\sigma]                                                  & = \lift \sigma A \to \lift \sigma B                                                                                       \\
-  (A \times B)[\sigma]                                               & = \lift \sigma A \times \lift \sigma B                                                                                    \\
-  (1)[\sigma]                                                        & = 1                                                                                                                       \\
-  (F : \Um, (c_i : N_i \to (F)_{j \in J_i} \to F)_{i \in I})[\sigma] & = (F_\sigma : \Um, (c_i : N_i[\sigma] \to (F_\sigma)_{j \in J_i} \to F_\sigma)_{i \in I}, ?: \lift \sigma F \to F_\sigma)
-\end{align*}
-
-\begin{align*}
-  (A \to B)(\sigma)                                                  & = \lift \sigma A \to \lift \sigma B                                                            \\
-  (A \times B)(\sigma)                                               & = \lift \sigma A \times \lift \sigma B                                                         \\
-  (1)(\sigma)                                                        & = 1                                                                                            \\
-  (F : \Um, (c_i : N_i \to (F)_{j \in J_i} \to F)_{i \in I})(\sigma) & = (F^\sigma : \Um, (c_i : \lift \sigma N_i \to (F^\sigma)_{j \in J_i} \to F^\sigma)_{i \in I})
-\end{align*}
-
-With these types, the definition of $\Repr$ can be refined to
-\begin{align*}
-   & \recordwhere[\,(\sigma : \Um \to \Uo)\,(A: \Um)]{Repr}           \\
-   & \quad    \defin{c} : A[\sigma] \to \Gen \, \lift{\sigma A} \quad \\
-   & \quad    \defin{i} : \lift{\sigma A} \to \Gen \, A(\sigma)
-\end{align*}
