@@ -1,28 +1,27 @@
 \section{Introduction}\label{sec:intro}
-
-The techinque of program staging aims to separate the high-level structure of a
+\todo{Need to start with the general idea first. Something like functional languages offer high-level expressiveness, but, unlike imperative languages such as C, limit control in the behaviour - in fact FP is designed to be this way on purpose, so also need to be careful about the argument here. Then the argument should be built up from here... what if programmers want to offer the high-level flexibility and also the control... etc. Would be nice to have some specific examples here where the control is really necessary. Perhaps an implementation of a particular algorithm needs to fit into the memory constrains of an embedded device. The more tangible the better. }
+The technique of program staging aims to separate the high-level structure of a
 program in a way that is convenient for abstraction and manipulation, from the
 low-level eventual representation of the program that is efficient for machine
 execution. This is done by separating a language into two parts: the
 \emph{meta} fragment and the \emph{object} fragment. The meta fragment is the
 site in which the program is synthesised, and the object fragment is the output
 of the synthesis process. This is made possible by the ability to manipulate
-object-level fragments inside the meta language. ...
-
+\todo{I think this is more preliminaries and belongs in the preliminary section, not the introduction. Need to give examples here of what a meta fragment is, and what an object fragment is. }
 \subsection{Contributions}
 
 TODO
 
 \begin{itemize}
   \item We present a formalism for the expression of a choice of representation for
-        inductive data types.
+        inductive data types. \todo{Formalism using what? why?}
   \item We develop a transformation procedure from inductive data types to their chosen
-        representation.
+        representation. 
   \item We extend the transformation to allow for an intermediate staging of inductive
         constructors to further refine the staging output, emulating a kind of
-        intensional analysis.
+        intensional analysis. \todo{doesn't this come under contribution 2?}
   \item We show semantic preservation of the entire transformation modulo its
-        preservation by each chosen representation.
+        preservation by each chosen representation. \todo{For what language? Presume you also need to define the semantics?}
 \end{itemize}
 
 % There is a fundamental gap between programs written for human convenience and
