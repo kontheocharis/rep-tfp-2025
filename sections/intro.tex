@@ -1,13 +1,60 @@
 \section{Introduction}\label{sec:intro}
 \todo{Need to start with the general idea first. Something like functional languages offer high-level expressiveness, but, unlike imperative languages such as C, limit control in the behaviour - in fact FP is designed to be this way on purpose, so also need to be careful about the argument here. Then the argument should be built up from here... what if programmers want to offer the high-level flexibility and also the control... etc. Would be nice to have some specific examples here where the control is really necessary. Perhaps an implementation of a particular algorithm needs to fit into the memory constrains of an embedded device. The more tangible the better. }
-The technique of program staging aims to separate the high-level structure of a
-program in a way that is convenient for abstraction and manipulation, from the
-low-level eventual representation of the program that is efficient for machine
-execution. This is done by separating a language into two parts: the
-\emph{meta} fragment and the \emph{object} fragment. The meta fragment is the
-site in which the program is synthesised, and the object fragment is the output
-of the synthesis process. This is made possible by the ability to manipulate
-\todo{I think this is more preliminaries and belongs in the preliminary section, not the introduction. Need to give examples here of what a meta fragment is, and what an object fragment is. }
+
+Functional languages offer high-level expressiveness, but unlike imperative
+languages such as C, they limit control in behaviour of programs when it comes
+to runtime execution. Indeed, this is intentional; by letting go of low-level
+control, programs become easier to write, understand, and modify. However,
+relinquishing this control often leads to unoptimised programs that do not take
+full advantage of the architecture they are running on.
+
+Languages such as Haskell, Idris, and OCaml make heavy use of \emph{inductive
+  data types}. An inhabitant of an inductive data type is one of a defined set of
+\emph{constructors}, each of which can hold arbitrary data. Constructors are
+also allowed to be \emph{recursive}, meaning that a constructor of a data type
+can hold an inhabitant of the same data type. Such data types turn out to be
+very expressive, able to encode natural numbers, lists, trees, and many other
+data structures in a very elegant and mathematical way. Similarly, functions
+that operate on inductive data types can utilise \emph{pattern matching}, which
+is a branching operation depending on which constructor is given as input.
+
+The default memory representation for inductive types is a linked tree, where
+each constructor is a node and the recursive data it holds are the children of
+that node. This representation is very flexible, because it can represent any
+inductive data type, but it is not always the most efficient.
+
+\todo{What is a good example to introduce this idea? Some ideas are: programming
+  with matrices/arrays, numeric computation, snoc lists. Perhaps it is useful to highlight the
+  fact that different representations are convenient for programming vs theorem
+  proving. }
+
+\todo{How much stuff do we need to say about inductive data types?}
+
+\subsection{Preliminaries}
+
+The technique of program staging enables writing programs that produce other
+programs as output. There are many use cases for this ability; for the purposes
+of this work, we are interested in being able to write a program in a
+high-level language, and then translating certain parts of it into a
+\emph{quoted} form consisting of low-level constructs, and finally
+\emph{staging} the resultant high-level program with quotations into a
+low-level program.
+
+aims to separate the high-level structure of a program in a way that is
+convenient for abstraction and manipulation, from the low-level eventual
+representation of the program that is efficient for machine execution. This is
+done by separating a language into two parts: the \emph{meta} fragment and the
+\emph{object} fragment. The meta fragment is the site in which the program is
+synthesised, and the object fragment is the output of the synthesis process.
+This is made possible by the ability to manipulate \todo{I think this is more
+  preliminaries and belongs in the preliminary section, not the introduction.
+  Need to give examples here of what a meta fragment is, and what an object
+  fragment is. }
+
+\begin{itemize}
+  \item Introduce 2LTT, CWFs, give an overview about how the translation is defiend
+\end{itemize}
+
 \subsection{Contributions}
 
 TODO
@@ -16,12 +63,13 @@ TODO
   \item We present a formalism for the expression of a choice of representation for
         inductive data types. \todo{Formalism using what? why?}
   \item We develop a transformation procedure from inductive data types to their chosen
-        representation. 
+        representation.
   \item We extend the transformation to allow for an intermediate staging of inductive
         constructors to further refine the staging output, emulating a kind of
         intensional analysis. \todo{doesn't this come under contribution 2?}
   \item We show semantic preservation of the entire transformation modulo its
-        preservation by each chosen representation. \todo{For what language? Presume you also need to define the semantics?}
+        preservation by each chosen representation. \todo{For what language? Presume
+          you also need to define the semantics?}
 \end{itemize}
 
 % There is a fundamental gap between programs written for human convenience and

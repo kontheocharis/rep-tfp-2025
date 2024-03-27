@@ -957,12 +957,12 @@ INPUT ./sections/intro.tex
 INPUT sections/intro.tex
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
-INPUT ./sections/technique.tex
-INPUT sections/technique.tex
-INPUT ./sections/technique.tex
-INPUT sections/technique.tex
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmsl9.tfm
 INPUT /usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map
+INPUT ./sections/technique.tex
+INPUT sections/technique.tex
+INPUT ./sections/technique.tex
+INPUT sections/technique.tex
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmss10.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmssbx10.tfm
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmss8.tfm

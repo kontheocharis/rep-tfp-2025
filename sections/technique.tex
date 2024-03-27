@@ -1,8 +1,18 @@
 \section{Examples and technique}\label{sec:technique}
 
-The type of natural numbers is an example of a ubiquitous \todo{better to say common or typical} inductive data type
-that is used extensively in theorem proving and general functional programming \todo{more specifically DT languages},
-defined as
+\begin{itemize}
+  \item Theorem proving using matrices, to show why it is useful to have induction
+  \item Matrix multiplication, where matrices are a representable inductive data type,
+        to show that the same matrix type can also be used for efficient computations.
+  \item Snoc lists, and a transition function from cons to snoc, showing that under a
+        given representation it is zero-cost.
+  \item Natural numbers using big integers; a principled way to do the Idris hack.
+\end{itemize}
+
+The type of natural numbers is an example of a ubiquitous \todo{better to say
+  common or typical} inductive data type that is used extensively in theorem
+proving and general functional programming \todo{more specifically DT
+  languages}, defined as
 \begin{equation}\label{eq:nat-ind}
   \data{Nat} = \defin{Z} \mid \defin{S}\;\defin{Nat} \,.
 \end{equation}
@@ -42,10 +52,12 @@ definition of $f$ becomes more cumbersome:
 The technique we present here allows the programmer to define the natural
 numbers as in \eqref{eq:nat-ind}, and then automatically transform the
 definition to the representation in \eqref{eq:nat-word} for runtime performance
-reasons \todo{the technique is more general than that: it allows any inductive type to be defined as in 1, but transformed into a variant of 2}.
+reasons \todo{the technique is more general than that: it allows any inductive
+  type to be defined as in 1, but transformed into a variant of 2}.
 
 \subsection{Representations of inductive types}
 \todo{This seems to come from nowhere and it's not easy to understand what it is for or how it connects to anything that came before}
+\todo{Yes, I think this doesn't really fit in here; It should instead appear in the next section as motivation for why the $\Repr$ struct is defined as it is.}
 In $\Set$-based semantics of inductive types, we interpret an inductive data
 type $\defin{F}$ as the initial algebra of the associated endofunctor $F$. This
 takes a set $X$ to the set of constructors of $\defin{F}$, replacing each
