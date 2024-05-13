@@ -1,0 +1,65 @@
+\section{A type system for data representations}\label{sec:type-system}
+
+\newcommand{\lambdacore}{\lambda_{\text{core}}}
+\newcommand{\lambdaprim}{\lambda_{\text{prim}}}
+\newcommand{\seq}[2]{[#1; #2]}
+
+As a first step towards a type system for data representations, we informally
+describe a staged dependent type system $\lambdacore$ with
+$\Sigma$/$\Pi$-types, identity types, and a universe of types $\univ_i$ for
+each stage $i$. This serves as a background system on which we introduce
+inductive constructions and data representations in. The raw syntax of
+$\lambdacore$ is given by the BNF grammar
+\[
+  t ::= \univ_i \mid x \mapsto t \mid t \, t \mid x \mid (x : t) \to t \mid (x : t) \times t \mid
+  \Id{A}{a}{b} \mid \lift t \mid \quot t \mid \splice t
+\]
+This follows the standard typing rules of 2LTT with $\Sigma$, $\Pi$ and
+identity types \cite{Kovacs2022-vb}, without regard for the universe hierarchy,
+as this is orthogonal to the main focus of this work. Notably, $\univ_0 :
+  \univ_1$ is the object-level universe, and $\univ_1 : \univ_1$ is the
+meta-level universe. We will use $\mta{let}$ notation for binding, though this
+is just syntactic sugar for redexes.
+
+On top of this system, we assume a certain set of primitives that exist in the
+object language, forming $\lambdaprim$. These will be used to form data
+representations. They are provided by the target architecture, which is
+represented by the object language.
+\begin{itemize}
+  \item A type of booleans, $\inte{Bool} : \univ_0$, with constants $\inte{true} :
+          \inte{Bool}$ and $\inte{false} : \inte{Bool}$, and operations $\inte{and}$,
+        $\inte{or}$, and $\inte{not}$.
+  \item A type of machine words, $\inte{Word} : \univ_0$ with constants $0, 1, 2,
+          \ldots$ and standard binary numeric operations $\inte{add}$, $\inte{sub}$,
+        $\inte{mul}$, as well as $\inte{Bool}$-valued comparison operations
+        $\inte{eq}$, $\inte{lt}$, and $\inte{gt}$. We will use the notation
+        $\inte{Word}_n$ to denote the type $(w : \inte{Word}) \times
+          \Id{\inte{Bool}}{\inte{lt} \, w \, n}{\inte{true}}$.
+  \item A type of $n$-sized sequences of type $A$, $\seq{A}{n} : \univ_0$, where $n :
+          \inte{Word}$ and $A : \univ_0$. Sequences come with indexing operations
+        $\inte{get} : \seq{A}{n} \to \inte{Word}_n \to A$ and $\inte{set} : \seq{A}{n}
+          \to \inte{Word}_n \to A \to \seq{A}{n}$. Sequences should be thought of as
+        unboxed arrays, living on the stack.
+  \item A boxing type constructor $\boxx A : \univ_0$ where $A : \univ_0$, with boxing
+        and unboxing operations $\inbox a : \boxx A$ and $\unbox b : A$. Values of type
+        $\boxx A$ represent explicitly heap-allocated values of type $A$.
+\end{itemize}
+These primitives do not necessarily form an exhaustive list; indeed, we will sometimes assume
+further properties of these primitives to hold, such as $\Id{\inte{Word}}{\inte{add}\,0\,n}{n}$.
+Precise details are only necessary when implementing such a system, and the definitions above
+are sufficient for the present discussion.
+
+\subsection{Data representations}
+
+% \begin{figure}[h]
+%   \begin{center}
+%     \inferrule[Univ]
+%     { }
+%     {\istype{1}{\univ_i}}
+
+%     \inferrule[Univ]
+%     { }
+%     {\istype{1}{\univ_i}}
+%   \end{center}
+%   \label{rule:univ}
+% \end{figure}

@@ -1,149 +1,39 @@
 \section{Introduction}\label{sec:intro}
-\todo{Need to start with the general idea first. Something like functional languages offer high-level expressiveness, but, unlike imperative languages such as C, limit control in the behaviour - in fact FP is designed to be this way on purpose, so also need to be careful about the argument here. Then the argument should be built up from here... what if programmers want to offer the high-level flexibility and also the control... etc. Would be nice to have some specific examples here where the control is really necessary. Perhaps an implementation of a particular algorithm needs to fit into the memory constrains of an embedded device. The more tangible the better. }
 
-Functional languages offer high-level expressiveness, but unlike imperative
-languages such as C, they limit control in behaviour of programs when it comes
-to runtime execution. Indeed, this is intentional; by letting go of low-level
-control, programs become easier to write, understand, and modify. However,
-relinquishing this control often leads to unoptimised programs that do not take
-full advantage of the architecture they are running on.
+Dependently-typed functional languages offer high-level expressiveness, but
+unlike imperative languages such as C, they limit control in behaviour of
+programs when it comes to runtime execution. Indeed, this is intentional; by
+letting go of low-level control, programs become easier to write, understand,
+and modify. However, relinquishing this control often leads to unoptimised
+programs that do not take full advantage of the architecture they are running
+on. The default memory representation for inductive types is a linked tree,
+where each constructor is a node and the recursive data it holds are the
+children of that node. This representation is very flexible, because it can
+represent any inductive data type, but it is not always the most efficient.
 
-Languages such as Haskell, Idris, and OCaml make heavy use of \emph{inductive
-  data types}. An inhabitant of an inductive data type is one of a defined set of
-\emph{constructors}, each of which can hold arbitrary data. Constructors are
-also allowed to be \emph{recursive}, meaning that a constructor of a data type
-can hold an inhabitant of the same data type. Such data types turn out to be
-very expressive, able to encode natural numbers, lists, trees, and many other
-data structures in a very elegant and mathematical way. Similarly, functions
-that operate on inductive data types can utilise \emph{pattern matching}, which
-is a branching operation depending on which constructor is given as input.
+\subsection{The `Nat-hack'}
 
-The default memory representation for inductive types is a linked tree, where
-each constructor is a node and the recursive data it holds are the children of
-that node. This representation is very flexible, because it can represent any
-inductive data type, but it is not always the most efficient.
+Introduce Nat-hack and detail how it works in Idris, Lean, Coq, etc.
 
-\todo{What is a good example to introduce this idea? Some ideas are: programming
-  with matrices/arrays, numeric computation, snoc lists. Perhaps it is useful to highlight the
-  fact that different representations are convenient for programming vs theorem
-  proving. }
+Provide perf tests for Nat hack vs others
 
-\todo{How much stuff do we need to say about inductive data types?}
+\subsection{Beyond natural numbers}
 
-\subsection{Preliminaries}
+Identify other data structures that would benefit (list-like things, trees)
 
-The technique of program staging enables writing programs that produce other
-programs as output. There are many use cases for this ability; for the purposes
-of this work, we are interested in being able to write a program in a
-high-level language, and then translating certain parts of it into a
-\emph{quoted} form consisting of low-level constructs, and finally
-\emph{staging} the resultant high-level program with quotations into a
-low-level program.
+\subsection{A staging-based approach}
 
-aims to separate the high-level structure of a program in a way that is
-convenient for abstraction and manipulation, from the low-level eventual
-representation of the program that is efficient for machine execution. This is
-done by separating a language into two parts: the \emph{meta} fragment and the
-\emph{object} fragment. The meta fragment is the site in which the program is
-synthesised, and the object fragment is the output of the synthesis process.
-This is made possible by the ability to manipulate \todo{I think this is more
-  preliminaries and belongs in the preliminary section, not the introduction.
-  Need to give examples here of what a meta fragment is, and what an object
-  fragment is. }
-
-\begin{itemize}
-  \item Introduce 2LTT, CWFs, give an overview about how the translation is defiend
-\end{itemize}
+Staging and why is it needed?
 
 \subsection{Contributions}
 
-TODO
-
 \begin{itemize}
-  \item We present a formalism for the expression of a choice of representation for
-        inductive data types. \todo{Formalism using what? why?}
-  \item We develop a transformation procedure from inductive data types to their chosen
-        representation.
-  \item We extend the transformation to allow for an intermediate staging of inductive
-        constructors to further refine the staging output, emulating a kind of
-        intensional analysis. \todo{doesn't this come under contribution 2?}
-  \item We show semantic preservation of the entire transformation modulo its
-        preservation by each chosen representation. \todo{For what language? Presume
-          you also need to define the semantics?}
+  \item A type system $\lambda_{2+\text{Rep}}$ for defining data representations based
+        in a staged language, in a correct-by-construction manner.
+  \item An elaboration procedure from $\lambda_{2+\text{Rep}}$ to $\lambda_2$, which
+        translates inductive data into the format defined by the representations.
+  \item Application of this type system to define the `Nat-hack' in a principled way
+        and show that it is correct.
+  \item A further exploration of the type system, showing how to represent other
+        inductive types such as lists and trees.
 \end{itemize}
-
-% There is a fundamental gap between programs written for human convenience and
-% programs written for machine efficiency. It can be argued that a large segment
-% of programming language design aims to bridge this gap, by providing
-% abstraction techniques that allow programmers to write programs in a high-level
-% language, and then compile them to a low-level language that can be executed
-% efficiently. However, as the source programs become increasingly abstract and
-% high-level, and the compilation techniques become increasinly sophisticated in
-% order to keep up with the larger gap, it is very difficult to predict the final
-% low-level code output [CITE]. As such, there can be an observed performance
-% ceiling for programs written in high-level languages, which can only be broken
-% by dropping down to low-level code, where human insight is often more effective
-% at selecting the correct algorithms and data structures for a given task
-%   [CITE]. This is unfortunate, however, because making this transition leads to a
-% loss of abstraction, readability, ease of modification, or even correctness
-% guarantees.
-
-% The work we present here allows expression of the representation of a
-% high-level program in terms of a chosen low-level language, as an additional
-% but separate part of the high-level program itself. The following contributions
-% are made:
-% \begin{itemize}
-%   \item We present a formalism for the expression of a choice of representation for
-%         inductive data types.
-%   \item We extend a choice of representation to include "short-circuiting" to enable
-%         the fine-tuning of the low-level code output for a chosen set of "critical"
-%         terms.
-%   \item We apply this formalism to a simple functional language with inductive
-%         constructions represented in terms of a low-level language with memory
-%         primitives.
-%   \item We explore the categorical semantics of this translation operation and identify
-%         the minimal requirements for a pair of languages to support this translation.
-% \end{itemize}
-
-% \subsection{The high-level idea}
-
-% This setup of having two sites of "programming" is not a new concept. In fact,
-% it could be argued that this is exactly how the process of standard compilation
-% works. We have a high-level language, which is compiled into a low-level
-% language, which is then executed on a machine.
-
-% However, the process of compilation is usually not considered to be part of the
-% high-level program itself. Rather, it is the job of the compiler to figure out
-% exactly what is the optimal representation of a high-level program in the
-% low-level language. This is especially the case when the discrepancy between
-% the levels becomes great, for example in functional languages such as Haskell
-% or ML. In these languages, the programmer has very little control over the
-% eventual representation of their program in the low-level language, unless they
-% use specialised primitives which are meant to mirror the low-level capabilities
-% of the target system.
-
-% This is what we are aiming to change with this formalism. We envision a process
-% of compilation in which the programmer has a lot more control over the
-% representation of their program in the low-level language, while still keeping
-% a clear separation between that and the core logic of the high-level program
-% itself.
-
-% \subsection{Translation of logic and data}
-
-% In the present categorical presentation of this process, we want each program
-% to construct its own customised compilation functor $\fun C$. This functor will
-% be constructed by the programmer, just like the rest of the high-level logic of
-% the program.
-
-% One might remark that this sounds like a lot of work for the programmer.
-% However, we will see that the compilation functor can be constructed
-% automatically based on a set of core "data type representations" that are
-% provided by the programmer. These data type representations will be the only
-% thing that the programmer will have to write, and they will be reusable across
-% many different programs.
-
-% Furthermore, there will be a trade-off at play. The more custom parts of the
-% compilation functor that are written, the more control they have over the
-% eventual representation, but the more coupling there is between the high-level
-% program and the low-level representation. Crucially however, this coupling is
-% never present in the high-level program itself, but rather sits alongside it.
