@@ -1,15 +1,36 @@
+\newcommand{\lambdaprim}{\lambda_{\textsc{prim}}}
+\newcommand{\lambdaind}{\lambda_{\textsc{ind}}}
+\newcommand{\lambdarep}{\lambda_{\textsc{rep}}}
+
 \section{A type system for data representations}\label{sec:type-system}
 
-\newcommand{\lambdacore}{\lambda_{\text{core}}}
-\newcommand{\lambdaprim}{\lambda_{\text{prim}}}
+In this section, we describe a type system for data representations in a staged
+language. We start by defining a core staged language $\lambdaprim$ with
+$\Sigma$/$\Pi$-types, identity types, and a universe of types $\univ_i$ for
+each stage $i$, as well as a set of object-level machine primitives. We then
+introduce inductive constructions in the meta-fragment of $\lambdaprim$ to form
+$\lambdaind$. Finally, we introduce data representations in $\lambdaind$ and
+extend the system with rules for data representations in $\lambdarep$. Since
+staged dependent type systems and inductive constructions are well understood,
+we will focus on the novel aspects of data representations. The languages above
+form an inclusion hierarchy
+\[
+  \lambdaprim \subset \lambdaind \subset \lambdarep
+\]
+and our goal is to describe a transformation from $\lambdarep$ to
+$\lambdaprim$, elaborating away inductive definitions with the help of data
+representations. Finally, the resulting program in $\lambdaprim$ can be staged
+to the purely object-level language that represents the target architecture.
+
+\subsection{A core staged language with machine primitives, $\lambdaprim$}
 \newcommand{\seq}[2]{[#1; #2]}
 
 As a first step towards a type system for data representations, we informally
-describe a staged dependent type system $\lambdacore$ with
+describe a staged dependent type system $\lambdaprim$ with
 $\Sigma$/$\Pi$-types, identity types, and a universe of types $\univ_i$ for
-each stage $i$. This serves as a background system on which we introduce
-inductive constructions and data representations in. The raw syntax of
-$\lambdacore$ is given by the BNF grammar
+each stage $i \in \{0, 1\}$. This serves as a background system on which we
+introduce inductive constructions and data representations in. The raw syntax
+of $\lambdaprim$ is given by the BNF grammar
 \[
   t ::= \univ_i \mid x \mapsto t \mid t \, t \mid x \mid (x : t) \to t \mid (x : t) \times t \mid
   \Id{A}{a}{b} \mid \lift t \mid \quot t \mid \splice t
@@ -18,13 +39,13 @@ This follows the standard typing rules of 2LTT with $\Sigma$, $\Pi$ and
 identity types \cite{Kovacs2022-vb}, without regard for the universe hierarchy,
 as this is orthogonal to the main focus of this work. Notably, $\univ_0 :
   \univ_1$ is the object-level universe, and $\univ_1 : \univ_1$ is the
-meta-level universe. We will use $\mta{let}$ notation for binding, though this
-is just syntactic sugar for redexes.
+meta-level universe. We will use $\mta{let}_i$ notation for binding, though
+this is just syntactic sugar for redexes.
 
-On top of this system, we assume a certain set of primitives that exist in the
-object language, forming $\lambdaprim$. These will be used to form data
-representations. They are provided by the target architecture, which is
-represented by the object language.
+On top of this base syntax, we assume a certain set of primitives that exist in
+the object language. These will be used to form data representations. They are
+provided by the target architecture, which is represented by the object
+language:
 \begin{itemize}
   \item A type of booleans, $\inte{Bool} : \univ_0$, with constants $\inte{true} :
           \inte{Bool}$ and $\inte{false} : \inte{Bool}$, and operations $\inte{and}$,
@@ -44,12 +65,64 @@ represented by the object language.
         and unboxing operations $\inbox a : \boxx A$ and $\unbox b : A$. Values of type
         $\boxx A$ represent explicitly heap-allocated values of type $A$.
 \end{itemize}
-These primitives do not necessarily form an exhaustive list; indeed, we will sometimes assume
-further properties of these primitives to hold, such as $\Id{\inte{Word}}{\inte{add}\,0\,n}{n}$.
-Precise details are only necessary when implementing such a system, and the definitions above
-are sufficient for the present discussion.
+These primitives do not necessarily form an exhaustive list; indeed, we will
+sometimes expect further properties of these primitives to hold propositionally
+in the form of additional primitive lemmas, such as
+$(n : \inte{Word}) \to \Id{\inte{Word}}{\inte{add}\,0\,n}{n}$. Precise details are only necessary when
+implementing such a system, and the definitions above are sufficient for the
+present discussion.
 
-\subsection{Data representations}
+\subsection{Extending $\lambdaprim$ with inductive constructions}
+
+\newcommand{\lab}[1]{{\color{blue}{\textsf{#1}}}}
+
+Building on top of $\lambdaprim$, we introduce an extension of the system for
+inductive constructions in the meta-language, called $\lambdaind$. We extend
+the syntax of terms with constructors and eliminators,
+\[
+  t ::= \ldots \mid \lab{C} \, \vec{t} \mid \inte{case}_{\lab{D}} \, t \, \vec{t}
+\]
+where $\vec{t}$ denotes a sequence of terms. For inductive definitions, we
+introduce a syntax for signatures $\Sigma$ containing data, constructor, and
+function definitions:
+\[
+  \Sigma ::= \cdot \mid \Sigma, \mta{data} \ \lab{D} \ \Delta : \univ_1 \mid \Sigma, \mta{ctor} \ \lab{C} \ \Delta : \lab{D} \mid \mta{fun} \ \lab{f} : t = t
+\]
+The symbols $\lab{C}$, $\lab{D}$, and $\lab{f}$ represent elements picked from
+a set of \emph{labels}, which are used to uniquely identify elements of a
+signature. Additionally, the symbol $\Delta$ represents a telescope, defined as
+\[
+  \Delta ::= \cdot \mid \Delta, x : t
+\]
+The syntax for telescopes resembles the syntax for contexts, but it is
+restricted to meta-level types and is well-typed with respect to a context
+$\Gamma$, meaning that it can contain open terms. We reuse the constructor
+syntax $C \, \vec{t}$ to denote the application of any member of a signature to
+a sequence of terms. For example, given a function
+\[
+  \mta{fun} \ \lab{id} : (A : \univ_1) \to A \to A = \_ \mapsto x \mapsto x
+\]
+we can write $\lab{id} \, A \, a$ to denote the full application of the
+identity function to a type $A$ and a term $a : A$. Partial applications are
+also allowed as syntactic syntactic sugar, so that $\lab{id} \, A$ is shorthand
+for $x \mapsto y \mapsto \lab{id} \, A \, x \, y$.
+
+The reason for including function definitions in a signature is to allow for
+named functions in the meta-language, which can be overriden as part of data
+representations.
+
+\subsection{Data representations in $\lambdarep$}
+
+So far, we have described $\lambdaind$, a dependently-typed staged language
+with object-level machine primitives as well as named inductive constructions
+and function definitions. We now introduce data representations in the
+meta-language, forming the language $\lambdarep$. First, we extend the syntax
+of signatures with a new kind of definition:
+\[
+  \Sigma ::= \ldots \mid \Sigma, \mta{repr} \ \lab{R} \ \Delta \ \mta{for} \ \lab{C}\,\vec{t}\ \mta{as}\ t
+\]
+which asks for a definition $\lab{C}$ to be represented by a term $t$ in the
+case that it is applied to arguments $\vec{t}$.
 
 % \begin{figure}[h]
 %   \begin{center}
