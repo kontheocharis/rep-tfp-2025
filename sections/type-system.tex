@@ -77,28 +77,29 @@ present discussion.
 \newcommand{\lab}[1]{{\color{blue}{\textsf{#1}}}}
 
 Building on top of $\lambdaprim$, we introduce an extension of the system for
-inductive constructions in the meta-language, called $\lambdaind$. We extend
-the syntax of terms with constructors and eliminators,
-\[
-  t ::= \ldots \mid \lab{C} \, \vec{t} \mid \inte{case}_{\lab{D}} \, t \, \vec{t}
-\]
-where $\vec{t}$ denotes a sequence of terms. For inductive definitions, we
-introduce a syntax for signatures $\Sigma$ containing data, constructor, and
+named inductive constructions in the meta-language, called $\lambdaind$. First,
+we introduce a syntax for signatures $\Sigma$ containing data, constructor, and
 function definitions:
 \[
   \Sigma ::= \cdot \mid \Sigma, \mta{data} \ \lab{D} \ \Delta : \univ_1 \mid \Sigma, \mta{ctor} \ \lab{C} \ \Delta : \lab{D} \mid \mta{fun} \ \lab{f} : t = t
 \]
-The symbols $\lab{C}$, $\lab{D}$, and $\lab{f}$ represent elements picked from
-a set of \emph{labels}, which are used to uniquely identify elements of a
-signature. Additionally, the symbol $\Delta$ represents a telescope, defined as
+The reason for including function definitions in a signature is to allow for
+named functions in the meta-language, which can be overriden as part of data
+representations. The symbols in \textcolor{blue}{blue} represent labels, which
+are used to uniquely identify elements of a signature. Additionally, the symbol
+$\Delta$ represents a telescope, defined as
 \[
   \Delta ::= \cdot \mid \Delta, x : t
 \]
 The syntax for telescopes resembles the syntax for contexts, but it is
 restricted to meta-level types and is well-typed with respect to a context
-$\Gamma$, meaning that it can contain open terms. We reuse the constructor
-syntax $C \, \vec{t}$ to denote the application of any member of a signature to
-a sequence of terms. For example, given a function
+$\Gamma$, meaning that it can contain open terms. The syntax of terms must be
+extended accordingly with labels applied to arguments
+\[
+  t ::= \ldots \mid \lab{L} \, \vec{t}
+\]
+where $\vec{t}$ denotes a sequence of terms and $\lab L$ refers to any member
+of a signature. For example, given a function
 \[
   \mta{fun} \ \lab{id} : (A : \univ_1) \to A \to A = \_ \mapsto x \mapsto x
 \]
@@ -107,9 +108,9 @@ identity function to a type $A$ and a term $a : A$. Partial applications are
 also allowed as syntactic syntactic sugar, so that $\lab{id} \, A$ is shorthand
 for $x \mapsto y \mapsto \lab{id} \, A \, x \, y$.
 
-The reason for including function definitions in a signature is to allow for
-named functions in the meta-language, which can be overriden as part of data
-representations.
+Each inductive definition $\mta{data} \ \lab{D} \ \Delta : \univ_1$ exposes an
+additional label $\inte{case}_{\lab{D}}$ which is used to perform case analysis
+on terms of the inductive type $\lab{D}$.
 
 \subsection{Data representations in $\lambdarep$}
 
@@ -119,10 +120,10 @@ and function definitions. We now introduce data representations in the
 meta-language, forming the language $\lambdarep$. First, we extend the syntax
 of signatures with a new kind of definition:
 \[
-  \Sigma ::= \ldots \mid \Sigma, \mta{repr} \ \lab{R} \ \Delta \ \mta{for} \ \lab{C}\,\vec{t}\ \mta{as}\ t
+  \Sigma ::= \ldots \mid \Sigma, \mta{repr} \ \lab{R} \ \Delta \ \mta{for} \ \lab{L}\,\vec{x}\ \mta{as}\ t
 \]
 which asks for a definition $\lab{C}$ to be represented by a term $t$ in the
-case that it is applied to arguments $\vec{t}$.
+case that it is applied to arguments $\vec{x}$.
 
 % \begin{figure}[h]
 %   \begin{center}
