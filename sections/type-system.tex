@@ -2,6 +2,25 @@
 \newcommand{\lambdaind}{\lambda_{\textsc{ind}}}
 \newcommand{\lambdarep}{\lambda_{\textsc{rep}}}
 
+\newcommand{\lab}[1]{{\ensuremath{\color{blue}{\mathsf{#1}}}}}
+\newcommand{\kwd}[1]{\mta{\myuline{#1}}}
+\newcommand{\Sdata}[2]{\kwd{data} \ \lab{#1} \, {#2} : \univ_1}
+\newcommand{\Sctor}[4]{\kwd{ctor} \ \lab{#1} \, {#2} : \lab{#3}\, {#4}}
+\newcommand{\Sctorvar}[4]{\kwd{ctor} \ #1 \, {#2} : \lab{#3}\, {#4}}
+\newcommand{\Sfun}[3]{\kwd{fun} \ \lab{#1} : {#2} = {#3}}
+% \newcommand{\Srepr}[4]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ \lab{#2}\, {#3}\ \kwd{as}\ {#4}}
+% \newcommand{\Sreprconst}[3]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ \lab{#2}\ \kwd{as}\ {#3}}
+% \newcommand{\Sreprvar}[4]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ {#2}\, {#3}\ \kwd{as}\ {#4}}
+\newcommand{\Srepr}[4]{\kwd{repr} \ \lab{#2}\, {#3}\ \kwd{as}\ {#4}}
+\newcommand{\Sreprconst}[3]{\kwd{repr} \ \lab{#2}\ \kwd{as}\ {#3}}
+\newcommand{\Sreprvar}[4]{\kwd{repr} \ {#2}\, {#3}\ \kwd{as}\ {#4}}
+\newcommand{\Sclosed}[2]{\kwd{closed}\ #1 \ #2}
+\newcommand{\DeltaFor}[1]{\Delta_{\lab{#1}}}
+\newcommand{\Trepr}[1]{\mta{repr}\, {#1}}
+\newcommand{\TRepr}[1]{\mta{Repr}\, {#1}}
+\newcommand{\isLabNotIn}[2]{\lab{#1}\ \inte{label} \notin {#2}}
+\newcommand{\caselab}[1]{\lab{\textrm{case}_{#1}}}
+
 \section{A type system for data representations}\label{sec:type-system}
 
 In this section, we describe a type system for data representations in a staged
@@ -33,12 +52,12 @@ introduce inductive constructions and data representations in. The raw syntax
 of $\lambdaprim$ is given by the BNF grammar
 \[
   t ::= \univ_i \mid x \mapsto t \mid t \, t \mid x \mid (x : t) \to t \mid (x : t) \times t \mid
-  \Id{A}{a}{b} \mid \lift t \mid \quot t \mid \splice t
+  \Id{A}{a}{b} \mid \pi_1 \, t \mid \pi_2 \, t \mid \mta{refl} \mid \lift t \mid \quot t \mid \splice t
 \]
 This follows the standard typing rules of 2LTT with $\Sigma$, $\Pi$ and
 identity types \cite{Kovacs2022-vb}, without regard for the universe hierarchy,
 as this is orthogonal to the main focus of this work. Notably, $\univ_0 :
-  \univ_1$ is the object-level universe, and $\univ_1 : \univ_1$ is the
+  \univ_0$ is the object-level universe, and $\univ_1 : \univ_1$ is the
 meta-level universe. We will use $\mta{let}_i$ notation for binding, though
 this is just syntactic sugar for redexes.
 
@@ -49,7 +68,9 @@ language:
 \begin{itemize}
   \item A type of booleans, $\inte{Bool} : \univ_0$, with constants $\inte{true} :
           \inte{Bool}$ and $\inte{false} : \inte{Bool}$, and operations $\inte{and}$,
-        $\inte{or}$, and $\inte{not}$.
+        $\inte{or}$, and $\inte{not}$. Elimination for booleans is also provided, in
+        the form of \[\inte{ifthenelse} : (b : \inte{Bool}) \to ((\Id{\inte{Bool}}{b}{\inte{true}}) \to A)
+          \to ((\Id{\inte{Bool}}{b}{\inte{false}}) \to A) \to A.\]
   \item A type of machine words, $\inte{Word} : \univ_0$ with constants $0, 1, 2,
           \ldots$ and standard binary numeric operations $\inte{add}$, $\inte{sub}$,
         $\inte{mul}$, as well as $\inte{Bool}$-valued comparison operations
@@ -74,66 +95,179 @@ present discussion.
 
 \subsection{Extending $\lambdaprim$ with inductive constructions}
 
-\newcommand{\lab}[1]{{\color{blue}{\textsf{#1}}}}
-
 Building on top of $\lambdaprim$, we introduce an extension of the system for
 named inductive constructions in the meta-language, called $\lambdaind$. First,
-we introduce a syntax for signatures $\Sigma$ containing data, constructor, and
-function definitions:
-\[
-  \Sigma ::= \cdot \mid \Sigma, \mta{data} \ \lab{D} \ \Delta : \univ_1 \mid \Sigma, \mta{ctor} \ \lab{C} \ \Delta : \lab{D} \mid \mta{fun} \ \lab{f} : t = t
-\]
+we present a raw syntax for signatures $\Sigma$ containing items $Z$ consisting
+of data, constructor, and function definitions:
+\begin{align*}
+  \Sigma & ::= \cdot \mid \Sigma, Z                                                                                          \\
+  Z      & ::= \Sdata{D}{\Delta} \mid \Sctor{C}{\Delta}{D}{\Delta} \mid \Sclosed{\lab{D}}{\vec{\lab{C}}} \mid \Sfun{f}{t}{t}
+\end{align*}
+The symbols in \textcolor{blue}{blue} represent labels, which are used to
+uniquely identify elements of a signature.
+A data definition $\Sdata{D}{\Delta}$ introduces a new inductive type $\lab{D}$
+with a telescope $\Delta$ of arguments. A constructor definition
+$\Sctor{C}{\DeltaFor{C}}{D}{\Delta}$ introduces a new constructor $\lab{C}$ for
+the inductive type $\lab{D}$, with a telescope $\DeltaFor{C}$ of parameters
+which may depend on $\lab{D}$'s parameters. Closed declarations $\Sclosed{\lab{D}}{\vec{\lab{C}}}$ specify that the
+constructors $\vec{\lab{C}}$ are the only constructors for the inductive type
+$\lab{D}$ in the present signature. A function definition
+$\Sfun{f}{t}{t}$ introduces a new named function $\lab{f}$ of type $t$ and value
+$t$.
 The reason for including function definitions in a signature is to allow for
 named functions in the meta-language, which can be overriden as part of data
-representations. The symbols in \textcolor{blue}{blue} represent labels, which
-are used to uniquely identify elements of a signature. Additionally, the symbol
-$\Delta$ represents a telescope, defined as
+representations.
+
+The syntax for telescopes $\Delta$ is
 \[
-  \Delta ::= \cdot \mid \Delta, x : t
+  \Delta ::= \cdot \mid \Delta, x : t \,,
 \]
-The syntax for telescopes resembles the syntax for contexts, but it is
-restricted to meta-level types and is well-typed with respect to a context
-$\Gamma$, meaning that it can contain open terms. The syntax of terms must be
-extended accordingly with labels applied to arguments
+resembling the syntax for contexts, but restricted to meta-level types and
+well-typed with respect to a context $\Gamma$, meaning that telescopes can
+contain open terms. We use the notation $\Delta \to t$ to denote a repeated
+function type with parameters from $\Delta$ and codomain $t$ which may depend
+on the parameters. Additionally, we will sometimes explicitly bind the names of
+a telescope such as $(\vec{x} : \Delta) \to t[\vec{x}]$. Similar syntax is used
+to extend contexts with telescopes: $\Gamma, \Delta$ or $\Gamma, \vec{x} :
+  \Delta$.
+
+The syntax of terms must be extended accordingly with labels applied to
+arguments
 \[
   t ::= \ldots \mid \lab{L} \, \vec{t}
 \]
-where $\vec{t}$ denotes a sequence of terms and $\lab L$ refers to any member
-of a signature. For example, given a function
+where $\vec{t}$ denotes a sequence of terms and $\lab L$ refers to any valid
+label in a signature (data, constructor, or function definitions). For example,
+given a function
 \[
-  \mta{fun} \ \lab{id} : (A : \univ_1) \to A \to A = \_ \mapsto x \mapsto x
+  \Sfun{id}{(A : \univ_1) \to A \to A}{\_ \mapsto x \mapsto x}
 \]
 we can write $\lab{id} \, A \, a$ to denote the full application of the
 identity function to a type $A$ and a term $a : A$. Partial applications are
 also allowed as syntactic syntactic sugar, so that $\lab{id} \, A$ is shorthand
-for $x \mapsto y \mapsto \lab{id} \, A \, x \, y$.
+Each inductive definition $\Sdata{D}{\Delta}$ exposes an additional function
+label $\caselab{D}$ which is used to perform case analysis on terms of the
+inductive type $\lab{D}$. for $x \mapsto y \mapsto \lab{id} \, A \, x \, y$. As
+such, valid labelled application terms in a signature are given through the
+typing rules of $\lambdaind$ and do not correspond exactly to the labels
+\emph{present} in the signature's items.
 
-Each inductive definition $\mta{data} \ \lab{D} \ \Delta : \univ_1$ exposes an
-additional label $\inte{case}_{\lab{D}}$ which is used to perform case analysis
-on terms of the inductive type $\lab{D}$.
+The language $\lambdaind$ is equipped with the following judgment forms:
+\begin{itemize}
+  \item $\Sigma \mid \Gamma \vdash \istype{i}{T}$ --- In signature $\Sigma$ and
+        context $\Gamma$, $T$ is a well-formed type in stage $i$.
+  \item $\Sigma \mid \Gamma \vdash a : T$ --- In signature $\Sigma$ and context
+        $\Gamma$, $a$ is a well-formed term of type $T$.
+  \item $Z \in \Sigma$ --- The item $Z$ is present in the signature $\Sigma$.
+  \item $\Sigma \vdash Z$ --- The item $Z$ is well-formed in the signature $\Sigma$.
+  \item $\isLabNotIn{L}{\Sigma}$ --- The label $\lab{L}$ does not appear in the
+        signature $\Sigma$.
+\end{itemize}
+
+TODO: typing rules
 
 \subsection{Data representations in $\lambdarep$}
 
 So far, we have described $\lambdaind$, a dependently-typed staged language
 with object-level machine primitives as well as named inductive constructions
 and function definitions. We now introduce data representations in the
-meta-language, forming the language $\lambdarep$. First, we extend the syntax
-of signatures with a new kind of definition:
+meta-language, forming the language $\lambdarep$. The goal of data
+representations is to provide a way to represent data types, constructions, and
+functions in a more efficient manner, by transforming them into more suitable
+data structures for the target architecture. This is achieved by defining a new
+kind of item in signatures, called a representation, which specifies how to
+represent a given meta-level item in the object language. With no further
+restrictions, a user would be able to arbitrarily change the semantics of the
+meta-level items through representations, which would be undesirable. Instead,
+we restrict data representations to preserve the intended semantics of the
+original items, allowing for a correct-by-construction transformation from
+$\lambdarep$ to $\lambdaprim$. This is done in different ways for data types,
+constructors, and functions.
+
+First, we extend the raw syntax of items $Z$ with representations, forming
+$\lambdarep$:
 \[
-  \Sigma ::= \ldots \mid \Sigma, \mta{repr} \ \lab{R} \ \Delta \ \mta{for} \ \lab{L}\,\vec{x}\ \mta{as}\ t
+  Z ::= \ldots \mid \Srepr{R}{L}{\Delta}{t}
 \]
-which asks for a definition $\lab{C}$ to be represented by a term $t$ in the
-case that it is applied to arguments $\vec{x}$.
+A representation $\Srepr{R}{L}{\Delta}{t}$ asks for a definition $\lab{L}$ with
+parameters $\Delta$ to be represented by a term $t$. Data, constructor and
+function representations all share the same raw syntax and are distinguished by
+the subject $L$. In the typing rules we will require that every meta-level type
+$A$ has a defined representation $\Trepr{A}$. Extensions to this system could
+support a sub-class of types with representations, retaining the ability to
+have purely meta-level types with no defined representations. For this we
+extend the raw syntax of terms to
+\[
+  t ::= \ldots \mid \Trepr{t} \mid \TRepr{t}
+\]
+where $\TRepr{A}$ is the representation of a type $A$ and $\Trepr{a}$ is the
+representation of a term $a$, whose type is $\TRepr{A}$. With that, we can now
+define the additional typing rules for $\lambdarep$, in
+\cref{fig:lambdarep-rules}
 
-% \begin{figure}[h]
-%   \begin{center}
-%     \inferrule[Univ]
-%     { }
-%     {\istype{1}{\univ_i}}
+\begin{figure}[h]
+  \begin{mathpar}
+    \inferrule[Repr-Type]
+    {
+      \Sigma \mid \Gamma \vdash A : \univ_1
+    }
+    {\Sigma \mid \Gamma \vdash \TRepr{A} : \univ_0} \and
+    \inferrule[Repr-Value]
+    {
+      \Sigma \mid \Gamma \vdash A : \univ_1 \\
+      \Sigma \mid \Gamma \vdash a : A
+    }
+    {\Sigma \mid \Gamma \vdash \Trepr{a} : \TRepr{A} } \and
+    \inferrule[Repr-Data]
+    {
+      \Sdata{D}{\Delta} \in \Sigma                       \\
+      \isLabNotIn{R}{\Sigma} \\
+      \Sigma \mid \Delta \vdash A : \univ_0     \\
+    }
+    {\Sigma \vdash \Srepr{R}{D}{\Delta}{A}} \and
+    \inferrule[Repr-Ctor]
+    {
+      \Sdata{D}{\Delta} \in \Sigma     \\
+      \Srepr{R}{D}{\Delta}{A} \in \Sigma \\
+      \Sctor{C}{\DeltaFor{C}}{D}{\Delta} \in \Sigma     \\
+      \Sigma \mid \Delta,\DeltaFor{C} \vdash t : A
+    }
+    {\Sigma \vdash \Srepr{R}{C}{\DeltaFor{C}}{t}} \and
+    \inferrule[Repr-Case]
+    {
+      \Sdata{D}{\Delta} \in \Sigma     \\
+      \Srepr{R}{D}{\Delta}{A} \in \Sigma \\
+      \forall i \in I .\ \Sctorvar{\lab{C}_{i}}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
+      \forall i \in I .\ \Sreprvar{R}{\lab{C}_i}{\Delta_{\lab{C}_i}}{t_i} \in \Sigma \\
+      \Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma \\
+      \Sigma \mid \vec{x} : \DeltaFor{D} ,\  T : \lab{D}\,\vec{x} \to \univ_0 ,\ \eta : \lab{D}\,\vec{x},\
+      \left (m_i : (\vec{y_i} : \Delta_{\lab{C}_i}) \to (\Id{A[\vec{x}]}{\Trepr{\eta}}{t_i[\vec{y_i}]}) \to \lift {T(\lab{C}_i\,\vec{y_i})} \mid i \in I \right) \vdash e : T(\eta)
+    }
+    {\Sigma \vdash \Srepr{R}{\caselab{D}}{\eta\,\vec{m}}{e}} \and
+    \inferrule[Repr-Fun]
+    {
+      \Sfun{f}{M}{m} \in \Sigma     \\
+      \isLabNotIn{R}{\Sigma} \\
+      \Sigma \vdash a : (m' : \TRepr{M}) \times (\Id{}{\Trepr{m}}{m'})
+    }
+    {\Sigma \vdash \Sreprconst{R}{f}{a}}
+  \end{mathpar}
+  \caption{Typing rules for data representations in $\lambdarep$.}
+  \label{fig:lambdarep-rules}
+\end{figure}
 
-%     \inferrule[Univ]
-%     { }
-%     {\istype{1}{\univ_i}}
-%   \end{center}
-%   \label{rule:univ}
-% \end{figure}
+The correctness of a data representation $\lab{D}$ is ensured by the
+correctness of each of its constructors $\lab{C}_i$ and the case analysis
+function $\caselab{D}$. Therefore there is no special correctness condition for
+the data representations themselves. The constructor representations form
+\emph{algebra} over the endofunctor associated with the data type $\lab{D}$, by
+packaging all the representation values $t_i$, where the carrier object is the
+defined representation type $A$. It is known that algebras over indexed
+inductive types can be interpreted as \emph{ornaments}, decorating the
+inductive type with the values of the algebra at each node, forming
+$\tilde{\lab{D}}$. The case analysis $\caselab{D}$ representation is thus a
+\emph{section} of $\tilde{\lab{D}}$. In other words, it must ensure that the
+subject $\eta$ is used to index into the ornamented type $\tilde{\lab{D}}$, or
+put another way, that the propositional equality $\Trepr{\eta} = t_i$ holds
+when the branch $m_i$ is invoked.
+
