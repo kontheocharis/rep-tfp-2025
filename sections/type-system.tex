@@ -8,6 +8,7 @@
 \newcommand{\Sctor}[4]{\kwd{ctor} \ \lab{#1} \, {#2} : \lab{#3}\, {#4}}
 \newcommand{\Sctorvar}[4]{\kwd{ctor} \ #1 \, {#2} : \lab{#3}\, {#4}}
 \newcommand{\Sfun}[3]{\kwd{fun} \ \lab{#1} : {#2} = {#3}}
+\newcommand{\isConcrete}[1]{{#1}\ \inte{concrete}}
 % \newcommand{\Srepr}[4]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ \lab{#2}\, {#3}\ \kwd{as}\ {#4}}
 % \newcommand{\Sreprconst}[3]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ \lab{#2}\ \kwd{as}\ {#3}}
 % \newcommand{\Sreprvar}[4]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ {#2}\, {#3}\ \kwd{as}\ {#4}}
@@ -18,6 +19,8 @@
 \newcommand{\DeltaFor}[1]{\Delta_{\lab{#1}}}
 \newcommand{\Trepr}[1]{\mta{repr}\, {#1}}
 \newcommand{\TRepr}[1]{\mta{Repr}\, {#1}}
+\newcommand{\Crepr}[1]{\text{$\Downarrow$} {#1}}
+\newcommand{\crepr}[1]{\text{$\downarrow$} {#1}}
 \newcommand{\isLabNotIn}[2]{\lab{#1}\ \inte{label} \notin {#2}}
 \newcommand{\caselab}[1]{\lab{\textrm{case}_{#1}}}
 
@@ -40,6 +43,10 @@ and our goal is to describe a transformation from $\lambdarep$ to
 $\lambdaprim$, elaborating away inductive definitions with the help of data
 representations. Finally, the resulting program in $\lambdaprim$ can be staged
 to the purely object-level language that represents the target architecture.
+
+When defining these languages, we will use a BNF-like syntax for terms and
+contexts, natural deduction-style typing rules, as well as CWF-style notation
+for contexts, types, and terms. (TODO: expand!)
 
 \subsection{A core staged language with machine primitives, $\lambdaprim$}
 \newcommand{\seq}[2]{[#1; #2]}
@@ -207,48 +214,34 @@ define the additional typing rules for $\lambdarep$, in
 
 \begin{figure}[h]
   \begin{mathpar}
-    \inferrule[Repr-Type]
-    {
-      \Sigma \mid \Gamma \vdash A : \univ_1
-    }
-    {\Sigma \mid \Gamma \vdash \TRepr{A} : \univ_0} \and
-    \inferrule[Repr-Value]
-    {
-      \Sigma \mid \Gamma \vdash A : \univ_1 \\
-      \Sigma \mid \Gamma \vdash a : A
-    }
-    {\Sigma \mid \Gamma \vdash \Trepr{a} : \TRepr{A} } \and
-    \inferrule[Repr-Data]
-    {
-      \Sdata{D}{\Delta} \in \Sigma                       \\
-      \isLabNotIn{R}{\Sigma} \\
-      \Sigma \mid \Delta \vdash A : \univ_0     \\
-    }
-    {\Sigma \vdash \Srepr{R}{D}{\Delta}{A}} \and
     \inferrule[Repr-Ctor]
     {
       \Sdata{D}{\Delta} \in \Sigma     \\
-      \Srepr{R}{D}{\Delta}{A} \in \Sigma \\
-      \Sctor{C}{\DeltaFor{C}}{D}{\Delta} \in \Sigma     \\
-      \Sigma \mid \Delta,\DeltaFor{C} \vdash t : A
+      \forall i \in I .\ \Sctorvar{\lab{C}_i}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
+      \Srepr{R}{D}{\Crepr{\Delta}}{A} \in \Sigma \\
+      \forall j < i .\ \Sreprvar{R}{\lab{C}_j}{\Crepr{\Delta_{\lab{C}_j}}}{t_j} \in \Sigma     \\
+      \Sigma \mid \Crepr{\Delta},\Crepr{\DeltaFor{C}} \vdash t_i : (a : A) \times \textstyle \prod_{j < i} (a \neq \pi_1 t_j)
     }
-    {\Sigma \vdash \Srepr{R}{C}{\DeltaFor{C}}{t}} \and
+    {\Sigma \vdash \Sreprvar{R}{\lab{C}_i}{\Crepr{\Delta_{\lab{C}_i}}}{t_i}} \and
     \inferrule[Repr-Case]
     {
-      \Sdata{D}{\Delta} \in \Sigma     \\
-      \Srepr{R}{D}{\Delta}{A} \in \Sigma \\
-      \forall i \in I .\ \Sctorvar{\lab{C}_{i}}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
-      \forall i \in I .\ \Sreprvar{R}{\lab{C}_i}{\Delta_{\lab{C}_i}}{t_i} \in \Sigma \\
-      \Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma \\
-      \Sigma \mid \vec{x} : \DeltaFor{D} ,\  T : \lab{D}\,\vec{x} \to \univ_0 ,\ \eta : \lab{D}\,\vec{x},\
-      \left (m_i : (\vec{y_i} : \Delta_{\lab{C}_i}) \to (\Id{A[\vec{x}]}{\Trepr{\eta}}{t_i[\vec{y_i}]}) \to \lift {T(\lab{C}_i\,\vec{y_i})} \mid i \in I \right) \vdash e : T(\eta)
+    \Sdata{D}{\Delta} \in \Sigma     \\
+    \Srepr{R}{D}{\Crepr{\Delta}}{A} \in \Sigma \\
+    \forall i \in I .\ \Sctorvar{\lab{C}_{i}}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
+    \forall i \in I .\ \Sreprvar{R}{\lab{C}_i}{\Crepr{\Delta_{\lab{C}_i}}}{t_i} \in \Sigma \\
+    \Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma \\
+    \Sigma \mid T : (\vec{x} : \Crepr{\Delta}) \to A[\vec{x}] \to \univ_0 ,\
+    \vec{a} : \Crepr{\Delta}  ,\
+    \eta : A[\vec{a}]  ,\
+    \left( m_i : (\vec{y} : \Crepr{\Delta_{\lab{C}_i}}) \to (\Id{A[\vec{a}]}{\eta}{\pi_1 t_i[\vec{a},\vec{y}]}) \to {T(\vec{a}, \pi_1 t_i[\vec{a}, \vec{y}])} \mid i \in I \right)
+    \vdash e : T(\vec{a}, \eta)
     }
-    {\Sigma \vdash \Srepr{R}{\caselab{D}}{\eta\,\vec{m}}{e}} \and
+    {\Sigma \vdash \Srepr{R}{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m}}{e}} \and
     \inferrule[Repr-Fun]
     {
       \Sfun{f}{M}{m} \in \Sigma     \\
-      \isLabNotIn{R}{\Sigma} \\
-      \Sigma \vdash a : (m' : \TRepr{M}) \times (\Id{}{\Trepr{m}}{m'})
+      % \isLabNotIn{R}{\Sigma} \\
+      \Sigma \vdash a : (m' : \Crepr{M}) \times (\Id{\Crepr{M}}{\crepr{m}}{m'})
     }
     {\Sigma \vdash \Sreprconst{R}{f}{a}}
   \end{mathpar}
@@ -256,18 +249,51 @@ define the additional typing rules for $\lambdarep$, in
   \label{fig:lambdarep-rules}
 \end{figure}
 
-The correctness of a data representation $\lab{D}$ is ensured by the
-correctness of each of its constructors $\lab{C}_i$ and the case analysis
-function $\caselab{D}$. Therefore there is no special correctness condition for
-the data representations themselves. The constructor representations form
-\emph{algebra} over the endofunctor associated with the data type $\lab{D}$, by
-packaging all the representation values $t_i$, where the carrier object is the
-defined representation type $A$. It is known that algebras over indexed
-inductive types can be interpreted as \emph{ornaments}, decorating the
-inductive type with the values of the algebra at each node, forming
-$\tilde{\lab{D}}$. The case analysis $\caselab{D}$ representation is thus a
-\emph{section} of $\tilde{\lab{D}}$. In other words, it must ensure that the
-subject $\eta$ is used to index into the ornamented type $\tilde{\lab{D}}$, or
-put another way, that the propositional equality $\Trepr{\eta} = t_i$ holds
-when the branch $m_i$ is invoked.
+The correctness of a representation of some data type $\lab{D}$ is ensured by
+the correctness of the representations of each of its constructors $\lab{C}_i$
+and the case analysis function $\caselab{D}$. Therefore there is no special
+correctness condition for the data representation type itself. The constructor
+representations $\Sreprvar{R}{\lab{C}_i}{\Crepr{\Delta_{\lab{C}_i}}}{t_i}$ form
+an \emph{algebra} over the endofunctor $\llbracket \lab{D} \rrbracket$
+associated with the data type $\lab{D}$, by packaging all the representation
+values $\pi_1 t_i$, where the carrier object is the defined representation type
+$A$. Moreover, this algebra is \emph{injective} in the sense that the
+representation values are unique for each constructor, ensured by the equality
+constraints $\pi_1 t_i \neq \pi_1 t_j$ for $i \neq j$.
 
+It is known that algebras over indexed inductive types can be interpreted as
+\emph{ornaments} \cite{Dagand2017-nj}; an inductive type is decorated with the
+values of the algebra at each node. We can apply the constructor representation
+algebra $(t_i \mid i \in I)$ to the inductive type $\lab{D}$ to obtain the
+ornamented type $\tilde{\lab{D}}$. The case analysis $\caselab{D}$
+representation is thus a \emph{section} of $\tilde{\lab{D}}$ by the represented
+type $A$. In other words, it must ensure that the subject $\eta$ of the case
+analysis is used to index into the ornamented type $\tilde{\lab{D}}$, or put
+another way, that the propositional equality $\eta = \pi_1 t_i$ holds when the
+branch $m_i$ is invoked. Overall, this yields an isomorphism between the
+inductive type $\lab{D}$ and the represented type $A$, in the Kleisli category
+of the code-generation monad of the object-level language (TODO: expand on
+this!).
+
+In \cref{fig:lambdarep-rules}, the symbols $\Crepr{}$ and $\crepr{}$
+\emph{lower} the given atoms from the meta level to the object level, through
+the defined representations in $\Sigma$. To define them, we need to introduce a
+concept of \emph{concrete signatures}. A concrete signature is a signature
+where all items are accompanied by representations. In other words, $\Sigma$ is
+a concrete signature
+\begin{itemize}
+  \item if $\Sdata{D}{\Delta} \in \Sigma$, then $\exists A \, \widehat{\Delta} .\
+          \Srepr{R}{D}{\widehat{\Delta}}{A} \in \Sigma$,
+  \item if $\Sctorvar{\lab{C}}{\Delta_{\lab{C}}}{D}{\Delta} \in \Sigma$, then $\exists
+          t\,\widehat{\Delta_\lab{C}} .\
+          \Sreprvar{R}{\lab{C}}{\widehat{\Delta_{\lab{C}}}}{t} \in \Sigma$,
+  \item if $\Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma$, then $\exists
+          T\,\vec{a}\,\eta\,\vec{m} .\ \Srepr{R}{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m}
+          }{e} \in \Sigma$, and
+  \item if $\Sfun{f}{M}{m} \in \Sigma$, then $\exists a .\ \Sreprconst{R}{f}{a} \in
+          \Sigma$.
+\end{itemize}
+We can now define the lowering functions $\Crepr{}$ and $\crepr{}$ as follows:
+\begin{align*}
+  \Crepr{}
+\end{align*}
