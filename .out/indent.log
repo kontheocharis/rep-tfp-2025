@@ -1,7 +1,7 @@
 INFO:  latexindent.pl version 3.23.4, 2023-11-19, a script to indent .tex files
        latexindent.pl lives here: /opt/homebrew/Cellar/latexindent/3.23.4/libexec/bin/
-       Wed Mar 27 15:41:59 2024
-       Filename: /Users/kt81/git/rep-mfps-2024/sections/__latexindent_temp_transform.tex
+       Wed May 15 16:50:03 2024
+       Filename: /Users/kt81/git/rep-mfps-2024/sections/__latexindent_temp_type-system.tex
 INFO:  Processing switches:
        -y|--yaml: YAML settings specified via command line
        -m|--modifylinebreaks: modify line breaks

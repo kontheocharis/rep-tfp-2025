@@ -1,7 +1,4 @@
-\documentclass[twoside,11pt]{entics}
-\usepackage{enticsmacro}
-\usepackage[colorinlistoftodos]{todonotes}
-\setuptodonotes{inline}
+\documentclass[manuscript,screen,review]{acmart}
 
 \input{misc/packages.tex}
 
@@ -13,15 +10,17 @@
 
 \input{misc/frontmatter.tex}
 
+\maketitle
+
 \input{sections/intro.tex}
 
-\input{sections/technique.tex}
+\input{sections/informal.tex}
 
-\input{sections/transform.tex}
+\input{sections/type-system.tex}
 
-\input{sections/properties.tex}
+\input{sections/elaboration.tex}
 
-\input{sections/related.tex}
+\input{sections/beyond.tex}
 
 \input{sections/conclusion.tex}
 
@@ -31,7 +30,8 @@
 
 % \bibliographystyle{./entics}
 \nocite{*}
-\bibliographystyle{plain}
-\bibliography{bib.bib}
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{bib}
+% \bibliographystyle{plain}
 
 \end{document}

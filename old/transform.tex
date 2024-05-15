@@ -1,0 +1,186 @@
+\section{The transformation}\label{sec:prelim}
+
+The technique for transforming inductive data types into custom data structures
+will be phrased in the language of 2-level type theory (2LTT)
+\cite{Kovacs2022-vb}. \todo{why? why this particular language? what does it
+  give you that other ways do not?}
+
+\subsection{The 2-level type theory $\cat{G}$}
+
+We will work in a 2LTT which we denote $\cat{G}$. The meta fragment of
+$\cat{G}$ contains a universe hierarchy $\univ{\mta{Meta},i}$ of meta-level
+types, and a single universe of values $\Uo$. Additionally, the universe
+$\univ{\mta{Meta},0}$ has a subuniverse $\Ur$ of "representable" meta-level
+types. We have
+\[
+  \univ{\mta{Meta},i} : \univ{\mta{Meta},i+1} \qquad \Ur : \univ{\mta{Meta},1} \qquad \Uo : \univ{\mta{Meta},0} \,.
+\]
+
+Any object type $A$ can be lifted to the meta-level as $\lift A : \Ur$, and any
+object term $t : A$ can be lifted as $\quot t : \lift A$, similarly to the
+original presentation of 2LTT \cite{Kovacs2022-vb}. Splicing also works in the
+same way; if $t : \lift A$, then $\splice t : A$. Universe levels will be
+implicit in the rest of this presentation, as they are orthogonal to its main
+content. \todo{Please give an example}
+
+The universes $\Ur$ and $\Uo$ are closed under simple $\Sigma$ and $\Pi$ types,
+and the universe $\Um$ is closed under dependent $\Sigma$ and $\Pi$ types.
+\todo{why? also are you considering DTs as the meta language here? Why pi
+  types? The languages need defined or at least the assumptions about them need
+  to be given}
+
+The \emph{categories with families} interpretation of $\cat{G}$ is given by the
+symbols $\Ty_{\cat{G},m}$, $\Con_{\cat{G}}$, $\Sub_{\cat{G}}$, and
+$\Tm_{\cat{G},m}$, where $m$ ranges over the two stages $\mta{Meta}$ and
+$\mta{Obj}$.
+
+Is it fine to have a sort for $\Ur$?
+
+\subsection{Inductive data types}
+
+We allow inductive data types to be defined in the meta fragment of $\cat{G}$,
+as inductive families. These exist as first-class citizens, and we follow the
+syntactical approach of \cite{Dybjer1994-zx} ...
+
+We have constructors and eliminators for inductive types in the meta fragment.
+
+...
+
+\subsection{Global section of representations}
+
+Our goal is to translate a program that lives in the $\Ur$ subuniverse, into an
+object program, i.e. a program that lives in the $\Uo$ universe.
+
+A type in the $\Ur$ universe needs to have a corresponding ``representation''
+object type. This means that we require a function of the form
+\[
+  \sigma : \Ur \to \Uo
+\]
+which assigns to each meta type a corresponding object type. This is in some
+sense a ``global section'' of representations, because for each representable
+type, we pick an object type to represent it with, among a set of candidate
+object types.
+
+\todo{Give an example of such a choice of representation}
+
+Having defined such a function $\sigma$, now we need to define how to translate
+a term of type $A$ in the $\Ur$ universe to a term of type $\sigma A$ in the
+$\Uo$ universe. This is done through the $\Repr$ meta type, defined as
+\begin{align*}
+   & \recordwhere[\,(\sigma : \Ur \to \Uo)\,(A: \Ur)]{Repr}           \\
+   & \quad    \defin{c} : A[\sigma] \to \Gen \, \lift{\sigma A} \quad \\
+   & \quad    \defin{i} : \lift{\sigma A} \to \Gen \, A(\sigma)
+\end{align*}
+which defines a representation to be a pair of functions $\defin c$ and
+$\defin i$. The function $\defin c$ is used to convert a partial syntactical
+representation of a term of the representable type $A[\sigma]$ into a value of its
+representation type $\sigma A$. Similarly, the function $\defin i$ is used to
+convert a value of the representation type $\sigma A$ into a partial syntactical
+representation of a term of the representable type $A(\sigma)$.
+
+In order to understand the meaning of this type, we first need to define the
+types $A[\sigma]$ and $A(\sigma)$. These are primitive types that exist within
+$\Um$, and are defined inductively over the structure of types in $\Ur$. The
+type $A[\sigma]$ is defined as
+\begin{align*}
+  (A \to B)[\sigma]                                                  & = \lift \sigma A \to \lift \sigma B                                                                                           \\
+  (A \times B)[\sigma]                                               & = \lift \sigma A \times \lift \sigma B                                                                                        \\
+  (1)[\sigma]                                                        & = 1                                                                                                                           \\
+  (F : \Ur, (c_i : N_i \to (F)_{j \in J_i} \to F)_{i \in I})[\sigma] & = (F_\sigma : \Ur, (c_i : N_i[\sigma] \to (F_\sigma)_{j \in J_i} \to F_\sigma)_{i \in I}, ?: \lift \sigma F \to F_\sigma) \,,
+\end{align*}
+and the type $A(\sigma)$ is defined as
+\begin{align*}
+  (A \to B)(\sigma)                                                  & = \lift \sigma A \to \lift \sigma B                                                                \\
+  (A \times B)(\sigma)                                               & = \lift \sigma A \times \lift \sigma B                                                             \\
+  (1)(\sigma)                                                        & = 1                                                                                                \\
+  (F : \Ur, (c_i : N_i \to (F)_{j \in J_i} \to F)_{i \in I})(\sigma) & = (F^\sigma : \Ur, (c_i : \lift \sigma N_i \to (F^\sigma)_{j \in J_i} \to F^\sigma)_{i \in I}) \,.
+\end{align*}
+
+The return type of the collapsing and inspecting functions is over the monad
+$\Gen$. This is the code generation monad, first described in [Kovacs
+    unpublished], which is defined as
+\[
+  \data{Gen} \, (A : \Um) = \defin{unGen} \, (\{ R : \Uo \} \to (A \to \lift R) \to \lift R)
+\]
+
+\todo{Explain what $A[\sigma]$ and $A(\sigma)$ are supposed to represent}
+\todo{Surely this means that $\Ur$ is a closed universe so that we can define $\sigma$ by induction..}
+
+We can similarly package choice of $\Repr$ as a global section
+\[
+  \tau : \prod_{A : \Ur} \Repr \, \sigma \, A
+\]
+
+\subsection{Specialising functions}
+
+\[
+  \infrule[Spec-Intro]{\Gamma \vdash A_R : \Ur \quad \Gamma \vdash B_S : \Ur \quad \Gamma, x : A_R \vdash b : B_S \quad \Gamma \vdash r : \lift{R.\defin R} \to \lift{S.\defin R}}
+  {\Gamma \vdash \lambda_r x . \, b : A_R \to B_R} \,.
+\]
+
+\subsection{Translating $\catG_\mR$ to $\catG_\mV$}
+
+The CWF defined by $\catG$ is contextual \cite{Castellan2019-sh}, which means
+that the contexts are inductively defined as dependent lists of types
+$\Ty_\cat{G}$. Therefore, we can define restrictions of the objects
+$\Con_{\catG}$ and morphisms $\Sub_{\catG}$ to only contain representable
+inductive types, which we call $\Con_{\catG,\mR}$ and $\Sub_{\catG,\mR}$. This
+makes
+\[
+  (\Con_{\catG, \mR}, \Sub_{\catG, \mR}, \Ty_{\catG, \mR}, \Tm_{\catG, \mR})
+\]
+into a syntactical (initial) CWF which we call $\catG_\mR$ (Proof?). We can
+perform a similar restriction to no inductive types at all, to obtain
+\[
+  (\Con_{\catG, \mV}, \Sub_{\catG, \mV}, \Ty_{\catG, \mV}, \Tm_{\catG, \mV})
+\]
+which is also a syntactical CWF that we call $\catG_\mV$ (Proof?).
+
+The translation of a representable meta-program into a valuated meta-program is
+done through a syntactical CWF morphism
+\begin{align*}
+  \fun{T}_{\sigma, \tau} : \catG_\mR & \fto \catG_\mV
+\end{align*}
+that is defined for a given representation choice $\sigma$.
+We exploit the initiality of the CWF $\catG_\mR$ to define the translation
+inductively over its syntax:
+
+\begin{align*}
+   & \fun T            : \Con_{\catG, \mR} \to \Con_{\catG, \mV} \\
+   & \fun T(\cdot)     = \cdot                                   \\
+   & \fun T(\Gamma, A) = \fun T(\Gamma), \fun T(A)
+\end{align*}
+
+\begin{align*}
+   & \fun T            : \Sub_{\catG, \mR} \; \Gamma \; \Delta \to \Sub_{\catG, \mV}\; \fun T\Gamma \; \fun T\Delta \\
+   & \fun T(\mta{id})  = \mta{id}                                                                                   \\
+   & \fun T(\gamma, f) = \fun T \gamma , \fun T f
+\end{align*}
+
+\begin{align*}
+   & \fun T            : \Ty_{\catG, \mR} \; {\Gamma} \to \Ty_{\catG, \mV}\; \fun T \Gamma \\
+   & \fun T(\Pi x : A .\, B)  = \Pi x : \fun T A . \fun T B                                \\
+   & \fun T(\lift V) = \lift V                                                             \\
+   & \fun T(A) = \lift \sigma A
+\end{align*}
+
+\begin{align*}
+   & \fun T            : \Tm_{\catG, \mR} \; {\Gamma} \; A \to \Tm_{\catG, \mV}\; {\fun T \Gamma} \; \fun T A                                                       \\
+   & \fun T(\lambda x . a)  = \lambda x . \fun T a                                                                                                                  \\
+   & \fun T(a \, b)  = (\fun T a) \, (\fun T b)                                                                                                                     \\
+   & \fun T(x) = x                                                                                                                                                  \\
+   & \fun T(\quot {p}) = \quot {p}                                                                                                                                  \\
+   & \fun T(c_{A} \, \hat{@} \, \vv{a} \,@\, \vv{r}) =  \defin{runGen} \ (\tau A.\defin{c} \ (c_{A} \, \hat{@} \, \fun S \vv{a} \,@\, \fun S \vv{r})) \  \defin{id} \\
+   & \fun T(\inte{case}_{A}\ m\ \vv{a}) =  \defin{runGen} \ (\tau A.\defin{i} \ \fun T m) \  (\lambda x.\, \inte{case}\ x \ \fun T\vv{a})                           \\
+\end{align*}
+
+\begin{align*}
+   & \fun S            : \Tm_{\catG, \mR} \; {\Gamma} \; A_R \to \Tm_{\catG,\mR}\; {\fun T \Gamma} \; A[\sigma] \\
+   & \fun S(c \, \hat{@} \, \vv{a} \,@\, \vv{r}) = (c \, \hat{@} \, \fun S \vv{a} \,@\, \fun S\vv{r})           \\
+   & \fun S(a)  =\ ? (\fun T a)
+\end{align*}
+
+Issues with the above:
+
+Coalgebra could be phrased in terms of views for semantic correctness
+\cite{Allais2023-pf,Allais2023-zq} ?

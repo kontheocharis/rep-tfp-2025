@@ -1,113 +1,229 @@
-\begin{thebibliography}{10}
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\bibitem{Allais2023-pf}
-Guillaume Allais.
-\newblock Builtin types viewed as inductive families.
-\newblock In {\em Programming Languages and Systems}, pages 113--139. Springer Nature Switzerland, 2023.
+\begin{thebibliography}{23}
 
-\bibitem{Allais2023-zq}
-Guillaume Allais.
-\newblock Seamless, correct, and generic programming over serialised data.
-\newblock October 2023.
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
 
-\bibitem{Altenkirch2015-yl}
-Thorsten Altenkirch, Neil Ghani, Peter Hancock, Conor Mcbride, and Peter Morris.
-\newblock Indexed containers.
-\newblock {\em J. Funct. Programming}, 25:e5, January 2015.
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
 
-\bibitem{Annenkov2017-pd}
-Danil Annenkov, Paolo Capriotti, Nicolai Kraus, and Christian Sattler.
-\newblock {Two-Level} type theory and applications.
-\newblock May 2017.
+\bibitem[Allais(2023a)]%
+        {Allais2023-pf}
+\bibfield{author}{\bibinfo{person}{Guillaume Allais}.} \bibinfo{year}{2023}\natexlab{a}.
+\newblock \showarticletitle{Builtin Types Viewed as Inductive Families}. In \bibinfo{booktitle}{\emph{Programming Languages and Systems}}. \bibinfo{publisher}{Springer Nature Switzerland}, \bibinfo{pages}{113--139}.
+\newblock
 
-\bibitem{Awodey2014-hh}
-Steve Awodey.
-\newblock Natural models of homotopy type theory.
-\newblock June 2014.
 
-\bibitem{Baudon2023-cy}
-Tha{\"\i}s Baudon, Gabriel Radanne, and Laure Gonnord.
-\newblock {Bit-Stealing} made legal: Compilation for custom memory representations of algebraic data types.
-\newblock {\em Proc. ACM Program. Lang.}, 7(ICFP):813--846, August 2023.
+\bibitem[Allais(2023b)]%
+        {Allais2023-zq}
+\bibfield{author}{\bibinfo{person}{Guillaume Allais}.} \bibinfo{year}{2023}\natexlab{b}.
+\newblock \showarticletitle{Seamless, Correct, and Generic Programming over Serialised Data}.
+\newblock  (\bibinfo{date}{Oct.} \bibinfo{year}{2023}).
+\newblock
+\showeprint[arxiv]{2310.13441}~[cs.PL]
 
-\bibitem{Boulier2018-zy}
-S~Boulier.
-\newblock Extending type theory with syntactic models.
-\newblock November 2018.
 
-\bibitem{Boulier2017-cm}
-Simon Boulier, Pierre-Marie P{\'e}drot, and Nicolas Tabareau.
-\newblock The next 700 syntactical models of type theory.
-\newblock In {\em Proceedings of the 6th {ACM} {SIGPLAN} Conference on Certified Programs and Proofs}, CPP 2017, pages 182--194, New York, NY, USA, January 2017. Association for Computing Machinery.
+\bibitem[Altenkirch et~al\mbox{.}(2015)]%
+        {Altenkirch2015-yl}
+\bibfield{author}{\bibinfo{person}{Thorsten Altenkirch}, \bibinfo{person}{Neil Ghani}, \bibinfo{person}{Peter Hancock}, \bibinfo{person}{Conor Mcbride}, {and} \bibinfo{person}{Peter Morris}.} \bibinfo{year}{2015}\natexlab{}.
+\newblock \showarticletitle{Indexed containers}.
+\newblock \bibinfo{journal}{\emph{J. Funct. Programming}}  \bibinfo{volume}{25} (\bibinfo{date}{Jan.} \bibinfo{year}{2015}), \bibinfo{pages}{e5}.
+\newblock
 
-\bibitem{Brady2010-sf}
-Edwin~C Brady and Kevin Hammond.
-\newblock Scrapping your inefficient engine: using partial evaluation to improve domain-specific language implementation.
-\newblock {\em SIGPLAN Not.}, 45(9):297--308, September 2010.
 
-\bibitem{Castellan2019-sh}
-Simon Castellan, Pierre Clairambault, and Peter Dybjer.
-\newblock Categories with families: Unityped, simply typed, and dependently typed.
-\newblock April 2019.
+\bibitem[Annenkov et~al\mbox{.}(2017)]%
+        {Annenkov2017-pd}
+\bibfield{author}{\bibinfo{person}{Danil Annenkov}, \bibinfo{person}{Paolo Capriotti}, \bibinfo{person}{Nicolai Kraus}, {and} \bibinfo{person}{Christian Sattler}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{{Two-Level} Type Theory and Applications}.
+\newblock  (\bibinfo{date}{May} \bibinfo{year}{2017}).
+\newblock
+\showeprint[arxiv]{1705.03307}~[cs.LO]
 
-\bibitem{Dybjer1994-zx}
-Peter Dybjer.
-\newblock Inductive families.
-\newblock {\em Form. Asp. Comput.}, 6(4):440--465, January 1994.
 
-\bibitem{Hewer2024-cc}
-Brandon Hewer and Graham Hutton.
-\newblock Quotient haskell: Lightweight quotient types for all.
-\newblock {\em Proc. ACM Program. Lang.}, 8(POPL):785--815, January 2024.
+\bibitem[Awodey(2014)]%
+        {Awodey2014-hh}
+\bibfield{author}{\bibinfo{person}{Steve Awodey}.} \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{Natural models of homotopy type theory}.
+\newblock  (\bibinfo{date}{June} \bibinfo{year}{2014}).
+\newblock
+\showeprint[arxiv]{1406.3219}~[math.CT]
 
-\bibitem{Hinze2011-jx}
-Ralf Hinze.
-\newblock Type fusion.
-\newblock In {\em Algebraic Methodology and Software Technology}, pages 92--110. Springer Berlin Heidelberg, 2011.
 
-\bibitem{Kaposi2020-is}
-Ambrus Kaposi and Jakob von Raumer.
-\newblock A syntax for mutual inductive families, June 2020.
+\bibitem[Baudon et~al\mbox{.}(2023)]%
+        {Baudon2023-cy}
+\bibfield{author}{\bibinfo{person}{Tha{\"\i}s Baudon}, \bibinfo{person}{Gabriel Radanne}, {and} \bibinfo{person}{Laure Gonnord}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{{Bit-Stealing} Made Legal: Compilation for Custom Memory Representations of Algebraic Data Types}.
+\newblock \bibinfo{journal}{\emph{Proc. ACM Program. Lang.}} \bibinfo{volume}{7}, \bibinfo{number}{ICFP} (\bibinfo{date}{Aug.} \bibinfo{year}{2023}), \bibinfo{pages}{813--846}.
+\newblock
 
-\bibitem{Kovacs2022-vb}
-Andr{\'a}s Kov{\'a}cs.
-\newblock Staged compilation with two-level type theory.
-\newblock September 2022.
 
-\bibitem{Sato2001-ap}
-M~Sato, Takafumi Sakurai, and Yukiyoshi Kameyama.
-\newblock A simply typed context calculus with first-class environments.
-\newblock {\em J. Funct. Log. Prog.}, pages 359--374, March 2001.
+\bibitem[Boulier(2018)]%
+        {Boulier2018-zy}
+\bibfield{author}{\bibinfo{person}{S Boulier}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Extending type theory with syntactic models}.
+\newblock  (\bibinfo{date}{Nov.} \bibinfo{year}{2018}).
+\newblock
 
-\bibitem{Shao1994-kp}
-Zhong Shao, John~H Reppy, and Andrew~W Appel.
-\newblock Unrolling lists.
-\newblock In {\em Proceedings of the 1994 {ACM} conference on {LISP} and functional programming}, LFP '94, pages 185--195, New York, NY, USA, July 1994. Association for Computing Machinery.
 
-\bibitem{Taha1997-ag}
-Walid Taha and Tim Sheard.
-\newblock Multi-stage programming with explicit annotations.
-\newblock In {\em Proceedings of the 1997 {ACM} {SIGPLAN} symposium on Partial evaluation and semantics-based program manipulation}, PEPM '97, pages 203--217, New York, NY, USA, December 1997. Association for Computing Machinery.
+\bibitem[Boulier et~al\mbox{.}(2017)]%
+        {Boulier2017-cm}
+\bibfield{author}{\bibinfo{person}{Simon Boulier}, \bibinfo{person}{Pierre-Marie P{\'e}drot}, {and} \bibinfo{person}{Nicolas Tabareau}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{The next 700 syntactical models of type theory}. In \bibinfo{booktitle}{\emph{Proceedings of the 6th {ACM} {SIGPLAN} Conference on Certified Programs and Proofs}} (Paris, France) \emph{(\bibinfo{series}{CPP 2017})}. \bibinfo{publisher}{Association for Computing Machinery}, \bibinfo{address}{New York, NY, USA}, \bibinfo{pages}{182--194}.
+\newblock
 
-\bibitem{Uemura2019-cc}
-Taichi Uemura.
-\newblock A general framework for the semantics of type theory.
-\newblock {\em arXiv [math.CT]}, April 2019.
 
-\bibitem{Viera2006-xq}
-Marcos Viera and Alberto Pardo.
-\newblock A multi-stage language with intensional analysis.
-\newblock In {\em {GPCE} '06: Proceedings of the 5th International Conference on Generative Programming and Component Engineering}. unknown, October 2006.
+\bibitem[Brady and Hammond(2010)]%
+        {Brady2010-sf}
+\bibfield{author}{\bibinfo{person}{Edwin~C Brady} {and} \bibinfo{person}{Kevin Hammond}.} \bibinfo{year}{2010}\natexlab{}.
+\newblock \showarticletitle{Scrapping your inefficient engine: using partial evaluation to improve domain-specific language implementation}.
+\newblock \bibinfo{journal}{\emph{SIGPLAN Not.}} \bibinfo{volume}{45}, \bibinfo{number}{9} (\bibinfo{date}{Sept.} \bibinfo{year}{2010}), \bibinfo{pages}{297--308}.
+\newblock
 
-\bibitem{Yallop2017-cg}
-Jeremy Yallop.
-\newblock Staged generic programming.
-\newblock {\em Proc. ACM Program. Lang.}, 1(ICFP):1--29, August 2017.
 
-\bibitem{Yallop_undated-sh}
-Robert Atkey Sam~Lindley Yallop.
-\newblock Unembedding {Domain-Specific} languages.
-\newblock \url{https://bentnib.org/unembedding.pdf}.
-\newblock Accessed: 2024-2-22.
+\bibitem[Castellan et~al\mbox{.}(2019)]%
+        {Castellan2019-sh}
+\bibfield{author}{\bibinfo{person}{Simon Castellan}, \bibinfo{person}{Pierre Clairambault}, {and} \bibinfo{person}{Peter Dybjer}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Categories with Families: Unityped, Simply Typed, and Dependently Typed}.
+\newblock  (\bibinfo{date}{April} \bibinfo{year}{2019}).
+\newblock
+\showeprint[arxiv]{1904.00827}~[cs.LO]
+
+
+\bibitem[Dagand(2017)]%
+        {Dagand2017-nj}
+\bibfield{author}{\bibinfo{person}{Pierre-Evariste Dagand}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{The essence of ornaments}.
+\newblock \bibinfo{journal}{\emph{J. Funct. Programming}}  \bibinfo{volume}{27} (\bibinfo{date}{Jan.} \bibinfo{year}{2017}), \bibinfo{pages}{e9}.
+\newblock
+\urldef\tempurl%
+\url{https://www.cambridge.org/core/services/aop-cambridge-core/content/view/4D2DF6F4FE23599C8C1FEA6C921A3748/S0956796816000356a.pdf/div-class-title-the-essence-of-ornaments-div.pdf}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Dybjer(1994)]%
+        {Dybjer1994-zx}
+\bibfield{author}{\bibinfo{person}{Peter Dybjer}.} \bibinfo{year}{1994}\natexlab{}.
+\newblock \showarticletitle{Inductive families}.
+\newblock \bibinfo{journal}{\emph{Form. Asp. Comput.}} \bibinfo{volume}{6}, \bibinfo{number}{4} (\bibinfo{date}{Jan.} \bibinfo{year}{1994}), \bibinfo{pages}{440--465}.
+\newblock
+
+
+\bibitem[Hewer and Hutton(2024)]%
+        {Hewer2024-cc}
+\bibfield{author}{\bibinfo{person}{Brandon Hewer} {and} \bibinfo{person}{Graham Hutton}.} \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{Quotient Haskell: Lightweight Quotient Types for All}.
+\newblock \bibinfo{journal}{\emph{Proc. ACM Program. Lang.}} \bibinfo{volume}{8}, \bibinfo{number}{POPL} (\bibinfo{date}{Jan.} \bibinfo{year}{2024}), \bibinfo{pages}{785--815}.
+\newblock
+
+
+\bibitem[Hinze(2011)]%
+        {Hinze2011-jx}
+\bibfield{author}{\bibinfo{person}{Ralf Hinze}.} \bibinfo{year}{2011}\natexlab{}.
+\newblock \showarticletitle{Type Fusion}. In \bibinfo{booktitle}{\emph{Algebraic Methodology and Software Technology}}. \bibinfo{publisher}{Springer Berlin Heidelberg}, \bibinfo{pages}{92--110}.
+\newblock
+
+
+\bibitem[Kaposi and von Raumer(2020)]%
+        {Kaposi2020-is}
+\bibfield{author}{\bibinfo{person}{Ambrus Kaposi} {and} \bibinfo{person}{Jakob von Raumer}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \bibinfo{title}{A syntax for mutual inductive families}.
+\newblock
+\newblock
+
+
+\bibitem[Kov{\'a}cs(2022)]%
+        {Kovacs2022-vb}
+\bibfield{author}{\bibinfo{person}{Andr{\'a}s Kov{\'a}cs}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{Staged compilation with two-level type theory}.
+\newblock  (\bibinfo{date}{Sept.} \bibinfo{year}{2022}).
+\newblock
+\showeprint[arxiv]{2209.09729}~[cs.PL]
+
+
+\bibitem[Sato et~al\mbox{.}(2001)]%
+        {Sato2001-ap}
+\bibfield{author}{\bibinfo{person}{M Sato}, \bibinfo{person}{Takafumi Sakurai}, {and} \bibinfo{person}{Yukiyoshi Kameyama}.} \bibinfo{year}{2001}\natexlab{}.
+\newblock \showarticletitle{A simply typed context calculus with first-class environments}.
+\newblock \bibinfo{journal}{\emph{J. Funct. Log. Prog.}} (\bibinfo{date}{March} \bibinfo{year}{2001}), \bibinfo{pages}{359--374}.
+\newblock
+
+
+\bibitem[Shao et~al\mbox{.}(1994)]%
+        {Shao1994-kp}
+\bibfield{author}{\bibinfo{person}{Zhong Shao}, \bibinfo{person}{John~H Reppy}, {and} \bibinfo{person}{Andrew~W Appel}.} \bibinfo{year}{1994}\natexlab{}.
+\newblock \showarticletitle{Unrolling lists}. In \bibinfo{booktitle}{\emph{Proceedings of the 1994 {ACM} conference on {LISP} and functional programming}} (Orlando, Florida, USA) \emph{(\bibinfo{series}{LFP '94})}. \bibinfo{publisher}{Association for Computing Machinery}, \bibinfo{address}{New York, NY, USA}, \bibinfo{pages}{185--195}.
+\newblock
+
+
+\bibitem[Taha and Sheard(1997)]%
+        {Taha1997-ag}
+\bibfield{author}{\bibinfo{person}{Walid Taha} {and} \bibinfo{person}{Tim Sheard}.} \bibinfo{year}{1997}\natexlab{}.
+\newblock \showarticletitle{Multi-stage programming with explicit annotations}. In \bibinfo{booktitle}{\emph{Proceedings of the 1997 {ACM} {SIGPLAN} symposium on Partial evaluation and semantics-based program manipulation}} (Amsterdam, The Netherlands) \emph{(\bibinfo{series}{PEPM '97})}. \bibinfo{publisher}{Association for Computing Machinery}, \bibinfo{address}{New York, NY, USA}, \bibinfo{pages}{203--217}.
+\newblock
+
+
+\bibitem[Uemura(2019)]%
+        {Uemura2019-cc}
+\bibfield{author}{\bibinfo{person}{Taichi Uemura}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{A General Framework for the Semantics of Type Theory}.
+\newblock \bibinfo{journal}{\emph{arXiv [math.CT]}} (\bibinfo{date}{April} \bibinfo{year}{2019}).
+\newblock
+
+
+\bibitem[Viera and Pardo(2006)]%
+        {Viera2006-xq}
+\bibfield{author}{\bibinfo{person}{Marcos Viera} {and} \bibinfo{person}{Alberto Pardo}.} \bibinfo{year}{2006}\natexlab{}.
+\newblock \showarticletitle{A multi-stage language with intensional analysis}. In \bibinfo{booktitle}{\emph{{GPCE} '06: Proceedings of the 5th International Conference on Generative Programming and Component Engineering}}. \bibinfo{publisher}{unknown}.
+\newblock
+
+
+\bibitem[Yallop(2017)]%
+        {Yallop2017-cg}
+\bibfield{author}{\bibinfo{person}{Jeremy Yallop}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Staged generic programming}.
+\newblock \bibinfo{journal}{\emph{Proc. ACM Program. Lang.}} \bibinfo{volume}{1}, \bibinfo{number}{ICFP} (\bibinfo{date}{Aug.} \bibinfo{year}{2017}), \bibinfo{pages}{1--29}.
+\newblock
+
+
+\bibitem[Yallop({[n.\,d.]})]%
+        {Yallop_undated-sh}
+\bibfield{author}{\bibinfo{person}{Robert Atkey Sam~Lindley Yallop}.} \bibinfo{year}{[n.\,d.]}\natexlab{}.
+\newblock \bibinfo{title}{Unembedding {Domain-Specific} Languages}.
+\newblock \bibinfo{howpublished}{\url{https://bentnib.org/unembedding.pdf}}.
+\newblock
+\newblock
+\shownote{Accessed: 2024-2-22}.
+
 
 \end{thebibliography}

@@ -1,53 +1,81 @@
 This is BibTeX, Version 0.99d (TeX Live 2023)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
-The style file: plain.bst
+The style file: ACM-Reference-Format.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Database file #1: bib.bib
-Warning--empty journal in Allais2023-zq
-Warning--empty journal in Annenkov2017-pd
-Warning--empty journal in Awodey2014-hh
-Warning--empty journal in Boulier2018-zy
-Warning--empty journal in Castellan2019-sh
-Warning--empty journal in Kovacs2022-vb
-You've used 22 entries,
-            2118 wiz_defined-function locations,
-            643 strings with 7358 characters,
-and the built_in function-call counts, 7099 in all, are:
-= -- 724
-> -- 276
-< -- 6
-+ -- 115
-- -- 88
-* -- 461
-:= -- 1154
-add.period$ -- 72
-call.type$ -- 22
-change.case$ -- 110
-chr.to.int$ -- 0
-cite$ -- 28
-duplicate$ -- 297
-empty$ -- 574
-format.name$ -- 88
-if$ -- 1512
-int.to.chr$ -- 0
-int.to.str$ -- 22
-missing$ -- 20
-newline$ -- 113
-num.names$ -- 44
-pop$ -- 128
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--empty address in Allais2023-pf
+Warning--no journal in Allais2023-zq
+Warning--no number and no volume in Allais2023-zq
+Warning--page numbers missing in both pages and numpages fields in Allais2023-zq
+Warning--no journal in Annenkov2017-pd
+Warning--no number and no volume in Annenkov2017-pd
+Warning--page numbers missing in both pages and numpages fields in Annenkov2017-pd
+Warning--no journal in Awodey2014-hh
+Warning--no number and no volume in Awodey2014-hh
+Warning--page numbers missing in both pages and numpages fields in Awodey2014-hh
+Warning--no journal in Boulier2018-zy
+Warning--no number and no volume in Boulier2018-zy
+Warning--page numbers missing in both pages and numpages fields in Boulier2018-zy
+Warning--no journal in Castellan2019-sh
+Warning--no number and no volume in Castellan2019-sh
+Warning--page numbers missing in both pages and numpages fields in Castellan2019-sh
+Warning--empty address in Hinze2011-jx
+Warning--no journal in Kovacs2022-vb
+Warning--no number and no volume in Kovacs2022-vb
+Warning--page numbers missing in both pages and numpages fields in Kovacs2022-vb
+Warning--no number and no volume in Sato2001-ap
+Warning--no number and no volume in Uemura2019-cc
+Warning--page numbers missing in both pages and numpages fields in Uemura2019-cc
+Warning--empty address in Viera2006-xq
+Warning--page numbers missing in both pages and numpages fields in Viera2006-xq
+Warning--empty year in Yallop_undated-sh
+You've used 23 entries,
+            5981 wiz_defined-function locations,
+            1633 strings with 21605 characters,
+and the built_in function-call counts, 23615 in all, are:
+= -- 3063
+> -- 581
+< -- 0
++ -- 191
+- -- 218
+* -- 1560
+:= -- 2210
+add.period$ -- 116
+call.type$ -- 23
+change.case$ -- 142
+chr.to.int$ -- 22
+cite$ -- 49
+duplicate$ -- 2212
+empty$ -- 1584
+format.name$ -- 266
+if$ -- 5839
+int.to.chr$ -- 3
+int.to.str$ -- 1
+missing$ -- 90
+newline$ -- 229
+num.names$ -- 160
+pop$ -- 879
 preamble$ -- 1
-purify$ -- 88
+purify$ -- 314
 quote$ -- 0
-skip$ -- 225
+skip$ -- 747
 stack$ -- 0
-substring$ -- 424
-swap$ -- 71
-text.length$ -- 6
+substring$ -- 1770
+swap$ -- 191
+text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 88
-warning$ -- 6
-while$ -- 73
-width$ -- 24
-write$ -- 239
-(There were 6 warnings)
+type$ -- 477
+warning$ -- 26
+while$ -- 167
+width$ -- 0
+write$ -- 484
+(There were 26 warnings)

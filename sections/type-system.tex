@@ -293,7 +293,20 @@ a concrete signature
   \item if $\Sfun{f}{M}{m} \in \Sigma$, then $\exists a .\ \Sreprconst{R}{f}{a} \in
           \Sigma$.
 \end{itemize}
-We can now define the lowering functions $\Crepr{}$ and $\crepr{}$ as follows:
-\begin{align*}
-  \Crepr{}
-\end{align*}
+We can now define the lowering functions $\Crepr{}$ and $\crepr{}$ as follows, where
+all the signatures $\Sigma$ are assumed to be concrete:
+\begin{mathpar}
+  {\begin{aligned}
+       & \Crepr{}          : \Con \ \Sigma  \to \Con \ \Sigma \\
+       & \Crepr{(\cdot)}     = \cdot                          \\
+       & \Crepr{(\Delta, T)} = \Crepr{\Delta}, \Crepr{T}
+    \end{aligned}} \and
+  {\begin{aligned}
+       & \Crepr{}          : \Ty_1 \ \Sigma \ \Gamma  \to \Ty_0 \ \Sigma \ \Crepr{\Gamma} \\
+       & \Crepr{(\lbl{D}\,\vec{t})}     = A [\crepr{\vec{t}}]                             \\
+       & \Crepr{(A \to B)}     = \Crepr{A} \to \Crepr{B}                                  \\
+       & \Crepr{(A \times B)}     = \Crepr{A} \times \Crepr{B}                            \\
+       & \Crepr{\univ_1}     = \univ_0                                                    \\
+       & \Crepr{\inte{El} t}     = \crepr{t}                                              \\
+    \end{aligned}}
+\end{mathpar}

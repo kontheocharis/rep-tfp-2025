@@ -5,21 +5,23 @@
 \newcommand{\fto}{\longrightarrow}
 \newcommand\fun[1]{{\textsf{#1}}}
 
-\newcommand{\infname}[1]{\textsc{#1}}
-\newcommand{\infrule}[3][]{{\infname{#1}}\,\frac{#2}{#3}}
+% \newcommand{\infname}[1]{\textsc{#1}}
+% \newcommand{\infrule}[3][]{{\infname{#1}}\,\frac{#2}{#3}}
 
 \newcommand{\datawhere}[2][]{\inte{data}\ \defin{#2}{#1}\ \inte{where}}
 \newcommand{\recordwhere}[2][]{\inte{record}\ \defin{#2}{#1}\ \inte{where}}
-\newcommand{\data}[1]{\inte{data}\ \defin{#1}}
-\newcommand{\record}[1]{\inte{record}\ \defin{#1}}
+
+\newcommand{\data}{\inte{data}}
+\newcommand{\ctor}{\inte{record}}
+
 \newcommand{\caseof}[1]{\inte{case}\; {#1}\; \inte{of}}
 \newcommand{\branch}[2]{{#1} \mapsto {#2}}
-\newcommand{\inte}[1]{\textsf{\textbf{#1}}}
+\newcommand{\inte}[1]{\textsf{#1}}
 \newcommand{\mta}[1]{\textbf{#1}}
 \newcommand{\defin}[1]{\texttt{#1}}
-\newcommand{\istype}[1]{{#1} \; \mta{type}}
-\newcommand{\isrepr}[2]{{#1} \ \mta{repr}\;{#2}}
-\newcommand{\isind}[1]{{#1} \ \mta{ind}}
+\newcommand{\istype}[2]{{#2} \; \mta{type}_{#1}}
+% \newcommand{\isrepr}[2]{{#1} \ \mta{repr}\;{#2}}
+% \newcommand{\isind}[1]{{#1} \ \mta{ind}}
 \newcommand{\lbl}{\textsf}
 \newcommand{\letin}[3]{\inte{let}\; {#1} = {#2}\; \inte{in}\; {#3}}
 \newcommand{\letrecin}[3]{\inte{letrec}\; {#1} = {#2}\; \inte{in}\; {#3}}
@@ -32,29 +34,33 @@
 \newcommand{\Sub}{\fun{Sub}}
 \newcommand{\typeof}{\fun{typeof}}
 
-\newcommand{\mM}{\mta{Meta}}
-\newcommand{\mR}{\mta{Repr}}
-\newcommand{\mV}{\mta{Val}}
-\newcommand{\mO}{\mta{Obj}}
-\newcommand{\mI}{\mta{Ind}}
-\newcommand{\mS}{\mta{Syn}}
+% \newcommand{\mM}{\mta{Meta}}
+% \newcommand{\mR}{\mta{Repr}}
+% \newcommand{\mV}{\mta{Val}}
+% \newcommand{\mO}{\mta{Obj}}
+% \newcommand{\mI}{\mta{Ind}}
+% \newcommand{\mS}{\mta{Syn}}
 
-\newcommand{\univ}[1]{{\mathcal{U}_{{#1}}}}
-\newcommand{\Um}{{\univ{\mM}}}
-\newcommand{\Ur}{{\univ{\mR}}}
-\newcommand{\Uo}{{\univ{\mO}}}
-\newcommand{\Ui}{{\univ{\mI}}}
+\newcommand{\univ}{\mathcal{U}}
+\newcommand{\Id}[3]{{#2}=_{#1}{#3}}
+% \newcommand{\Um}{{\univ{\mM}}}
+% \newcommand{\Ur}{{\univ{\mR}}}
+% \newcommand{\Uo}{{\univ{\mO}}}
+% \newcommand{\Ui}{{\univ{\mI}}}
 
-\newcommand{\catG}{{\cat{G}}}
-\newcommand{\catL}{{\cat{L}}}
-\newcommand{\Gm}{{\G_{\mM}}}
-\newcommand{\Gr}{{\G_{\mR}}}
-\newcommand{\Gv}{{\G_{\mV}}}
-\newcommand{\Gi}{{\G_{\mI}}}
+% \newcommand{\catG}{{\cat{G}}}
+% \newcommand{\catL}{{\cat{L}}}
+% \newcommand{\Gm}{{\G_{\mM}}}
+% \newcommand{\Gr}{{\G_{\mR}}}
+% \newcommand{\Gv}{{\G_{\mV}}}
+% \newcommand{\Gi}{{\G_{\mI}}}
 
+\newcommand{\boxx}[1]{\square{#1}}
+\newcommand{\inbox}[1]{\inte{box}\,{#1}}
+\newcommand{\unbox}[1]{\inte{unbox}\,{#1}}
 \newcommand{\lift}[1]{\text{$\Uparrow$}{#1}}
 \newcommand{\quot}[1]{\langle{#1}\rangle}
-\newcommand{\splice}[1]{\text{$\sim{#1}$}}
+\newcommand{\splice}[1]{\text{$\sim$}{#1}}
 
 \newcommand{\Gen}{\defin{Gen}}
 \newcommand{\Repr}{\defin{Repr}}

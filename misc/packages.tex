@@ -1,6 +1,9 @@
-\usepackage{amsmath,amssymb}
 \usepackage{bbold}
+% \usepackage{amsmath,amssymb}
+\usepackage{varioref}
 \usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{mathpartir}
 
 \usepackage{tikz}
 \usetikzlibrary{cd}
@@ -8,3 +11,13 @@
 \usepackage{esvect}
 % \usepackage{physics}
 % \tikzcdset{arrow style=math font}
+
+% https://tex.stackexchange.com/questions/528798/underlining-text-in-latex-no-vertical-gap
+\usepackage{contour}
+\usepackage[normalem]{ulem}
+\renewcommand{\ULdepth}{1.8pt}
+\contourlength{0.8pt}
+\newcommand{\myuline}[1]{%
+  \uline{\phantom{#1}}%
+  \llap{\contour{white}{#1}}%
+}
