@@ -80,10 +80,10 @@ present discussion.
 Building on top of $\lambdaprim$, we introduce an extension of the system for
 named inductive constructions in the meta-language, called $\lambdaind$. First,
 we present a raw syntax for signatures $\Sigma$ containing items $Z$ consisting
-of data, constructor, and function definitions:
+of data declarations, constructor declarations, and definitions:
 \begin{align*}
   \Sigma & ::= \cdot \mid \Sigma, Z                                                                                          \\
-  Z      & ::= \Sdata{D}{\Delta} \mid \Sctor{C}{\Delta}{D}{\Delta} \mid \Sclosed{\lab{D}}{\vec{\lab{C}}} \mid \Sfun{f}{t}{t}
+  Z      & ::= \Sdata{D}{\Delta} \mid \Sctor{C}{\Delta}{D}{\Delta} \mid \Sclosed{\lab{D}}{\vec{\lab{C}}} \mid \Sdef{f}{t}{t}
 \end{align*}
 The symbols in \textcolor{blue}{blue} represent labels, which are used to
 uniquely identify elements of a signature.
@@ -93,8 +93,8 @@ $\Sctor{C}{\DeltaFor{C}}{D}{\Delta}$ introduces a new constructor $\lab{C}$ for
 the inductive type $\lab{D}$, with a telescope $\DeltaFor{C}$ of parameters
 which may depend on $\lab{D}$'s parameters. Closed declarations $\Sclosed{\lab{D}}{\vec{\lab{C}}}$ specify that the
 constructors $\vec{\lab{C}}$ are the only constructors for the inductive type
-$\lab{D}$ in the present signature. A function definition
-$\Sfun{f}{t}{t}$ introduces a new named function $\lab{f}$ of type $t$ and value
+$\lab{D}$ in the present signature. A definition
+$\Sdef{f}{t}{t}$ introduces a new symbol $\lab{f}$ of type $t$ and value
 $t$.
 The reason for including function definitions in a signature is to allow for
 named functions in the meta-language, which can be overriden as part of data
@@ -119,23 +119,25 @@ arguments
   t ::= \ldots \mid \lab{L} \, \vec{t}
 \]
 where $\vec{t}$ denotes a sequence of terms and $\lab L$ refers to any valid
-label in a signature (data, constructor, or function definitions). For example,
-given a function
+label in a signature (data, constructor, or definition). For example, given a
+constructor
 \[
-  \Sfun{id}{(A : \univ_1) \to A \to A}{\_ \mapsto x \mapsto x}
+  \Sctor{cons}{(x : T,\ xs : \lab{List}\, T)}{\lab{List}}{T}
 \]
-we can write $\lab{id} \, A \, a$ to denote the full application of the
-identity function to a type $A$ and a term $a : A$. Partial applications are
-also allowed as syntactic syntactic sugar, so that $\lab{id} \, A$ is shorthand
-Each inductive definition $\Sdata{D}{\Delta}$ exposes an additional function
-label $\caselab{D}$ which is used to perform case analysis on terms of the
-inductive type $\lab{D}$. for $x \mapsto y \mapsto \lab{id} \, A \, x \, y$. As
-such, valid labelled application terms in a signature are given through the
-typing rules of $\lambdaind$ and do not correspond exactly to the labels
-\emph{present} in the signature's items.
+we can write $\lab{cons} \, a \, l$ to denote the full application of the
+`cons' constructor to an element $a$ and a list $l$. Partial applications are
+also allowed as syntactic syntactic sugar, so that $\lab{cons} \, a$ is
+shorthand for $l \mapsto \lab{cons}\,a\,l$. Each inductive definition
+$\Sdata{D}{\Delta}$ exposes an additional label $\caselab{D}$ which is used to
+perform case analysis on terms of the inductive type $\lab{D}$. As such, valid
+labelled application terms in a signature are given through the typing rules of
+$\lambdaind$ and do not correspond exactly to the labels \emph{present} in the
+signature's items.
 
 The language $\lambdaind$ is equipped with the following judgment forms:
 \begin{itemize}
+  \item $\isSig{\Sigma}$ --- The signature $\Sigma$ is well-formed.
+  \item $\Sigma \vdash \isCon{\Gamma}$ --- In signature $\Sigma$ the context $\Gamma$ is well-formed.
   \item $\Sigma \mid \Gamma \vdash \istype{i}{T}$ --- In signature $\Sigma$ and
         context $\Gamma$, $T$ is a well-formed type in stage $i$.
   \item $\Sigma \mid \Gamma \vdash a : T$ --- In signature $\Sigma$ and context
@@ -146,25 +148,122 @@ The language $\lambdaind$ is equipped with the following judgment forms:
         signature $\Sigma$.
 \end{itemize}
 
-TODO: typing rules
+\begin{figure}[h]
+  \begin{mathpar}
+    \inferrule[Sig-Empty]
+    {
+    }
+    {\isSig{\cdot}} \and
+    \inferrule[Sig-Extend]
+    {
+      \isSig{\Sigma} \\
+      \Sigma \vdash Z
+    }
+    {\isSig{\Sigma,Z}} \and
+    \inferrule[Con-Empty]
+    {
+      \isSig{\Sigma}
+    }
+    {\Sigma \vdash \isCon{\cdot}} \and
+    \inferrule[Con-Extend]
+    {
+      \Sigma \vdash \isCon{\Gamma} \\
+      \Sigma \mid \Gamma \vdash \istype{i}{T}
+    }
+    {\Sigma \vdash \isCon{\Gamma,T}} \and
+  \end{mathpar}
+  \caption{Rules for signatures and contexts in $\lambdaind$.}
+  \label{fig:lambdaind-sig-rules}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{mathpar}
+    \inferrule[Data-Item]
+    {
+      \Sigma \mid \cdot \vdash \isTel{1}{\Delta} \\
+      \isLabNotIn{D}{\Sigma}
+    }
+    {\Sigma \vdash \Sdata{D}{\Delta}} \and
+    \inferrule[Ctor-Item]
+    {
+      \Sdata{D}{\Delta} \in \Sigma \\
+      \Sclosed{\lab{D}, \wildp} \notin \Sigma \\
+      \isLabNotIn{C}{\Sigma} \\
+      \Sigma \mid \Delta \vdash \isTel{1}{\DeltaFor{C}}
+    }
+    {\Sigma \vdash \Sctor{C}{\DeltaFor{C}}{D}{\Delta}} \and
+    \inferrule[Closed-Item]
+    {
+      \Sdata{D}{\Delta} \in \Sigma \\
+      \forall i \in I. \ \Sctorvar{\lab{C}_i}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma \\
+      \Sclosed{\lab{D}, \wildp} \notin \Sigma
+    }
+    {\Sigma \vdash \Sclosed{\lab{D}, \vec{\lab{C}}}} \and
+    \inferrule[Def-Item]
+    {
+      \Sigma \mid \cdot \vdash m : M \\
+      \isLabNotIn{f}{\Sigma}
+    }
+    {\Sigma \vdash \Sdef{f}{M}{m}}
+  \end{mathpar}
+  \caption{Rules for items in signatures in $\lambdaind$.}
+  \label{fig:lambdaind-item-rules}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{mathpar}
+    \inferrule[Data-Form]
+    {
+      \Sdata{D}{\Delta} \in \Sigma     \\
+      \Sigma \mid \Gamma \vdash \vec{t} : \Delta
+    }
+    {\Sigma \mid \Gamma \vdash \lab{D}\,\vec{t} : \lift{\univ_0}} \and
+    \inferrule[Data-Intro]
+    {
+      \Sdata{D}{\Delta} \in \Sigma     \\
+      \Sctor{C}{\DeltaFor{C}}{D}{\Delta} \in \Sigma     \\
+      \Sigma \mid \Gamma \vdash \vec{t} : \Delta \\
+      \Sigma \mid \Gamma \vdash \vec{u} : \DeltaFor{C}
+    }
+    {\Sigma \mid \Gamma \vdash \lab{C}\,\vec{u} : \lab{D}\,\vec{t}} \and
+    \inferrule[Data-Elim]
+    {
+      \Sdata{D}{\Delta} \in \Sigma     \\
+      \forall i \in I.\ \Sctorvar{\lab{C}_i}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
+      \Sclosed{\lab D}{\vec{\lab{C}}} \in \Sigma     \\
+      \Sigma \mid \Gamma \vdash \vec{t} : \Delta \\
+      \Sigma \mid \Gamma \vdash \eta : \lab{D}\,\vec{t} \\
+      \Sigma \mid \Gamma ,\ \vec{x} : \Delta ,\ h :  \lab{D}\,\vec{x} \vdash T : \lift{\univ_0} \\
+      \forall i \in I.\ \Sigma \mid \Gamma ,\ \vec{x} : \Delta,\ \vec{u} : \Delta_{\lab{C}_i}[\vec{x}] \vdash m_i : T [\vec{x}, \lab{C}_i \vec{u}]
+    }
+    {\Sigma \mid \Gamma \vdash \caselab{D}\,\eta\,\vec{m} : T [\vec{t}, \eta]} \and
+    \inferrule[Def-Intro]
+    {
+      \Sdef{f}{M}{m} \in \Sigma     \\
+    }
+    {\Sigma \mid \Gamma \vdash \lab{f} : M}
+  \end{mathpar}
+  \caption{Typing rules for items in $\lambdarep$.}
+  \label{fig:lambdaind-rules}
+\end{figure}
 
 \subsection{Data representations in $\lambdarep$}
 
 So far, we have described $\lambdaind$, a dependently-typed staged language
 with object-level machine primitives as well as named inductive constructions
-and function definitions. We now introduce data representations in the
-meta-language, forming the language $\lambdarep$. The goal of data
-representations is to provide a way to represent data types, constructions, and
-functions in a more efficient manner, by transforming them into more suitable
-data structures for the target architecture. This is achieved by defining a new
-kind of item in signatures, called a representation, which specifies how to
-represent a given meta-level item in the object language. With no further
-restrictions, a user would be able to arbitrarily change the semantics of the
-meta-level items through representations, which would be undesirable. Instead,
-we restrict data representations to preserve the intended semantics of the
-original items, allowing for a correct-by-construction transformation from
-$\lambdarep$ to $\lambdaprim$. This is done in different ways for data types,
-constructors, and functions.
+and definitions. We now introduce data representations in the meta-language,
+forming the language $\lambdarep$. The goal of data representations is to
+provide a way to represent data types, constructions, and definitions in a more
+efficient manner, by transforming them into more suitable data structures for
+the target architecture. This is achieved by defining a new kind of item in
+signatures, called a representation, which specifies how to represent a given
+meta-level item in the object language. With no further restrictions, a user
+would be able to arbitrarily change the semantics of the meta-level items
+through representations, which would be undesirable. Instead, we restrict data
+representations to preserve the intended semantics of the original items,
+allowing for a correct-by-construction transformation from $\lambdarep$ to
+$\lambdaprim$. This is done in different ways for data types, constructors, and
+definitions.
 
 First, we extend the raw syntax of items $Z$ with representations, forming
 $\lambdarep$:
@@ -173,11 +272,11 @@ $\lambdarep$:
 \]
 A representation $\Srepr{R}{L}{\Delta}{t}$ asks for a definition $\lab{L}$ with
 parameters $\Delta$ to be represented by a term $t$. Data, constructor and
-function representations all share the same raw syntax and are distinguished by
-the subject $L$. In the typing rules we will require that every meta-level type
-$A$ has a defined representation $\Crepr{A}$. Extensions to this system could
-support a sub-class of types with representations, retaining the ability to
-have purely meta-level types with no defined representations. For this we
+definition representations all share the same raw syntax and are distinguished
+by the subject $L$. In the typing rules we will require that every meta-level
+type $A$ has a defined representation $\Crepr{A}$. Extensions to this system
+could support a sub-class of types with representations, retaining the ability
+to have purely meta-level types with no defined representations. For this we
 define $\Crepr{A}$ to be the representation of a type $A$ and $\crepr{a}$ the
 representation of a term $a$, whose type is $\Crepr{A}$. These compute
 definitionally according to rules shown in \cref{fig:repr-rules}. With that, we
@@ -194,7 +293,7 @@ can now define the additional typing rules for $\lambdarep$, in
          & \Crepr{}          : \Con \ \Sigma  \to \Con \ \Sigma \\
          & \Crepr{(\cdot)}     = \cdot                          \\
          & \Crepr{(\Gamma, T)} = \Crepr{\Gamma}, \Crepr{T}
-      \end{aligned}                                                           & \quad
+      \end{aligned}                                                             & \quad
       % \begin{aligned}[t]
       %    & \Crepr{}          : \ \Tel_i \ \Sigma \ \Gamma  \to \ \Tel_i \ \Sigma\ \Crepr{\Gamma} \\
       %    & \Crepr{(\cdot)}     = \cdot                                                           \\
@@ -253,9 +352,9 @@ can now define the additional typing rules for $\lambdarep$, in
     {\text{where $\mta{Cases}(T, \vec{a}, \eta) = ( m_i : (\vec{y} : \Crepr{\Delta_{\lab{C}_i}}) \to (\Id{A[\vec{a}]}{\eta}{\pi_1 t_i[\vec{a},\vec{y}]}) \to {T(\vec{a}, \pi_1 t_i[\vec{a}, \vec{y}])} \mid i \in I )$}}
     }
     {\Sigma \vdash \Srepr{R}{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m}}{e}} \and
-    \inferrule[Repr-Fun]
+    \inferrule[Repr-Def]
     {
-      \Sfun{f}{M}{m} \in \Sigma     \\
+      \Sdef{f}{M}{m} \in \Sigma     \\
       % \isLabNotIn{R}{\Sigma} \\
       \Sigma \mid \cdot \vdash a : (m' : \Crepr{M}) \times (\Id{\Crepr{M}}{\crepr{m}}{m'})
     }
@@ -305,7 +404,7 @@ a concrete signature when
   \item if $\Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma$, then $\exists
           T\,\vec{a}\,\eta\,\vec{m} .\ \Srepr{R}{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m}
           }{e} \in \Sigma$, and
-  \item if $\Sfun{f}{M}{m} \in \Sigma$, then $\exists a .\ \Sreprconst{R}{f}{a} \in
+  \item if $\Sdef{f}{M}{m} \in \Sigma$, then $\exists a .\ \Sreprconst{R}{f}{a} \in
           \Sigma$.
 \end{itemize}
 We can now define the lowering functions $\Crepr{}$ and $\crepr{}$ as follows, where
@@ -313,7 +412,7 @@ all the signatures $\Sigma$ are assumed to be concrete:
 
 Todo:
 
-- typing rules for base lang
+% - typing rules for inductive lang
 - rephrase kleisli category thing
 - validity of case
 - lifts missing in Repr-Case

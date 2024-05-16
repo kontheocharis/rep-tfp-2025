@@ -34,10 +34,10 @@
 \newcommand{\DeltaFor}[1]{\Delta_{\lab{#1}}}
 
 %% Definitions
-\newcommand{\Sdata}[2]{\defkwd{data} \ \lab{#1} \, {#2} : \univ_1}
+\newcommand{\Sdata}[2]{\defkwd{data} \ \lab{#1} \, {#2} : \lift{\univ_0}}
 \newcommand{\Sctor}[4]{\defkwd{ctor} \ \lab{#1} \, {#2} : \lab{#3}\, {#4}}
 \newcommand{\Sctorvar}[4]{\defkwd{ctor} \ #1 \, {#2} : \lab{#3}\, {#4}}
-\newcommand{\Sfun}[3]{\defkwd{fun} \ \lab{#1} : {#2} = {#3}}
+\newcommand{\Sdef}[3]{\defkwd{def} \ \lab{#1} : {#2} = {#3}}
 \newcommand{\Srepr}[4]{\defkwd{repr} \ \lab{#2}\, {#3}\ \defkwd{as}\ {#4}}
 \newcommand{\Sreprconst}[3]{\defkwd{repr} \ \lab{#2}\ \defkwd{as}\ {#3}}
 \newcommand{\Sreprvar}[4]{\defkwd{repr} \ {#2}\, {#3}\ \defkwd{as}\ {#4}}
@@ -46,8 +46,11 @@
 %% Judgements
 
 \newcommand{\istype}[2]{{#2} \; \mta{type}_{#1}}
-\newcommand{\isConcrete}[1]{{#1}\ \inte{concrete}}
-\newcommand{\isLabNotIn}[2]{\lab{#1}\ \inte{label} \notin {#2}}
+\newcommand{\isConcrete}[1]{{#1}\ \mta{concrete}}
+\newcommand{\isLabNotIn}[2]{\lab{#1}\ \mta{label} \notin {#2}}
+\newcommand{\isSig}[1]{{#1}\ \mta{sig}}
+\newcommand{\isCon}[1]{{#1}\ \mta{con}}
+\newcommand{\isTel}[2]{{#2}\ \mta{tel}_{#1}}
 
 % CWF
 \newcommand{\Ty}{\mta{Ty}}
