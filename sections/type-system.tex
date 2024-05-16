@@ -268,9 +268,9 @@ definitions.
 First, we extend the raw syntax of items $Z$ with representations, forming
 $\lambdarep$:
 \[
-  Z ::= \ldots \mid \Srepr{R}{L}{\Delta}{t}
+  Z ::= \ldots \mid \Srepr{L}{\Delta}{t}
 \]
-A representation $\Srepr{R}{L}{\Delta}{t}$ asks for a definition $\lab{L}$ with
+A representation $\Srepr{L}{\Delta}{t}$ asks for a definition $\lab{L}$ with
 parameters $\Delta$ to be represented by a term $t$. Data, constructor and
 definition representations all share the same raw syntax and are distinguished
 by the subject $L$. In the typing rules we will require that every meta-level
@@ -327,22 +327,22 @@ can now define the additional typing rules for $\lambdarep$, in
       \Sdata{D}{\Delta} \in \Sigma     \\
       \Sigma \mid \vec{x} : \Crepr{\Delta} \vdash A : \univ_0 \\
     }
-    {\Sigma \vdash \Srepr{R}{D}{\vec{x}}{A}} \and
+    {\Sigma \vdash \Srepr{D}{\vec{x}}{A}} \and
     \inferrule[Repr-Ctor]
     {
     \Sdata{D}{\Delta} \in \Sigma     \\
     \forall i \in I .\ \Sctorvar{\lab{C}_i}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
-    \Srepr{R}{D}{\Crepr{\Delta}}{A} \in \Sigma \\
-    \forall j < i .\ \Sreprvar{R}{\lab{C}_j}{\Crepr{\Delta_{\lab{C}_j}}}{t_j} \in \Sigma     \\
+    \Srepr{D}{\Crepr{\Delta}}{A} \in \Sigma \\
+    \forall j < i .\ \Sreprvar{\lab{C}_j}{\Crepr{\Delta_{\lab{C}_j}}}{t_j} \in \Sigma     \\
     \Sigma \mid \vec{x} : \Crepr{\Delta}, \ \vec{z} : \Crepr{\Delta_{\lab{C}_i}} \vdash t_i : (a : A) \times \textstyle \prod_{j < i} ((\vec{y} : \Crepr{\Delta_{\lab{C}_j}}) \to a \neq \pi_1 t_j[\vec{x},\vec{y}])
     }
-    {\Sigma \vdash \Sreprvar{R}{\lab{C}_i}{\vec{z}}{t_i}} \and
+    {\Sigma \vdash \Sreprvar{\lab{C}_i}{\vec{z}}{t_i}} \and
     \inferrule[Repr-Case]
     {
     \Sdata{D}{\Delta} \in \Sigma     \\
-    \Srepr{R}{D}{\Crepr{\Delta}}{A} \in \Sigma \\
+    \Srepr{D}{\Crepr{\Delta}}{A} \in \Sigma \\
     \forall i \in I .\ \Sctorvar{\lab{C}_{i}}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
-    \forall i \in I .\ \Sreprvar{R}{\lab{C}_i}{\Crepr{\Delta_{\lab{C}_i}}}{t_i} \in \Sigma \\
+    \forall i \in I .\ \Sreprvar{\lab{C}_i}{\Crepr{\Delta_{\lab{C}_i}}}{t_i} \in \Sigma \\
     \Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma \\
     \Sigma \mid T : (\vec{x} : \Crepr{\Delta}) \to \lift{A[\vec{x}]} \to \univ_0 ,\
     \vec{a} : \Crepr{\Delta}  ,\
@@ -351,14 +351,14 @@ can now define the additional typing rules for $\lambdarep$, in
     \vdash e : T(\vec{a}, \eta) \\
     {\text{where $\mta{Cases}(T, \vec{a}, \eta) = ( m_i : (\vec{y} : \Crepr{\Delta_{\lab{C}_i}}) \to (\Id{A[\vec{a}]}{\eta}{\pi_1 t_i[\vec{a},\vec{y}]}) \to {T(\vec{a}, \pi_1 t_i[\vec{a}, \vec{y}])} \mid i \in I )$}}
     }
-    {\Sigma \vdash \Srepr{R}{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m}}{e}} \and
+    {\Sigma \vdash \Srepr{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m}}{e}} \and
     \inferrule[Repr-Def]
     {
       \Sdef{f}{M}{m} \in \Sigma     \\
       % \isLabNotIn{R}{\Sigma} \\
       \Sigma \mid \cdot \vdash a : (m' : \Crepr{M}) \times (\Id{\Crepr{M}}{\crepr{m}}{m'})
     }
-    {\Sigma \vdash \Sreprconst{R}{f}{a}}
+    {\Sigma \vdash \Sreprconst{f}{a}}
   \end{mathpar}
   \caption{Typing rules for data representations in $\lambdarep$.}
   \label{fig:lambdarep-rules}
@@ -368,13 +368,13 @@ The correctness of a representation of some data type $\lab{D}$ is ensured by
 the correctness of the representations of each of its constructors $\lab{C}_i$
 and the case analysis function $\caselab{D}$. Therefore there is no special
 correctness condition for the data representation type itself. The constructor
-representations $\Sreprvar{R}{\lab{C}_i}{\Crepr{\Delta_{\lab{C}_i}}}{t_i}$ form
-an \emph{algebra} over the endofunctor $\llbracket \lab{D} \rrbracket$
-associated with the data type $\lab{D}$, by packaging all the representation
-values $\pi_1 t_i$, where the carrier object is the defined representation type
-$A$. Moreover, this algebra is \emph{injective} in the sense that the
-representation values are unique for each constructor, ensured by the equality
-constraints $\pi_1 t_i \neq \pi_1 t_j$ for $i \neq j$.
+representations $\Sreprvar{\lab{C}_i}{\Crepr{\Delta_{\lab{C}_i}}}{t_i}$ form an
+\emph{algebra} over the endofunctor $\llbracket \lab{D} \rrbracket$ associated
+with the data type $\lab{D}$, by packaging all the representation values $\pi_1
+  t_i$, where the carrier object is the defined representation type $A$.
+Moreover, this algebra is \emph{injective} in the sense that the representation
+values are unique for each constructor, ensured by the equality constraints
+$\pi_1 t_i \neq \pi_1 t_j$ for $i \neq j$.
 
 It is known that algebras over indexed inductive types can be interpreted as
 \emph{ornaments} \cite{Dagand2017-nj}; an inductive type is decorated with the
@@ -398,13 +398,13 @@ where all items are accompanied by representations. In other words, $\Sigma$ is
 a concrete signature when
 \begin{itemize}
   \item if $\Sdata{D}{\Delta} \in \Sigma$, then $\exists A \, \vec{x} .\
-          \Srepr{R}{D}{\vec{x}}{A} \in \Sigma$,
+          \Srepr{D}{\vec{x}}{A} \in \Sigma$,
   \item if $\Sctorvar{\lab{C}}{\Delta_{\lab{C}}}{D}{\Delta} \in \Sigma$, then $\exists
-          t\,\vec{z} .\ \Sreprvar{R}{\lab{C}}{\vec{z}}{t} \in \Sigma$,
+          t\,\vec{z} .\ \Sreprvar{\lab{C}}{\vec{z}}{t} \in \Sigma$,
   \item if $\Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma$, then $\exists
-          T\,\vec{a}\,\eta\,\vec{m} .\ \Srepr{R}{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m}
-          }{e} \in \Sigma$, and
-  \item if $\Sdef{f}{M}{m} \in \Sigma$, then $\exists a .\ \Sreprconst{R}{f}{a} \in
+          T\,\vec{a}\,\eta\,\vec{m} .\ \Srepr{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m} }{e}
+          \in \Sigma$, and
+  \item if $\Sdef{f}{M}{m} \in \Sigma$, then $\exists a .\ \Sreprconst{f}{a} \in
           \Sigma$.
 \end{itemize}
 We can now define the lowering functions $\Crepr{}$ and $\crepr{}$ as follows, where
@@ -414,7 +414,7 @@ Todo:
 
 % - typing rules for inductive lang
 - rephrase kleisli category thing
-- validity of case
+% - validity of case
 - lifts missing in Repr-Case
 - remove extra arg from repr
 - denotational semantics?
