@@ -1,28 +1,3 @@
-\newcommand{\lambdaprim}{\lambda_{\textsc{prim}}}
-\newcommand{\lambdaind}{\lambda_{\textsc{ind}}}
-\newcommand{\lambdarep}{\lambda_{\textsc{rep}}}
-
-\newcommand{\lab}[1]{{\ensuremath{\color{blue}{\mathsf{#1}}}}}
-\newcommand{\kwd}[1]{\mta{\myuline{#1}}}
-\newcommand{\Sdata}[2]{\kwd{data} \ \lab{#1} \, {#2} : \univ_1}
-\newcommand{\Sctor}[4]{\kwd{ctor} \ \lab{#1} \, {#2} : \lab{#3}\, {#4}}
-\newcommand{\Sctorvar}[4]{\kwd{ctor} \ #1 \, {#2} : \lab{#3}\, {#4}}
-\newcommand{\Sfun}[3]{\kwd{fun} \ \lab{#1} : {#2} = {#3}}
-\newcommand{\isConcrete}[1]{{#1}\ \inte{concrete}}
-% \newcommand{\Srepr}[4]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ \lab{#2}\, {#3}\ \kwd{as}\ {#4}}
-% \newcommand{\Sreprconst}[3]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ \lab{#2}\ \kwd{as}\ {#3}}
-% \newcommand{\Sreprvar}[4]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ {#2}\, {#3}\ \kwd{as}\ {#4}}
-\newcommand{\Srepr}[4]{\kwd{repr} \ \lab{#2}\, {#3}\ \kwd{as}\ {#4}}
-\newcommand{\Sreprconst}[3]{\kwd{repr} \ \lab{#2}\ \kwd{as}\ {#3}}
-\newcommand{\Sreprvar}[4]{\kwd{repr} \ {#2}\, {#3}\ \kwd{as}\ {#4}}
-\newcommand{\Sclosed}[2]{\kwd{closed}\ #1 \ #2}
-\newcommand{\DeltaFor}[1]{\Delta_{\lab{#1}}}
-\newcommand{\Trepr}[1]{\mta{repr}\, {#1}}
-\newcommand{\TRepr}[1]{\mta{Repr}\, {#1}}
-\newcommand{\Crepr}[1]{\text{$\Downarrow$} {#1}}
-\newcommand{\crepr}[1]{\text{$\downarrow$} {#1}}
-\newcommand{\isLabNotIn}[2]{\lab{#1}\ \inte{label} \notin {#2}}
-\newcommand{\caselab}[1]{\lab{\textrm{case}_{#1}}}
 
 \section{A type system for data representations}\label{sec:type-system}
 
@@ -59,13 +34,13 @@ introduce inductive constructions and data representations in. The raw syntax
 of $\lambdaprim$ is given by the BNF grammar
 \[
   t ::= \univ_i \mid x \mapsto t \mid t \, t \mid x \mid (x : t) \to t \mid (x : t) \times t \mid
-  \Id{A}{a}{b} \mid \pi_1 \, t \mid \pi_2 \, t \mid \mta{refl} \mid \lift t \mid \quot t \mid \splice t
+  \Id{A}{a}{b} \mid \pi_1 \, t \mid \pi_2 \, t \mid \kwd{refl} \mid \lift t \mid \quot t \mid \splice t
 \]
 This follows the standard typing rules of 2LTT with $\Sigma$, $\Pi$ and
 identity types \cite{Kovacs2022-vb}, without regard for the universe hierarchy,
 as this is orthogonal to the main focus of this work. Notably, $\univ_0 :
   \univ_0$ is the object-level universe, and $\univ_1 : \univ_1$ is the
-meta-level universe. We will use $\mta{let}_i$ notation for binding, though
+meta-level universe. We will use $\kwd{let}_i$ notation for binding, though
 this is just syntactic sugar for redexes.
 
 On top of this base syntax, we assume a certain set of primitives that exist in
@@ -200,29 +175,69 @@ A representation $\Srepr{R}{L}{\Delta}{t}$ asks for a definition $\lab{L}$ with
 parameters $\Delta$ to be represented by a term $t$. Data, constructor and
 function representations all share the same raw syntax and are distinguished by
 the subject $L$. In the typing rules we will require that every meta-level type
-$A$ has a defined representation $\Trepr{A}$. Extensions to this system could
+$A$ has a defined representation $\Crepr{A}$. Extensions to this system could
 support a sub-class of types with representations, retaining the ability to
 have purely meta-level types with no defined representations. For this we
-extend the raw syntax of terms to
-\[
-  t ::= \ldots \mid \Trepr{t} \mid \TRepr{t}
-\]
-where $\TRepr{A}$ is the representation of a type $A$ and $\Trepr{a}$ is the
-representation of a term $a$, whose type is $\TRepr{A}$. With that, we can now
-define the additional typing rules for $\lambdarep$, in
+define $\Crepr{A}$ to be the representation of a type $A$ and $\crepr{a}$ the
+representation of a term $a$, whose type is $\Crepr{A}$. These compute
+definitionally according to rules shown in \cref{fig:repr-rules}. With that, we
+can now define the additional typing rules for $\lambdarep$, in
 \cref{fig:lambdarep-rules}
+
+\newcommand\eqrule[1]{\begin{array}[t]{ll}{#1}\end{array}}
+
+\begin{figure}[h]
+  \[
+    \begin{array}[t]{ccc}
+      % \begin{array}[t]{ll}
+      \begin{aligned}[t]
+         & \Crepr{}          : \Con \ \Sigma  \to \Con \ \Sigma \\
+         & \Crepr{(\cdot)}     = \cdot                          \\
+         & \Crepr{(\Gamma, T)} = \Crepr{\Gamma}, \Crepr{T}
+      \end{aligned}                                                           & \quad
+      % \begin{aligned}[t]
+      %    & \Crepr{}          : \ \Tel_i \ \Sigma \ \Gamma  \to \ \Tel_i \ \Sigma\ \Crepr{\Gamma} \\
+      %    & \Crepr{(\cdot)}     = \cdot                                                           \\
+      %    & \Crepr{(\Delta, T)} = \Crepr{\Delta}, \Crepr{T}
+      % \end{aligned}
+      % \end{array} \\
+      % \begin{array}[t]{ll}
+      \begin{aligned}[t]
+         & \Crepr{}          : \Ty_i \ \Sigma \ \Gamma  \to \Ty_i \ \Sigma \ \Crepr{\Gamma} \\
+         & \Crepr{(\lab{D}\,\vec{t})}     = \lift{ A_{\lab{D}} [\crepr{\vec{t}}] }          \\
+         & \text{else recurse with $\Crepr{}$}                                              \\
+      \end{aligned} \quad &
+      \begin{aligned}[t]
+         & \Crepr{}          : \Tm_i \ \Sigma \ \Gamma \ T  \to \Tm_i \ \Sigma \ \Crepr{\Gamma} \ \Crepr{T}           \\
+         & \Crepr{(\lab{C}\,\vec{t})}     = \quot{\pi_1\, t_{\lab{C}} [\Crepr{\vec{t}}]}                              \\
+         & \Crepr{(\caselab{D}\,\eta\,\vec{m})}     = \quot{e_{\lab{C}} [\wildp,\wildp,\Crepr{\eta},\Crepr{\vec{m}}]} \\
+         & \Crepr{\lab{f}}     = \pi_1\, a_{\lab{f}}                                                                  \\
+         & \text{else recurse with $\Crepr{}$}                                                                        \\
+      \end{aligned}
+      % \end{array}
+    \end{array}
+  \]
+  \caption{Definition of $\Crepr{}$, where $\Sigma$ is a concrete signature.}
+  \label{fig:repr-rules}
+\end{figure}
 
 \begin{figure}[h]
   \begin{mathpar}
-    \inferrule[Repr-Ctor]
+    \inferrule[Repr-Data]
     {
       \Sdata{D}{\Delta} \in \Sigma     \\
-      \forall i \in I .\ \Sctorvar{\lab{C}_i}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
-      \Srepr{R}{D}{\Crepr{\Delta}}{A} \in \Sigma \\
-      \forall j < i .\ \Sreprvar{R}{\lab{C}_j}{\Crepr{\Delta_{\lab{C}_j}}}{t_j} \in \Sigma     \\
-      \Sigma \mid \Crepr{\Delta},\Crepr{\DeltaFor{C}} \vdash t_i : (a : A) \times \textstyle \prod_{j < i} (a \neq \pi_1 t_j)
+      \Sigma \mid \vec{x} : \Crepr{\Delta} \vdash A : \univ_0 \\
     }
-    {\Sigma \vdash \Sreprvar{R}{\lab{C}_i}{\Crepr{\Delta_{\lab{C}_i}}}{t_i}} \and
+    {\Sigma \vdash \Srepr{R}{D}{\vec{x}}{A}} \and
+    \inferrule[Repr-Ctor]
+    {
+    \Sdata{D}{\Delta} \in \Sigma     \\
+    \forall i \in I .\ \Sctorvar{\lab{C}_i}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
+    \Srepr{R}{D}{\Crepr{\Delta}}{A} \in \Sigma \\
+    \forall j < i .\ \Sreprvar{R}{\lab{C}_j}{\Crepr{\Delta_{\lab{C}_j}}}{t_j} \in \Sigma     \\
+    \Sigma \mid \vec{x} : \Crepr{\Delta}, \ \vec{z} : \Crepr{\Delta_{\lab{C}_i}} \vdash t_i : (a : A) \times \textstyle \prod_{j < i} ((\vec{y} : \Crepr{\Delta_{\lab{C}_j}}) \to a \neq \pi_1 t_j[\vec{x},\vec{y}])
+    }
+    {\Sigma \vdash \Sreprvar{R}{\lab{C}_i}{\vec{z}}{t_i}} \and
     \inferrule[Repr-Case]
     {
     \Sdata{D}{\Delta} \in \Sigma     \\
@@ -230,18 +245,19 @@ define the additional typing rules for $\lambdarep$, in
     \forall i \in I .\ \Sctorvar{\lab{C}_{i}}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
     \forall i \in I .\ \Sreprvar{R}{\lab{C}_i}{\Crepr{\Delta_{\lab{C}_i}}}{t_i} \in \Sigma \\
     \Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma \\
-    \Sigma \mid T : (\vec{x} : \Crepr{\Delta}) \to A[\vec{x}] \to \univ_0 ,\
+    \Sigma \mid T : (\vec{x} : \Crepr{\Delta}) \to \lift{A[\vec{x}]} \to \univ_0 ,\
     \vec{a} : \Crepr{\Delta}  ,\
     \eta : A[\vec{a}]  ,\
-    \left( m_i : (\vec{y} : \Crepr{\Delta_{\lab{C}_i}}) \to (\Id{A[\vec{a}]}{\eta}{\pi_1 t_i[\vec{a},\vec{y}]}) \to {T(\vec{a}, \pi_1 t_i[\vec{a}, \vec{y}])} \mid i \in I \right)
-    \vdash e : T(\vec{a}, \eta)
+    \vec{m} : \mta{Cases}(T, \vec{a}, \eta) % (\vec{y} : \Crepr{\Delta_{\lab{C}_i}}) \to (\Id{A[\vec{a}]}{\eta}{\pi_1 t_i[\vec{a},\vec{y}]}) \to {T(\vec{a}, \pi_1 t_i[\vec{a}, \vec{y}])} \\
+    \vdash e : T(\vec{a}, \eta) \\
+    {\text{where $\mta{Cases}(T, \vec{a}, \eta) = ( m_i : (\vec{y} : \Crepr{\Delta_{\lab{C}_i}}) \to (\Id{A[\vec{a}]}{\eta}{\pi_1 t_i[\vec{a},\vec{y}]}) \to {T(\vec{a}, \pi_1 t_i[\vec{a}, \vec{y}])} \mid i \in I )$}}
     }
     {\Sigma \vdash \Srepr{R}{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m}}{e}} \and
     \inferrule[Repr-Fun]
     {
       \Sfun{f}{M}{m} \in \Sigma     \\
       % \isLabNotIn{R}{\Sigma} \\
-      \Sigma \vdash a : (m' : \Crepr{M}) \times (\Id{\Crepr{M}}{\crepr{m}}{m'})
+      \Sigma \mid \cdot \vdash a : (m' : \Crepr{M}) \times (\Id{\Crepr{M}}{\crepr{m}}{m'})
     }
     {\Sigma \vdash \Sreprconst{R}{f}{a}}
   \end{mathpar}
@@ -280,13 +296,12 @@ In \cref{fig:lambdarep-rules}, the symbols $\Crepr{}$ and $\crepr{}$
 the defined representations in $\Sigma$. To define them, we need to introduce a
 concept of \emph{concrete signatures}. A concrete signature is a signature
 where all items are accompanied by representations. In other words, $\Sigma$ is
-a concrete signature
+a concrete signature when
 \begin{itemize}
-  \item if $\Sdata{D}{\Delta} \in \Sigma$, then $\exists A \, \widehat{\Delta} .\
-          \Srepr{R}{D}{\widehat{\Delta}}{A} \in \Sigma$,
+  \item if $\Sdata{D}{\Delta} \in \Sigma$, then $\exists A \, \vec{x} .\
+          \Srepr{R}{D}{\vec{x}}{A} \in \Sigma$,
   \item if $\Sctorvar{\lab{C}}{\Delta_{\lab{C}}}{D}{\Delta} \in \Sigma$, then $\exists
-          t\,\widehat{\Delta_\lab{C}} .\
-          \Sreprvar{R}{\lab{C}}{\widehat{\Delta_{\lab{C}}}}{t} \in \Sigma$,
+          t\,\vec{z} .\ \Sreprvar{R}{\lab{C}}{\vec{z}}{t} \in \Sigma$,
   \item if $\Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma$, then $\exists
           T\,\vec{a}\,\eta\,\vec{m} .\ \Srepr{R}{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m}
           }{e} \in \Sigma$, and
@@ -295,18 +310,22 @@ a concrete signature
 \end{itemize}
 We can now define the lowering functions $\Crepr{}$ and $\crepr{}$ as follows, where
 all the signatures $\Sigma$ are assumed to be concrete:
-\begin{mathpar}
-  {\begin{aligned}
-       & \Crepr{}          : \Con \ \Sigma  \to \Con \ \Sigma \\
-       & \Crepr{(\cdot)}     = \cdot                          \\
-       & \Crepr{(\Delta, T)} = \Crepr{\Delta}, \Crepr{T}
-    \end{aligned}} \and
-  {\begin{aligned}
-       & \Crepr{}          : \Ty_1 \ \Sigma \ \Gamma  \to \Ty_0 \ \Sigma \ \Crepr{\Gamma} \\
-       & \Crepr{(\lbl{D}\,\vec{t})}     = A [\crepr{\vec{t}}]                             \\
-       & \Crepr{(A \to B)}     = \Crepr{A} \to \Crepr{B}                                  \\
-       & \Crepr{(A \times B)}     = \Crepr{A} \times \Crepr{B}                            \\
-       & \Crepr{\univ_1}     = \univ_0                                                    \\
-       & \Crepr{\inte{El} t}     = \crepr{t}                                              \\
-    \end{aligned}}
-\end{mathpar}
+
+Todo:
+
+- typing rules for base lang
+- rephrase kleisli category thing
+- validity of case
+- lifts missing in Repr-Case
+- remove extra arg from repr
+- denotational semantics?
+- restrict image of R to lambda prim.
+- correctness : initiality of algebras is preserved from lambda rep to lambda prim
+
+Extensions:
+
+- ps data
+- multiple reprs
+- class of "compile-time" inductive types
+- multiple pattern clauses
+- quotients

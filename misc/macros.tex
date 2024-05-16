@@ -1,38 +1,87 @@
+% Haskell
+\newcommand{\hs}{\mintinline{haskell}}
+
+% Ambient metatheory
 \newcommand\cat{\mathbb}
 \newcommand\Set{\mathbf{Set}}
+\newcommand{\mta}[1]{\textrm{#1}}
 
-\newcommand{\hs}{\mintinline{haskell}}
-\newcommand{\fto}{\longrightarrow}
-\newcommand\fun[1]{{\textsf{#1}}}
+% Type theory
+
+%% Names
+\newcommand{\kwd}[1]{\textbf{#1}}
+\newcommand{\defkwd}[1]{\textbf{#1}}
+\newcommand{\lab}[1]{{\ensuremath{\color{blue}{\mathsf{#1}}}}}
+\newcommand{\inte}[1]{\textsf{#1}}
+\newcommand{\caselab}[1]{\lab{\textrm{case}_{#1}}}
+
+%% Terms
+\newcommand{\letin}[3]{\kwd{let}\; {#1} = {#2}\; \kwd{in}\; {#3}}
+\newcommand{\letrecin}[3]{\kwd{letrec}\; {#1} = {#2}\; \kwd{in}\; {#3}}
+\newcommand{\wildp}{\underline{\hspace{0.4em}}}
+\newcommand{\univ}{\mathcal{U}}
+\newcommand{\Id}[3]{{#2}=_{#1}{#3}}
+\newcommand{\boxx}[1]{\square{#1}}
+\newcommand{\inbox}[1]{\inte{box}\,{#1}}
+\newcommand{\unbox}[1]{\inte{unbox}\,{#1}}
+\newcommand{\lift}[1]{\text{$\Uparrow$}{#1}}
+\newcommand{\quot}[1]{\langle{#1}\rangle}
+\newcommand{\splice}[1]{\text{$\sim$}{#1}}
+\newcommand{\Gen}{\inte{Gen}}
+\newcommand{\Repr}{\inte{Repr}}
+\newcommand{\Crepr}[1]{\mathcal{R} {#1}}
+\newcommand{\crepr}[1]{\mathcal{R} {#1}}
+\newcommand{\DeltaFor}[1]{\Delta_{\lab{#1}}}
+
+%% Definitions
+\newcommand{\Sdata}[2]{\defkwd{data} \ \lab{#1} \, {#2} : \univ_1}
+\newcommand{\Sctor}[4]{\defkwd{ctor} \ \lab{#1} \, {#2} : \lab{#3}\, {#4}}
+\newcommand{\Sctorvar}[4]{\defkwd{ctor} \ #1 \, {#2} : \lab{#3}\, {#4}}
+\newcommand{\Sfun}[3]{\defkwd{fun} \ \lab{#1} : {#2} = {#3}}
+\newcommand{\Srepr}[4]{\defkwd{repr} \ \lab{#2}\, {#3}\ \defkwd{as}\ {#4}}
+\newcommand{\Sreprconst}[3]{\defkwd{repr} \ \lab{#2}\ \defkwd{as}\ {#3}}
+\newcommand{\Sreprvar}[4]{\defkwd{repr} \ {#2}\, {#3}\ \defkwd{as}\ {#4}}
+\newcommand{\Sclosed}[2]{\defkwd{closed}\ #1 \ #2}
+
+%% Judgements
+
+\newcommand{\istype}[2]{{#2} \; \mta{type}_{#1}}
+\newcommand{\isConcrete}[1]{{#1}\ \inte{concrete}}
+\newcommand{\isLabNotIn}[2]{\lab{#1}\ \inte{label} \notin {#2}}
+
+% CWF
+\newcommand{\Ty}{\mta{Ty}}
+\newcommand{\Tm}{\mta{Tm}}
+\newcommand{\Con}{\mta{Con}}
+\newcommand{\Sub}{\mta{Sub}}
+\newcommand{\Tel}{\mta{Tel}}
+\newcommand{\Sig}{\mta{Sig}}
+\newcommand{\typeof}{\mta{typeof}}
+
+% Languages
+\newcommand{\lambdaprim}{\lambda_{\textsc{prim}}}
+\newcommand{\lambdaind}{\lambda_{\textsc{ind}}}
+\newcommand{\lambdarep}{\lambda_{\textsc{rep}}}
+
+%%%%%%%% OLD
+
+% \newcommand{\Trepr}[1]{\mta{repr}\, {#1}}
+% \newcommand{\TRepr}[1]{\mta{Repr}\, {#1}}
 
 % \newcommand{\infname}[1]{\textsc{#1}}
 % \newcommand{\infrule}[3][]{{\infname{#1}}\,\frac{#2}{#3}}
 
-\newcommand{\datawhere}[2][]{\inte{data}\ \defin{#2}{#1}\ \inte{where}}
-\newcommand{\recordwhere}[2][]{\inte{record}\ \defin{#2}{#1}\ \inte{where}}
+% \newcommand{\datawhere}[2][]{\inte{data}\ \defin{#2}{#1}\ \inte{where}}
+% \newcommand{\recordwhere}[2][]{\inte{record}\ \defin{#2}{#1}\ \inte{where}}
 
-\newcommand{\data}{\inte{data}}
-\newcommand{\ctor}{\inte{record}}
+% \newcommand{\data}{\inte{data}}
+% \newcommand{\ctor}{\inte{record}}
 
-\newcommand{\caseof}[1]{\inte{case}\; {#1}\; \inte{of}}
-\newcommand{\branch}[2]{{#1} \mapsto {#2}}
-\newcommand{\inte}[1]{\textsf{#1}}
-\newcommand{\mta}[1]{\textbf{#1}}
-\newcommand{\defin}[1]{\texttt{#1}}
-\newcommand{\istype}[2]{{#2} \; \mta{type}_{#1}}
+% \newcommand{\caseof}[1]{\inte{case}\; {#1}\; \inte{of}}
+% \newcommand{\branch}[2]{{#1} \mapsto {#2}}
 % \newcommand{\isrepr}[2]{{#1} \ \mta{repr}\;{#2}}
 % \newcommand{\isind}[1]{{#1} \ \mta{ind}}
-\newcommand{\lbl}{\textsf}
-\newcommand{\letin}[3]{\inte{let}\; {#1} = {#2}\; \inte{in}\; {#3}}
-\newcommand{\letrecin}[3]{\inte{letrec}\; {#1} = {#2}\; \inte{in}\; {#3}}
-\newcommand{\wildp}{\underline{\hspace{0.8em}}}
-
-% CWF
-\newcommand{\Ty}{\fun{Ty}}
-\newcommand{\Tm}{\fun{Tm}}
-\newcommand{\Con}{\fun{Con}}
-\newcommand{\Sub}{\fun{Sub}}
-\newcommand{\typeof}{\fun{typeof}}
+% \newcommand{\lbl}{\textsf}
 
 % \newcommand{\mM}{\mta{Meta}}
 % \newcommand{\mR}{\mta{Repr}}
@@ -41,8 +90,6 @@
 % \newcommand{\mI}{\mta{Ind}}
 % \newcommand{\mS}{\mta{Syn}}
 
-\newcommand{\univ}{\mathcal{U}}
-\newcommand{\Id}[3]{{#2}=_{#1}{#3}}
 % \newcommand{\Um}{{\univ{\mM}}}
 % \newcommand{\Ur}{{\univ{\mR}}}
 % \newcommand{\Uo}{{\univ{\mO}}}
@@ -54,20 +101,6 @@
 % \newcommand{\Gr}{{\G_{\mR}}}
 % \newcommand{\Gv}{{\G_{\mV}}}
 % \newcommand{\Gi}{{\G_{\mI}}}
-
-\newcommand{\boxx}[1]{\square{#1}}
-\newcommand{\inbox}[1]{\inte{box}\,{#1}}
-\newcommand{\unbox}[1]{\inte{unbox}\,{#1}}
-\newcommand{\lift}[1]{\text{$\Uparrow$}{#1}}
-\newcommand{\quot}[1]{\langle{#1}\rangle}
-\newcommand{\splice}[1]{\text{$\sim$}{#1}}
-
-\newcommand{\Gen}{\defin{Gen}}
-\newcommand{\Repr}{\defin{Repr}}
-
-\newcommand{\inj}{\widetilde}
-
-%%%%%%%%
 
 % \def\fun{\mathrm}
 % \def\funArrow{\longrightarrow}
@@ -127,3 +160,6 @@
 % \newcommand{\sthen}{\textbf{\lv{\textsf{then}}}}
 % \newcommand{\selse}{\textbf{\lv{\textsf{else}}}}
 
+% \newcommand{\Srepr}[4]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ \lab{#2}\, {#3}\ \kwd{as}\ {#4}}
+% \newcommand{\Sreprconst}[3]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ \lab{#2}\ \kwd{as}\ {#3}}
+% \newcommand{\Sreprvar}[4]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ {#2}\, {#3}\ \kwd{as}\ {#4}}
