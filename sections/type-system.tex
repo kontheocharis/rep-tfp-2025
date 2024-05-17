@@ -410,13 +410,63 @@ a concrete signature when
 We can now define the lowering functions $\Crepr{}$ and $\crepr{}$ as follows, where
 all the signatures $\Sigma$ are assumed to be concrete:
 
+\subsection{Default representations}
+
+\begin{figure}[h]
+  \begin{mathpar}
+    \inferrule[Default-Data]
+    {
+      \isConcrete{\Sigma} \\
+      \Sigma \vdash Z := \Sdata{D}{\Delta} \\
+      \forall i \in I .\ \Sigma,Z,(X_j)_{j < i} \vdash X_i := \Sctorvar{\lab{C}_{i}}{\Delta_{\lab{C}_i}}{D}{\Delta}    \\
+      \Sigma,Z,(X_i)_{i \in I} \vdash L := \Sclosed{\lab{D}}{\vec{\lab{C}}} \\
+    }
+    {
+      \Sigma,Z,X,L \vdash \Srepr{D}{\vec{x}}{(\mu F . \vec{x} \mapsto (c : \inte{Word}_{\llbracket I \rrbracket}) \times \boxx{(\inte{switch} \ c \ (\mta{Ctors}\ \vec{x}\ F)))})\ \vec{x}} \\
+      \text{where } \mta{Ctors}\ \vec{x}\ F = ((d : \mta{Data}_i\ \vec{x}) \times ((r : \mta{Rec}_i\ \vec{x}\ d) \to F (\mta{Idx}_i\ r)))_{i \in I} \\
+    } \and
+    \inferrule[Repr-Ctor]
+    {
+    \Sdata{D}{\Delta} \in \Sigma     \\
+    \forall i \in I .\ \Sctorvar{\lab{C}_i}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
+    \Srepr{D}{\Crepr{\Delta}}{A} \in \Sigma \\
+    \forall j < i .\ \Sreprvar{\lab{C}_j}{\Crepr{\Delta_{\lab{C}_j}}}{t_j} \in \Sigma     \\
+    \Sigma \mid \vec{x} : \Crepr{\Delta}, \ \vec{z} : \Crepr{\Delta_{\lab{C}_i}} \vdash t_i : (a : A) \times \textstyle \prod_{j < i} ((\vec{y} : \Crepr{\Delta_{\lab{C}_j}}) \to a \neq \pi_1 t_j[\vec{x},\vec{y}])
+    }
+    {\Sigma \vdash \Sreprvar{\lab{C}_i}{\vec{z}}{t_i}} \and
+    \inferrule[Repr-Case]
+    {
+    \Sdata{D}{\Delta} \in \Sigma     \\
+    \Srepr{D}{\Crepr{\Delta}}{A} \in \Sigma \\
+    \forall i \in I .\ \Sctorvar{\lab{C}_{i}}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
+    \forall i \in I .\ \Sreprvar{\lab{C}_i}{\Crepr{\Delta_{\lab{C}_i}}}{t_i} \in \Sigma \\
+    \Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma \\
+    \Sigma \mid T : (\vec{x} : \Crepr{\Delta}) \to \lift{A[\vec{x}]} \to \univ_0 ,\
+    \vec{a} : \Crepr{\Delta}  ,\
+    \eta : A[\vec{a}]  ,\
+    \vec{m} : \mta{Cases} \ T\ \vec{a}\ \eta % (\vec{y} : \Crepr{\Delta_{\lab{C}_i}}) \to (\Id{A[\vec{a}]}{\eta}{\pi_1 t_i[\vec{a},\vec{y}]}) \to {T(\vec{a}, \pi_1 t_i[\vec{a}, \vec{y}])} \\
+    \vdash e : T(\vec{a}, \eta) \\
+    {\text{where $\mta{Cases}\ T\ \vec{a}\ \eta = ( m_i : (\vec{y} : \Crepr{\Delta_{\lab{C}_i}}) \to (\Id{A[\vec{a}]}{\eta}{\pi_1 t_i[\vec{a},\vec{y}]}) \to {T(\vec{a}, \pi_1 t_i[\vec{a}, \vec{y}])} \mid i \in I )$}}
+    }
+    {\Sigma \vdash \Srepr{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m}}{e}} \and
+    \inferrule[Default-Def]
+    {
+      \isConcrete{\Sigma} \\
+      \Sigma \vdash F := \Sdef{f}{M}{m}
+    }
+    {\Sigma,F \vdash \Sreprconst{f}{(\Crepr{m}, \kwd{refl})}}
+  \end{mathpar}
+  \caption{Default data representations in $\lambdarep$. These are not rules, but derivations.}
+  \label{fig:lambdarep-default}
+\end{figure}
+
 Todo:
 
 % - typing rules for inductive lang
 - rephrase kleisli category thing
 % - validity of case
-- lifts missing in Repr-Case
-- remove extra arg from repr
+% - lifts missing in Repr-Case
+% - remove extra arg from repr
 - denotational semantics?
 - restrict image of R to lambda prim.
 - correctness : initiality of algebras is preserved from lambda rep to lambda prim

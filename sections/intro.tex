@@ -1,27 +1,103 @@
 \section{Introduction}\label{sec:intro}
 
-Dependently-typed functional languages offer high-level expressiveness, but
-unlike imperative languages such as C, they limit control in behaviour of
-programs when it comes to runtime execution. Indeed, this is intentional; by
-letting go of low-level control, programs become easier to write, understand,
-and modify. However, relinquishing this control often leads to unoptimised
-programs that do not take full advantage of the architecture they are running
-on. The default memory representation for inductive types is a linked tree,
-where each constructor is a node and the recursive data it holds are the
-children of that node. This representation is very flexible, because it can
-represent any inductive data type, but it is not always the most efficient.
+Functional languages offer a high degree of expressiveness using a very small
+set of primitives: most employ a variant of the typed lambda calculus, commonly
+with schemas for defining recursive or inductive types. Such constructs allow
+programmers to define data and logic in a natural, algebraic way that is
+amenable to abstraction. Data structures such as lists, trees, and even natural
+numbers are the archetypical examples of inductively defined data, which offer
+pattern-matching as a principled way to introduce `complete' branching points
+in a program. Despite these advantages, functional languages generally do not
+provide programmers with many tools to specify how their programs should be
+represented on physical computers. For inductively-defined data, there is a
+fixed representation that the majority of functional languages utilise, which
+is to represent each constructor as a heap cell, and link chains of
+constructors together using pointer indirection. As a result, a list as an
+inductively defined data structure is stored as a linked list, and a natural
+number is stored as a unary number where each digit is an `empty' heap cell. To
+get around this issue, most real-world implementations expose underlying
+machine primitive types such as contiguous arrays and bitvectors, and
+programmers are able to utilise these instead of the `algebraic'
+inductively-defined types to make their functional programs more performant. In
+Haskell, the \texttt{array} package comes to mind, as well as the \hs{Integer}
+and \hs{Natural} primitives which utilise a GMP-style big-integer
+implementation internally.
 
 \subsection{The `Nat-hack'}
 
-Introduce Nat-hack and detail how it works in Idris, Lean, Coq, etc.
+In functional languages with dependent types, such as Idris or Lean, the issue
+of type representation is further complicated by the fact that inductive proofs
+come into the mix. Inductively defined types enjoy induction principles which
+can prove facts about them on a case-by-case basis. The standard example is the
+induction over the natural numbers \idr{data Nat = Z | S Nat} given by
+\begin{bminted}{idris}
+  induction : (P : Nat -> Type) -> P Z -> ((m : Nat) -> P m -> P (S m)) -> (n : Nat) -> P n
+\end{bminted}
+This can be proven trivially by well-founded recursion and case analysis over
+the syntactical constructors \idr{Z} and \idr{S} of \idr{Nat}. However, if
+natural numbers are not defined inductively, but rather opaquely as an
+intricate data structure like Haskell's \idr{Natural}, induction is no longer
+given `for free', and must be manually proven internally in the language. On
+the other hand, if natural numbers are defined inductively, then many
+operations become inexcusably slow, such as multiplication
+\begin{bminted}{idris}
+  mul : Nat -> Nat -> Nat
+  mul Z b = Z
+  mul (S a) b = add (mul a b) b
+\end{bminted}
+taking $O(a b)$ time to compute. The solution to this problem that Idris, Agda
+and Lean use is to `short-circuit' the default inductive type representation for
+natural numbers, to use arbitrarily-sized big integers for calculations whose
+digits are bitvectors, rather than unary numbers.
 
-Provide perf tests for Nat hack vs others
+To describe how this trick works, assume we have access to a type \idr{BigUInt}
+for arbitrarily-sized big integers, along with some primitive operations
+\begin{bminted}{idris}
+  bigZero, bigOne : BigUint
+  bigAdd, bigMul, bigSub : BigUInt -> BigUInt -> BigUInt
+  bigIsZero : BigUInt -> Bool
+\end{bminted}
+In a well-typed input program, all occurences of the zero constructor \idr|Z : Nat|
+should be replaced with the constant \idr{bigZero}, and all occurences of the
+successor constructor \idr|S : Nat -> Nat| should be replaced with the expression
+\idr|\x -> bigAdd x bigOne|. For case analysis, each pattern matching expression
+\idr+case x of Z -> b | S n -> r n+ should be replaced with the conditional
+expression \idr|if bigIsZero x then b else r (bigSub x bigOne)|. Additionally,
+some basic functions on natural numbers should be replaced with more performant
+variants. The recursively-defined addition function \idr|add : Nat -> Nat -> Nat|
+should be replaced with \idr{bigAdd} and similarly \idr{mul} should be replaced with
+\idr{bigMul}.
+This way, the high-level program still appears to be using the inductive definition
+\idr{Nat}, but upon compilation it uses \idr{BigUInt} for efficient execution.
 
 \subsection{Beyond natural numbers}
 
-Identify other data structures that would benefit (list-like things, trees)
+There are arguably many inductive types which could admit a more optimised
+representation than the default linked tree. The first which comes to mind is
+the type of lists \idr{data List t = Nil | Cons t (List t)}. There exist many
+representations of lists in memory, including flattened contiguous heap-backed
+arrays with dynamic resizing, singly-linked lists, doubly-linked lists, their
+circular variants, tree-based representations like binary search trees, their
+balanced variants, B and B+ trees, and segment trees. Each representation
+offers different performance characteristics for common operations such as
+appending, insertion, deletion, splicing, concatenating, and so on.
+Nevertheless, all of them are \idr{List} in spirit; there is a `canonical'
+bijection between a list and any of the afforementioned data structures. A
+functional program using the algebraic \idr{List} type could potentially
+benefit from a different representation depending on the exact operations it
+performs and in what proportion. Not only lists, but structures such as trees,
+finite sets, as well as refinement predicates on types such as element proofs
+or parity proofs, could all be subject to more optimal representations. Since,
+at first glance, such an alteration could be done purely mechanically in a
+similar way to the `Nat-hack', it is natural to wonder if this technique
+readily generalises to user-defined inductive types such that the
+transformation itself is specified in the same language.
 
-\subsection{A staging-based approach}
+\subsection{A language for representations}
+
+The goal of this paper is to develop an extension of dependently-typed lambda
+calculus with inductive constructions, in order to support the definition of
+custom representations of the inductive constructions.
 
 Staging and why is it needed?
 

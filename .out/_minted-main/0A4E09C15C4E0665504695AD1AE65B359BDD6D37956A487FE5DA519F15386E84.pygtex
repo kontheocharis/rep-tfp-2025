@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kr}{if}\PYG{+w}{ }bigIsZero\PYG{+w}{ }x\PYG{+w}{ }\PYG{k+kr}{then}\PYG{+w}{ }b\PYG{+w}{ }\PYG{k+kr}{else}\PYG{+w}{ }r\PYG{+w}{ }\PYG{o+ow}{(}bigSub\PYG{+w}{ }x\PYG{+w}{ }bigOne\PYG{o+ow}{)}
+\end{Verbatim}

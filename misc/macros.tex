@@ -1,5 +1,12 @@
-% Haskell
+% Code
 \newcommand{\hs}{\mintinline{haskell}}
+\newcommand{\idr}{\mintinline{idris}}
+\newenvironment{bminted}[2][]
+{\VerbatimEnvironment
+  \RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}%
+  \begin{center}
+    \begin{minted}[autogobble,#1]{#2}}
+  {\end{minted}\end{center}}
 
 % Ambient metatheory
 \newcommand\cat{\mathbb}

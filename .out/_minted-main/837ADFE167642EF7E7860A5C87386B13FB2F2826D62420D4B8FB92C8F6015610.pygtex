@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+bigZero,\PYG{+w}{ }bigOne\PYG{+w}{ }\PYG{o+ow}{:}\PYG{+w}{ }\PYG{k+kt}{BigUint}
+bigAdd,\PYG{+w}{ }bigMul,\PYG{+w}{ }bigSub\PYG{+w}{ }\PYG{o+ow}{:}\PYG{+w}{ }\PYG{k+kt}{BigUInt}\PYG{+w}{ }\PYG{o+ow}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{k+kt}{BigUInt}\PYG{+w}{ }\PYG{o+ow}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{k+kt}{BigUInt}
+\PYG{n+nf}{bigIsZero}\PYG{+w}{ }\PYG{o+ow}{:}\PYG{+w}{ }\PYG{k+kt}{BigUInt}\PYG{+w}{ }\PYG{o+ow}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{k+kt}{Bool}
+\end{Verbatim}

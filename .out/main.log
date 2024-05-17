@@ -1,6 +1,6 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.17)  16 MAY 2024 18:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.17)  17 MAY 2024 19:16
 entering extended mode
- restricted \write18 enabled.
+ \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
 **/Users/kt81/git/rep-mfps-2024/main.tex
@@ -850,14 +850,153 @@ File: pdftex.cnt 2004/11/18 v2.14 Print contoured text (HH, MH)
 \ULC@box=\box78
 Package: ulem 2019/11/18
 \ULdepth=\dimen305
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/minted/minted.sty
+Package: minted 2022/12/12 v2.7 Yet another Pygments shim for LaTeX
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/fvextra/fvextra.sty
+Package: fvextra 2022/11/30 v1.5 fvextra - extensions and patches for fancyvrb
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2023/01/19 4.5a verbatim text (tvz,hv)
+\FV@CodeLineNo=\count334
+\FV@InFile=\read4
+\FV@TabBox=\box79
+\c@FancyVerbLine=\count335
+\FV@StepNumber=\count336
+\FV@OutFile=\write5
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/upquote/upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verbatim
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/lineno/lineno.sty
+Package: lineno 2023/01/19 line numbers on paragraphs v5.1
+\linenopenalty=\count337
+\output=\toks54
+\linenoprevgraf=\count338
+\linenumbersep=\dimen306
+\linenumberwidth=\dimen307
+\c@linenumber=\count339
+\c@pagewiselinenumber=\count340
+\c@LN@truepage=\count341
+\c@internallinenumber=\count342
+\c@internallinenumbers=\count343
+\quotelinenumbersep=\dimen308
+\bframerule=\dimen309
+\bframesep=\dimen310
+\bframebox=\box80
+\linenoamsmath@ams@eqpen=\count344
+LaTeX Info: Redefining \\ on input line 3131.
+)
+\c@FV@TrueTabGroupLevel=\count345
+\c@FV@TrueTabCounter=\count346
+\FV@TabBox@Group=\box81
+\FV@TmpLength=\skip80
+\c@FV@HighlightLinesStart=\count347
+\c@FV@HighlightLinesStop=\count348
+\FV@LoopCount=\count349
+\FV@NCharsBox=\box82
+\FV@BreakIndent=\dimen311
+\FV@BreakIndentNChars=\count350
+\FV@BreakSymbolSepLeft=\dimen312
+\FV@BreakSymbolSepLeftNChars=\count351
+\FV@BreakSymbolSepRight=\dimen313
+\FV@BreakSymbolSepRightNChars=\count352
+\FV@BreakSymbolIndentLeft=\dimen314
+\FV@BreakSymbolIndentLeftNChars=\count353
+\FV@BreakSymbolIndentRight=\dimen315
+\FV@BreakSymbolIndentRightNChars=\count354
+\c@FancyVerbLineBreakLast=\count355
+\FV@LineBox=\box83
+\FV@LineIndentBox=\box84
+\c@FV@BreakBufferDepth=\count356
+\FV@LineWidth=\dimen316
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count357
+\calc@Bcount=\count358
+\calc@Adimen=\dimen317
+\calc@Bdimen=\dimen318
+\calc@Askip=\skip81
+\calc@Bskip=\skip82
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count359
+\calc@Cskip=\skip83
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/tools/shellesc.sty
+Package: shellesc 2019/11/08 v1.0c unified shell escape interface for LaTeX
+Package shellesc Info: Unrestricted shell escape enabled on input line 75.
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/ifplatform/ifplatform.sty
+Package: ifplatform 2017/10/13 v0.4a Testing for the operating system
+ (/usr/local/texlive/2023/texmf-dist/tex/generic/catchfile/catchfile.sty
+Package: catchfile 2019/12/09 v1.8 Catch the contents of a file (HO)
+)
+runsystem(uname -s > "main.w18")...executed.
+
+ (./main.w18)
+runsystem(rm -- "main.w18")...executed.
+
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/framed/framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip84
+\fb@frw=\dimen319
+\fb@frh=\dimen320
+\FrameRule=\dimen321
+\FrameSep=\dimen322
+)
+\minted@appexistsfile=\read5
+\minted@bgbox=\box85
+\minted@code=\write6
+\c@minted@FancyVerbLineTemp=\count360
+\c@minted@pygmentizecounter=\count361
+\@float@every@listing=\toks55
+\c@listing=\count362
+)
+runsystem(mkdir -p .out/_minted-main)...executed.
+
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2022/10/17 v1.3a Adjusting TeX boxes (trim, clip, ...)
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back-ends (calc, etex, pgfmath)
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
+\collectedbox=\box86
+)
+\tc@llx=\dimen323
+\tc@lly=\dimen324
+\tc@urx=\dimen325
+\tc@ury=\dimen326
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen327
+\adjbox@Height=\dimen328
+\adjbox@Depth=\dimen329
+\adjbox@Totalheight=\dimen330
+\adjbox@pwidth=\dimen331
+\adjbox@pheight=\dimen332
+\adjbox@pdepth=\dimen333
+\adjbox@ptotalheight=\dimen334
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2022/10/18 v1.2 Conditionals for odd/even page detection
+\c@checkoddpage=\count363
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box87
+\sift@deathcycles=\count364
+\@vwid@loff=\dimen335
+\@vwid@roff=\dimen336
 )) (./misc/macros.tex) (./misc/rights.tex)
 Package hyperref Info: Option `colorlinks' set `true' on input line 9.
 Package hyperref Info: Option `pdfdisplaydoctitle' set `true' on input line 9.
-\c@theorem=\count334
- Include comment 'screenonly' Excluding comment 'printonly' Include comment 'anonsuppress' (/usr/local/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+\c@theorem=\count365
+ Include comment 'screenonly' Excluding comment 'printonly' Include comment 'anonsuppress'
+runsystem(which pygmentize && touch main.aex)...executed.
+
+runsystem(rm main.aex)...executed.
+
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count335
-\l__pdf_internal_box=\box79
+\l__color_backend_stack_int=\count366
+\l__pdf_internal_box=\box88
 ) (.out/main.aux)
 \openout1 = `main.aux'.
 
@@ -963,31 +1102,25 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 Package hyperref Info: Link coloring ON on input line 9.
 (.out/main.out) (.out/main.out)
-\@outlinefile=\write5
-\openout5 = `main.out'.
+\@outlinefile=\write7
+\openout7 = `main.out'.
 
  (/usr/local/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count336
-\scratchdimen=\dimen306
-\scratchbox=\box80
-\nofMPsegments=\count337
-\nofMParguments=\count338
-\everyMPshowfont=\toks54
-\MPscratchCnt=\count339
-\MPscratchDim=\dimen307
-\MPnumerator=\count340
-\makeMPintoPDFobject=\count341
-\everyMPtoPDFconversion=\toks55
+\scratchcounter=\count367
+\scratchdimen=\dimen337
+\scratchbox=\box89
+\nofMPsegments=\count368
+\nofMParguments=\count369
+\everyMPshowfont=\toks56
+\MPscratchCnt=\count370
+\MPscratchDim=\dimen338
+\MPnumerator=\count371
+\makeMPintoPDFobject=\count372
+\everyMPtoPDFconversion=\toks57
 ) (/usr/local/texlive/2023/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
- (/usr/local/texlive/2023/texmf-dist/tex/latex/grfext/grfext.sty
-Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
-)
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
-Package grfext Info: Graphics extension search list:
-(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 504.
  (/usr/local/texlive/2023/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
@@ -1025,15 +1158,12 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@mv@tabular=\count342
-\c@mv@boldtabular=\count343
-(/usr/local/texlive/2023/texmf-dist/tex/latex/upquote/upquote.sty
-Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verbatim
-)
+\c@mv@tabular=\count373
+\c@mv@boldtabular=\count374
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
- (./misc/frontmatter.tex)
+(./misc/frontmatter.tex)
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 12.0pt on input line 13.
 LaTeX Font Info:    Trying to load font information for T1+LinuxBiolinumT-TLF on input line 13.
@@ -1085,18 +1215,109 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) (./sections/intro.tex
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
 (Font)              scaled to size 9.0pt on input line 1.
+LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 22.
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/inconsolata/t1zi4.fd
+File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
+)
+LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
+(Font)              scaled to size 9.0pt on input line 22.
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `zi4' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/default.pygstyle) (./.out/_minted-main/8F8A25A4F2E14DDF4E97B3FFAFF975464DDA10F0D00E9A8C9FA12E09A5AD1941.pygtex
+LaTeX Font Info:    Font shape `T1/zi4/b/n' will be
+(Font)              scaled to size 9.0pt on input line 3.
+)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/9367DDB4ABC39452CCE35D4241E5B4184DDA10F0D00E9A8C9FA12E09A5AD1941.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/4AD9C8E30AF49B1D096AE35700E07D299BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout5 = `main.pyg'.
+
+ (./.out/_minted-main/17E8AE854B046EBE40491F18BCC88264FB2F2826D62420D4B8FB92C8F6015610.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/41FF0912A07FDC52799FF27B38E7F1409BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/65DB27307AA0CDF0B3C0323431E08A159BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/2B407949193B6A2F7F0CDE1CB6A2F8129BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/9367DDB4ABC39452CCE35D4241E5B4189BDD6D37956A487FE5DA519F15386E84.pygtex)
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 6.0pt on input line 43.
+ [1.1{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-4.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc}]
+\openout5 = `main.pyg'.
+
+ (./.out/_minted-main/707F9C0EFDBF35153404E58CCBB9F01DFB2F2826D62420D4B8FB92C8F6015610.pygtex)
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 9.0pt on input line 31.
+(Font)              scaled to size 9.0pt on input line 48.
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/F945CD93B71E8CEF91900B730239FCCD9BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout5 = `main.pyg'.
+
+ (./.out/_minted-main/837ADFE167642EF7E7860A5C87386B13FB2F2826D62420D4B8FB92C8F6015610.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/0184B520117015A43BC9170DD482E96F9BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/594D863B8D4B9DE47AE653D1219918F89BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/FEE3976E5A22FB141CD7C4C3AB9D30EE9BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/523ED9E7E3FAABF4C80FAAD3F6B185FD9BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/DA1BF335D0AD0012E9C680F1DE0B94EC9BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/0A4E09C15C4E0665504695AD1AE65B359BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/5E3A72F5B7D95C94E83B14BE18CA98A59BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/810A516AD37EA08E3B03F7DA023FE0B79BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/4587885C616ECED0A497278F55CD20F39BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/ECB289ADDF0B3422BCEA2726A366D4BA9BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/2B407949193B6A2F7F0CDE1CB6A2F8129BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/F945CD93B71E8CEF91900B730239FCCD9BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/B600A9D6E3D39F01D5EECE57F002E1B79BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/D6391049C74E44899E005C3E80FDE7E89BDD6D37956A487FE5DA519F15386E84.pygtex)
+\openout6 = `main.pyg'.
+
+ (./.out/_minted-main/D6391049C74E44899E005C3E80FDE7E89BDD6D37956A487FE5DA519F15386E84.pygtex)
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 7.3pt on input line 31.
+(Font)              scaled to size 7.3pt on input line 107.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 5.5pt on input line 31.
-) (./sections/informal.tex) (./sections/type-system.tex
+(Font)              scaled to size 5.5pt on input line 107.
+ [2.2]) (./sections/informal.tex) (./sections/type-system.tex
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
 (Font)              scaled to size 9.0pt on input line 5.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 6.0pt on input line 14.
- [1.1{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc}]
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/sc' will be
 (Font)              scaled to size 9.0pt on input line 26.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
@@ -1122,7 +1343,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
 (Font)              scaled to size 9.0pt on input line 37.
-[2.2{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_ncsllp.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_jtta5h.enc}]
+[3.3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_ncsllp.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_jtta5h.enc}]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 78.
@@ -1141,7 +1362,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
 (Font)              scaled to size 9.0pt on input line 134.
-[3.3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}]
+[4.4]
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
 (Font)              scaled to size 8.0pt on input line 156.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
@@ -1161,6 +1382,9 @@ Class acmart Warning: A possible image without description on input line 211.
 Class acmart Warning: A possible image without description on input line 248.
 
 
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 250.
 
@@ -1176,7 +1400,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 250.
 
-[4.4{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_omcwp2.enc}]
+[5.5{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_omcwp2.enc}]
 
 Class acmart Warning: A possible image without description on input line 321.
 
@@ -1186,15 +1410,22 @@ Class acmart Warning: A possible image without description on input line 365.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[5.5]) (./sections/elaboration.tex) (./sections/beyond.tex) (./sections/conclusion.tex) (./sections/acks.tex) (.out/main.bbl
+[6.6]
+
+Class acmart Warning: A possible image without description on input line 461.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) (./sections/elaboration.tex) (./sections/beyond.tex) (./sections/conclusion.tex) (./sections/acks.tex) (.out/main.bbl
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
 (Font)              scaled to size 7.0pt on input line 43.
- [6.6]
+ [7.7]
 Underfull \hbox (badness 10000) in paragraph at lines 124--132
 \T1/LinuxLibertineT-TLF/m/n/7 (+20) cambridge -[] core / content / view / 4D2DF6F4FE23599C8C1FEA6C921A3748 / S0956796816000356a . pdf / div -[] class -[] title -[] the -[] essence -[] of -[] ornaments -[]
  []
 
-)
+[8.8])
 
 Class acmart Warning: Some images may lack descriptions.
 
@@ -1208,27 +1439,29 @@ Class acmart Warning: CCS concepts are mandatory for papers over two pages.
 File: se-pdfdoc.def 2019/11/29 v1.12 stringenc: PDFDocEncoding
 ) (/usr/local/texlive/2023/texmf-dist/tex/generic/stringenc/se-utf8.def
 File: se-utf8.def 2019/11/29 v1.12 stringenc: UTF-8
-) [7.7] (.out/main.aux)
+) [9.9] (.out/main.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.97499pt have occurred.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: BBDF4459B23F7C049EB99BF1DEADA9DA;3022.
+(rerunfilecheck)             Checksum: B49E1527A95A2562A4E648D88C06BD2F;3254.
+runsystem(rm .out//main.pyg)...executed.
+
  ) 
 Here is how much of TeX's memory you used:
- 34741 strings out of 476025
- 652122 string characters out of 5790016
- 1881388 words of memory out of 5000000
- 53743 multiletter control sequences out of 15000+600000
- 816694 words of font info for 478 fonts, out of 8000000 for 9000
+ 38401 strings out of 476025
+ 744600 string characters out of 5790016
+ 1888388 words of memory out of 5000000
+ 57241 multiletter control sequences out of 15000+600000
+ 817861 words of font info for 484 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 90i,22n,131p,1031b,693s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathRM.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/NewTXMI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/NewTXMI7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txexs.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/txfonts/txsya.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on .out/main.pdf (7 pages, 490572 bytes).
+ 90i,22n,131p,1031b,757s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4b.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathRM.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/NewTXMI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/NewTXMI7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txexs.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/txfonts/txsya.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
+Output written on .out/main.pdf (9 pages, 535547 bytes).
 PDF statistics:
- 261 PDF objects out of 1000 (max. 8388607)
- 210 compressed objects within 3 object streams
- 51 named destinations out of 1000 (max. 500000)
- 155789 words of extra memory for PDF output out of 184870 (max. 10000000)
+ 284 PDF objects out of 1000 (max. 8388607)
+ 229 compressed objects within 3 object streams
+ 55 named destinations out of 1000 (max. 500000)
+ 156821 words of extra memory for PDF output out of 184870 (max. 10000000)
 
