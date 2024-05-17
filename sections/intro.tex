@@ -93,7 +93,7 @@ similar way to the `Nat-hack', it is natural to wonder if this technique
 readily generalises to user-defined inductive types such that the
 transformation itself is specified in the same language.
 
-\subsection{A language for representations}
+\subsection{Contributions}
 
 This paper develops an extension of dependently-typed lambda calculus with
 inductive constructions, in order to support the definition of custom
@@ -102,23 +102,29 @@ of functions for fine tuning to the chosen representations. This system
 features correct-by-construction representations, awarding the programmer with
 a bijection proof between an inductive type and its representation, as well as
 an elaboration into a lower language with a guarantee that no inductive
-constructors or eliminators remain, and that the semantics of the program are
-preserved. The standard linked tree representation of inductive types that is
-the hardcoded default in most implementations is incarnated as `just another
-representation' in this system, special only because it can apply to \emph{any}
-inductive type.
-
-Staging and why is it needed?
-
-\subsection{Contributions}
+constructors or eliminators remain. The standard linked tree representation of
+inductive types that is the hardcoded default in most implementations is
+incarnated as `just another representation' in this system, special only
+because it can apply to \emph{any} inductive type. The order of these
+developments in the paper are as follows:
 
 \begin{itemize}
-  \item A type system $\lambda_{2+\text{Rep}}$ for defining data representations based
-        in a staged language, in a correct-by-construction manner.
-  \item An elaboration procedure from $\lambda_{2+\text{Rep}}$ to $\lambda_2$, which
-        translates inductive data into the format defined by the representations.
-  \item Application of this type system to define the `Nat-hack' in a principled way
-        and show that it is correct.
-  \item A further exploration of the type system, showing how to represent other
-        inductive types such as lists and trees.
+  \item The language $\lambdaprim$ is introduced, which is a staged language with
+        dependent types, whose object-level fragment contains some machine primitives
+        that act as building blocks of data representations.
+  \item The language $\lambdaind$ is introduced as an extension of $\lambdaprim$, which
+        allows the familiar definition of inductive types, living in a universe of
+        `codes' for object-level types.
+  \item The language $\lambdarep$ is introduced as the completion of $\lambdaind$,
+        containing a `representation' construct that assigns concrete object-level
+        codes to inductive types. An elaboration procedure $\Crepr{} : \lambdarep \to
+          \lambdaprim$ is formulated which eliminates inductive constructs through the
+        defined representations, yielding the final program that can be staged and
+        compiled.
+  \item The `Nat-hack' is defined internally in $\lambdarep$ and shown to be coherent
+        up to some notable assumptions.
+  \item The standard linked tree representation is recovered in $\lambdarep$ for any
+        inductive type, and shown to be coherent.
+  \item The system is further explored, showcasing representations for other inductive
+        types. Some desirable extensions as part of future work are discussed.
 \end{itemize}

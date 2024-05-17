@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.17)  17 MAY 2024 19:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.17)  17 MAY 2024 20:04
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -1311,13 +1311,13 @@ LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
 (Font)              scaled to size 9.0pt on input line 108.
  [2.2]
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 7.3pt on input line 116.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 5.5pt on input line 116.
-) (./sections/informal.tex) (./sections/type-system.tex
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
-(Font)              scaled to size 9.0pt on input line 5.
+(Font)              scaled to size 9.0pt on input line 112.
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 7.3pt on input line 112.
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 5.5pt on input line 112.
+) (./sections/informal.tex) (./sections/type-system.tex
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/sc' will be
 (Font)              scaled to size 9.0pt on input line 26.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
@@ -1343,7 +1343,10 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
 (Font)              scaled to size 9.0pt on input line 37.
-[3.3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_ncsllp.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_jtta5h.enc}]
+
+Underfull \vbox (badness 7397) has occurred while \output is active []
+
+ [3.3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_ncsllp.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_jtta5h.enc}]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 78.
@@ -1403,19 +1406,19 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Class acmart Warning: A possible image without description on input line 321.
 
 
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
 Class acmart Warning: A possible image without description on input line 365.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6.6]
+[6.6] [7.7]
 
 Class acmart Warning: A possible image without description on input line 461.
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[7.7]) (./sections/elaboration.tex) (./sections/beyond.tex) (./sections/conclusion.tex) (./sections/acks.tex) (.out/main.bbl
+) (./sections/elaboration.tex) (./sections/beyond.tex) (./sections/conclusion.tex) (./sections/acks.tex) (.out/main.bbl
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
 (Font)              scaled to size 7.0pt on input line 43.
  [8.8]
@@ -1443,23 +1446,23 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.97499pt have occurred.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: B49E1527A95A2562A4E648D88C06BD2F;3254.
+(rerunfilecheck)             Checksum: C166710AA73C6DBEF4475645815DD287;3014.
 runsystem(rm .out//main.pyg)...executed.
 
  ) 
 Here is how much of TeX's memory you used:
- 38405 strings out of 476025
- 744567 string characters out of 5790016
- 1887388 words of memory out of 5000000
- 57241 multiletter control sequences out of 15000+600000
- 818505 words of font info for 488 fonts, out of 8000000 for 9000
+ 38404 strings out of 476025
+ 744545 string characters out of 5790016
+ 1885388 words of memory out of 5000000
+ 57240 multiletter control sequences out of 15000+600000
+ 818312 words of font info for 489 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 90i,22n,131p,1031b,749s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,22n,131p,1031b,740s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4b.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathRM.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/NewTXMI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/NewTXMI7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txexs.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/txfonts/txsya.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on .out/main.pdf (9 pages, 535797 bytes).
+Output written on .out/main.pdf (9 pages, 536115 bytes).
 PDF statistics:
- 284 PDF objects out of 1000 (max. 8388607)
- 229 compressed objects within 3 object streams
- 55 named destinations out of 1000 (max. 500000)
- 156821 words of extra memory for PDF output out of 184870 (max. 10000000)
+ 279 PDF objects out of 1000 (max. 8388607)
+ 224 compressed objects within 3 object streams
+ 54 named destinations out of 1000 (max. 500000)
+ 154765 words of extra memory for PDF output out of 184870 (max. 10000000)
 
