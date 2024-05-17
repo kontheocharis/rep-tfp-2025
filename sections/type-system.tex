@@ -293,7 +293,7 @@ can now define the additional typing rules for $\lambdarep$, in
          & \Crepr{}          : \Con \ \Sigma  \to \Con \ \Sigma \\
          & \Crepr{(\cdot)}     = \cdot                          \\
          & \Crepr{(\Gamma, T)} = \Crepr{\Gamma}, \Crepr{T}
-      \end{aligned}                                                             & \quad
+      \end{aligned}                                               & \quad
       % \begin{aligned}[t]
       %    & \Crepr{}          : \ \Tel_i \ \Sigma \ \Gamma  \to \ \Tel_i \ \Sigma\ \Crepr{\Gamma} \\
       %    & \Crepr{(\cdot)}     = \cdot                                                           \\
@@ -303,15 +303,15 @@ can now define the additional typing rules for $\lambdarep$, in
       % \begin{array}[t]{ll}
       \begin{aligned}[t]
          & \Crepr{}          : \Ty_i \ \Sigma \ \Gamma  \to \Ty_i \ \Sigma \ \Crepr{\Gamma} \\
-         & \Crepr{(\lab{D}\,\vec{t})}     = \lift{ A_{\lab{D}} [\crepr{\vec{t}}] }          \\
+         & \Crepr{(\lab{D}\,\vec{t})}     = \lift{ \Crepr{A_{\lab{D}}} [\crepr{\vec{t}}] }  \\
          & \text{else recurse with $\Crepr{}$}                                              \\
       \end{aligned} \quad &
       \begin{aligned}[t]
-         & \Crepr{}          : \Tm_i \ \Sigma \ \Gamma \ T  \to \Tm_i \ \Sigma \ \Crepr{\Gamma} \ \Crepr{T}           \\
-         & \Crepr{(\lab{C}\,\vec{t})}     = \quot{\pi_1\, t_{\lab{C}} [\Crepr{\vec{t}}]}                              \\
-         & \Crepr{(\caselab{D}\,\eta\,\vec{m})}     = \quot{e_{\lab{C}} [\wildp,\wildp,\Crepr{\eta},\Crepr{\vec{m}}]} \\
-         & \Crepr{\lab{f}}     = \pi_1\, a_{\lab{f}}                                                                  \\
-         & \text{else recurse with $\Crepr{}$}                                                                        \\
+         & \Crepr{}          : \Tm_i \ \Sigma \ \Gamma \ T  \to \Tm_i \ \Sigma \ \Crepr{\Gamma} \ \Crepr{T}                   \\
+         & \Crepr{(\lab{C}\,\vec{t})}     = \quot{\Crepr{(\pi_1\, t_{\lab{C}})} [\Crepr{\vec{t}}]}                            \\
+         & \Crepr{(\caselab{D}\,\eta\,\vec{m})}     = \quot{\Crepr{e_{\lab{C}}} [\wildp,\wildp,\Crepr{\eta},\Crepr{\vec{m}}]} \\
+         & \Crepr{\lab{f}}     = \pi_1\, a_{\lab{f}}                                                                          \\
+         & \text{else recurse with $\Crepr{}$}                                                                                \\
       \end{aligned}
       % \end{array}
     \end{array}

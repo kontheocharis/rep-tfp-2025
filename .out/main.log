@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.17)  17 MAY 2024 19:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.17)  17 MAY 2024 19:47
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -1248,16 +1248,13 @@ LaTeX Font Info:    Font shape `T1/zi4/b/n' will be
  (./.out/_minted-main/65DB27307AA0CDF0B3C0323431E08A159BDD6D37956A487FE5DA519F15386E84.pygtex)
 \openout6 = `main.pyg'.
 
- (./.out/_minted-main/2B407949193B6A2F7F0CDE1CB6A2F8129BDD6D37956A487FE5DA519F15386E84.pygtex)
-\openout6 = `main.pyg'.
-
  (./.out/_minted-main/9367DDB4ABC39452CCE35D4241E5B4189BDD6D37956A487FE5DA519F15386E84.pygtex)
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 6.0pt on input line 43.
- [1.1{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-4.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc}]
 \openout5 = `main.pyg'.
 
  (./.out/_minted-main/707F9C0EFDBF35153404E58CCBB9F01DFB2F2826D62420D4B8FB92C8F6015610.pygtex)
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 6.0pt on input line 47.
+ [1.1{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-4.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_naooyc.enc}]
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 9.0pt on input line 48.
 \openout6 = `main.pyg'.
@@ -1311,11 +1308,14 @@ LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
 \openout6 = `main.pyg'.
 
  (./.out/_minted-main/D6391049C74E44899E005C3E80FDE7E89BDD6D37956A487FE5DA519F15386E84.pygtex)
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
+(Font)              scaled to size 9.0pt on input line 108.
+ [2.2]
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 7.3pt on input line 107.
+(Font)              scaled to size 7.3pt on input line 116.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 5.5pt on input line 107.
- [2.2]) (./sections/informal.tex) (./sections/type-system.tex
+(Font)              scaled to size 5.5pt on input line 116.
+) (./sections/informal.tex) (./sections/type-system.tex
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
 (Font)              scaled to size 9.0pt on input line 5.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/sc' will be
@@ -1343,7 +1343,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
 (Font)              scaled to size 9.0pt on input line 37.
-[3.3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_ncsllp.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_jtta5h.enc}]
+[3.3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_ncsllp.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_jtta5h.enc}]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 78.
@@ -1360,8 +1360,6 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 78.
 
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 9.0pt on input line 134.
 [4.4]
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
 (Font)              scaled to size 8.0pt on input line 156.
@@ -1400,7 +1398,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 250.
 
-[5.5{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_omcwp2.enc}]
+[5.5{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_omcwp2.enc}]
 
 Class acmart Warning: A possible image without description on input line 321.
 
@@ -1417,15 +1415,15 @@ Class acmart Warning: A possible image without description on input line 461.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) (./sections/elaboration.tex) (./sections/beyond.tex) (./sections/conclusion.tex) (./sections/acks.tex) (.out/main.bbl
+[7.7]) (./sections/elaboration.tex) (./sections/beyond.tex) (./sections/conclusion.tex) (./sections/acks.tex) (.out/main.bbl
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
 (Font)              scaled to size 7.0pt on input line 43.
- [7.7]
+ [8.8]
 Underfull \hbox (badness 10000) in paragraph at lines 124--132
 \T1/LinuxLibertineT-TLF/m/n/7 (+20) cambridge -[] core / content / view / 4D2DF6F4FE23599C8C1FEA6C921A3748 / S0956796816000356a . pdf / div -[] class -[] title -[] the -[] essence -[] of -[] ornaments -[]
  []
 
-[8.8])
+)
 
 Class acmart Warning: Some images may lack descriptions.
 
@@ -1450,15 +1448,15 @@ runsystem(rm .out//main.pyg)...executed.
 
  ) 
 Here is how much of TeX's memory you used:
- 38401 strings out of 476025
- 744600 string characters out of 5790016
- 1888388 words of memory out of 5000000
+ 38405 strings out of 476025
+ 744567 string characters out of 5790016
+ 1887388 words of memory out of 5000000
  57241 multiletter control sequences out of 15000+600000
- 817861 words of font info for 484 fonts, out of 8000000 for 9000
+ 818505 words of font info for 488 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 90i,22n,131p,1031b,757s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,22n,131p,1031b,749s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4b.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathMI7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/LibertineMathRM.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinBiolinumT.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinBiolinumTB.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineT.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineTB.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/libertine/LinLibertineTI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/NewTXMI.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/NewTXMI7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txexs.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txmiaX.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/txfonts/txsya.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/newtx/txsys.pfb>
-Output written on .out/main.pdf (9 pages, 535547 bytes).
+Output written on .out/main.pdf (9 pages, 535797 bytes).
 PDF statistics:
  284 PDF objects out of 1000 (max. 8388607)
  229 compressed objects within 3 object streams
