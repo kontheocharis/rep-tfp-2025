@@ -328,15 +328,16 @@ $\lambdarep$:
 A representation $\Srepr{L}{\Delta}{t}$ asks for a definition $\lab{L}$ with
 parameters $\Delta$ to be represented by a term $t$. Data, constructor and
 definition representations all share the same raw syntax and are distinguished
-by the subject $L$. In the typing rules we will require that every meta-level
-type $A$ has a defined representation $\Crepr{A}$. Extensions to this system
-could support a sub-class of types with representations, retaining the ability
-to have purely meta-level types with no defined representations. We define
+by the subject $L$. In the typing rules we expect that every meta-level type
+$A$ has a defined representation $\Crepr{A}$. Extensions to this system could
+support a sub-class of types with representations, retaining the ability to
+have purely meta-level types with no defined representations. We define
 $\Crepr{A}$ to be the representation of a type $A$ and $\crepr{a}$ the
 representation of a term $a$, whose type is $\Crepr{A}$. These compute
-definitionally according to rules shown in \cref{fig:repr-rules}. With that, we
-can now define the additional typing rules for $\lambdarep$, in
-\cref{fig:lambdarep-rules}
+definitionally according to rules developed in \cref{sec:elaboration}, and
+indeed constitute the elaboration process into $\lambdaprim$. For now, however,
+the definition of $\Crepr{}$ can remain opaque. With that, we can now define
+the additional typing rules for $\lambdarep$, in \cref{fig:lambdarep-rules}
 
 \begin{figure}[h]
   \begin{mathpar}
@@ -365,7 +366,7 @@ can now define the additional typing rules for $\lambdarep$, in
     \Sigma \mid T : (\vec{x} : \Crepr{\Delta}) \to \lift{A[\vec{x}]} \to \univ_0 ,\
     \vec{a} : \Crepr{\Delta}  ,\
     \eta : A[\vec{a}]  ,\
-    \vec{m} : \mta{Cases}(T, \vec{a}, \eta) % (\vec{y} : \Crepr{\Delta_{\lab{C}_i}}) \to (\Id{A[\vec{a}]}{\eta}{\pi_1 t_i[\vec{a},\vec{y}]}) \to {T(\vec{a}, \pi_1 t_i[\vec{a}, \vec{y}])} \\
+    \vec{m} : \mta{Cases}(T, \vec{a}, \eta)
     \vdash e : T(\vec{a}, \eta) \\
     {\text{where $\mta{Cases}(T, \vec{a}, \eta) = ( m_i : (\vec{y} : \Crepr{\Delta_{\lab{C}_i}}) \to (\Id{A[\vec{a}]}{\eta}{\pi_1 t_i[\vec{a},\vec{y}]}) \to {T(\vec{a}, \pi_1 t_i[\vec{a}, \vec{y}])} \mid i \in I )$}}
     }
