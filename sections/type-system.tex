@@ -1,9 +1,8 @@
-
 \section{A type system for data representations}\label{sec:type-system}
 
 In this section, we describe a type system for data representations in a staged
 language. We start by defining a core staged language $\lambdaprim$ with
-$\Sigma$/$\Pi$-types, identity types, and a universe of types $\univ_i$ for
+$\Sigma$/$\Pi$ types, identity types, and a universe of types $\univ_i$ for
 each stage $i$, as well as a set of object-level machine primitives. We then
 introduce inductive constructions in the meta-fragment of $\lambdaprim$ to form
 $\lambdaind$. Finally, we introduce data representations in $\lambdaind$ and
@@ -18,24 +17,22 @@ and our goal is to describe a transformation from $\lambdarep$ to
 $\lambdaprim$, elaborating away inductive definitions with the help of data
 representations. Finally, the resulting program in $\lambdaprim$ can be staged
 to the purely object-level language that represents the target architecture.
-
 When defining these languages, we will use a BNF-like syntax for terms and
 contexts, natural deduction-style typing rules, as well as CWF-style notation
-for contexts, types, and terms. (TODO: expand!)
+for contexts, types, and terms.
 
-\subsection{A core staged language with machine primitives, $\lambdaprim$}
-\newcommand{\seq}[2]{[#1; #2]}
+\subsection{A core staged language with machine primitives, $\lambdaprim$}\label{sub:lambdaprim}
 
 As a first step towards a type system for data representations, we informally
-describe a staged dependent type system $\lambdaprim$ with
-$\Sigma$/$\Pi$-types, identity types, and a universe of types $\univ_i$ for
-each stage $i \in \{0, 1\}$. This serves as a background system on which we
-introduce inductive constructions and data representations in. The raw syntax
-of $\lambdaprim$ is given by the BNF grammar
+describe a staged dependent type system $\lambdaprim$ with $\Sigma$/$\Pi$
+types, identity types, and a universe of types $\univ_i$ for each stage $i \in
+  \{0, 1\}$. This serves as a background system on which we introduce inductive
+constructions and data representations in. The raw syntax of $\lambdaprim$ is
+given by the BNF grammar
 \[
   t ::= \univ_i \mid x \mapsto t \mid t \, t \mid x \mid (x : t) \to t \mid (x : t) \times t \mid
   \Id{A}{a}{b} \mid \pi_1 \, t \mid \pi_2 \, t \mid \kwd{refl} \mid \lift t \mid \quot t \mid \splice t
-\]
+\]\todo{We need to add explicit substitutions here!}
 This follows the standard typing rules of 2LTT with $\Sigma$, $\Pi$ and
 identity types \cite{Kovacs2022-vb}, without regard for the universe hierarchy,
 as this is orthogonal to the main focus of this work. Notably, $\univ_0 :
@@ -62,8 +59,9 @@ language:
   \item A type of $n$-sized sequences of type $A$, $\seq{A}{n} : \univ_0$, where $n :
           \inte{Word}$ and $A : \univ_0$. Sequences come with indexing operations
         $\inte{get} : \seq{A}{n} \to \inte{Word}_n \to A$ and $\inte{set} : \seq{A}{n}
-          \to \inte{Word}_n \to A \to \seq{A}{n}$. Sequences should be thought of as
-        unboxed arrays, living on the stack.
+          \to \inte{Word}_n \to A \to \seq{A}{n}$, as well as an initialisation operation
+        $\inte{repeat} : (a : A) \to (n : \inte{Word}) \to \seq{A}{n}$. Sequences
+        should be thought of as unboxed arrays, living on the stack.
   \item A boxing type constructor $\boxx A : \univ_0$ where $A : \univ_0$, with boxing
         and unboxing operations $\inbox a : \boxx A$ and $\unbox b : A$. Values of type
         $\boxx A$ represent explicitly heap-allocated values of type $A$.
@@ -75,7 +73,7 @@ $(n : \inte{Word}) \to \Id{\inte{Word}}{\inte{add}\,0\,n}{n}$. Precise details a
 implementing such a system, and the definitions above are sufficient for the
 present discussion.
 
-\subsection{Extending $\lambdaprim$ with inductive constructions}
+\subsection{Extending $\lambdaprim$ with inductive constructions}\label{sub:lambdaind}
 
 Building on top of $\lambdaprim$, we introduce an extension of the system for
 named inductive constructions in the meta-language, called $\lambdaind$. First,
@@ -86,35 +84,38 @@ of data declarations, constructor declarations, and definitions:
   Z      & ::= \Sdata{D}{\Delta} \mid \Sctor{C}{\Delta}{D}{\Delta} \mid \Sclosed{\lab{D}}{\vec{\lab{C}}} \mid \Sdef{f}{t}{t}
 \end{align*}
 The symbols in \textcolor{blue}{blue} represent labels, which are used to
-uniquely identify elements of a signature.
-A data definition $\Sdata{D}{\Delta}$ introduces a new inductive type $\lab{D}$
-with a telescope $\Delta$ of arguments. A constructor definition
-$\Sctor{C}{\DeltaFor{C}}{D}{\Delta}$ introduces a new constructor $\lab{C}$ for
-the inductive type $\lab{D}$, with a telescope $\DeltaFor{C}$ of parameters
-which may depend on $\lab{D}$'s parameters. Closed declarations $\Sclosed{\lab{D}}{\vec{\lab{C}}}$ specify that the
-constructors $\vec{\lab{C}}$ are the only constructors for the inductive type
-$\lab{D}$ in the present signature. A definition
-$\Sdef{f}{t}{t}$ introduces a new symbol $\lab{f}$ of type $t$ and value
-$t$.
-The reason for including function definitions in a signature is to allow for
-named functions in the meta-language, which can be overriden as part of data
-representations.
+uniquely identify elements of a signature. A data definition $\Sdata{D}{\Delta}$
+introduces a new inductive type $\lab{D}$ with a telescope $\Delta$ of
+arguments. Inductive types should be thought of as \emph{codes} for object-level
+types, eventually to be replaced by the defined representations. A constructor
+definition $\Sctor{C}{\DeltaFor{C}}{D}{\Delta}$ introduces a new constructor
+$\lab{C}$ for the inductive type $\lab{D}$, with a telescope $\DeltaFor{C}$ of
+parameters which may depend on $\lab{D}$'s parameters. Closed declarations
+$\Sclosed{\lab{D}}{\vec{\lab{C}}}$ specify that the constructors $\vec{\lab{C}}$
+are the only constructors for the inductive type $\lab{D}$ in the present
+signature. A definition $\Sdef{f}{t}{t}$ introduces a new symbol $\lab{f}$ of
+type $t$ and value $t$. The reason for including named definitions in a
+signature is to allow them to be overriden as part of data representations.
 
-The syntax for telescopes $\Delta$ is
-\[
-  \Delta ::= \cdot \mid \Delta, x : t \,,
-\]
-resembling the syntax for contexts, but restricted to meta-level types and
-well-typed with respect to a context $\Gamma$, meaning that telescopes can
-contain open terms. We use the notation $\Delta \to t$ to denote a repeated
-function type with parameters from $\Delta$ and codomain $t$ which may depend
-on the parameters. Additionally, we will sometimes explicitly bind the names of
-a telescope such as $(\vec{x} : \Delta) \to t[\vec{x}]$. Similar syntax is used
-to extend contexts with telescopes: $\Gamma, \Delta$ or $\Gamma, \vec{x} :
-  \Delta$.
+The system allows for the definition of inductive types as well as inductive
+families; the telescope $\Delta$ in a data declaration defines the parameters
+of the inductive type, and index refinement can occur in the constructor
+telescopes $\DeltaFor{C}$ through the usage of equality types, paired with the
+ability to reference the parameters of the inductive type $\Delta$. Such an
+approach is syntactically simpler than the standard approach of constructor
+signatures as $\Pi$ types common in most proof assistants, but is equivalent in
+expressive power \cite{Cockx2018-fk}. For example, to define the type of
+vectors indexed by their length, we can write
+\begin{align*}
+   & \Sdata{Vec}{(A : \lift{\univ_0},\ n : \inte{Nat})}                                                         \\
+   & \Sctor{nil}{(\Id{\inte{Nat}}{n}{\inte{z}})}{Vec}{A \ n}                                                    \\
+   & \Sctor{cons}{(a : A,\ m : \inte{Nat},\ v : \lab{Vec}\ A\ m,\ \Id{\inte{Nat}}{m}{\inte{s}\ n})}{Vec}{A \ n} \\
+   & \Sclosed{\lab{Vec}}{(\lab{nil}, \lab{cons})}
+\end{align*}
+In a real implementation, these definitions can be elaborated from a more
+familiar syntax involving index refinement.
 
-The syntax of terms must be extended accordingly with labels applied to
-arguments
+The syntax of terms is extended accordingly with labels applied to arguments
 \[
   t ::= \ldots \mid \lab{L} \, \vec{t}
 \]
@@ -134,10 +135,29 @@ labelled application terms in a signature are given through the typing rules of
 $\lambdaind$ and do not correspond exactly to the labels \emph{present} in the
 signature's items.
 
+In $\lambdaind$, contexts are fibered over signatures, so that a context
+$\Gamma$ is well formed with respect to a signature $\Sigma$. The syntax for
+telescopes $\Gamma$ and contexts $\Delta$ is
+\begin{align*}
+  \Gamma & ::= \cdot \mid \Gamma, x : t      \\
+  \Delta & ::= \cdot \mid \Delta, x : t  \,.
+\end{align*}
+As is standard in 2LTT, contexts can be extended with types from any stage.
+Telescopes are very similar to contexts, but restricted to types from a single stage and
+well formed with respect to a context $\Gamma$, meaning that telescopes can
+contain open terms. We use the notation $\Delta \to t$ to denote a repeated
+function type with parameters from $\Delta$ and codomain $t$ which may depend
+on the parameters. Additionally, we will sometimes explicitly bind the names of
+a telescope such as $(\vec{x} : \Delta) \to t[\vec{x}]$. Similar syntax is used
+to extend contexts with telescopes: $\Gamma, \Delta$ or $\Gamma, \vec{x} :
+  \Delta$.
+
 The language $\lambdaind$ is equipped with the following judgment forms:
 \begin{itemize}
   \item $\isSig{\Sigma}$ --- The signature $\Sigma$ is well-formed.
   \item $\Sigma \vdash \isCon{\Gamma}$ --- In signature $\Sigma$ the context $\Gamma$ is well-formed.
+  \item $\Sigma \mid \Gamma \vdash \isTel{i}{\Delta}$ --- In signature $\Sigma$ and context
+        $\Gamma$, the telescope $\Delta$ is well-formed in stage $i$.
   \item $\Sigma \mid \Gamma \vdash \istype{i}{T}$ --- In signature $\Sigma$ and
         context $\Gamma$, $T$ is a well-formed type in stage $i$.
   \item $\Sigma \mid \Gamma \vdash a : T$ --- In signature $\Sigma$ and context
@@ -146,7 +166,8 @@ The language $\lambdaind$ is equipped with the following judgment forms:
   \item $\Sigma \vdash Z$ --- The item $Z$ is well-formed in the signature $\Sigma$.
   \item $\isLabNotIn{L}{\Sigma}$ --- The label $\lab{L}$ does not appear in the
         signature $\Sigma$.
-\end{itemize}
+\end{itemize}\todo{Need to add the equality judgement for types and terms.}
+First, we present the rules for well formed signatures, contexts and telescopes in \cref{fig:lambdaind-sig-rules}.
 
 \begin{figure}[h]
   \begin{mathpar}
@@ -171,10 +192,24 @@ The language $\lambdaind$ is equipped with the following judgment forms:
       \Sigma \mid \Gamma \vdash \istype{i}{T}
     }
     {\Sigma \vdash \isCon{\Gamma,T}} \and
+    \inferrule[Tel-Empty]
+    {
+      \Sigma \vdash \isCon{\Gamma}
+    }
+    {\Sigma \mid \Gamma \vdash \isTel{i}{\cdot}} \and
+    \inferrule[Tel-Extend]
+    {
+      \Sigma \mid \Gamma \vdash \isTel{i}{\Delta} \and
+      \Sigma \mid \Gamma \vdash \istype{i}{T}
+    }
+    {\Sigma \mid \Gamma \vdash \isTel{i}{\Gamma,T}}
   \end{mathpar}
-  \caption{Rules for signatures and contexts in $\lambdaind$.}
+  \caption{Rules for signatures, contexts and telescopes in $\lambdaind$.}
   \label{fig:lambdaind-sig-rules}
 \end{figure}
+
+Next, the rules for well-formed items in signatures are given in
+\cref{fig:lambdaind-item-rules}. \todo{Awkward spacing!}
 
 \begin{figure}[h]
   \begin{mathpar}
@@ -210,7 +245,7 @@ The language $\lambdaind$ is equipped with the following judgment forms:
   \label{fig:lambdaind-item-rules}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
   \begin{mathpar}
     \inferrule[Data-Form]
     {
@@ -223,7 +258,7 @@ The language $\lambdaind$ is equipped with the following judgment forms:
       \Sdata{D}{\Delta} \in \Sigma     \\
       \Sctor{C}{\DeltaFor{C}}{D}{\Delta} \in \Sigma     \\
       \Sigma \mid \Gamma \vdash \vec{t} : \Delta \\
-      \Sigma \mid \Gamma \vdash \vec{u} : \DeltaFor{C}
+      \Sigma \mid \Gamma \vdash \vec{u} : \DeltaFor{C}[\vec{t}]
     }
     {\Sigma \mid \Gamma \vdash \lab{C}\,\vec{u} : \lab{D}\,\vec{t}} \and
     \inferrule[Data-Elim]
@@ -243,15 +278,35 @@ The language $\lambdaind$ is equipped with the following judgment forms:
     }
     {\Sigma \mid \Gamma \vdash \lab{f} : M}
   \end{mathpar}
-  \caption{Typing rules for items in $\lambdarep$.}
+  \caption{Typing rules for terms and types related to items in $\lambdarep$.}
   \label{fig:lambdaind-rules}
 \end{figure}
 
-\subsection{Data representations in $\lambdarep$}
+There is a difference betwen an item being well-formed in a signature, and
+being \emph{present} in a signature. The former describes items which are
+candidates to be added to a signature, which often relies on the absence of
+certain items in the signature, such as duplicate labels not being present, or
+a data type not being closed. We do not explicitly require that defined data
+types are well-founded or strictly positive, though this is a desirable
+property for a real implementation. \todo{Actually, I think this should be a
+  requirement, because otherwise case elimination is not quite valid...}
+
+Having defined well-formed signatures, it is now time to define the rules of
+well-formed types and terms in $\lambdaind$, shown in
+\cref{fig:lambdaind-rules}. For brevity, only the rules that relate to items in
+signatures are shown, that is, rules regarding the introduction and elimination
+of data types, constructors, and definitions. The rest of the rules are
+standard and can be found in the literature on 2LTT \cite{Kovacs2022-vb}, with
+the modification that everything is now fibered over signatures. This completes
+a description of a staged language with dependent types and inductive
+constructions, $\lambdaind$. In the next section, we move on to the main focus
+of this work, data representations.
+
+\subsection{Data representations in $\lambdarep$}\label{sub:lambdarep}
 
 So far, we have described $\lambdaind$, a dependently-typed staged language
 with object-level machine primitives as well as named inductive constructions
-and definitions. We now introduce data representations in the meta-language,
+and definitions. We now introduce data representations in the syntax for items,
 forming the language $\lambdarep$. The goal of data representations is to
 provide a way to represent data types, constructions, and definitions in a more
 efficient manner, by transforming them into more suitable data structures for

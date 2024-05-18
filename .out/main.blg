@@ -11,71 +11,48 @@ Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
 Reallocated global_strs (elt_size=200001) to 20 items from 10.
 Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
-Warning--empty address in Allais2023-pf
-Warning--no journal in Allais2023-zq
-Warning--no number and no volume in Allais2023-zq
-Warning--page numbers missing in both pages and numpages fields in Allais2023-zq
-Warning--no journal in Annenkov2017-pd
-Warning--no number and no volume in Annenkov2017-pd
-Warning--page numbers missing in both pages and numpages fields in Annenkov2017-pd
-Warning--no journal in Awodey2014-hh
-Warning--no number and no volume in Awodey2014-hh
-Warning--page numbers missing in both pages and numpages fields in Awodey2014-hh
-Warning--no journal in Boulier2018-zy
-Warning--no number and no volume in Boulier2018-zy
-Warning--page numbers missing in both pages and numpages fields in Boulier2018-zy
-Warning--no journal in Castellan2019-sh
-Warning--no number and no volume in Castellan2019-sh
-Warning--page numbers missing in both pages and numpages fields in Castellan2019-sh
-Warning--empty address in Hinze2011-jx
 Warning--no journal in Kovacs2022-vb
 Warning--no number and no volume in Kovacs2022-vb
 Warning--page numbers missing in both pages and numpages fields in Kovacs2022-vb
-Warning--no number and no volume in Sato2001-ap
-Warning--no number and no volume in Uemura2019-cc
-Warning--page numbers missing in both pages and numpages fields in Uemura2019-cc
-Warning--empty address in Viera2006-xq
-Warning--page numbers missing in both pages and numpages fields in Viera2006-xq
-Warning--empty year in Yallop_undated-sh
-You've used 23 entries,
+You've used 3 entries,
             5981 wiz_defined-function locations,
-            1633 strings with 21605 characters,
-and the built_in function-call counts, 23615 in all, are:
-= -- 3063
-> -- 581
+            1501 strings with 18493 characters,
+and the built_in function-call counts, 3070 in all, are:
+= -- 434
+> -- 65
 < -- 0
-+ -- 191
-- -- 218
-* -- 1560
-:= -- 2210
-add.period$ -- 116
-call.type$ -- 23
-change.case$ -- 142
-chr.to.int$ -- 22
-cite$ -- 49
-duplicate$ -- 2212
-empty$ -- 1584
-format.name$ -- 266
-if$ -- 5839
-int.to.chr$ -- 3
++ -- 21
+- -- 28
+* -- 194
+:= -- 284
+add.period$ -- 15
+call.type$ -- 3
+change.case$ -- 17
+chr.to.int$ -- 3
+cite$ -- 6
+duplicate$ -- 268
+empty$ -- 195
+format.name$ -- 32
+if$ -- 761
+int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 90
-newline$ -- 229
-num.names$ -- 160
-pop$ -- 879
+missing$ -- 12
+newline$ -- 73
+num.names$ -- 21
+pop$ -- 103
 preamble$ -- 1
-purify$ -- 314
+purify$ -- 40
 quote$ -- 0
-skip$ -- 747
+skip$ -- 83
 stack$ -- 0
-substring$ -- 1770
-swap$ -- 191
+substring$ -- 209
+swap$ -- 19
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 477
-warning$ -- 26
-while$ -- 167
+type$ -- 48
+warning$ -- 3
+while$ -- 25
 width$ -- 0
-write$ -- 484
-(There were 26 warnings)
+write$ -- 104
+(There were 3 warnings)

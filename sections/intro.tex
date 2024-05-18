@@ -109,22 +109,24 @@ because it can apply to \emph{any} inductive type. The order of these
 developments in the paper are as follows:
 
 \begin{itemize}
-  \item The language $\lambdaprim$ is introduced, which is a staged language with
-        dependent types, whose object-level fragment contains some machine primitives
-        that act as building blocks of data representations.
-  \item The language $\lambdaind$ is introduced as an extension of $\lambdaprim$, which
-        allows the familiar definition of inductive types, living in a universe of
-        `codes' for object-level types.
-  \item The language $\lambdarep$ is introduced as the completion of $\lambdaind$,
-        containing a `representation' construct that assigns concrete object-level
-        codes to inductive types. An elaboration procedure $\Crepr{} : \lambdarep \to
+  \item In \cref{sub:lambdaprim}, the language $\lambdaprim$ is introduced, which is a
+        staged language with dependent types, whose object-level fragment contains some
+        machine primitives that act as building blocks of data representations.
+  \item In \cref{sub:lambdaind}, the language $\lambdaind$ is introduced as an
+        extension of $\lambdaprim$, which allows the familiar definition of inductive
+        types, living in a universe of `codes' for object-level types.
+  \item In \cref{sub:lambdarep} The language $\lambdarep$ is introduced as the
+        completion of $\lambdaind$, containing a `representation' construct that
+        assigns concrete object-level codes to inductive types.
+  \item In \cref{sec:elaboration}, an elaboration procedure $\Crepr{} : \lambdarep \to
           \lambdaprim$ is formulated which eliminates inductive constructs through the
         defined representations, yielding the final program that can be staged and
         compiled.
-  \item The `Nat-hack' is defined internally in $\lambdarep$ and shown to be coherent
-        up to some notable assumptions.
-  \item The standard linked tree representation is recovered in $\lambdarep$ for any
-        inductive type, and shown to be coherent.
-  \item The system is further explored, showcasing representations for other inductive
-        types. Some desirable extensions as part of future work are discussed.
+  \item In \cref{sec:default-linked} The standard linked tree representation is
+        recovered in $\lambdarep$ for any inductive type, and shown to be coherent.
+  \item In \cref{sec:examples}, the `Nat-hack' is defined internally in $\lambdarep$
+        and shown to be coherent up to some notable assumptions. The system is further
+        explored, showcasing representations for other inductive types.
+  \item Finally, in \cref{sec:conclusion}, some desirable extensions as part of future
+        work are discussed.
 \end{itemize}
