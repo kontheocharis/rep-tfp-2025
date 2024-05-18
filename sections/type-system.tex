@@ -276,49 +276,12 @@ definition representations all share the same raw syntax and are distinguished
 by the subject $L$. In the typing rules we will require that every meta-level
 type $A$ has a defined representation $\Crepr{A}$. Extensions to this system
 could support a sub-class of types with representations, retaining the ability
-to have purely meta-level types with no defined representations. For this we
-define $\Crepr{A}$ to be the representation of a type $A$ and $\crepr{a}$ the
+to have purely meta-level types with no defined representations. We define
+$\Crepr{A}$ to be the representation of a type $A$ and $\crepr{a}$ the
 representation of a term $a$, whose type is $\Crepr{A}$. These compute
 definitionally according to rules shown in \cref{fig:repr-rules}. With that, we
 can now define the additional typing rules for $\lambdarep$, in
 \cref{fig:lambdarep-rules}
-
-\newcommand\eqrule[1]{\begin{array}[t]{ll}{#1}\end{array}}
-
-\begin{figure}[h]
-  \[
-    \begin{array}[t]{ccc}
-      % \begin{array}[t]{ll}
-      \begin{aligned}[t]
-         & \Crepr{}          : \Con \ \Sigma  \to \Con \ \Sigma \\
-         & \Crepr{(\cdot)}     = \cdot                          \\
-         & \Crepr{(\Gamma, T)} = \Crepr{\Gamma}, \Crepr{T}
-      \end{aligned}                                               & \quad
-      % \begin{aligned}[t]
-      %    & \Crepr{}          : \ \Tel_i \ \Sigma \ \Gamma  \to \ \Tel_i \ \Sigma\ \Crepr{\Gamma} \\
-      %    & \Crepr{(\cdot)}     = \cdot                                                           \\
-      %    & \Crepr{(\Delta, T)} = \Crepr{\Delta}, \Crepr{T}
-      % \end{aligned}
-      % \end{array} \\
-      % \begin{array}[t]{ll}
-      \begin{aligned}[t]
-         & \Crepr{}          : \Ty_i \ \Sigma \ \Gamma  \to \Ty_i \ \Sigma \ \Crepr{\Gamma} \\
-         & \Crepr{(\lab{D}\,\vec{t})}     = \lift{ \Crepr{A_{\lab{D}}} [\crepr{\vec{t}}] }  \\
-         & \text{else recurse with $\Crepr{}$}                                              \\
-      \end{aligned} \quad &
-      \begin{aligned}[t]
-         & \Crepr{}          : \Tm_i \ \Sigma \ \Gamma \ T  \to \Tm_i \ \Sigma \ \Crepr{\Gamma} \ \Crepr{T}                   \\
-         & \Crepr{(\lab{C}\,\vec{t})}     = \quot{\Crepr{(\pi_1\, t_{\lab{C}})} [\Crepr{\vec{t}}]}                            \\
-         & \Crepr{(\caselab{D}\,\eta\,\vec{m})}     = \quot{\Crepr{e_{\lab{C}}} [\wildp,\wildp,\Crepr{\eta},\Crepr{\vec{m}}]} \\
-         & \Crepr{\lab{f}}     = \pi_1\, a_{\lab{f}}                                                                          \\
-         & \text{else recurse with $\Crepr{}$}                                                                                \\
-      \end{aligned}
-      % \end{array}
-    \end{array}
-  \]
-  \caption{Definition of $\Crepr{}$, where $\Sigma$ is a concrete signature.}
-  \label{fig:repr-rules}
-\end{figure}
 
 \begin{figure}[h]
   \begin{mathpar}
@@ -389,76 +352,6 @@ branch $m_i$ is invoked. Overall, this yields an isomorphism between the
 inductive type $\lab{D}$ and the represented type $A$, in the Kleisli category
 of the code-generation monad of the object-level language (TODO: expand on
 this!).
-
-In \cref{fig:lambdarep-rules}, the symbols $\Crepr{}$ and $\crepr{}$
-\emph{lower} the given atoms from the meta level to the object level, through
-the defined representations in $\Sigma$. To define them, we need to introduce a
-concept of \emph{concrete signatures}. A concrete signature is a signature
-where all items are accompanied by representations. In other words, $\Sigma$ is
-a concrete signature when
-\begin{itemize}
-  \item if $\Sdata{D}{\Delta} \in \Sigma$, then $\exists A \, \vec{x} .\
-          \Srepr{D}{\vec{x}}{A} \in \Sigma$,
-  \item if $\Sctorvar{\lab{C}}{\Delta_{\lab{C}}}{D}{\Delta} \in \Sigma$, then $\exists
-          t\,\vec{z} .\ \Sreprvar{\lab{C}}{\vec{z}}{t} \in \Sigma$,
-  \item if $\Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma$, then $\exists
-          T\,\vec{a}\,\eta\,\vec{m} .\ \Srepr{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m} }{e}
-          \in \Sigma$, and
-  \item if $\Sdef{f}{M}{m} \in \Sigma$, then $\exists a .\ \Sreprconst{f}{a} \in
-          \Sigma$.
-\end{itemize}
-We can now define the lowering functions $\Crepr{}$ and $\crepr{}$ as follows, where
-all the signatures $\Sigma$ are assumed to be concrete:
-
-\subsection{Default representations}
-
-\begin{figure}[h]
-  \begin{mathpar}
-    \inferrule[Default-Data]
-    {
-      \isConcrete{\Sigma} \\
-      \Sigma \vdash Z := \Sdata{D}{\Delta} \\
-      \forall i \in I .\ \Sigma,Z,(X_j)_{j < i} \vdash X_i := \Sctorvar{\lab{C}_{i}}{\Delta_{\lab{C}_i}}{D}{\Delta}    \\
-      \Sigma,Z,(X_i)_{i \in I} \vdash L := \Sclosed{\lab{D}}{\vec{\lab{C}}} \\
-    }
-    {
-      \Sigma,Z,X,L \vdash \Srepr{D}{\vec{x}}{(\mu F . \vec{x} \mapsto (c : \inte{Word}_{\llbracket I \rrbracket}) \times \boxx{(\inte{switch} \ c \ (\mta{Ctors}\ \vec{x}\ F)))})\ \vec{x}} \\
-      \text{where } \mta{Ctors}\ \vec{x}\ F = ((d : \mta{Data}_i\ \vec{x}) \times ((r : \mta{Rec}_i\ \vec{x}\ d) \to F (\mta{Idx}_i\ r)))_{i \in I} \\
-    } \and
-    \inferrule[Repr-Ctor]
-    {
-    \Sdata{D}{\Delta} \in \Sigma     \\
-    \forall i \in I .\ \Sctorvar{\lab{C}_i}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
-    \Srepr{D}{\Crepr{\Delta}}{A} \in \Sigma \\
-    \forall j < i .\ \Sreprvar{\lab{C}_j}{\Crepr{\Delta_{\lab{C}_j}}}{t_j} \in \Sigma     \\
-    \Sigma \mid \vec{x} : \Crepr{\Delta}, \ \vec{z} : \Crepr{\Delta_{\lab{C}_i}} \vdash t_i : (a : A) \times \textstyle \prod_{j < i} ((\vec{y} : \Crepr{\Delta_{\lab{C}_j}}) \to a \neq \pi_1 t_j[\vec{x},\vec{y}])
-    }
-    {\Sigma \vdash \Sreprvar{\lab{C}_i}{\vec{z}}{t_i}} \and
-    \inferrule[Repr-Case]
-    {
-    \Sdata{D}{\Delta} \in \Sigma     \\
-    \Srepr{D}{\Crepr{\Delta}}{A} \in \Sigma \\
-    \forall i \in I .\ \Sctorvar{\lab{C}_{i}}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
-    \forall i \in I .\ \Sreprvar{\lab{C}_i}{\Crepr{\Delta_{\lab{C}_i}}}{t_i} \in \Sigma \\
-    \Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma \\
-    \Sigma \mid T : (\vec{x} : \Crepr{\Delta}) \to \lift{A[\vec{x}]} \to \univ_0 ,\
-    \vec{a} : \Crepr{\Delta}  ,\
-    \eta : A[\vec{a}]  ,\
-    \vec{m} : \mta{Cases} \ T\ \vec{a}\ \eta % (\vec{y} : \Crepr{\Delta_{\lab{C}_i}}) \to (\Id{A[\vec{a}]}{\eta}{\pi_1 t_i[\vec{a},\vec{y}]}) \to {T(\vec{a}, \pi_1 t_i[\vec{a}, \vec{y}])} \\
-    \vdash e : T(\vec{a}, \eta) \\
-    {\text{where $\mta{Cases}\ T\ \vec{a}\ \eta = ( m_i : (\vec{y} : \Crepr{\Delta_{\lab{C}_i}}) \to (\Id{A[\vec{a}]}{\eta}{\pi_1 t_i[\vec{a},\vec{y}]}) \to {T(\vec{a}, \pi_1 t_i[\vec{a}, \vec{y}])} \mid i \in I )$}}
-    }
-    {\Sigma \vdash \Srepr{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m}}{e}} \and
-    \inferrule[Default-Def]
-    {
-      \isConcrete{\Sigma} \\
-      \Sigma \vdash F := \Sdef{f}{M}{m}
-    }
-    {\Sigma,F \vdash \Sreprconst{f}{(\Crepr{m}, \kwd{refl})}}
-  \end{mathpar}
-  \caption{Default data representations in $\lambdarep$. These are not rules, but derivations.}
-  \label{fig:lambdarep-default}
-\end{figure}
 
 Todo:
 

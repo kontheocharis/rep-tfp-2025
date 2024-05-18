@@ -1,1 +1,56 @@
 \section{Elaboration into a core staged language}\label{sec:elaboration}
+
+In \cref{fig:lambdarep-rules}, the symbols $\Crepr{}$ and $\crepr{}$
+\emph{lower} the given atoms from the meta level to the object level, through
+the defined representations in $\Sigma$. To define them, we need to introduce a
+concept of \emph{concrete signatures}. A concrete signature is a signature
+where all items are accompanied by representations. In other words, $\Sigma$ is
+a concrete signature when
+\begin{itemize}
+  \item if $\Sdata{D}{\Delta} \in \Sigma$, then $\exists A \, \vec{x} .\
+          \Srepr{D}{\vec{x}}{A} \in \Sigma$,
+  \item if $\Sctorvar{\lab{C}}{\Delta_{\lab{C}}}{D}{\Delta} \in \Sigma$, then $\exists
+          t\,\vec{z} .\ \Sreprvar{\lab{C}}{\vec{z}}{t} \in \Sigma$,
+  \item if $\Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma$, then $\exists
+          T\,\vec{a}\,\eta\,\vec{m} .\ \Srepr{\caselab{D}}{T\,\vec{a}\,\eta\,\vec{m} }{e}
+          \in \Sigma$, and
+  \item if $\Sdef{f}{M}{m} \in \Sigma$, then $\exists a .\ \Sreprconst{f}{a} \in
+          \Sigma$.
+\end{itemize}
+We can now define the lowering functions $\Crepr{}$ and $\crepr{}$ as follows, where
+all the signatures $\Sigma$ are assumed to be concrete:
+
+\begin{figure}[h]
+  \[
+    \begin{array}[t]{ccc}
+      % \begin{array}[t]{ll}
+      \begin{aligned}[t]
+         & \Crepr{}          : \Con \ \Sigma  \to \Con \ \Sigma \\
+         & \Crepr{(\cdot)}     = \cdot                          \\
+         & \Crepr{(\Gamma, T)} = \Crepr{\Gamma}, \Crepr{T}
+      \end{aligned}                                            & \quad
+      % \begin{aligned}[t]
+      %    & \Crepr{}          : \ \Tel_i \ \Sigma \ \Gamma  \to \ \Tel_i \ \Sigma\ \Crepr{\Gamma} \\
+      %    & \Crepr{(\cdot)}     = \cdot                                                           \\
+      %    & \Crepr{(\Delta, T)} = \Crepr{\Delta}, \Crepr{T}
+      % \end{aligned}
+      % \end{array} \\
+      % \begin{array}[t]{ll}
+      \begin{aligned}[t]
+         & \Crepr{}          : \Ty_i \ \Sigma \ \Gamma  \to \Ty_i \ \Sigma \ \Crepr{\Gamma} \\
+         & \Crepr{(\lab{D}\,\vec{t})}     = \lift{ \Crepr{A_{\lab{D}}} [\crepr{\vec{t}}] }  \\
+         & \text{else recurse with $\Crepr{}$}                                              \\
+      \end{aligned} \quad &
+      \begin{aligned}[t]
+         & \Crepr{}          : \Tm_i \ \Sigma \ \Gamma \ T  \to \Tm_i \ \Sigma \ \Crepr{\Gamma} \ \Crepr{T}                   \\
+         & \Crepr{(\lab{C}\,\vec{t})}     = \quot{\Crepr{(\pi_1\, t_{\lab{C}})} [\Crepr{\vec{t}}]}                            \\
+         & \Crepr{(\caselab{D}\,\eta\,\vec{m})}     = \quot{\Crepr{e_{\lab{C}}} [\wildp,\wildp,\Crepr{\eta},\Crepr{\vec{m}}]} \\
+         & \Crepr{\lab{f}}     = \pi_1\, a_{\lab{f}}                                                                          \\
+         & \text{else recurse with $\Crepr{}$}                                                                                \\
+      \end{aligned}
+      % \end{array}
+    \end{array}
+  \]
+  \caption{Definition of $\Crepr{}$, where $\Sigma$ is a concrete signature.}
+  \label{fig:repr-rules}
+\end{figure}
