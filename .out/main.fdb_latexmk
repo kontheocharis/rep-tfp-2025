@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex .out/main"] 1716064892 ".out/main.aux" ".out/main.bbl" ".out/main" 1716064895 0
+["bibtex .out/main"] 1716066690 ".out/main.aux" ".out/main.bbl" ".out/main" 1716066693 0
   "./bib.bib" 1716060495 34391 0d66a5c70137c8176def61b842823956 ""
-  ".out/main.aux" 1716064895 10214 d6d1688719b1496427b19a61356c6de1 "pdflatex"
+  ".out/main.aux" 1716066692 11067 4b9eeb4bf32ff349fabb6f631b844ec8 "pdflatex"
   "/usr/local/texlive/2023/texmf-dist/bibtex/bst/acmart/ACM-Reference-Format.bst" 1653856601 90333 ccee583820c555b8fd3c6d1b9f362b14 ""
   (generated)
   ".out/main.bbl"
   ".out/main.blg"
   (rewritten before read)
-["pdflatex"] 1716064893 "/Users/kt81/git/rep-mfps-2024/main.tex" ".out/main.pdf" "main" 1716064895 0
+["pdflatex"] 1716066690 "/Users/kt81/git/rep-mfps-2024/main.tex" ".out/main.pdf" "main" 1716066693 0
   ".out/_minted-main/0184B520117015A43BC9170DD482E96F9BDD6D37956A487FE5DA519F15386E84.pygtex" 1715967938 117 51206119916d37d7467673633ccc52f0 ""
   ".out/_minted-main/0A4E09C15C4E0665504695AD1AE65B359BDD6D37956A487FE5DA519F15386E84.pygtex" 1715967938 250 c958d3ae39f92ead434a3379622c8368 ""
   ".out/_minted-main/17E8AE854B046EBE40491F18BCC88264FB2F2826D62420D4B8FB92C8F6015610.pygtex" 1715967090 897 53312023ee56be1b8bad3d864aface7c ""
@@ -32,12 +32,12 @@
   ".out/_minted-main/F945CD93B71E8CEF91900B730239FCCD9BDD6D37956A487FE5DA519F15386E84.pygtex" 1715967938 73 f5843a847d08adb59e3591df24468b79 ""
   ".out/_minted-main/FEE3976E5A22FB141CD7C4C3AB9D30EE9BDD6D37956A487FE5DA519F15386E84.pygtex" 1715967938 184 2a12d3fbb7ed1abb82f0aa6a47052eac ""
   ".out/_minted-main/default.pygstyle" 1715965204 6428 74aba51736a5bc6590f8f7dd413c6f27 ""
-  ".out/main.aux" 1716064895 10214 d6d1688719b1496427b19a61356c6de1 "pdflatex"
-  ".out/main.bbl" 1716064893 3201 9aecb494d6f1d269c5b2845ff8e38ed9 "bibtex .out/main"
-  ".out/main.out" 1716064895 2859 32da70ad524b2523943204c2dc9f6559 "pdflatex"
+  ".out/main.aux" 1716066692 11067 4b9eeb4bf32ff349fabb6f631b844ec8 "pdflatex"
+  ".out/main.bbl" 1716066690 3201 9aecb494d6f1d269c5b2845ff8e38ed9 "bibtex .out/main"
+  ".out/main.out" 1716066692 2859 af3b866c50be57fd4380d9343f995252 "pdflatex"
   "/Users/kt81/Library/texmf/tex/latex/acmart-primary/acmart.cls" 1705864358 116238 6a517980974a2590e70ec0b7ab8bbdff ""
   "/Users/kt81/git/rep-mfps-2024/main.tex" 1716058277 460 b5f2d75bed8d9cf2075d23ad44f886bd ""
-  "/dev/null" 1716064877 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "/dev/null" 1716066691 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-4.enc" 1558214095 7693 0f2dce6d313c82989ec3a67fc24df2a0 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc" 1490131464 2921 8ca0eb0831f9bc5da080d3697cfe67bf ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc" 1490131464 2933 9ad527ce78d7c5fa0a642dead095f172 ""
@@ -365,15 +365,15 @@
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
   "main.tex" 1716058277 460 b5f2d75bed8d9cf2075d23ad44f886bd ""
   "misc/frontmatter.tex" 1716058141 204 22680fc289f6ff625e6ec1ef1d281871 ""
-  "misc/macros.tex" 1716058363 6138 ca98c8b83461e154ab42b49a1bbd7b64 ""
+  "misc/macros.tex" 1716065356 6160 26ed00535244cf3de0511ca13e2c9a87 ""
   "misc/packages.tex" 1716059867 620 e448af5486ed86de9b62544be96a77b1 ""
   "misc/rights.tex" 1715611639 1050 6124765dfe6cb612a966ac31849f412a ""
   "sections/conclusion.tex" 1716064422 182 792a35490c80ec3e455907d1add2cbcd ""
   "sections/default-linked.tex" 1716058053 2729 9a7e599c1c81545ca1b032823e6674d2 ""
-  "sections/elaboration.tex" 1716058008 3134 72c9e00a36afc4f18385e3b8b8b7d445 ""
+  "sections/elaboration.tex" 1716066631 4963 be07bf9719d829c537123dd8498ae001 ""
   "sections/examples.tex" 1716057886 66 8c3545b91e64ff3bb6c22754a569f0d4 ""
   "sections/intro.tex" 1716058642 8252 b1a77168ff1ed43972f90de264475ade ""
-  "sections/type-system.tex" 1716064889 24381 665f805b24326869f1943c562581557a ""
+  "sections/type-system.tex" 1716066686 24440 8e9a08ef321641ab53a975bb2ba9c3dd ""
   (generated)
   ".out/main.aux"
   ".out/main.log"

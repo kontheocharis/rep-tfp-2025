@@ -293,12 +293,13 @@ property for a real implementation. \todo{Actually, I think this should be a
 
 Having defined well-formed signatures, it is now time to define the rules of
 well-formed types and terms in $\lambdaind$, shown in
-\cref{fig:lambdaind-rules}. For brevity, only the rules that relate to items in
-signatures are shown, that is, rules regarding the introduction and elimination
-of data types, constructors, and definitions. The rest of the rules are
-standard and can be found in the literature on 2LTT \cite{Kovacs2022-vb}, with
-the modification that everything is now fibered over signatures. This completes
-a description of a staged language with dependent types and inductive
+\cref{fig:lambdaind-rules}. \todo{Here we must define the equality rules for
+  constructors} For brevity, only the rules that relate to items in signatures
+are shown, that is, rules regarding the introduction and elimination of data
+types, constructors, and definitions. The rest of the rules are standard and
+can be found in the literature on 2LTT \cite{Kovacs2022-vb}, with the
+modification that everything is now fibered over signatures. This completes a
+description of a staged language with dependent types and inductive
 constructions, $\lambdaind$. In the next section, we move on to the main focus
 of this work, data representations.
 
@@ -431,7 +432,7 @@ the values of the algebra at each node. We can apply the constructor
 representation algebra $(t_i \mid i \in I)$ to the inductive type $\lab{D}$ to
 obtain the ornamented type $\tilde{\lab{D}}$. The case analysis $\caselab{D}$
 representation can then be viewed as a \emph{section} of $\tilde{\lab{D}}$ by
-the represented type $A$, that is, a dependent function type
+the represented type $A$, that is, a dependent function
 \[
   (a : A) \to \tilde{\lab{D}}(a)
 \]
@@ -447,5 +448,5 @@ since $\Crepr{M}$ preserves $\Pi$ types, the given $m'$ must also to be a
 function, and the proof must be a proof of equality of functions. In order to
 make this possible, we expect the type theory to support function
 extensionality, so that equality of functions is defined pointwise. \todo{We
-  really need to use the proofs to show some convincing correctness proof..}
+  really need to use the proofs to show some formal correctness argument..}
 
