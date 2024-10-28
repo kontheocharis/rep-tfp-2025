@@ -1,3 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kr}{case}\PYG{+w}{ }x\PYG{+w}{ }\PYG{k+kr}{of}\PYG{+w}{ }\PYG{k+kt}{Z}\PYG{+w}{ }\PYG{o+ow}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }b\PYG{+w}{ }\PYG{o+ow}{|}\PYG{+w}{ }\PYG{k+kt}{S}\PYG{+w}{ }n\PYG{+w}{ }\PYG{o+ow}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }r\PYG{+w}{ }n
-\end{Verbatim}

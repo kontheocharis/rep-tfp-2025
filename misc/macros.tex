@@ -42,7 +42,7 @@
 \newcommand{\DeltaFor}[1]{\Delta_{\lab{#1}}}
 
 %% Definitions
-\newcommand{\Sdata}[2]{\defkwd{data} \ \lab{#1} \, {#2} : \lift{\univ_0}}
+\newcommand{\Sdata}[3]{\defkwd{data} \ \lab{#1} \, {#2} : {#3} \to \univ}
 \newcommand{\Sctor}[4]{\defkwd{ctor} \ \lab{#1} \, {#2} : \lab{#3}\, {#4}}
 \newcommand{\Sctorvar}[4]{\defkwd{ctor} \ #1 \, {#2} : \lab{#3}\, {#4}}
 \newcommand{\Sdef}[3]{\defkwd{def} \ \lab{#1} : {#2} = {#3}}
@@ -53,12 +53,12 @@
 
 %% Judgements
 
-\newcommand{\istype}[2]{{#2} \; \mta{type}_{#1}}
+\newcommand{\istype}[1]{{#1} \; \mta{type}}
 \newcommand{\isConcrete}[1]{{#1}\ \mta{concrete}}
 \newcommand{\isLabNotIn}[2]{\lab{#1}\ \mta{label} \notin {#2}}
 \newcommand{\isSig}[1]{{#1}\ \mta{sig}}
 \newcommand{\isCon}[1]{{#1}\ \mta{con}}
-\newcommand{\isTel}[2]{{#2}\ \mta{tel}_{#1}}
+\newcommand{\isTel}[1]{{#1}\ \mta{tel}}
 
 % CWF
 \newcommand{\Ty}{\mta{Ty}}

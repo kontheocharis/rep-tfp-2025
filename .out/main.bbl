@@ -1,79 +1,11 @@
-%%% -*-BibTeX-*-
-%%% Do NOT edit. File created by BibTeX with style
-%%% ACM-Reference-Format-Journals [18-Jan-2012].
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{https://doi.org/#1}
 
-\begin{thebibliography}{3}
-
-%%% ====================================================================
-%%% NOTE TO THE USER: you can override these defaults by providing
-%%% customized versions of any of these macros before the \bibliography
-%%% command.  Each of them MUST provide its own final punctuation,
-%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
-%%% do not use final punctuation, in order to avoid confusing it with
-%%% the Web address.
-%%%
-%%% To suppress output of a particular field, define its macro to expand
-%%% to an empty string, or better, \unskip, like this:
-%%%
-%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
-%%%
-%%% \def \showDOI #1{\unskip}           % plain TeX syntax
-%%%
-%%% ====================================================================
-
-\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
-\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
-\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
-\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
-\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
-\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
-\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
-\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
-\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
-% The following commands are used for tagged output and should be
-% invisible to TeX
-\providecommand\bibfield[2]{#2}
-\providecommand\bibinfo[2]{#2}
-\providecommand\natexlab[1]{#1}
-\providecommand\showeprint[2][]{arXiv:#2}
-
-\bibitem[\protect\citeauthoryear{Cockx and Abel}{Cockx and Abel}{2018}]%
-        {Cockx2018-fk}
-\bibfield{author}{\bibinfo{person}{Jesper Cockx} {and} \bibinfo{person}{Andreas
-  Abel}.} \bibinfo{year}{2018}\natexlab{}.
-\newblock \showarticletitle{Elaborating dependent (co)pattern matching}.
-\newblock \bibinfo{journal}{\emph{Proc. ACM Program. Lang.}}
-  \bibinfo{volume}{2}, \bibinfo{number}{ICFP} (\bibinfo{date}{July}
-  \bibinfo{year}{2018}), \bibinfo{pages}{1--30}.
-\newblock
-\urldef\tempurl%
-\url{https://doi.org/10.1145/3236770}
-\showURL{%
-\tempurl}
-
-
-\bibitem[\protect\citeauthoryear{Dagand}{Dagand}{2017}]%
-        {Dagand2017-nj}
-\bibfield{author}{\bibinfo{person}{Pierre-Evariste Dagand}.}
-  \bibinfo{year}{2017}\natexlab{}.
-\newblock \showarticletitle{The essence of ornaments}.
-\newblock \bibinfo{journal}{\emph{J. Funct. Programming}}  \bibinfo{volume}{27}
-  (\bibinfo{date}{Jan.} \bibinfo{year}{2017}), \bibinfo{pages}{e9}.
-\newblock
-\urldef\tempurl%
-\url{https://www.cambridge.org/core/services/aop-cambridge-core/content/view/4D2DF6F4FE23599C8C1FEA6C921A3748/S0956796816000356a.pdf/div-class-title-the-essence-of-ornaments-div.pdf}
-\showURL{%
-\tempurl}
-
-
-\bibitem[\protect\citeauthoryear{Kov{\'a}cs}{Kov{\'a}cs}{2022}]%
-        {Kovacs2022-vb}
-\bibfield{author}{\bibinfo{person}{Andr{\'a}s Kov{\'a}cs}.}
-  \bibinfo{year}{2022}\natexlab{}.
-\newblock \showarticletitle{Staged compilation with two-level type theory}.
-\newblock  (\bibinfo{date}{Sept.} \bibinfo{year}{2022}).
-\newblock
-\showeprint[arxiv]{2209.09729}~[cs.PL]
-
+\bibitem{Cockx2018-fk}
+Cockx, J., Abel, A.: Elaborating dependent (co)pattern matching. Proc. ACM
+  Program. Lang.  \textbf{2}(ICFP),  1--30 (Jul 2018),
+  \url{https://doi.org/10.1145/3236770}
 
 \end{thebibliography}
