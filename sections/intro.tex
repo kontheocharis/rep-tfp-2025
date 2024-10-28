@@ -1,40 +1,41 @@
 \section{Introduction}\label{sec:intro}
 
-Functional languages offer a high degree of expressiveness using a very small
-set of primitives: most employ a variant of the typed lambda calculus, commonly
-with schemas for defining recursive or inductive types. Such constructs allow
-programmers to define data and logic in a natural, algebraic way that is
-amenable to abstraction. Data structures such as lists, trees, and even natural
-numbers are the archetypical examples of inductively defined data, which offer
-pattern-matching as a principled way to introduce `complete' branching points
-in a program. Despite these advantages, functional languages generally do not
-provide programmers with many tools to specify how their programs should be
-represented on physical computers. For inductively-defined data, there is a
-fixed representation that the majority of functional languages utilise, which
-is to represent each constructor as a heap cell, and link chains of
-constructors together using pointer indirection. As a result, a list as an
-inductively defined data structure is stored as a linked list, and a natural
-number is stored as a unary number where each digit is an `empty' heap cell. To
-get around this issue, most real-world implementations expose underlying
-machine primitive types such as contiguous arrays and bitvectors, and
-programmers are able to utilise these instead of the `algebraic'
-inductively-defined types to make their functional programs more performant. In
-Haskell, the \texttt{array} package comes to mind, as well as the \hs{Integer}
-and \hs{Natural} primitives which utilise a GMP-style big-integer
-implementation internally.
+Inductive data types allow programmers to define data structures in a
+declarative manner by specifying the all the constructors which can build up the
+data. Every inductive definition is equipped with an induction principle that
+captures the notion of mathematical induction over the data, and in particular,
+enables structural recursion over the data. This is a powerful tool for
+programming as well as theorem proving. However, this abstraction often comes at
+a cost; the data representation of inductive types is a linked tree structure.
+By default, a list as an inductively defined data structure is stored as a
+linked list, and a natural number is stored as a unary number where each digit
+is an empty heap cell. This representation is not always the most efficient for
+all operations, and often forces users to rely on `more efficient' machine
+primitives to achieve good performance. The `Nat-hack' in languages with
+dependent types is a prime example of this, where natural numbers are
+represented as big integers for efficient computation.
+
+In this paper, we propose an extension to a core language with dependent types
+and inductive families which allows users to define custom representations for
+inductive types. This is done through a translation of the constructors and
+eliminators of the inductive type to a concrete implementation, which forms a
+`representation'. Representations are defined in the language itself, and come
+with coherence properties that ensure that the representation is a bijection
+between the inductive type and its implementation.
+
 
 \subsection{The `Nat-hack'}
 
-In functional languages with dependent types, such as Idris or Lean, the issue
+In languages with dependent types, such as Agda, Coq, Idris and Lean, the issue
 of type representation is further complicated by the fact that inductive proofs
 come into the mix. Inductively defined types enjoy induction principles which
 can prove facts about them on a case-by-case basis. The standard example is the
 induction over the natural numbers \idr{data Nat = Z | S Nat} given by
 \begin{bminted}{idris}
-  induction : (P : Nat -> Type) -> P Z -> ((m : Nat) -> P m -> P (S m)) -> (n : Nat) -> P n
+  Nat-ind : (P : Nat -> Type) -> P Z -> ((m : Nat) -> P m -> P (S m)) -> (n : Nat) -> P n
 \end{bminted}
-This can be proven trivially by well-founded recursion and case analysis over
-\idr{Z} and \idr{S}. However, if
+
+However, if
 natural numbers are not defined inductively, but rather opaquely as an
 intricate data structure like Haskell's \idr{Natural}, induction is no longer
 given `for free', and must be manually proven internally in the language. On

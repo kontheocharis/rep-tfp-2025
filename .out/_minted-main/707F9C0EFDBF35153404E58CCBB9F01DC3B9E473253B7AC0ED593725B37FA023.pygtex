@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{n+nf}{mul}\PYG{+w}{ }\PYG{o+ow}{:}\PYG{+w}{ }\PYG{k+kt}{Nat}\PYG{+w}{ }\PYG{o+ow}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{k+kt}{Nat}\PYG{+w}{ }\PYG{o+ow}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{k+kt}{Nat}
+\PYG{+w}{  }mul\PYG{+w}{ }\PYG{k+kt}{Z}\PYG{+w}{ }b\PYG{+w}{ }\PYG{o+ow}{=}\PYG{+w}{ }\PYG{k+kt}{Z}
+\PYG{+w}{  }mul\PYG{+w}{ }\PYG{o+ow}{(}\PYG{k+kt}{S}\PYG{+w}{ }a\PYG{o+ow}{)}\PYG{+w}{ }b\PYG{+w}{ }\PYG{o+ow}{=}\PYG{+w}{ }add\PYG{+w}{ }\PYG{o+ow}{(}mul\PYG{+w}{ }a\PYG{+w}{ }b\PYG{o+ow}{)}\PYG{+w}{ }b
+\end{Verbatim}
