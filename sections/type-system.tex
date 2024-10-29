@@ -148,11 +148,9 @@ Next, the rules for well-formed items in signatures are given in
       \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
       \forall i \in I.\ \Sctorvar{\lab{C}_i}{\Pi_i}{D}{\xi_i} \in \Sigma     \\
       \Sclosed{\lab D}{\vec{\lab{C}}} \in \Sigma \\
-      \Sigma \mid \Gamma \vdash \delta : \Delta \\
-      \Sigma \mid \Gamma \vdash P : (\xi : \Xi[\delta]) \to \lab{D} \; \delta\; \xi \to \univ \\
-      \forall i \in I . \ \Sigma \mid \Gamma \vdash \kappa_i : (\pi : \Pi_i [\delta]) \to P \; \xi_i [\delta, \pi] \; (\lab{C}_i \; \delta \; \pi)
+      \Sigma \mid \Gamma \vdash \delta : \Delta
     }
-    {\Sigma \mid \Gamma \vdash \mta{IsValidCase}(\lab{case_D}\;\delta, P, \{\kappa_i\}_i)} \and
+    {\Sigma \mid \Gamma \vdash \mta{ValidCase}(\lab{case_D}\;\delta)} \and
     \inferrule[Def-Intro]
     {
       \Sdef{f}{M}{m} \in \Sigma     \\
@@ -170,7 +168,7 @@ not provide the inductive hypotheses directly, but we assume that the language a
 the positivity requirements, we expect that if termination is a desirable property of the system, it is ensured separately
 to the provided typing rules.
 
-In \cref{fig:lambdaind-rules}, the $\mta{Case}(\Phi, \{\Pi_k, \phi_k\}_k)$ construction is defined as
+In \cref{fig:lambdaind-rules}, the type $\Sigma \mid \Gamma \vdash \mta{Case}(\Phi, \{\Pi_k, \phi_k\}_k) : \univ$ is defined as
 \begin{mathpar}
   \inferrule
   {
@@ -181,23 +179,24 @@ In \cref{fig:lambdaind-rules}, the $\mta{Case}(\Phi, \{\Pi_k, \phi_k\}_k)$ const
   {{\mta{Case}(\Phi, \{\Pi_k, \phi_k\}_k) := (P : \Phi \to \univ) \to \{ (\Pi_k \to P \; \phi_k) \}_k \to (\phi : \Phi) \to P \phi}}
 \end{mathpar}
 
-The $\mta{ValidCase}(c, P, \{\kappa_k\}_k)$ construction is defined inductively as
+The $\Sigma \mid \Gamma \vdash \mta{ValidCase}(c)$ condition is defined inductively as
 \begin{mathpar}
   \inferrule
   {
       \Sigma \mid \Gamma \vdash c : \mta{Case}(\Phi, \{\Pi_k, \phi_k\}_k) \\
-      \Sigma \mid \Gamma \vdash P : \Phi \to \univ \\
-      \forall k \in K . \ \Sigma \mid \Gamma \vdash \kappa_k : \Pi_k \to P \; \phi_k \\
-     \forall j \in K . \ \Sigma \mid \Gamma, \pi : \Pi_j \vdash c \; P \; \{\kappa_k\}_k \; \phi_j [\pi] \equiv \kappa_j \; \pi : P \; \phi_j[\pi]
+     {\begin{aligned}
+      \forall j \in K . \ \Sigma &\mid \Gamma,  P : \Phi \to \univ, \{\kappa_k : \Pi_k \to P \; \phi_k\}_k, \pi : \Pi_j \\[-0.5em]
+      &\vdash c \; P \; \{\kappa_k\}_k \; \phi_j [\pi] \equiv \kappa_j \; \pi : P \; \phi_j[\pi]
+    \end{aligned}}
   }
-  {\Sigma \mid \Gamma \vdash \mta{ValidCase}(c, P, \{\kappa_k\}_k)}
+  {\Sigma \mid \Gamma \vdash \mta{ValidCase}(c)}
 \end{mathpar}
 
 
 \subsection{Extending $\lambdaind$ with data representations}\label{sub:lambdarep}
 
 We base language $\lambdaind$ to form $\lambdarep$, which allows users to define
-custom representations for inductive types and other global symbols.
+custom representations for inductive types and global functions.
 
 \begin{figure}[h]
   \begin{mathpar}
@@ -224,7 +223,7 @@ custom representations for inductive types and other global symbols.
     \forall i \in I .\ \Sctorvar{\lab{C}_i}{\Pi_i}{D}{\Delta\;\xi_i} \in \Sigma     \\
     \forall i \in I .\ \Sreprvar{\lab{C}_i}{\Pi_i}{t_i} \in \Sigma     \\
     \Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma \\
-    {\Sigma \mid \Delta \vdash c : \mta{Case}((\xi : \Xi[\delta],x : A \; \delta \; \xi), \{ (\pi : \Pi_i [\delta]), (\xi_i [\delta], A \; \delta \; \pi) \}_i ) } \\
+    {\Sigma \mid \delta : \Delta \vdash c : \mta{Case}((\xi : \Xi[\delta],x : A \; \delta \; \xi), \{ (\pi : \Pi_i [\delta]), (\xi_i [\delta], A \; \delta \; \pi) \}_i ) } \\
     \Sigma \mid \Delta \vdash \mta{ValidCase} ( c )
     }
     {\Sigma \vdash \Srepr{case_D}{\Delta}{c}} \and
