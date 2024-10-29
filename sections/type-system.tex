@@ -5,9 +5,8 @@ language with dependent types. We start by defining a core language with
 dependent types and inductive constructions $\lambdaind$. We then extend this
 language with data representations to form $\lambdarep$, which allow users to
 define custom representations for inductive types and other global symbols.
-
-We present these languages in CWF-style, with intrinsically well-formed
-contexts, types, and terms quotiented by the definitional equality rules.
+We present these languages with intrinsically well-formed contexts, types, and
+terms, quotiented by their definitional equality rules [altenkirch].
 
 \subsection{A core language with inductive types, $\lambdaind$}\label{sub:lambdaind}
 
@@ -68,7 +67,7 @@ $T$''. The rules for signatures, contexts and telescopes are given in \cref{fig:
 Telescopes [deBrujin] are very similar to contexts, but restricted to types from a single stage and
 well formed with respect to a context $\Gamma$, meaning that telescopes can
 contain open terms. We use the notation $\Delta \to t$ to denote a repeated
-function type with parameters from $\Delta$ and codomain $t$ which may depend
+function type with parameters from $\Delta$ and codomain $T$ which may depend
 on the parameters. Additionally, we will sometimes explicitly bind the names of
 a telescope such as $(\delta : \Delta) \to T[\delta]$. Similar syntax is used
 to extend contexts with telescopes: $\Gamma, \Delta$ or $\Gamma, \delta :
@@ -92,14 +91,13 @@ Next, the rules for well-formed items in signatures are given in
       \Sclosed{\lab{D}, \wildp} \notin \Sigma \\
       \isLabNotIn{C}{\Sigma} \\
       \Sigma \mid \Delta \vdash \isTel{\Pi} \\
-      \forall j \in J .\ \Sigma \mid \delta : \Delta, \Pi \vdash r_j : \Xi[\delta] \\
       \Sigma \mid \Delta, \Pi \vdash \xi : \Xi
     }
-    {\Sigma \vdash \Sctor{C}{\Pi\;\vec{r} }{D}{\Delta\;\xi}} \and
+    {\Sigma \vdash \Sctor{C}{\Pi}{D}{\Delta\;\xi}} \and
     \inferrule[Closed-Item]
     {
       \Sdata{D}{\Delta}{\Xi} \in \Sigma \\
-      \forall i \in I. \ \Sctorvar{\lab{C}_i}{\Pi_i\;\vec{r}_i}{D}{\Delta\;\xi_i} \in \Sigma \\
+      \forall i \in I. \ \Sctorvar{\lab{C}_i}{\Pi_i}{D}{\Delta\;\xi_i} \in \Sigma \\
       \Sclosed{\lab{D}, \wildp} \notin \Sigma
     }
     {\Sigma \vdash \Sclosed{\lab{D}, \vec{\lab{C}}}} \and
@@ -120,39 +118,129 @@ Next, the rules for well-formed items in signatures are given in
     {
       \Sdata{D}{\Delta}{\Xi} \in \Sigma
     }
-    {\Sigma \mid \Gamma \vdash \lab{D} : (\delta : \Delta) \to \Xi [\delta] \to \univ} \and
+    {\Sigma \mid \Gamma \vdash \lab{D} : \Delta \to \Xi \to \univ} \and
     \inferrule[Data-Intro]
     {
       \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
-      \Sctor{C}{\Pi\;\vec{r}}{D}{\Delta\;\xi} \in \Sigma
+      \Sctor{C}{\Pi}{D}{\Delta\;\xi} \in \Sigma
     }
-    {\Sigma \mid \Gamma \vdash \lab{C} : (\delta : \Delta) \to (\pi : \Pi [\delta]) \to \{ \lab{D} \; \delta \; (r_j [\delta, \pi]) \}_j \to \lab{D} \; \delta \; (\xi [\delta, \pi]) } \and
-    \inferrule[Data-Elim]
+    {\Sigma \mid \Gamma \vdash \lab{C} : (\delta : \Delta) \to (\pi : \Pi [\delta]) \to \lab{D} \; \delta \; (\xi [\delta, \pi]) } \and
+    \inferrule[Data-Case]
     {
       \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
-      \forall i \in I.\ \Sctorvar{\lab{C}_i}{\Delta_{\lab{C}_i}}{D}{\xi_i} \in \Sigma     \\
+      \forall i \in I.\ \Sctorvar{\lab{C}_i}{\Pi_i}{D}{\xi_i} \in \Sigma     \\
       \Sclosed{\lab D}{\vec{\lab{C}}} \in \Sigma
     }
-    {\Sigma \mid \Gamma \vdash \lab{elim_D} : (\delta : \Delta) \to \mta{Elim}((\xi : \Xi[\delta],x : \lab{D} \; \delta \; \xi), P.\{ (\pi : \Pi [\delta]) , \{ P \; \delta \; (r_j [\delta,\pi]) \}_j \}_i ) } \and
+    {\Sigma \mid \Gamma \vdash \lab{case_D} : (\delta : \Delta) \to \mta{Case}((\xi : \Xi[\delta],x : \lab{D} \; \delta \; \xi), \{ (\pi : \Pi_i [\delta]), (\xi_i [\delta], \lab{C}_i \; \delta \; \pi) \}_i ) } \and
+    % \inferrule[Data-Case-ID$_j$]
+    % {
+    %   \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
+    %   \forall i \in I.\ \Sctorvar{\lab{C}_i}{\Pi_i}{D}{\xi_i} \in \Sigma     \\
+    %   \Sclosed{\lab D}{\vec{\lab{C}}} \in \Sigma \\
+    %   \Sigma \mid \Gamma \vdash \delta : \Delta \\
+    %   \Sigma \mid \Gamma \vdash P : (\xi : \Xi[\delta]) \to \lab{D} \; \delta\; \xi \to \univ \\
+    %   \forall i \in I . \ \Sigma \mid \Gamma \vdash \kappa_i : (\pi : \Pi_i [\delta]) \to P \; \xi_i [\delta, \pi] \; (\lab{C}_i \; \delta \; \pi)  \\
+    %   \Sigma \mid \Gamma \vdash \pi : \Pi_j [\delta]
+    % }
+    % {\Sigma \mid \Gamma \vdash \lab{case_D} \; \delta \; P \; \{\kappa_i\}_i \; (\xi_j [\delta, \pi]) \; (\lab{C}_j \; \delta \; \pi)
+    \inferrule[Data-Case-ID$_j$]
+    {
+      \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
+      \forall i \in I.\ \Sctorvar{\lab{C}_i}{\Pi_i}{D}{\xi_i} \in \Sigma     \\
+      \Sclosed{\lab D}{\vec{\lab{C}}} \in \Sigma \\
+      \Sigma \mid \Gamma \vdash \delta : \Delta \\
+      \Sigma \mid \Gamma \vdash P : (\xi : \Xi[\delta]) \to \lab{D} \; \delta\; \xi \to \univ \\
+      \forall i \in I . \ \Sigma \mid \Gamma \vdash \kappa_i : (\pi : \Pi_i [\delta]) \to P \; \xi_i [\delta, \pi] \; (\lab{C}_i \; \delta \; \pi)
+    }
+    {\Sigma \mid \Gamma \vdash \mta{IsValidCase}(\lab{case_D}\;\delta, P, \{\kappa_i\}_i)} \and
     \inferrule[Def-Intro]
     {
       \Sdef{f}{M}{m} \in \Sigma     \\
     }
     {\Sigma \mid \Gamma \vdash \lab{f} : M}
   \end{mathpar}
-  \caption{Typing rules for terms and types related to items in $\lambdarep$.}
+  \caption{Terms and types associated to items in signatures in $\lambdaind$.}
   \label{fig:lambdaind-rules}
 \end{figure}
 
-In \cref{fig:lambdaind-rules}, the $\mta{Elim}(\Phi, P.\{\Delta_k\}_k)$ construction is defined as
+The rules for data constructors do not consider the recursive occurences of $\lab{D}$ explicitly, which means
+that strict positivity is not ensured. Rather, we assume that a separate check is performed to ensure that
+the defined types adhere to strict positivity, if necessary. As a result, the eliminator for data types does
+not provide the inductive hypotheses directly, but we assume that the language allows general recursion. Similarly to
+the positivity requirements, we expect that if termination is a desirable property of the system, it is ensured separately
+to the provided typing rules.
+
+In \cref{fig:lambdaind-rules}, the $\mta{Case}(\Phi, \{\Pi_k, \phi_k\}_k)$ construction is defined as
 \begin{mathpar}
   \inferrule
   {
     \Sigma \mid \Gamma \vdash \isTel{\Phi} \\
-    \forall k \in K .\ {\Sigma \mid \Gamma, P : \Phi \to \univ \vdash \isTel{\Delta_k}}
+    \forall k \in K .\ {\Sigma \mid \Gamma \vdash \isTel{\Pi_k}} \\
+    \forall k \in K .\ {\Sigma \mid \Gamma, \Pi_k \vdash \phi_k : \Phi}
   }
-  {\mta{Elim}(\Phi, P.\{\Delta_k\}_k) = (P : \Phi \to \univ) \to \{ \Delta_k \to P \; \xi_k \}_k \to (\phi : \Phi) \to P \phi}
+  {{\mta{Case}(\Phi, \{\Pi_k, \phi_k\}_k) := (P : \Phi \to \univ) \to \{ (\Pi_k \to P \; \phi_k) \}_k \to (\phi : \Phi) \to P \phi}}
 \end{mathpar}
+
+The $\mta{ValidCase}(c, P, \{\kappa_k\}_k)$ construction is defined inductively as
+\begin{mathpar}
+  \inferrule
+  {
+      \Sigma \mid \Gamma \vdash c : \mta{Case}(\Phi, \{\Pi_k, \phi_k\}_k) \\
+      \Sigma \mid \Gamma \vdash P : \Phi \to \univ \\
+      \forall k \in K . \ \Sigma \mid \Gamma \vdash \kappa_k : \Pi_k \to P \; \phi_k \\
+     \forall j \in K . \ \Sigma \mid \Gamma, \pi : \Pi_j \vdash c \; P \; \{\kappa_k\}_k \; \phi_j [\pi] \equiv \kappa_j \; \pi : P \; \phi_j[\pi]
+  }
+  {\Sigma \mid \Gamma \vdash \mta{ValidCase}(c, P, \{\kappa_k\}_k)}
+\end{mathpar}
+
+
+\subsection{Extending $\lambdaind$ with data representations}\label{sub:lambdarep}
+
+We base language $\lambdaind$ to form $\lambdarep$, which allows users to define
+custom representations for inductive types and other global symbols.
+
+\begin{figure}[h]
+  \begin{mathpar}
+    \inferrule[Repr-Data]
+    {
+      \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
+      \Sigma \mid \Delta, \Xi \vdash A : \univ \\
+    }
+    {\Sigma \vdash \Srepr{D}{\Delta\;\Xi}{A}} \and
+    \inferrule[Repr-Ctor]
+    {
+    \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
+    \forall i \in I .\ \Sctorvar{\lab{C}_i}{\Pi_i}{D}{\Delta\;\xi_i} \in \Sigma     \\
+    \Srepr{D}{\Delta\;\Xi}{A} \in \Sigma \\
+    \forall i < k .\ \Sreprvar{\lab{C}_i}{\Pi_i}{t_i} \in \Sigma     \\
+    \Sigma \mid \Delta, \Pi_k \vdash t_k : A \; \Delta \; \xi_k
+    % \Sigma \mid \vec{x} : \Crepr{\Delta}, \ \vec{z} : \Crepr{\Delta_{\lab{C}_i}} \vdash t_i : (a : A) \times \textstyle \prod_{j < i} ((\vec{y} : \Crepr{\Delta_{\lab{C}_j}}) \to a \neq \pi_1 t_j[\vec{x},\vec{y}])
+    }
+    {\Sigma \vdash \Sreprvar{\lab{C}_k}{\Pi_k}{t_k}} \and
+    \inferrule[Repr-Case]
+    {
+    \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
+    \Srepr{D}{\Delta\;\Xi}{A} \in \Sigma \\
+    \forall i \in I .\ \Sctorvar{\lab{C}_i}{\Pi_i}{D}{\Delta\;\xi_i} \in \Sigma     \\
+    \forall i \in I .\ \Sreprvar{\lab{C}_i}{\Pi_i}{t_i} \in \Sigma     \\
+    \Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma \\
+    {\Sigma \mid \Delta \vdash c : \mta{Case}((\xi : \Xi[\delta],x : A \; \delta \; \xi), \{ (\pi : \Pi_i [\delta]), (\xi_i [\delta], A \; \delta \; \pi) \}_i ) } \\
+    \Sigma \mid \Delta \vdash \mta{ValidCase} ( c )
+    }
+    {\Sigma \vdash \Srepr{case_D}{\Delta}{c}} \and
+    \inferrule[Repr-Def]
+    {
+      \Sdef{f}{M}{m} \in \Sigma     \\
+      % \isLabNotIn{R}{\Sigma} \\
+      \Sigma \mid \cdot \vdash a : M \\
+      \Sigma \mid \cdot \vdash m \equiv a : M
+    }
+    {\Sigma \vdash \Sreprconst{f}{a}}
+  \end{mathpar}
+  \caption{Rules for data representations in $\lambdarep$.}
+  \label{fig:lambdarep-rules}
+\end{figure}
+
 
 
 
@@ -202,7 +290,7 @@ In \cref{fig:lambdaind-rules}, the $\mta{Elim}(\Phi, P.\{\Delta_k\}_k)$ construc
 % \begin{itemize}
 %   \item A type of booleans, $\inte{Bool} : \univ_0$, with constants $\inte{true} :
 %           \inte{Bool}$ and $\inte{false} : \inte{Bool}$, and operations $\inte{and}$,
-%         $\inte{or}$, and $\inte{not}$. Elimination for booleans is also provided, in
+%         $\inte{or}$, and $\inte{not}$. Caseination for booleans is also provided, in
 %         the form of \[\inte{ifthenelse} : (b : \inte{Bool}) \to ((\Id{\inte{Bool}}{b}{\inte{true}}) \to A)
 %           \to ((\Id{\inte{Bool}}{b}{\inte{false}}) \to A) \to A.\]
 %   \item A type of machine words, $\inte{Word} : \univ_0$ with constants $0, 1, 2,
@@ -416,7 +504,7 @@ In \cref{fig:lambdaind-rules}, the $\mta{Elim}(\Phi, P.\{\Delta_k\}_k)$ construc
 %       \Sigma \mid \Gamma \vdash \vec{u} : \DeltaFor{C}[\vec{t}]
 %     }
 %     {\Sigma \mid \Gamma \vdash \lab{C}\,\vec{u} : \lab{D}\,\vec{t}} \and
-%     \inferrule[Data-Elim]
+%     \inferrule[Data-Case]
 %     {
 %       \Sdata{D}{\Delta} \in \Sigma     \\
 %       \forall i \in I.\ \Sctorvar{\lab{C}_i}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
