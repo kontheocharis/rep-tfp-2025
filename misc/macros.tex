@@ -4,6 +4,10 @@
 \newcommand{\ifempty}[3]{\@ifmtarg{#1}{#2}{3}}
 \makeatother
 
+% Environments
+% \theoremstyle{definition}
+% \newtheorem{example}{Example}[section]
+
 % Code
 \newcommand{\hs}{\mintinline{haskell}}
 \newcommand{\idr}{\mintinline{idris}}
@@ -37,6 +41,8 @@
 \newcommand{\univ}{\datalab{Type}}
 \newcommand{\Id}[3]{{#2}=_{#1}{#3}}
 \newcommand{\Repr}{\inte{Repr}}
+\newcommand{\repr}[1]{\inte{repr}\ {#1}}
+\newcommand{\unrepr}[1]{\inte{unrepr}\ {#1}}
 \newcommand{\Crepr}[1]{\mathcal{R} {#1}}
 \newcommand{\crepr}[1]{\mathcal{R} {#1}}
 \newcommand{\DeltaFor}[1]{\Delta_{\lab{#1}}}

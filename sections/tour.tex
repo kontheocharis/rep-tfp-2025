@@ -22,4 +22,69 @@ This representation
 
 \subsection{Reindexing and forgetful maps for free}
 
+Let us assume that in our language, for some data type
+\[
+  \Sdata{D}{\Delta}{\Xi}
+\]
+we have access to an internal description $\lab{desc}_{\datalab{D}} : \Delta \to \datalab{Desc}\ \Xi$, along
+with an interpretation function
+\[
+  \lab{$\llbracket \_ \rrbracket$} : \datalab{Desc}\ \Xi \to (\Xi \to \univ) \to (\Xi \to \univ)
+\]
+and a fixpoint operator
+\[
+  \Sdata{$\mu$}{(D : \datalab{Desc}\ \Xi ) \  (\xi : \Xi)}{} \Sbody {
+    \ctorlab{fix} : \llbracket D \rrbracket \ (\datalab{$\mu$}\ D) \ \xi \to \datalab{$\mu$}\ D \ \xi
+  }
+\]
+such that $\datalab{$\mu$} \ (\lab{desc}_{\datalab{D}} \ \delta) \simeq
+\datalab{D} \ \delta$ is a strong bijection.
+Then, we might choose to define the representation of $D$ as $\datalab{$\mu$} \
+(\lab{desc}_{\datalab{D}} \ \delta)$; in this way, we represent the `primitive'
+datatype $\datalab{D}$ as the interpretation of its code
+$\lab{desc}_{\datalab{D}}$.
+
+Now consider that we have an indexed datatype
+\[
+  \Sdata{C}{\Delta}{(\xi : \Xi) \to \Phi [\xi]}
+\]
+which is a refined version of $\datalab D$. If we can construct an algebra
+\[
+  \lab{phi}\ \delta : \llbracket \lab{desc}_{\datalab{D}} \rrbracket \ \Phi \ \xi \to \Phi \ \xi
+\]
+that computes the index $\Phi$, then we can form the description
+\[
+  \lab{alg-orn}\ (\lab{phi}\ \delta) : \datalab{Desc}\ (\datalab{$\Sigma$} \ \Xi \ \Phi)
+\]
+which is the ornament induced by the algebra $\lab{phi}$. If a strong bijection
+can be established between $\datalab{$\mu$} \ (\lab{alg-orn}\ (\lab{phi} \ \delta))$ and
+$\datalab{C} \ \delta$, then the former can be used as the representation of the
+latter. Finally, this allows us to define a zero-cost forgetful conversion function
+from $\datalab{C}$ and $\datalab{D}$, which is erased at compile-time, as
+\begin{align}
+  &\lab{forget-}\Phi : \datalab C\ \delta\ \xi\ \phi \to \datalab D\ \delta\ \xi \label{eq:forget} \\
+  &\lab{forget-}\Phi\ c\ d = \unrepr{(\lab{alg-orn-forget}\ (\repr c))}
+\end{align}
+
+\begin{example}
+  Let $\Delta = (T : \univ)$, $\Xi = \cdot$ and $\Phi = (n : \datalab{Nat})$.
+  Let $\datalab D\ T = \datalab{List}\ T$, and $\datalab C\ T\ n = \datalab{Vec}\ T\ n$.
+  Then let $\lab{desc}_{\datalab{List}}$ be the description for lists
+  \[
+    \ctorlab{$\sigma$} \ [\ctorlab{nil}, \ctorlab{cons}] \Sbody{
+      \ctorlab{nil} &\mapsto \ctorlab{end} \\
+      \ctorlab{cons} &\mapsto \ctorlab{node$\times$}\ \ctorlab{end}
+    }
+  \]
+  and construct the algebra $\lab{phi}$ from the length function $\lab{length}
+  : \datalab{List}\ T \to \datalab{Nat}$. It is easy to construct a strong
+  bijection $\datalab{$\mu$} \ (\lab{alg-orn}\ (\lab{length} \ T))\ n \simeq
+  \datalab{Vec}\ T\ n$, so we can represent the latter as the former, and
+  define a zero-cost function to forget the length of a vector using \eqref{eq:forget}.
+\end{example}
+
+
+
+
+
 \subsection{Binary data}
