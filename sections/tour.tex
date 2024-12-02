@@ -73,7 +73,7 @@ from $\datalab{C}$ and $\datalab{D}$, which is erased at compile-time, as
   \[
     \ctorlab{$\sigma$} \ [\ctorlab{nil}, \ctorlab{cons}] \Sbody{
       \ctorlab{nil} &\mapsto \ctorlab{end} \\
-      \ctorlab{cons} &\mapsto \ctorlab{node$\times$}\ \ctorlab{end}
+      \ctorlab{cons} &\mapsto \ctorlab{$\sigma$}\ T\ (\lambda \wildp .\  \ctorlab{node$\times$}\ \ctorlab{end})
     }
   \]
   and construct the algebra $\lab{phi}$ from the length function $\lab{length}
