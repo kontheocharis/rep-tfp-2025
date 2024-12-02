@@ -32,31 +32,33 @@
 \newcommand{\ctorlab}[1]{{\ensuremath{\color{RawSienna}{\textsf{#1}}}}}
 \newcommand{\fieldlab}[1]{{\ensuremath{\color{Plum}{\textsf{#1}}}}}
 \newcommand{\datalab}[1]{{\ensuremath{\color{BlueViolet}{\textsf{#1}}}}}
+\newcommand{\primlab}[1]{{\ensuremath{\color{RedViolet}{\textsf{#1}}}}}
 \newcommand{\inte}[1]{\textsf{#1}}
 \newcommand{\caselab}[1]{\fieldlab{$\text{case}_{\datalab{#1}}$}}
+\newcommand{\elimlab}[1]{\fieldlab{$\text{elim}_{\datalab{#1}}$}}
 
 %% Terms
 \newcommand{\letin}[3]{\kwd{let}\; {#1} = {#2}\; \kwd{in}\; {#3}}
 \newcommand{\wildp}{\underline{\hspace{0.4em}}}
 \newcommand{\univ}{\datalab{Type}}
 \newcommand{\Id}[3]{{#2}=_{#1}{#3}}
-\newcommand{\Repr}{\inte{Repr}}
-\newcommand{\repr}[1]{\inte{repr}\ {#1}}
-\newcommand{\unrepr}[1]{\inte{unrepr}\ {#1}}
+\newcommand{\Repr}{\defkwd{Repr}}
+\newcommand{\repr}[1]{\defkwd{repr}\ {#1}}
+\newcommand{\unrepr}[1]{\defkwd{unrepr}\ {#1}}
 \newcommand{\Crepr}[1]{\mathcal{R} {#1}}
 \newcommand{\crepr}[1]{\mathcal{R} {#1}}
 \newcommand{\DeltaFor}[1]{\Delta_{\lab{#1}}}
 
 %% Definitions
 \newcommand{\Sbody}[1]{\ \left\{\  \begin{aligned}#1\end{aligned} \ \right\}}
-\newcommand{\Sdata}[3]{\defkwd{data} \ \datalab{#1} \ifnotempty{#2}{\, {#2}} \ifnotempty{#3}{: \, {#3} \to \univ}}
+\newcommand{\Sdata}[3]{\defkwd{data} \ \datalab{#1} \ifnotempty{#2}{\ {#2}} \ifnotempty{#3}{: {#3} \to \univ}}
 \newcommand{\Srecord}[2]{\defkwd{record} \ \datalab{#1} \ifnotempty{#2}{\, {#2}}}
-\newcommand{\Sctor}[4]{\defkwd{ctor} \ \lab{#1} \, {#2} : \lab{#3}\, {#4}}
-\newcommand{\Sctorvar}[4]{\defkwd{ctor} \ #1 \, {#2} : \lab{#3}\, {#4}}
+\newcommand{\Sctor}[4]{\defkwd{ctor} \ \lab{#1} \ {#2} : \lab{#3}\, {#4}}
+\newcommand{\Sctorvar}[4]{\defkwd{ctor} \ #1 \ {#2} : \lab{#3}\, {#4}}
 \newcommand{\Sdef}[3]{\defkwd{def} \ \lab{#1} : {#2} = {#3}}
-\newcommand{\Srepr}[3]{\defkwd{repr} \ \lab{#1}\, {#2}\ \defkwd{as}\ {#3}}
-\newcommand{\Sreprconst}[2]{\defkwd{repr} \ \lab{#1}\ \defkwd{as}\ {#2}}
-\newcommand{\Sreprvar}[3]{\defkwd{repr} \ {#1}\, {#2}\ \defkwd{as}\ {#3}}
+\newcommand{\Srepr}[3]{\defkwd{repr} \ \lab{#1}\ {#2}\ \defkwd{as}\ {#3}}
+\newcommand{\as}{\defkwd{as}}
+\newcommand{\Sreprvar}[2]{\defkwd{repr} \ {#1}\ \defkwd{as}\ {#2}}
 \newcommand{\Sclosed}[2]{\defkwd{closed}\ #1 \ #2}
 
 %% Judgements

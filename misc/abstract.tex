@@ -1,13 +1,13 @@
 
 \begin{abstract}
-  Inductive families enable a convenient way of programming with dependent
+  Inductive families provide a convenient way of programming with dependent
   types, where dependent pattern matching automatically handles a lot of the
   otherwise manual work of reasoning about index refinement. However, when it
   comes to compilation, the default representation of inductive types can be
   inefficient. Often, we want multiple indexed views of the same data, which has
   runtime overhead with current methods. In this paper, introduce a language
   with dependent types, and inductive families with custom representations. A
-  type family $F$ can be used to represent the inductive family $D$ as long as $T$
+  type family $F$ can be used to represent the inductive family $\datalab D$ as long as $T$
   can mimic $D$'s constructors and induction principle. This way, we can build
   up a standard library of convenient inductive families, whose re-indexing
   conversion functions are erased at compile-time. In particular, we show how we

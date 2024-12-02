@@ -2,23 +2,130 @@
 
 \subsection{Natural numbers}
 
-A common optimisation done by proof assistants such as Idris2 and Lean is to represent natural numbers
-as GMP-style big integers. By virtue of their definition, natural numbers are represented as unary numbers
+A common optimisation done by programming languages with dependent types such as
+Idris 2 and Lean is to represent natural numbers as GMP-style big integers. The core
+definition of natural numbers looks like
 \[
   \Sdata{Nat}{}{} \Sbody{
     \ctorlab{0} & : \datalab{Nat} \\
     \ctorlab{1+} & : \datalab{Nat} \to \datalab{Nat}
   }
 \]
-This representation
+This definition is convenient because it generates a Peano-style induction principle
+\begin{align*}
+  \elimlab{Nat} :\ &(P : \datalab{Nat} \to \univ) \\
+  & \to (m_{\ctorlab{0}} : P\ \ctorlab 0) \to (m_{\ctorlab{1+}} : (n : \datalab{Nat}) \to P\ n \to P\ (\ctorlab{1+}\ n)) \\
+  & \to (s : \datalab{Nat}) \to P\ s \,.
+\end{align*}
+Moreover, dependent pattern matching with structural recursion on
+$\datalab{Nat}$ can be elaborated into invocations of $\elimlab{Nat}$, and
+lemmas such as constructor injectivity, disjointness and acyclicity
+[Constructions on constructors, eliminating dep pattern matching] can be
+substituted automatically to simplify the context and goal. This way, if
+addition is defined using recursion and pattern matching, proofs like the
+commutativity of addition or the additive identity of $\ctorlab 0$ are easy to
+write.
+
+When it comes to compilation, without further intervention, the $\datalab{Nat}$
+type is represented in unary form, where each digit is an empty heap cell. This
+is inefficient for a lot of the basic operations on natural numbers; addition is
+a linear-time operation and multiplication is quadratic. For this reason, most
+real-world implementations will treat \datalab{Nat} specially, swapping the
+default inductive type representation with one based on GMP integers. The basic
+idea is to perform the replacements
+\begin{align*}
+  |\ctorlab{0}| &= \lab{ubig-zero} \\
+  |\ctorlab{1+}| &= \lab{ubig-add}\ \lab{ubig-one} \\
+  |\elimlab{Nat}\ P\ m_{\ctorlab 0}\ m_{\ctorlab{$1+$}}\ s| &=\lab{ubig-if-zero}\ |s|\ |m_{\ctorlab 0}|\ |m_{\ctorlab{$1+$}}|
+\end{align*}
+where $|\cdot|$ denotes a source translation into an untyped compilation target
+language, and $\lab{ubig-$\ast$}$ are primitives of the target language.
+
+In addition to the constructors and eliminators, the compiler might also define translations
+for commonly used definitions which have a more efficient counterpart in the untyped target, such as
+$|+| = \lab{ubig-add}$, $|\times| = \lab{ubig-mul}$, etc.
+Idris 2 will in fact look for any `Nat-like' types and apply this optimisation. A Nat-like type
+is any type whose shape is $\mathbb{2}$ and positions are $\{0 \mapsto \mathbb{0}, 1 \mapsto \mathbb{1}\}$.
+A similar optimisation is also done with list-like and boolean-like types.
+
+The issue with this approach is that it only works for the data types which the
+compiler can recognise as special. Particularly in the presence of dependent
+types, other data types might end up being equivalent to \datalab{Nat} or another
+`nicely-representable' type, but in a non-trivial way that the compiler cannot recognise.
+Hence, our first goal is to extend this optimisation to work for any data type.
+Additionally, the optimisation is defined as a compilation step, which means
+that if non-trivial representations are provided by the user, their correctness
+is not guaranteed. To address this, our framework requires that representations
+are fully typed, ensuring that the behaviour of the representation of a data
+type matches the behaviour of the data type itself.
+
+
+\subsection{Views on arrays}
+
+In functional languages, lists are automatically represented as linked lists by
+virtue of their inductive definition. This representation is particularly
+suitable for the recursion pattern where the head of the list is processed
+first, and the tail is processed recursively. However, it is not always the most
+efficient for all operations. For example, accessing the $n$-th element of a
+list requires $O(n)$ steps. In contrast, contiguous, homogenous arrays provide
+$O(1)$ access to elements, but cannot be defined inductively in any nice way.
+There is clearly a bijection between lists and arrays, which makes lists a good
+candidate for a custom representation.
+
+We assume access to a primitive type $\primlab{Array}\ T$ representing
+contiguous heap arrays of elements of type $T$, along with primitives
+\begin{align*}
+  &\primlab{array} : (n : \datalab{Nat}) \to (\datalab{Fin}\ n \to T) \to \primlab{Array}\ T \\
+  &\primlab{array-length} : \primlab{Array}\ T \to \datalab{Nat} \\
+  &\primlab{array-index} : (a : \primlab{Array}\ T) \to \datalab{Fin}\ (\primlab{array-length}\ a) \to T \\[1em]
+  &\primlab{array-elim} : (P : \primlab{Array}\ T \to \univ) \\
+  & \to (m_1 : P\ \lab{array-nil}) \\
+  & \to (m_2 : (x : T) \to (xs : \primlab{Array}\ T) \to P\ xs \to P\ (\lab{array-cons}\ x\ xs)) \\
+  & \to (s : \primlab{Array}\ T) \to P\ s \,.
+\end{align*}
+using the auxilliary definitions
+\begin{align*}
+  &\lab{array-nil} : \primlab{Array}\ T \\
+  &\lab{array-nil} = \primlab{array}\ \ctorlab 0\ (\lab{fin-zero-void}\ T) \\[1em]
+  &\lab{array-cons} : T \to \primlab{Array}\ T \to \primlab{Array}\ T \\[-1em]
+  &\lab{array-cons}\ x\ xs = \primlab{array}\ (\ctorlab{1+}\ \primlab{array-length}\ n) \Sbody{
+     \ctorlab{0f} &\mapsto x \\
+     \ctorlab{1f+}\ m &\mapsto \primlab{array-index}\ xs\ m
+  }
+\end{align*}
+
+In addition, we require that the following equalities hold definitionally:
+\begin{align*}
+  \primlab{array-elim}\ P\ a\ b\ \lab{array-nil} &\equiv a : P\ \lab{array-nil} \\
+  \primlab{array-elim}\ P\ a\ b\ (\lab{array-cons}\ x\ xs) &\equiv b\ x\ xs : P\ (\lab{array-cons}\ x\ xs)
+\end{align*}
+
+The symbols $\lab{array-nil}$, $\lab{array-cons}$, and $\lab{array-elim}$ along
+with the above definitional equalities form an inductive interface, which can be
+used as a representation for the $\datalab{List}$ data type:
 \[
-  \Srecord{Player}{} \Sbody{
-    \fieldlab{name} & : \datalab{String} \\
-    \fieldlab{health} & : \datalab{Fin} \ \lab{MAX-HEALTH}
+  \Sreprvar{\datalab{List}\ T}{\primlab{Array}\ T} \Sbody{
+    \ctorlab{[]}\ &\as\ \lab{array-nil} \\
+    \ctorlab{(}x\ctorlab{::}xs\ctorlab{)}\ &\as\ \lab{array-cons}\ x\ xs \\
+    \elimlab{List}\ &\as\ \primlab{array-elim}
   }
 \]
 
-\subsection{Views on lists}
+Now the indexing function for lists can be represented as the indexing function
+for arrays, and the length function for lists can be represented as the length
+function for arrays. To do this, it is required that some further definitional
+equalities hold:
+\begin{gather*}
+  \primlab{array-elim}\ (\kappa\ \datalab{Nat})\ \ctorlab{0}\ (\kappa\ \kappa\ \ctorlab{1+}) \equiv \primlab{array-length} : \datalab{Array}\ T \to \datalab{Nat} \\[1em]
+  \primlab{array-elim}\ (\lambda a .\ \datalab{Fin}\ (\primlab{array-length}\ a) \to T)\
+  (\lab{fin-zero-void}\ T)\ (\kappa\ .\ \elimlab{Fin}\ T)\\
+  \equiv \ \primlab{array-index} : \primlab{Array}\ T \to \datalab{Fin}\ (\primlab{array-length}\ a) \to T
+\end{gather*}
+Then we can set
+\begin{align*}
+  \repr{} \lab{index}\ &\as\ \primlab{array-index} \\
+  \repr{} \lab{length}\ &\as\ \primlab{array-length} \,.
+\end{align*}
 
 \subsection{Reindexing and forgetful maps for free}
 
@@ -76,14 +183,12 @@ from $\datalab{C}$ and $\datalab{D}$, which is erased at compile-time, as
       \ctorlab{cons} &\mapsto \ctorlab{$\sigma$}\ T\ (\lambda \wildp .\  \ctorlab{node$\times$}\ \ctorlab{end})
     }
   \]
-  and construct the algebra $\lab{phi}$ from the length function $\lab{length}
+  and construct the algebra $\lab{phi} = \lab{length-alg}$ mirroring the length function $\lab{length}
   : \datalab{List}\ T \to \datalab{Nat}$. It is easy to construct a strong
-  bijection $\datalab{$\mu$} \ (\lab{alg-orn}\ (\lab{length} \ T))\ n \simeq
+  bijection $\datalab{$\mu$} \ (\lab{alg-orn}\ (\lab{length-alg} \ T))\ n \simeq
   \datalab{Vec}\ T\ n$, so we can represent the latter as the former, and
-  define a zero-cost function to forget the length of a vector using \eqref{eq:forget}.
+  define a zero-cost function to forget the length of a vector as $\lab{forget-}\datalab{Nat}$.
 \end{example}
-
-
 
 
 

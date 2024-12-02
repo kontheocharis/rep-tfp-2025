@@ -5,22 +5,22 @@ most functional programming languages. Every inductive definition is equipped
 with an induction principle that captures the notion of mathematical induction
 over the data, and in particular, enables structural recursion over the data.
 This is a powerful tool for programming as well as theorem proving. However,
-this abstraction often comes at a cost; the data representation of inductive
+this abstraction often comes at a cost; the runtime representation of inductive
 types is a linked tree structure. By default, a list as an inductively defined
 data structure is stored as a linked list, and a natural number is stored as a
 unary number where each digit is an empty heap cell. This representation is not
 always the most efficient for all operations, and often forces users to rely on
-`more efficient' machine primitives to achieve good performance. The `Nat-hack'
-in languages with dependent types is a prime example of this, where natural
-numbers are represented as big integers for efficient computation.
+more efficient machine primitives to achieve good performance. The `Nat-hack' in
+languages with dependent types is a prime example of this, where natural numbers
+are represented as GMP-style big integers for efficient arithmetic operations.
 
 In this paper, we propose an extension to a core language with dependent types
 and inductive families which allows users to define custom representations for
-inductive types. This is done through a translation of the constructors and
-eliminators of the inductive type to a concrete implementation, which forms a
-`representation'. Representations are defined in the language itself, and come
-with coherence properties that ensure that the representation is a strong
-bijection between the inductive type and its implementation.
+inductive types. This is done through user-defined translations of the
+constructors and eliminators of an inductive type to a concrete implementation,
+which forms a `representation'. Representations are defined in the language
+itself, and come with coherence properties that ensure that the representation
+forms an algebra isomorphic to the initial algebra of the inductive type.
 
 
 % \subsection{The `Nat-hack'}

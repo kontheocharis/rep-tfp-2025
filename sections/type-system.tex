@@ -215,7 +215,7 @@ custom representations for inductive types and global functions.
     \Sigma \mid \Delta, \Pi_k \vdash t_k : A \; \Delta \; \xi_k
     % \Sigma \mid \vec{x} : \Crepr{\Delta}, \ \vec{z} : \Crepr{\Delta_{\lab{C}_i}} \vdash t_i : (a : A) \times \textstyle \prod_{j < i} ((\vec{y} : \Crepr{\Delta_{\lab{C}_j}}) \to a \neq \pi_1 t_j[\vec{x},\vec{y}])
     }
-    {\Sigma \vdash \Sreprvar{\lab{C}_k}{\Pi_k}{t_k}} \and
+    {\Sigma \vdash \Sreprvar{\lab{C}_k\ \Pi_k}{t_k}} \and
     \inferrule[Repr-Case]
     {
     \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
@@ -234,7 +234,7 @@ custom representations for inductive types and global functions.
       \Sigma \mid \cdot \vdash a : M \\
       \Sigma \mid \cdot \vdash m \equiv a : M
     }
-    {\Sigma \vdash \Sreprconst{f}{a}}
+    {\Sigma \vdash \Sreprvar{\lab f}{a}}
   \end{mathpar}
   \caption{Rules for data representations in $\lambdarep$.}
   \label{fig:lambdarep-rules}
