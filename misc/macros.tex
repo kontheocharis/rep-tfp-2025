@@ -1,3 +1,9 @@
+% Utils
+\makeatletter
+\newcommand{\ifnotempty}[2]{\@ifnotmtarg{#1}{#2}}
+\newcommand{\ifempty}[3]{\@ifmtarg{#1}{#2}{3}}
+\makeatother
+
 % Code
 \newcommand{\hs}{\mintinline{haskell}}
 \newcommand{\idr}{\mintinline{idris}}
@@ -18,31 +24,27 @@
 %% Names
 \newcommand{\kwd}[1]{\textbf{#1}}
 \newcommand{\defkwd}[1]{\textbf{#1}}
-\newcommand{\lab}[1]{{\ensuremath{\color{blue}{\mathsf{#1}}}}}
+\newcommand{\lab}[1]{{\ensuremath{\color{OliveGreen}{\textsf{#1}}}}}
+\newcommand{\ctorlab}[1]{{\ensuremath{\color{RawSienna}{\textsf{#1}}}}}
+\newcommand{\fieldlab}[1]{{\ensuremath{\color{Plum}{\textsf{#1}}}}}
+\newcommand{\datalab}[1]{{\ensuremath{\color{BlueViolet}{\textsf{#1}}}}}
 \newcommand{\inte}[1]{\textsf{#1}}
-\newcommand{\caselab}[1]{\lab{\textrm{case}_{#1}}}
+\newcommand{\caselab}[1]{\fieldlab{$\text{case}_{\datalab{#1}}$}}
 
 %% Terms
 \newcommand{\letin}[3]{\kwd{let}\; {#1} = {#2}\; \kwd{in}\; {#3}}
-\newcommand{\letrecin}[3]{\kwd{letrec}\; {#1} = {#2}\; \kwd{in}\; {#3}}
 \newcommand{\wildp}{\underline{\hspace{0.4em}}}
-\newcommand{\univ}{\mathcal{U}}
+\newcommand{\univ}{\datalab{Type}}
 \newcommand{\Id}[3]{{#2}=_{#1}{#3}}
-\newcommand{\boxx}[1]{\square{#1}}
-\newcommand{\inbox}[1]{\inte{box}\,{#1}}
-\newcommand{\unbox}[1]{\inte{unbox}\,{#1}}
-\newcommand{\seq}[2]{[#1; #2]}
-\newcommand{\lift}[1]{\text{$\Uparrow$}{#1}}
-\newcommand{\quot}[1]{\langle{#1}\rangle}
-\newcommand{\splice}[1]{\text{$\sim$}{#1}}
-\newcommand{\Gen}{\inte{Gen}}
 \newcommand{\Repr}{\inte{Repr}}
 \newcommand{\Crepr}[1]{\mathcal{R} {#1}}
 \newcommand{\crepr}[1]{\mathcal{R} {#1}}
 \newcommand{\DeltaFor}[1]{\Delta_{\lab{#1}}}
 
 %% Definitions
-\newcommand{\Sdata}[3]{\defkwd{data} \ \lab{#1} \, {#2} : {#3} \to \univ}
+\newcommand{\Sbody}[1]{\ \left\{\  \begin{aligned}#1\end{aligned} \ \right\}}
+\newcommand{\Sdata}[3]{\defkwd{data} \ \datalab{#1} \ifnotempty{#2}{\, {#2}} \ifnotempty{#3}{: \, {#3} \to \univ}}
+\newcommand{\Srecord}[2]{\defkwd{record} \ \datalab{#1} \ifnotempty{#2}{\, {#2}}}
 \newcommand{\Sctor}[4]{\defkwd{ctor} \ \lab{#1} \, {#2} : \lab{#3}\, {#4}}
 \newcommand{\Sctorvar}[4]{\defkwd{ctor} \ #1 \, {#2} : \lab{#3}\, {#4}}
 \newcommand{\Sdef}[3]{\defkwd{def} \ \lab{#1} : {#2} = {#3}}

@@ -14,11 +14,11 @@ The core languge we start with is $\lambdaind$. It contains $\Pi$-types and a
 single universe $\univ$ with $\univ : \univ$. We are not concerned with universe
 polymorphism or a sound logical interpretation as this is orthogonal to the main
 focus of this work. Nevertheless, all the results should be readily extensible
-to a sound language with universe polymorphism.
+to a sound language with a universe hierarchy.
 We follow a similar approach to
 \cite{Cockx2018-fk} by packaging named inductive constructions and
 global function definitions into a signature, and indexing contexts by
-by signature. A typing judgement looks like
+signatures. A typing judgement looks like
 \[
   \Sigma \mid \Gamma \vdash t : T
 \]
@@ -131,7 +131,7 @@ Next, the rules for well-formed items in signatures are given in
       \forall i \in I.\ \Sctorvar{\lab{C}_i}{\Pi_i}{D}{\xi_i} \in \Sigma     \\
       \Sclosed{\lab D}{\vec{\lab{C}}} \in \Sigma
     }
-    {\Sigma \mid \Gamma \vdash \lab{case_D} : (\delta : \Delta) \to \mta{Case}((\xi : \Xi[\delta],x : \lab{D} \; \delta \; \xi), \{ (\pi : \Pi_i [\delta]), (\xi_i [\delta], \lab{C}_i \; \delta \; \pi) \}_i ) } \and
+    {\Sigma \mid \Gamma \vdash \caselab{D} : (\delta : \Delta) \to \mta{Case}((\xi : \Xi[\delta],x : \lab{D} \; \delta \; \xi), \{ (\pi : \Pi_i [\delta]), (\xi_i [\delta], \lab{C}_i \; \delta \; \pi) \}_i ) } \and
     % \inferrule[Data-Case-ID$_j$]
     % {
     %   \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
@@ -150,7 +150,7 @@ Next, the rules for well-formed items in signatures are given in
       \Sclosed{\lab D}{\vec{\lab{C}}} \in \Sigma \\
       \Sigma \mid \Gamma \vdash \delta : \Delta
     }
-    {\Sigma \mid \Gamma \vdash \mta{ValidCase}(\lab{case_D}\;\delta)} \and
+    {\Sigma \mid \Gamma \vdash \mta{ValidCase}(\caselab{D}\;\delta)} \and
     \inferrule[Def-Intro]
     {
       \Sdef{f}{M}{m} \in \Sigma     \\
@@ -226,7 +226,7 @@ custom representations for inductive types and global functions.
     {\Sigma \mid \delta : \Delta \vdash c : \mta{Case}((\xi : \Xi[\delta],x : A \; \delta \; \xi), \{ (\pi : \Pi_i [\delta]), (\xi_i [\delta], A \; \delta \; \pi) \}_i ) } \\
     \Sigma \mid \Delta \vdash \mta{ValidCase} ( c )
     }
-    {\Sigma \vdash \Srepr{case_D}{\Delta}{c}} \and
+    {\Sigma \vdash \Srepr{\caselab{D}}{\Delta}{c}} \and
     \inferrule[Repr-Def]
     {
       \Sdef{f}{M}{m} \in \Sigma     \\
@@ -240,7 +240,21 @@ custom representations for inductive types and global functions.
   \label{fig:lambdarep-rules}
 \end{figure}
 
+\subsection{Properties of $\lambdarep$}
 
+\begin{itemize}
+  \item Decidability of equality
+  \item Confluence of reduction
+  \item Strong normalization
+\end{itemize}
+
+\section{Translating from $\lambdarep$ to $\lambdaind$}
+
+\begin{itemize}
+  \item Setoid homomorphism
+  \item Faithful translation (setoid injectivity)
+  \item Corollaries
+\end{itemize}
 
 
 % language $\lambdaprim$ with
