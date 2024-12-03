@@ -1,7 +1,5 @@
 \section{A tour of data representations}\label{sec:examples}
 
-\subsection{Natural numbers}
-
 A common optimisation done by programming languages with dependent types such as
 Idris 2 and Lean is to represent natural numbers as GMP-style big integers. The core
 definition of natural numbers looks like
@@ -39,13 +37,13 @@ idea is to perform the replacements
   |\elimlab{Nat}\ P\ m_{\ctorlab 0}\ m_{\ctorlab{$1+$}}\ s| &=\lab{ubig-if-zero}\ |s|\ |m_{\ctorlab 0}|\ |m_{\ctorlab{$1+$}}|
 \end{align*}
 where $|\cdot|$ denotes a source translation into an untyped compilation target
-language, and $\lab{ubig-$\ast$}$ are primitives of the target language.
+language with primitives $\lab{ubig-$\ast$}$.
 
 In addition to the constructors and eliminators, the compiler might also define translations
 for commonly used definitions which have a more efficient counterpart in the untyped target, such as
 $|+| = \lab{ubig-add}$, $|\times| = \lab{ubig-mul}$, etc.
 Idris 2 will in fact look for any `Nat-like' types and apply this optimisation. A Nat-like type
-is any type whose shape is $\mathbb{2}$ and positions are $\{0 \mapsto \mathbb{0}, 1 \mapsto \mathbb{1}\}$.
+is any type with two constructors, one with arity zero and the other with arity one.
 A similar optimisation is also done with list-like and boolean-like types.
 
 The issue with this approach is that it only works for the data types which the
@@ -58,6 +56,9 @@ that if non-trivial representations are provided by the user, their correctness
 is not guaranteed. To address this, our framework requires that representations
 are fully typed, ensuring that the behaviour of the representation of a data
 type matches the behaviour of the data type itself.
+
+
+\subsection{Natural numbers}
 
 
 \subsection{Views on arrays}
@@ -192,7 +193,6 @@ from $\datalab{C}$ and $\datalab{D}$, which is erased at compile-time, as
   \datalab{Vec}\ T\ n$, so we can represent the latter as the former, and
   define a zero-cost function to forget the length of a vector as $\lab{forget-}\datalab{Nat}$.
 \end{example}
-
 
 
 \subsection{Binary data}
