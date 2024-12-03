@@ -194,23 +194,30 @@ The $\Sigma \mid \Gamma \vdash \mta{ValidCase}(c)$ condition is defined inductiv
 \end{mathpar}
 
 
-\subsection{Extending $\lambdaind$ with data representations}\label{sub:lambdarep}
+\subsection{Extending $\lambdaind$ with representations}\label{sub:lambdarep}
 
-We extend the language $\lambdaind$ to form $\lambdarep$, which allows users to define
-custom representations for inductive types and global functions. This language is extended
-with a modal type former
-\[
+We extend the language $\lambdaind$ to form $\lambdarep$, which allows users to
+define custom representations for inductive types and global functions. First,
+we add a modal type former
+\begin{equation}\label{eq:repr-ty}
   \Repr{} : \Ty\ \Sigma\ \Gamma \to \Ty\ \Sigma\ \Gamma
-\]
+\end{equation}
 along with an isomorphism
-\[
+\begin{equation}\label{eq:repr-iso}
   \repr{} : \Tm\ \Sigma\ \Gamma\ T \simeq \Tm\ \Sigma\ \Gamma\ (\Repr T) : \unrepr{} \,.
-\]
+\end{equation}
 
-The type $\Repr T$ is the defined representation of the type $T$. The term $\repr{}$ takes
-a term of type $T$ to its representation of type $\Repr T$, and $\unrepr{}$ undoes the effect of
-$\repr{}$, treating a represented term as an inhabitant of its original type.
-These new constructs satisfy certain \emph{homogenous} definitional equalities.
+The type $\Repr T$ is the defined representation of the type $T$. The term
+$\repr{}$ takes a term of type $T$ to its representation of type $\Repr T$, and
+$\unrepr{}$ undoes the effect of $\repr{}$, treating a represented term as an
+inhabitant of its original type. These new constructs satisfy certain
+definitional equalities given in \cref{fig:basic-rep-eq} and
+\cref{fig:global-rep-eq}. While the former rules can be summarised as `commute
+with binders and represent types as themselves', the latter rules define how
+these constructs can be used to rewrite global definitions as their defined
+representations. From these rules, we can derive some additional admissible
+lemmas.
+
 \begin{figure}[h]
     \begin{align*}
       &\Repr{(\Pi\ A\ B)} \equiv \Pi\ A\ (\Repr B) \\
@@ -238,7 +245,7 @@ These new constructs satisfy certain \emph{homogenous} definitional equalities.
   $\unrepr{}$, omitting the ones that hold by the afforementioned
   isomorphism. Notably $\Repr (\El t)$, as well as $\repr x$ where $x$ is a
   variable, do not reduce.}
-  \label{fig:translation}
+  \label{fig:basic-rep-eq}
 \end{figure}
 
 \begin{figure}[h]
@@ -257,21 +264,74 @@ These new constructs satisfy certain \emph{homogenous} definitional equalities.
   {
     \Sreprvar{\datalab D\ \Delta\ \Xi}{A} \in \Sigma
   }
-  {\Sigma \mid \Gamma \vdash \istype{\Repr{(\datalab{D}\ \delta\ \psi)} \equiv A [\delta,\psi]}} \and
-  \inferrule[Repr-Case-Id]
-  {
-    \Sreprvar{\caselab D}{e} \in \Sigma
-  }
-  {\Sigma \mid \Gamma \vdash \repr{(\caselab{D}\ \delta)} \equiv e [\delta] : \mta{Case}((\xi : \Xi[\delta],x : A \  \delta \  \xi), \{ (\pi : \Pi_i [\delta]), (\xi_i [\delta], A \  \delta \  \pi) \}_i )} \and
+  {\Sigma \mid \Gamma \vdash \istype{\Repr{(\datalab{D}\ \delta\ \psi)} \equiv A [\delta,\psi]}}
   \end{mathpar}
-  \caption{Homogenous definitional equalities for $\Repr{}$ and $\repr{}$.
-  Notably $\Repr (\El t)$, as well as $\repr x$ where $x$ is a variable, do not
-  reduce.}
-  \label{fig:translation}
+  \caption{Definitional equalities for $\Repr{}$ and $\repr{}$ relating to global items with defined representations.}
+  \label{fig:global-rep-eq}
 \end{figure}
 
+\begin{lemma}
+  The term formers $\repr{}$ and $\unrepr{}$ are injective, i.e.
+  \begin{mathpar}
+    \inferrule
+    {
+      \Sigma \mid \Gamma \vdash \repr{t} \equiv \repr{t'} : \Repr T
+    }
+    {
+      \Sigma \mid \Gamma \vdash t \equiv t' : T
+    } \and
+    \inferrule
+    {
+      \Sigma \mid \Gamma \vdash \unrepr{t} \equiv \unrepr{t'} : T
+    }
+    {
+      \Sigma \mid \Gamma \vdash t \equiv t' : \Repr T
+    }
+  \end{mathpar}
+\end{lemma}
 
-\begin{figure}[h]
+\begin{proof}
+  By the isomorphism in \eqref{eq:repr-iso}.
+\end{proof}
+
+Importantly, this injectivity rule can only be applied if $t$ and $t'$ have the
+same type. Otherwise, if $\Repr {\datalab{Bool}} = \Repr {\datalab{Bit}}$, we
+could derive $\repr{\ctorlab{true}} \equiv \repr{\ctorlab{zero}}$ and then
+$\ctorlab{true} \equiv \ctorlab{zero}$. Of course, the injectivity lemmas can
+only be stated if the types are equal, but when it comes to implementation, a
+unification algorithm must be type-aware to maintain soundness. While these term
+formers are injective, the type former $\Repr{}$ is not, since multiple distinct
+types can have the same representation. However, the weaker property holds that
+$\Repr{}$ is injective up to internal isomorphism.
+
+\begin{lemma}
+  The type former $\Repr{}$ is injective up to internal isomorphism, i.e.
+  \begin{mathpar}
+    \inferrule
+    {
+      \Sigma \mid \Gamma \vdash \istype{\Repr T \equiv \Repr T'}
+    }
+    {
+      \Sigma \mid \Gamma \vdash p : T\ \datalab{$\simeq$}\ T'
+    }
+  \end{mathpar}
+\end{lemma}
+
+\begin{proof}
+  The pair of maps $(\lambda (x : T).\ \unrepr{(\repr{x})},\ \lambda (y : T').\ \unrepr{(\repr{y})})$ forms an isomorphism,
+  whose coherence proofs are both trivial.
+\end{proof}
+
+
+Next, we define the rules for defining representations in $\lambdarep$. Representations
+are a part of the signature, and can be defined for data types as well as global definitions.
+In the case of data types, the representation needs to be defined for the type itself, as well as
+for each of its constructors and the case eliminator. For global definitions, the representation
+must be in the form of a term of the same type as the original definition, which is moreover.
+TODO: maybe we leave global definitions to rewrite rules?
+
+
+\begin{figure}[H]
   \begin{mathpar}
     \inferrule[Repr-Data]
     {
@@ -323,37 +383,81 @@ These new constructs satisfy certain \emph{homogenous} definitional equalities.
 
 \section{Translating from $\lambdarep$ to $\lambdaind$}
 
-Now we define a translation step $\R$ from $\lambdarep$ to $\lambdaind$. We do this by
-translating contexts, substitutions, types, and terms in a mutual manner. The majority
-of the translation simply preserves the structure of $\lambdarep$, so we focus on the
-translation of inductive types into their representations.
+Now we define a translation step $\R$ from $\lambdarep$ to $\lambdaind$, meant
+to be applied during the compilation process. We do this by translating
+contexts, substitutions, types, and terms in a mutual manner such that
+definitional equality is preserved. In other words, $\R$ is a setoid
+homomorphism if we consider definitional equality as a relation defining a
+setoid. The majority of the translation simply preserves the structure of
+$\lambdarep$, so we focus on the translation of definitions into their
+representations. This is shown in \cref{fig:translation}. By defining the
+translation in this way, we are awarded with some desirable properties by construction:
 
-\begin{figure}[h]
-  \begin{minipage}[t]{0.45\textwidth}
+\begin{lemma}
+  The translation $\R$ preserves typing, i.e.
+  \begin{mathpar}
+    \inferrule
+    {
+      \Sigma \mid \Gamma \vdash t : T
+    }
+    {
+      \R \Sigma \mid \R \Gamma \vdash \R t : \R T
+    }
+  \end{mathpar}
+\end{lemma}
+
+\begin{lemma}
+  The translation $\R$ preserves definitional equality, i.e.
+  \begin{mathpar}
+    \inferrule
+    {
+      \Sigma \mid \Gamma \vdash t \equiv t' : T
+    }
+    {
+      \R \Sigma \mid \R \Gamma \vdash \R t \equiv \R t' : \R T
+    }
+  \end{mathpar}
+\end{lemma}
+
+
+\begin{figure}[H]
     \begin{align*}
       &\R : \Ty_{\rep}\ \Sigma\ \Gamma \to \Ty_{\ind}\ (\R \Sigma)\ (\R \Gamma) \\
-      &\R (\datalab{D}\ \delta\ \psi) = \R (A[\delta,\psi]) \\
+      &\R (\datalab{D}\ \delta\ \psi) \mid \Sreprvar{\datalab D\ \Delta\ \Xi}{A} \in \Sigma = \R (A[\delta,\psi]) \\
       &\R (\Repr A) = \R A \\
-      &\R T = \text{recurse on $T$}
-    \end{align*}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[t]{0.45\textwidth}
-    \begin{align*}
+      &\R T = \text{recurse on $T$} \\[2em]
       &\R : \Tm_{\rep}\ \Sigma\ \Gamma\ T \to \Tm_{\ind}\ (\R \Sigma)\ (\R \Gamma)\ (\R T) \\
-      &\R (\ctorlab{C}\ \delta\ \pi) = \R (t[\delta,\pi]) \\
-      &\R (\repr A) = \R A \\
-      &\R (\unrepr A) = \R A \\
+      &\R (\ctorlab{C}\ \delta\ \pi) \mid \Sreprvar{\ctorlab c\ \Pi}{\kappa} \in \Sigma = \R (\kappa[\delta,\pi]) \\
+      &\R (\lab{f}\ \delta) \mid \Sreprvar{\lab f\ \delta}{a} \in \Sigma = \R (a[\delta]) \\
+      &\R (\repr t) = \R t \\
+      &\R (\unrepr t) = \R t \\
       &\R t = \text{recurse on $t$}
     \end{align*}
-  \end{minipage}
   \caption{Translation from $\lambdarep$ to $\lambdaind$.}
   \label{fig:translation}
 \end{figure}
 
+TODO: show how the def.equalities are mapped.
+
+The basic ones get mapped to reflexivity, the others are given as part of
+representations (validcase), and the rest are simply carried over.
+
+
+  % {
+  %   \Sreprvar{\lab f\ \Delta}{a} \in \Sigma
+  % }
+  % {\Sigma \mid \Gamma \vdash \repr{(\lab{f}\ \delta)} \equiv a [\delta] : M[\delta]} \and
+  % \inferrule[Repr-Ctor-Id]
+  % {
+  %   \Sreprvar{\ctorlab c\ \Pi}{\kappa} \in \Sigma
+  % }
+  % {\Sigma \mid \Gamma \vdash \repr{(\ctorlab{c}\ \delta\ \pi)} \equiv \kappa [\delta, \pi] : A[\delta, \xi[\pi]]} \and
+  % \inferrule[Repr-Data-Id]
+  % {
+  %   \Sreprvar{\datalab D\ \Delta\ \Xi}{A} \in \Sigma
+  % }
+
 
 \begin{itemize}
-  \item Setoid homomorphism
-  \item Faithful translation (setoid injectivity)
-  \item Corollaries
+  \item What other corollaries?
 \end{itemize}
