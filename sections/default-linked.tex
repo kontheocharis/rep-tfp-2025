@@ -10,14 +10,14 @@
       \Sigma,Z,(X_i)_{i \in I} \vdash L := \Sclosed{\lab{D}}{\vec{\lab{C}}} \\
     }
     {
-      \Sigma,Z,X,L \vdash \Srepr{D}{\vec{x}}{(\mu F . \vec{x} \mapsto (c : \inte{Word}_{\llbracket I \rrbracket}) \times \boxx{(\inte{switch} \ c \ (\mta{Ctors}\ \vec{x}\ F)))})\ \vec{x}} \\
+      \Sigma,Z,X,L \vdash \Sreprvar{\datalab D}{\vec{x}}{(\mu F . \vec{x} \mapsto (c : \inte{Word}_{\llbracket I \rrbracket}) \times \boxx{(\inte{switch} \ c \ (\mta{Ctors}\ \vec{x}\ F)))})\ \vec{x}} \\
       \text{where } \mta{Ctors}\ \vec{x}\ F = ((d : \mta{Data}_i\ \vec{x}) \times ((r : \mta{Rec}_i\ \vec{x}\ d) \to F (\mta{Idx}_i\ r)))_{i \in I} \\
     } \and
     \inferrule[Repr-Ctor]
     {
     \Sdata{D}{\Delta} \in \Sigma     \\
     \forall i \in I .\ \Sctorvar{\lab{C}_i}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
-    \Srepr{D}{\Crepr{\Delta}}{A} \in \Sigma \\
+    \Sreprvar{\datalab D}{\Crepr{\Delta}}{A} \in \Sigma \\
     \forall j < i .\ \Sreprvar{\lab{C}_j}{\Crepr{\Delta_{\lab{C}_j}}}{t_j} \in \Sigma     \\
     \Sigma \mid \vec{x} : \Crepr{\Delta}, \ \vec{z} : \Crepr{\Delta_{\lab{C}_i}} \vdash t_i : (a : A) \times \textstyle \prod_{j < i} ((\vec{y} : \Crepr{\Delta_{\lab{C}_j}}) \to a \neq \pi_1 t_j[\vec{x},\vec{y}])
     }
@@ -25,7 +25,7 @@
     \inferrule[Repr-Case]
     {
     \Sdata{D}{\Delta} \in \Sigma     \\
-    \Srepr{D}{\Crepr{\Delta}}{A} \in \Sigma \\
+    \Sreprvar{\datalab D}{\Crepr{\Delta}}{A} \in \Sigma \\
     \forall i \in I .\ \Sctorvar{\lab{C}_{i}}{\Delta_{\lab{C}_i}}{D}{\Delta} \in \Sigma     \\
     \forall i \in I .\ \Sreprvar{\lab{C}_i}{\Crepr{\Delta_{\lab{C}_i}}}{t_i} \in \Sigma \\
     \Sclosed{\lab{D}}{\vec{\lab{C}}} \in \Sigma \\
