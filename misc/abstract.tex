@@ -1,18 +1,20 @@
 
 \begin{abstract}
   Inductive families provide a convenient way of programming with dependent
-  types, where dependent pattern matching automatically handles a lot of the
-  otherwise manual work of reasoning about index refinement. However, when it
-  comes to compilation, the default representation of inductive types can be
-  inefficient. Often, we want multiple indexed views of the same data, which has
-  runtime overhead with current methods. In this paper, introduce a language
-  with dependent types, and inductive families with custom representations. A
-  type family $F$ can be used to represent the inductive family $\datalab D$ as long as $T$
-  can mimic $D$'s constructors and induction principle. This way, we can build
-  up a standard library of convenient inductive families, whose re-indexing
-  conversion functions are erased at compile-time. In particular, we show how we
-  can reproduce and extend the `Nat-hack' from Agda, Idris and Lean, fully
-  within the language. Since we are working with dependent types, we can indeed
-  reason about data representations internally; in this spirit, we are awarded
-  with a correctness proof of the Nat-hack, for free.
+  types. Yet, when it comes to compilation, both their default linked-tree
+  runtime representations, as well as the need to convert between different
+  indexed views of the same data, can lead to unsatisfactory runtime
+  performance. In this paper, we introduce a language with dependent types, and
+  inductive families with custom representations. Representations are a version
+  of Wadler's views \cite{Wadler1987-zp}, refined to inductive families like in
+  Epigram \cite{Mcbride2004-fd}. However, representations come with compilation
+  guarantees: any represented inductive family will not leave any runtime traces
+  behind, without having to rely on automated transformations such as
+  deforestation \cite{Wadler1990-yo}. This way, we can build a library of
+  convenient inductive families based on a minimal set of primitives, whose
+  re-indexing and conversion functions are erased at compile-time. In
+  particular, we show how we can reproduce the `Nat-hack' from Agda, Idris and
+  Lean, fully within our language. With dependent types, we can indeed reason
+  about data representations internally; in this spirit, we are awarded with a
+  correctness proof of the Nat-hack, for free.
 \end{abstract}

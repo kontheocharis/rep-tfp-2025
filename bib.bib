@@ -626,3 +626,272 @@
   address   = {New York, NY, USA},
   keywords  = {Agda, Copatterns, Dependent pattern matching, Dependent types}
 }
+
+@INPROCEEDINGS{Wadler1987-zp,
+  title     = "Views: a way for pattern matching to cohabit with data
+               abstraction",
+  author    = "Wadler, P",
+  booktitle = "Proceedings of the 14th ACM SIGACT-SIGPLAN symposium on
+               Principles of programming languages",
+  publisher = "Association for Computing Machinery",
+  address   = "New York, NY, USA",
+  pages     = "307--313",
+  abstract  = "Pattern matching and data abstraction are important concepts in
+               designing programs, but they do not fit well together. Pattern
+               matching depends on making public a free data type
+               representation, while data abstraction depends on hiding the
+               representation. This paper proposes the views mechanism as a
+               means of reconciling this conflict. A view allows any type to be
+               viewed as a free data type, thus combining the clarity of pattern
+               matching with the efficiency of data abstraction.",
+  series    = "POPL '87",
+  month     =  oct,
+  year      =  1987,
+  url       = "https://doi.org/10.1145/41625.41653"
+}
+
+@ARTICLE{Mcbride2004-fd,
+  title     = "The view from the left",
+  author    = "Mcbride, Conor and Mckinna, James",
+  journal   = "J. Funct. Programming",
+  publisher = "Cambridge University Press",
+  volume    =  14,
+  number    =  1,
+  pages     = "69--111",
+  abstract  = "The view from the left - Volume 14 Issue 1",
+  month     =  jan,
+  year      =  2004,
+  url       = "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/F8A44CAC27CCA178AF69DD84BC585A2D/S0956796803004829a.pdf/div-class-title-the-view-from-the-left-div.pdf"
+}
+
+@ARTICLE{Wadler1990-yo,
+  title    = "Deforestation: transforming programs to eliminate trees",
+  author   = "Wadler, Philip",
+  journal  = "Theor. Comput. Sci.",
+  volume   =  73,
+  number   =  2,
+  pages    = "231--248",
+  abstract = "An algorithm that transforms programs to eliminate intermediate
+              trees is presented. The algorithm applies to any term containing
+              only functions with definitions in a given syntactic form, and is
+              suitable for incorporation in an optimizing compiler.",
+  month    =  jun,
+  year     =  1990,
+  url      = "https://www.sciencedirect.com/science/article/pii/030439759090147A"
+}
+
+@INCOLLECTION{McBride2006-tz,
+  title     = "A Few Constructions on Constructors",
+  author    = "McBride, Conor and Goguen, Healfdene and McKinna, James",
+  booktitle = "Lecture Notes in Computer Science",
+  publisher = "Springer Berlin Heidelberg",
+  address   = "Berlin, Heidelberg",
+  pages     = "186--200",
+  series    = "Lecture notes in computer science",
+  year      =  2006,
+  url       = "http://www.e-pig.org/downloads/concon.pdf"
+}
+@ARTICLE{Cockx2018-bv,
+  title     = "Proof-relevant unification: Dependent pattern matching with only
+               the axioms of your type theory",
+  author    = "Cockx, Jesper and Devriese, Dominique",
+  journal   = "J. Funct. Prog.",
+  publisher = "Cambridge University Press (CUP)",
+  volume    =  28,
+  number    = "e12",
+  pages     = "e12",
+  abstract  = "AbstractDependently typed languages such as Agda, Coq, and Idris
+               use a syntactic first-order unification algorithm to check
+               definitions by dependent pattern matching. However, standard
+               unification algorithms implicitly rely on principles such
+               asuniqueness of identity proofsandinjectivity of type
+               constructors. These principles are inadmissible in many type
+               theories, particularly in the new and promising branch known as
+               homotopy type theory. As a result, programs and proofs in these
+               new theories cannot make use of dependent pattern matching or
+               other techniques relying on unification, and are as a result much
+               harder to write, modify, and understand. This paper proposes a
+               proof-relevant framework for reasoning formally about unification
+               in a dependently typed setting. In this framework, unification
+               rules compute not just a unifier but also a corresponding
+               soundness proof in the form of anequivalencebetween two sets of
+               equations. By rephrasing the standard unification rules in a
+               proof-relevant manner, they are guaranteed to preserve soundness
+               of the theory. In addition, it enables us to safely add new rules
+               that can exploit the dependencies between the types of equations,
+               such as rules for eta-equality of record types and higher
+               dimensional unification rules for solving equations between
+               equality proofs. Using our framework, we implemented a complete
+               overhaul of the unification algorithm used by Agda. As a result,
+               we were able to replace previousad-hocrestrictions with formally
+               verified unification rules, fixing a substantial number of bugs
+               in the process. In the future, we may also want to integrate new
+               principles with pattern matching, for example, the higher
+               inductive types introduced by homotopy type theory. Our framework
+               also provides a solid basis for such extensions to be built on.",
+  month     =  jan,
+  year      =  2018,
+  url       = "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/E54D56DC3F5D5361CCDECA824030C38E/S095679681800014Xa.pdf/div-class-title-proof-relevant-unification-dependent-pattern-matching-with-only-the-axioms-of-your-type-theory-div.pdf",
+  language  = "en"
+}
+
+
+@INCOLLECTION{Goguen2006-sy,
+  title     = "Eliminating dependent pattern matching",
+  author    = "Goguen, Healfdene and McBride, Conor and McKinna, James",
+  booktitle = "Algebra, Meaning, and Computation",
+  publisher = "Springer Berlin Heidelberg",
+  address   = "Berlin, Heidelberg",
+  pages     = "521--540",
+  series    = "Lecture notes in computer science",
+  year      =  2006,
+  url       = "https://research.google.com/pubs/archive/99.pdf"
+}
+
+@INPROCEEDINGS{Atkey2018-pj,
+  title     = "Syntax and Semantics of Quantitative Type Theory",
+  author    = "Atkey, Robert",
+  booktitle = "Proceedings of the 33rd Annual ACM/IEEE Symposium on Logic in
+               Computer Science",
+  publisher = "Association for Computing Machinery",
+  address   = "New York, NY, USA",
+  pages     = "56--65",
+  abstract  = "We present Quantitative Type Theory, a Type Theory that records
+               usage information for each variable in a judgement, based on a
+               previous system by McBride. The usage information is used to give
+               a realizability semantics using a variant of Linear Combinatory
+               Algebras, refining the usual realizability semantics of Type
+               Theory by accurately tracking resource behaviour. We define the
+               semantics in terms of Quantitative Categories with Families, a
+               novel extension of Categories with Families for modelling
+               resource sensitive type theories.",
+  series    = "LICS '18",
+  month     =  jul,
+  year      =  2018,
+  url       = "https://doi.org/10.1145/3209108.3209189",
+  keywords  = "Linear Logic, Type Theory"
+}
+
+@INPROCEEDINGS{Moon2021-eb,
+  title     = "Graded Modal Dependent Type Theory",
+  author    = "Moon, Benjamin and Eades, III, Harley and Orchard, Dominic",
+  booktitle = "Programming Languages and Systems",
+  publisher = "Springer International Publishing",
+  pages     = "462--490",
+  abstract  = "Graded type theories are an emerging paradigm for augmenting the
+               reasoning power of types with parameterizable, fine-grained
+               analyses of program properties. There have been many such
+               theories in recent years which equip a type theory with
+               quantitative dataflow tracking, usually via a semiring-like
+               structure which provides analysis on variables (often called
+               ‘quantitative’ or ‘coeffect’ theories). We present Graded Modal
+               Dependent Type Theory (Grtt for short), which equips a dependent
+               type theory with a general, parameterizable analysis of the flow
+               of data, both in and between computational terms and types. In
+               this theory, it is possible to study, restrict, and reason about
+               data use in programs and types, enabling, for example, parametric
+               quantifiers and linearity to be captured in a dependent setting.
+               We propose Grtt, study its metatheory, and explore various case
+               studies of its use in reasoning about programs and studying other
+               type theories. We have implemented the theory and highlight the
+               interesting details, including showing an application of grading
+               to optimising the type checking procedure itself.",
+  year      =  2021,
+  url       = "http://dx.doi.org/10.1007/978-3-030-72019-3_17"
+}
+
+@ARTICLE{Abel2023-ey,
+  title     = "A Graded Modal Dependent Type Theory with a Universe and Erasure,
+               Formalized",
+  author    = "Abel, Andreas and Danielsson, Nils Anders and Eriksson, Oskar",
+  journal   = "Proc. ACM Program. Lang.",
+  publisher = "Association for Computing Machinery",
+  address   = "New York, NY, USA",
+  volume    =  7,
+  number    = "ICFP",
+  pages     = "920--954",
+  abstract  = "We present a graded modal type theory, a dependent type theory
+               with grades that can be used to enforce various properties of the
+               code. The theory has Π-types, weak and strong Σ-types, natural
+               numbers, an empty type, and a universe, and we also extend the
+               theory with a unit type and graded Σ-types. The theory is
+               parameterized by a modality, a kind of partially ordered
+               semiring, whose elements (grades) are used to track the usage of
+               variables in terms and types. Different modalities are possible.
+               We focus mainly on quantitative properties, in particular
+               erasure: with the erasure modality one can mark function
+               arguments as erasable.The theory is fully formalized in Agda. The
+               formalization, which uses a syntactic Kripke logical relation at
+               its core and is based on earlier work, establishes major
+               meta-theoretic properties such as subject reduction, consistency,
+               normalization, and decidability of definitional equality. We also
+               prove a substitution theorem for grade assignment, and
+               preservation of grades under reduction. Furthermore we study an
+               extraction function that translates terms to an untyped
+               λ-calculus and removes erasable content, in particular function
+               arguments with the “erasable” grade. For a certain class of
+               modalities we prove that extraction is sound, in the sense that
+               programs of natural number type have the same value before and
+               after extraction. Soundness of extraction holds also for open
+               programs, as long as all variables in the context are erasable,
+               the context is consistent, and erased matches are not allowed for
+               weak Σ-types.",
+  month     =  aug,
+  year      =  2023,
+  url       = "https://doi.org/10.1145/3607862",
+  keywords  = "linearity, dependent types, modalities, erasure, formalization,
+               graded modal type theory"
+}
+
+@INPROCEEDINGS{Brady2004-ay,
+  title     = "Inductive Families Need Not Store Their Indices",
+  author    = "Brady, Edwin and McBride, Conor and McKinna, James",
+  booktitle = "Types for Proofs and Programs",
+  publisher = "Springer Berlin Heidelberg",
+  pages     = "115--129",
+  abstract  = "We consider the problem of efficient representation of
+               dependently typed data. In particular, we consider a language TT
+               based on Dybjer’s notion of inductive families [10] and reanalyse
+               their general form with a view to optimising the storage
+               associated with their use. We introduce an execution language,
+               ExTT, which allows the commenting out of computationally
+               irrelevant subterms and show how to use properties of elimination
+               rules to elide constructor arguments and tags in ExTT. We further
+               show how some types can be collapsed entirely at run-time.
+               Several examples are given, including a representation of the
+               simply typed λ-calculus for which our analysis yields an 80\%
+               reduction in run-time storage requirements.",
+  year      =  2004,
+  url       = "http://dx.doi.org/10.1007/978-3-540-24849-1_8"
+}
+
+@ARTICLE{Diehl2018-ba,
+  title     = "Generic zero-cost reuse for dependent types",
+  author    = "Diehl, Larry and Firsov, Denis and Stump, Aaron",
+  journal   = "Proc. ACM Program. Lang.",
+  publisher = "Association for Computing Machinery",
+  address   = "New York, NY, USA",
+  volume    =  2,
+  number    = "ICFP",
+  pages     = "1--30",
+  abstract  = "Dependently typed languages are well known for having a problem
+               with code reuse. Traditional non-indexed algebraic datatypes
+               (e.g. lists) appear alongside a plethora of indexed variations
+               (e.g. vectors). Functions are often rewritten for both
+               non-indexed and indexed versions of essentially the same
+               datatype, which is a source of code duplication. We work in a
+               Curry-style dependent type theory, where the same untyped term
+               may be classified as both the non-indexed and indexed versions of
+               a datatype. Many solutions have been proposed for the problem of
+               dependently typed reuse, but we exploit Curry-style type theory
+               in our solution to not only reuse data and programs, but do so at
+               zero-cost (without a runtime penalty). Our work is an exercise in
+               dependently typed generic programming, and internalizes the
+               process of zero-cost reuse as the identity function in a
+               Curry-style theory.",
+  month     =  jul,
+  year      =  2018,
+  url       = "https://doi.org/10.1145/3236799",
+  keywords  = "dependent types, reuse, generic programming"
+}
+

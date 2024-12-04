@@ -16,9 +16,9 @@ This definition is convenient because it generates a Peano-style induction princ
   & \to (s : \datalab{Nat}) \to P\ s \,.
 \end{align*}
 Moreover, dependent pattern matching with structural recursion on
-$\datalab{Nat}$ can be elaborated into invocations of $\elimlab{Nat}$, and
-lemmas such as constructor injectivity, disjointness and acyclicity
-[Constructions on constructors, eliminating dep pattern matching] can be
+$\datalab{Nat}$ can be elaborated into invocations of $\elimlab{Nat}$
+\cite{Goguen2006-sy,Cockx2018-bv,Cockx2018-fk}, and lemmas such as constructor
+injectivity, disjointness and acyclicity \cite{McBride2006-tz} can be
 substituted automatically to simplify the context and goal. This way, if
 addition is defined using recursion and pattern matching, proofs like the
 commutativity of addition or the additive identity of $\ctorlab 0$ are easy to

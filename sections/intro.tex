@@ -2,131 +2,53 @@
 
 Inductive families are a broad generalisation of inductive data types found in
 most functional programming languages. Every inductive definition is equipped
-with an induction principle that captures the notion of mathematical induction
-over the data, and in particular, enables structural recursion over the data.
-This is a powerful tool for programming as well as theorem proving. However,
-this abstraction often comes at a cost; the runtime representation of inductive
-types is a linked tree structure. By default, a list as an inductively defined
-data structure is stored as a linked list, and a natural number is stored as a
-unary number where each digit is an empty heap cell. This representation is not
-always the most efficient for all operations, and often forces users to rely on
-more efficient machine primitives to achieve good performance. The `Nat-hack' in
-languages with dependent types is a prime example of this, where natural numbers
-are represented as GMP-style big integers for efficient arithmetic operations.
+with a eliminator that captures the notion of mathematical induction over the
+data, and in particular, enables structural recursion over the data. This is a
+powerful tool for programming as well as theorem proving.
+
+However, this abstraction has a cost when it comes to compilation: the
+runtime representation of inductive types is a linked tree structure. A list as
+an inductively defined data structure is stored as a linked list on the heap,
+and a natural number is stored as a unary number where each digit is an empty
+heap cell. This representation is not always the most efficient for all
+operations, and often forces users to rely on more efficient machine primitives
+to achieve desirable performance. The `Nat-hack' in languages with dependent types is
+a prime example of this, where natural numbers are represented as GMP-style big
+integers for efficient arithmetic operations [CITE?].
+
+This is not the only issue with the compilation of inductive families. Despite
+advances in the erasure of irrelevant indices in inductive families
+\cite{Brady2004-ay} and the use of theories with irrelevant fragments
+\cite{Atkey2018-pj,Moon2021-eb,Abel2023-ey}, there is still a need to convert
+between different indexed views of the same data. For example, the function to
+convert from $\datalab{List}\ T$ to $\datalab{Vec}\ T\ n$ by forgetting the
+length index $n$ is \emph{not} erased by any current language with dependent
+types, unless vectors are defined as a refinement of lists with propositional
+equality constraints (which hurts dependent pattern matching), or a Church
+encoding is used in a Curry-style context \cite{Diehl2018-ba} (which restricts
+the flexibility of data representation).
+
+Wadler's views \cite{Wadler1987-zp} provide a way to abstract over inductive
+interfaces, so that different views of the same data can be defined and
+converted between seamlessly. In the context of inductive families, views have
+been used in Epigram \cite{Mcbride2004-fd} to define views of data that utilise
+the index refinement machinery of dependent pattern matching to avoid some proof
+obligations. While views exhibit a nice way to transport across a bijection
+between the original data and the viewed data, they do not utilise this
+bijection to erase the view from the program. Despite deforestation being able
+to handle this erasure to some extent, it is not guaranteed to erase all traces
+of the view from the program, and the optimisation is often difficult to predict.
 
 In this paper, we propose an extension to a core language with dependent types
-and inductive families which allows users to define custom representations for
-inductive types. This is done through user-defined translations of the
-constructors and eliminators of an inductive type to a concrete implementation,
-which forms a `representation'. Representations are defined in the language
-itself, and come with coherence properties that ensure that the representation
-forms an algebra isomorphic to the initial algebra of the inductive type.
-
-
-% \subsection{The `Nat-hack'}
-
-% In languages with dependent types, such as Agda, Coq, Idris and Lean, the issue
-% of type representation is further complicated by the fact that inductive proofs
-% come into the mix. Inductively defined types enjoy induction principles which
-% can prove facts about them on a case-by-case basis. The standard example is the
-% induction over the natural numbers \idr{data Nat = Z | S Nat} given by
-% \begin{bminted}{idris}
-%   Nat-ind : (P : Nat -> Type) -> P Z -> ((m : Nat) -> P m -> P (S m)) -> (n : Nat) -> P n
-% \end{bminted}
-
-% However, if
-% natural numbers are not defined inductively, but rather opaquely as an
-% intricate data structure like Haskell's \idr{Natural}, induction is no longer
-% given `for free', and must be manually proven internally in the language. On
-% the other hand, if natural numbers are defined inductively, then many
-% operations become inexcusably slow, such as multiplication
-% \begin{bminted}{idris}
-%   mul : Nat -> Nat -> Nat
-%   mul Z b = Z
-%   mul (S a) b = add (mul a b) b
-% \end{bminted}
-% taking $a \times b$ steps to compute for input numbers $a$ and $b$. To solve
-% this problem, Idris, Agda and Lean `short-circuit' the default inductive type
-% representation for natural numbers, to use arbitrarily-sized big integers for
-% calculations whose digits are bitvectors, rather than unary numbers.
-
-% To describe how this trick works, assume we have access to a type \idr{BigUInt}
-% for arbitrarily-sized big integers, along with some primitive operations
-% \begin{bminted}{idris}
-%   bigZero, bigOne : BigUint
-%   bigAdd, bigMul, bigSub : BigUInt -> BigUInt -> BigUInt
-%   bigIsZero : BigUInt -> Bool
-% \end{bminted}
-% In a well-typed input program, all occurences of the zero constructor \idr|Z : Nat|
-% should be replaced with the constant \idr{bigZero}, and all occurences of the
-% successor constructor \idr|S : Nat -> Nat| should be replaced with the expression
-% \idr|\x -> bigAdd x bigOne|. For case analysis, each pattern matching expression
-% \idr+case x of Z -> b | S n -> r n+ should be replaced with the conditional
-% expression \idr|if bigIsZero x then b else r (bigSub x bigOne)|. Additionally,
-% some basic functions on natural numbers should be replaced with more performant
-% variants. The recursively-defined addition function \idr|add : Nat -> Nat -> Nat|
-% should be replaced with \idr{bigAdd} and similarly \idr{mul} should be replaced with
-% \idr{bigMul}.
-% This way, the high-level program still appears to be using the inductive definition
-% \idr{Nat}, but upon compilation it uses \idr{BigUInt} for efficient execution.
-
-% \subsection{Beyond natural numbers}
-
-% There are arguably many inductive types which could admit a more optimised
-% representation than the default linked tree. The first which comes to mind is
-% the type of lists \idr{data List t = Nil | Cons t (List t)}. There exist many
-% representations of lists in memory, including flattened contiguous heap-backed
-% arrays with dynamic resizing, singly-linked lists, doubly-linked lists, their
-% circular variants, tree-based representations like binary search trees, their
-% balanced variants, B and B+ trees, and segment trees. Each representation
-% offers different performance characteristics for common operations such as
-% appending, insertion, deletion, splicing, concatenating, and so on.
-% Nevertheless, all of them are \idr{List} in spirit; there is a `canonical'
-% bijection between a list and any of the afforementioned data structures. A
-% functional program using the algebraic \idr{List} type could potentially
-% benefit from a different representation depending on the exact operations it
-% performs and in what proportion. Not only lists, but structures such as trees,
-% finite sets, as well as refinement predicates on types such as element proofs
-% or parity proofs, could all be subject to more optimal representations. Since,
-% at first glance, such an alteration could be done purely mechanically in a
-% similar way to the `Nat-hack', it is natural to wonder if this technique
-% readily generalises to user-defined inductive types such that the
-% transformation itself is specified in the same language.
-
-% \subsection{Contributions}
-
-% This paper develops an extension of dependently-typed lambda calculus with
-% inductive constructions, in order to support the definition of custom
-% representations of the inductive constructions, along with the specialisation
-% of functions for fine tuning to the chosen representations. This system
-% features correct-by-construction representations, awarding the programmer with
-% a bijection proof between an inductive type and its representation, as well as
-% an elaboration into a lower language with a guarantee that no inductive
-% constructors or eliminators remain. The standard linked tree representation of
-% inductive types that is the hardcoded default in most implementations is
-% incarnated as `just another representation' in this system, special only
-% because it can apply to \emph{any} inductive type. The order of these
-% developments in the paper are as follows:
-
-% \begin{itemize}
-%   \item In \cref{sub:lambdaprim}, the language $\lambdaprim$ is introduced, which is a
-%         staged language with dependent types, whose object-level fragment contains some
-%         machine primitives that act as building blocks of data representations.
-%   \item In \cref{sub:lambdaind}, the language $\lambdaind$ is introduced as an
-%         extension of $\lambdaprim$, which allows the familiar definition of inductive
-%         types, living in a universe of `codes' for object-level types.
-%   \item In \cref{sub:lambdarep} The language $\lambdarep$ is introduced as the
-%         completion of $\lambdaind$, containing a `representation' construct that
-%         assigns concrete object-level codes to inductive types.
-%   \item In \cref{sec:elaboration}, an elaboration procedure $\Crepr{} : \lambdarep \to
-%           \lambdaprim$ is formulated which eliminates inductive constructs through the
-%         defined representations, yielding the final program that can be staged and
-%         compiled.
-%   \item In \cref{sec:default-linked} The standard linked tree representation is
-%         recovered in $\lambdarep$ for any inductive type, and shown to be coherent.
-%   \item In \cref{sec:examples}, the `Nat-hack' is defined internally in $\lambdarep$
-%         and shown to be coherent up to some notable assumptions. The system is further
-%         explored, showcasing representations for other inductive types.
-%   \item Finally, in \cref{sec:conclusion}, some desirable extensions as part of future
-%         work are discussed.
-% \end{itemize}
+and inductive families which allows programmers to define custom,
+correct-by-construction representations for inductive types. This is done
+through user-defined translations of the constructors and eliminators of an
+inductive type to a concrete implementation, which form a bijective view of the
+original data called a `representation'. Representations are defined internally
+to the language, and require coherence properties that ensure a representation
+defines an initial algebra for the endofunctor associated with the original
+inductive type. We define a type- and equality-preserving translation from the
+language with representations to a language without them, which provably erases
+all inductive types with defined representations from the program. This system
+has been implemented as part of an experimental programming language with
+dependent types, called \textsc{Superfluid}.
