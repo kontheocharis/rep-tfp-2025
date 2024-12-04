@@ -23,32 +23,49 @@ advances in the erasure of irrelevant indices in inductive families
 between different indexed views of the same data. For example, the function to
 convert from $\datalab{List}\ T$ to $\datalab{Vec}\ T\ n$ by forgetting the
 length index $n$ is \emph{not} erased by any current language with dependent
-types, unless vectors are defined as a refinement of lists with propositional
-equality constraints (which hurts dependent pattern matching), or a Church
-encoding is used in a Curry-style context \cite{Diehl2018-ba} (which restricts
-the flexibility of data representation).
+types, unless vectors are defined as a refinement of lists with an erased length
+field (which hurts dependent pattern matching due to the presence of
+non-structural witnesses), or a Church encoding is used in a Curry-style context
+\cite{Diehl2018-ba} (which restricts the flexibility of data representation).
 
 Wadler's views \cite{Wadler1987-zp} provide a way to abstract over inductive
 interfaces, so that different views of the same data can be defined and
 converted between seamlessly. In the context of inductive families, views have
-been used in Epigram \cite{Mcbride2004-fd} to define views of data that utilise
-the index refinement machinery of dependent pattern matching to avoid some proof
-obligations. While views exhibit a nice way to transport across a bijection
-between the original data and the viewed data, they do not utilise this
-bijection to erase the view from the program. Despite deforestation being able
-to handle this erasure to some extent, it is not guaranteed to erase all traces
-of the view from the program, and the optimisation is often difficult to predict.
+been used in Epigram \cite{Mcbride2004-fd} that utilise the index refinement
+machinery of dependent pattern matching to avoid certain proof obligations with
+eliminator-like constructs. While views exhibit a nice way to transport across a
+bijection between the original data and the viewed data, they do not utilise
+this bijection to erase the view from the program. Despite deforestation being
+able to handle this erasure to some extent, it is not guaranteed to erase all
+traces of the view from the program, and the optimisation is often difficult to
+predict.
 
 In this paper, we propose an extension to a core language with dependent types
 and inductive families which allows programmers to define custom,
-correct-by-construction representations for inductive types. This is done
+correct-by-construction data representations. This is done
 through user-defined translations of the constructors and eliminators of an
 inductive type to a concrete implementation, which form a bijective view of the
 original data called a `representation'. Representations are defined internally
 to the language, and require coherence properties that ensure a representation
 defines an initial algebra for the endofunctor associated with the original
-inductive type. We define a type- and equality-preserving translation from the
+inductive family. We define a type- and equality-preserving translation from the
 language with representations to a language without them, which provably erases
-all inductive types with defined representations from the program. This system
-has been implemented as part of an experimental programming language with
-dependent types, called \textsc{Superfluid}.
+all inductive types with defined representations from the program.
+
+The in the final version of the paper, we plan to contribute the following:
+\begin{itemize}
+  \item A dependent type system with inductive families $\lambdaind$,
+    and its extension with representations $\lambdarep$.
+  \item A formulation of common optimisations such as the `Nat-hack', and
+      similar for other inductive types, as representations.
+  \item A translation from $\lambdarep$ to $\lambdaind$ that erases all
+    inductive types with representations from the program.
+  \item An implementation of this system in \textsc{Superfluid}, a programming
+    language with inductive types and dependent pattern matching.
+\end{itemize}
+
+
+TODO:
+
+- primitive note
+- impl!

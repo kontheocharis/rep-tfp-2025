@@ -8,8 +8,8 @@
   inductive families with custom representations. Representations are a version
   of Wadler's views \cite{Wadler1987-zp}, refined to inductive families like in
   Epigram \cite{Mcbride2004-fd}. However, representations come with compilation
-  guarantees: any represented inductive family will not leave any runtime traces
-  behind, without having to rely on automated transformations such as
+  guarantees: a represented inductive family will not leave any runtime traces
+  behind, without having to rely on automated optimisations such as
   deforestation \cite{Wadler1990-yo}. This way, we can build a library of
   convenient inductive families based on a minimal set of primitives, whose
   re-indexing and conversion functions are erased at compile-time. In

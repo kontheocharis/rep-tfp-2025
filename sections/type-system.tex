@@ -25,6 +25,8 @@ signatures. A typing judgement looks like
 and is read as ``in signature $\Sigma$ and context $\Gamma$, term $t$ has type
 $T$''. The rules for signatures, contexts and telescopes are given in \cref{fig:lambdaind-sig-rules}.
 
+\newcommand{\ValidCase}{\mta{ValidCase}}
+
 \begin{figure}[h]
   \begin{mathpar}
     \inferrule[Sig-Empty]
@@ -146,7 +148,7 @@ Next, the rules for well-formed items in signatures are given in
       \Sclosed{\datalab D}{\vec{\ctorlab{C}}} \in \Sigma \\
       \Sigma \mid \Gamma \vdash \delta : \Delta
     }
-    {\Sigma \mid \Gamma \vdash \mta{ValidCase}(\caselab{D}\ \delta)} \and
+    {\Sigma \mid \Gamma \vdash \ValidCase(\caselab{D}\ \delta)} \and
     \inferrule[Def-Intro]
     {
       \Sdef{f}{M}{} \in \Sigma      \\
@@ -180,7 +182,7 @@ In \cref{fig:lambdaind-rules}, the type $\Sigma \mid \Gamma \vdash \mta{Case}(\P
   {{\mta{Case}(\Phi, \{\Pi_k, \phi_k\}_k) := (P : \Phi \to \univ) \to \{ (\Pi_k \to P \  \phi_k) \}_k \to (\phi : \Phi) \to P \phi}}
 \end{mathpar}
 
-The $\Sigma \mid \Gamma \vdash \mta{ValidCase}(c)$ condition is defined inductively as
+The $\Sigma \mid \Gamma \vdash \ValidCase(c)$ condition is defined inductively as
 \begin{mathpar}
   \inferrule
   {
@@ -190,7 +192,7 @@ The $\Sigma \mid \Gamma \vdash \mta{ValidCase}(c)$ condition is defined inductiv
       &\vdash c \  P \  \{\kappa_k\}_k \  \phi_j [\pi] \equiv \kappa_j \  \pi : P \  \phi_j[\pi]
     \end{aligned}}
   }
-  {\Sigma \mid \Gamma \vdash \mta{ValidCase}(c)}
+  {\Sigma \mid \Gamma \vdash \ValidCase(c)}
 \end{mathpar}
 
 
@@ -213,7 +215,7 @@ $\unrepr{}$ undoes the effect of $\repr{}$, treating a represented term as an
 inhabitant of its original type. These new constructs satisfy certain
 definitional equalities given in \cref{fig:basic-rep-eq} and
 \cref{fig:global-rep-eq}. While the former rules can be summarised as `commute
-with binders and represent types as themselves', the latter rules define how
+with $\Pi$ and types represent themselves', the latter rules define how
 these constructs can be used to rewrite global definitions as their defined
 representations. From these rules, we can derive some additional admissible
 lemmas.
@@ -357,7 +359,7 @@ TODO: maybe we leave global definitions to rewrite rules?
     \forall i \in I .\ \Sreprvar{\ctorlab{C}_i}{\Pi_i}{t_i} \in \Sigma     \\
     \Sclosed{\datalab{D}}{\vec{\ctorlab{C}}} \in \Sigma \\
     {\Sigma \mid \delta : \Delta \vdash c : \mta{Case}((\xi : \Xi[\delta],x : A \  \delta \  \xi), \{ (\pi : \Pi_i [\delta]), (\xi_i [\delta], A \  \delta \  \pi) \}_i ) } \\
-    \Sigma \mid \Delta \vdash \mta{ValidCase} ( c )
+    \Sigma \mid \Delta \vdash \ValidCase ( c )
     }
     {\Sigma \vdash \Sreprvar{\caselab{D}}{\Delta}{c}} \and
     \inferrule[Repr-Def]
