@@ -1,0 +1,21 @@
+\newcommand{\superfluid}{\textsc{Superfluid}\xspace}
+
+\section{Primitives}\label{sec:primitives}
+
+
+
+\section{Implementation}\label{sec:implementation}
+
+\superfluid is a programming language with dependent $\Pi$ types, inductive
+families and dependent pattern matching. Its compiler is written in Haskell and
+the compilation target is JavaScript. Dependent pattern matching in \superfluid
+is elaborated to a core language with internal eliminators. The $\R$
+transformation is then applied to the core program, which erases all inductive
+types with defined representations. This is translated to JavaScript, where the
+core language has defined primitives that mirror JavaScript's core types and
+operations.
+
+As a result, we are able to represent $\datalab{Nat}$ as JavaScript's
+$\primlab{BigInt}$, and $\datalab{List}\ T$, $\datalab{SnocList}\
+T$,$\datalab{Vec}\ T\ n$ as JavaScript's arrays with the appropriate index
+refinement, an inductively defined  $\datalab{String}$
