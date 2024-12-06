@@ -3,12 +3,12 @@
 A common optimisation done by programming languages with dependent types such as
 Idris 2 and Lean is to represent natural numbers as GMP-style big integers. The core
 definition of natural numbers looks like
-\[
+\begin{equation}\label{eq:nat-def}
   \Sdata{Nat}{}{} \Sbody{
     \ctorlab{0} & : \datalab{Nat} \\
     \ctorlab{1+} & : \datalab{Nat} \to \datalab{Nat}
   }
-\]
+\end{equation}
 This definition is convenient because it generates a Peano-style induction principle
 \begin{align*}
   \elimlab{Nat} :\ &(P : \datalab{Nat} \to \univ) \\
@@ -31,17 +31,17 @@ a linear-time operation and multiplication is quadratic. For this reason, most
 real-world implementations will treat \datalab{Nat} specially, swapping the
 default inductive type representation with one based on GMP integers. The basic
 idea is to perform the replacements
-\begin{align*}
-  |\ctorlab{0}| &= \lab{ubig-zero} \\
-  |\ctorlab{1+}| &= \lab{ubig-add}\ \lab{ubig-one} \\
-  |\elimlab{Nat}\ P\ m_{\ctorlab 0}\ m_{\ctorlab{$1+$}}\ s| &=\lab{ubig-if-zero}\ |s|\ |m_{\ctorlab 0}|\ |m_{\ctorlab{$1+$}}|
-\end{align*}
+\begin{align}
+  |\ctorlab{0}| &= \primlab{ubig-zero} \\ \label{eq:nat-repr-untyped}
+  |\ctorlab{1+}| &= \primlab{ubig-add}\ \primlab{ubig-one} \\
+  |\elimlab{Nat}\ P\ m_{\ctorlab 0}\ m_{\ctorlab{$1+$}}\ s| &=\primlab{ubig-if-zero}\ |s|\ |m_{\ctorlab 0}|\ |m_{\ctorlab{$1+$}}|
+\end{align}
 where $|\cdot|$ denotes a source translation into an untyped compilation target
 language with primitives $\lab{ubig-$\ast$}$.
 
 In addition to the constructors and eliminators, the compiler might also define translations
 for commonly used definitions which have a more efficient counterpart in the untyped target, such as
-$|+| = \lab{ubig-add}$, $|\times| = \lab{ubig-mul}$, etc.
+$|+| = \primlab{ubig-add}$, $|\times| = \primlab{ubig-mul}$, etc.
 Idris 2 will in fact look for any `Nat-like' types and apply this optimisation. A Nat-like type
 is any type with two constructors, one with arity zero and the other with arity one.
 A similar optimisation is also done with list-like and boolean-like types.
@@ -58,7 +58,79 @@ are fully typed, ensuring that the behaviour of the representation of a data
 type matches the behaviour of the data type itself.
 
 
-\subsection{Natural numbers}
+\subsection{Natural numbers as big unsigned integers}
+
+To build up data out of something other than just inductive types, we need
+access to some primitive types which are `provided by the runtime environment'.
+It would be reasonable to assume access to types corresponding to machine words
+of different widths, but for brevity we will go a step further and assume access
+to an unlimited-size unsigned integer type $\primlab{UBig}$, along with:
+\begin{align*}
+  &\primlab{0} : \primlab{UBig} \\
+  &\primlab{1} : \primlab{UBig} \\
+  &\primlab{$+$} : \primlab{UBig} \to \primlab{UBig} \to \primlab{UBig} \\
+  &\primlab{$\times$} : \primlab{UBig} \to \primlab{UBig} \to \primlab{UBig} \\
+  &\primlab{ubig-elim} : (P : \primlab{UBig} \to \univ) \to P\ \primlab{0} \\
+  &  \to ((n : \primlab{UBig}) \to P\ (\primlab{1}\,\primlab{$+$}\,n)) \\
+  & \to (s : \primlab{UBig}) \to P\ s
+\end{align*}
+and propositional equalities
+\begin{align*}
+  &\primlab{ubig-elim-zero-id} : _{\forall Pbr}  \primlab{ubig-elim}\ P\ b\ r\ \primlab{0} = b \\
+  &\primlab{ubig-elim-add-one-id} : _{\forall Pbrn}  \primlab{ubig-elim}\ P\ b\ r\ (\primlab{1}\,\primlab{$+$}\,n)
+  = r\ n\ (\primlab{ubig-elim}\ P\ b\ r\ n)  \,.
+\end{align*}
+The equalities above postulate that $\primlab{UBig}$'s eliminator satisfies the
+expected computation rules of the $\datalab{Nat}$ eliminator, albeit
+propositionally rather than definitionally.
+In contrast to the earlier example \eqref{eq:nat-repr-untyped}, this interface is fully \emph{typed}.
+
+Having access to $\primlab{UBig}$, we can define a representation for the $\datalab{Nat}$ data type
+which maps the constructors and eliminators of $\datalab{Nat}$ to the primitives of $\primlab{UBig}$:
+\[
+  \Sreprvar{\datalab{Nat}}{\primlab{UBig}} \Sbody{
+    \ctorlab{0}\ \as&\ \primlab{0} \\
+    \ctorlab{1+}\ n\ \as&\ \primlab{1}\,\primlab{$+$}\,n \\
+    \elimlab{Nat}\ \as&\ \primlab{ubig-elim}\\ \by&\ \primlab{ubig-elim-zero-id}, \\ &\ \primlab{ubig-elim-add-one-id}
+  }
+\]
+
+A representation definition is part of the global context of a program, which
+can access top-level symbols. The requirements for representing an inductive type family $\datalab{D}$,
+with parameters $\Delta$ and indices $\Xi$ are to provide:
+
+\subsection{Encoding datatypes}
+
+A datatype $\datalab{D}$ is defined by the following data:
+\begin{itemize}
+  \item A telescope of parameters $\Delta$, which cannot vary between constructors.
+  \item A telescope of indices $\Delta \vdash \Xi$, which can vary between constructors.
+  \item A list of constructors, and for each constructor $\ctorlab{c}_i$,
+  \begin{itemize}
+    \item A telescope of data arguments $\Delta \vdash \Pi_i$. These cannot refer to $\datalab{D}$.
+    \item A telescope of arities $\Delta,\Pi \vdash \Omega_i$.
+    \item For each spine $\omega : \Omega_i$,
+      a spine of indices $\Delta,\Pi,\Omega_i \vdash \zeta_i : \Xi$
+      for each recursive argument $\rho_\omega : \datalab{D}\ \delta\ (\zeta_i[\omega])$.
+    \item A telescope of indices $\Delta \vdash \Xi$, which can vary between constructors.
+    \item A spine of indices for the constructor $\Delta,\Pi \vdash \xi : \Xi$.
+  \end{itemize}
+\end{itemize}
+% \begin{itemize}
+%   \item A type family $R_{\datalab{D}} : \Delta \to \Xi \to \univ$.
+%   \item For each constructor $\ctorlab{c}$ of $\datalab{D}$, with data arguments $\pi$ and recursive arguments $\rho : ((\omega : \Omega) \to \datalab{D}\ \delta\ (\zeta \omega))$
+%         a term $r_{\ctorlab{c}} : \Pi \Delta \Pi \Xi \Pi \pi R_{\datalab{D}} \to R_{\datalab{D}} \rho$.
+% \end{itemize}
+
+a type $
+
+This will effectively erase the \datalab{Nat} type from the compiled program, replacing
+all occurrences with the $\primlab{UBig}$ type and its primitives.
+
+If we have the additional equality
+\[
+  \primlab{ubig-case}\ (\lambda n .\ \primlab{ubig-add}\ \primlab{ubig-one}\ n)\ b\ r\ n \equiv r\ n : P\ (\primlab{ubig-add}\ \primlab{ubig-one}\ n)
+\]
 
 \subsection{Eventually will be represented by!}
 
