@@ -57,6 +57,9 @@ is not guaranteed. To address this, our framework requires that representations
 are fully typed, ensuring that the behaviour of the representation of a data
 type matches the behaviour of the data type itself.
 
+\subsection{Main idea of representations}
+
+TODO
 
 \subsection{Natural numbers as big unsigned integers}
 
@@ -95,44 +98,182 @@ which maps the constructors and eliminators of $\datalab{Nat}$ to the primitives
   }
 \]
 
-A representation definition is part of the global context of a program, which
-can access top-level symbols. The requirements for representing an inductive type family $\datalab{D}$,
-with parameters $\Delta$ and indices $\Xi$ are to provide:
+This will effectively erase the \datalab{Nat} type from the compiled program,
+replacing all occurrences with the $\primlab{UBig}$ type and its primitives.
+This is an example of a \emph{representation definition}, which is part of the
+global context of a program, which can access top-level symbols.
 
-\subsection{Encoding datatypes}
+% The
+% requirements for representing an inductive type family $\datalab{D}$,
+% with parameters $\Delta$ and indices $\Xi$ are to provide:
 
-A datatype $\datalab{D}$ is defined by the following data:
-\begin{itemize}
-  \item A telescope of parameters $\Delta$, which cannot vary between constructors.
-  \item A telescope of indices $\Delta \vdash \Xi$, which can vary between constructors.
-  \item A list of constructors, and for each constructor $\ctorlab{c}_i$,
-  \begin{itemize}
-    \item A telescope of data arguments $\Delta \vdash \Pi_i$. These cannot refer to $\datalab{D}$.
-    \item A telescope of arities $\Delta,\Pi \vdash \Omega_i$.
-    \item For each spine $\omega : \Omega_i$,
-      a spine of indices $\Delta,\Pi,\Omega_i \vdash \zeta_i : \Xi$
-      for each recursive argument $\rho_\omega : \datalab{D}\ \delta\ (\zeta_i[\omega])$.
-    \item A telescope of indices $\Delta \vdash \Xi$, which can vary between constructors.
-    \item A spine of indices for the constructor $\Delta,\Pi \vdash \xi : \Xi$.
-  \end{itemize}
-\end{itemize}
+% \subsection{Encoding datatypes}
+
+% A datatype $\datalab{D}$ is defined by the following data:
+% \begin{itemize}
+%   \item A telescope of parameters $\Delta$, used uniformly across constructors.
+%   \item A telescope of indices $\Delta \vdash \Xi$, which can vary between constructors.
+%   \item A list of constructors, and for each constructor $\ctorlab{c}_i$,
+%   \begin{itemize}
+%     \item A telescope of data arguments $\Delta \vdash \Pi_i$. These cannot refer to $\datalab{D}$.
+%     \item A telescope of arities $\Delta,\Pi \vdash \Omega_i$.
+%     \item For each spine $\omega : \Omega_i$,
+%       a spine of indices $\Delta,\Pi,\Omega_i \vdash \zeta_i : \Xi$
+%       for each recursive argument $\rho_\omega : \datalab{D}\ \delta\ (\zeta_i[\omega])$.
+%     \item A telescope of indices $\Delta \vdash \Xi$, which can vary between constructors.
+%     \item A spine of indices for the constructor $\Delta,\Pi \vdash \xi : \Xi$.
+%   \end{itemize}
+% \end{itemize}
 % \begin{itemize}
 %   \item A type family $R_{\datalab{D}} : \Delta \to \Xi \to \univ$.
 %   \item For each constructor $\ctorlab{c}$ of $\datalab{D}$, with data arguments $\pi$ and recursive arguments $\rho : ((\omega : \Omega) \to \datalab{D}\ \delta\ (\zeta \omega))$
 %         a term $r_{\ctorlab{c}} : \Pi \Delta \Pi \Xi \Pi \pi R_{\datalab{D}} \to R_{\datalab{D}} \rho$.
 % \end{itemize}
 
-a type $
 
-This will effectively erase the \datalab{Nat} type from the compiled program, replacing
-all occurrences with the $\primlab{UBig}$ type and its primitives.
+\subsection{Vectors are just certain lists}
 
-If we have the additional equality
+We can use representations to share the underlying data when converting between
+$\datalab{Vec}$ and $\datalab{List}$, so that the conversion is `compiled away'.
+We can do this by representing the more indexed type as a refinement of the less
+indexed type by an appropriate relation. For the case of $\datalab{Vec}$, we know
+intuitively that
 \[
-  \primlab{ubig-case}\ (\lambda n .\ \primlab{ubig-add}\ \primlab{ubig-one}\ n)\ b\ r\ n \equiv r\ n : P\ (\primlab{ubig-add}\ \primlab{ubig-one}\ n)
+  \datalab{Vec}\ T\ n \simeq \{ l : \datalab{List}\ T \mid \lab{length}\ l = n \}
 \]
+so we can start by choosing the type
+\[
+  \lab{List'}\ T\ n := \{ l : \datalab{List}\ T \mid \lab{length}\ l = n \}
+\]
+as the representation of $\datalab{Vec}\ T\ n$. We will take the subset $\{ x : A
+\mid P\ x \}$ to mean a $\Sigma$-type $(x : A) \times P\ x$ where the right
+component is irrelevant and erased at runtime. We are then tasked with providing
+terms that correspond to the constructors of $\datalab{Vec}$ but for
+$\lab{List'}$. These can be defined as
+\begin{align*}
+  & \lab{nil} : \lab{List'}\ T\ 0 \\
+  & \lab{nil} = (\ctorlab{nil}, \ctorlab{refl}) \\[1em]
+  & \lab{cons} : T \to \lab{List'}\ T\ n \to \lab{List'}\ T\ (\ctorlab{1+}\ n) \\
+  & \lab{cons}\ x\ (\mathit{xs}, p) = (\ctorlab{cons}\ x\ \mathit{xs}, \lab{cong}\ (\ctorlab{1+})\ p)
+\end{align*}
+Next we need to define the eliminator for $\lab{List'}$, which should have the form
+\begin{align*}
+  & \lab{elim-List'} : (E : (n : \datalab{Nat}) \to \lab{List'}\ T\ n \to \lab{Type}) \\
+  & \quad \to E\ 0\ \lab{nil} \\
+  & \quad \to ((x : T) \to (n : \datalab{Nat}) \to (\mathit{xs} : \lab{List'}\ T\ n) \to E\ (\ctorlab{1+}\ n)\ (\lab{cons}\ x\ \mathit{xs})) \\
+  & \quad \to (n : \datalab{Nat}) \to (v : \lab{List'}\ T\ n) \to E\ n\ v
+\end{align*}
+Some heavy lifting can be done by dependent pattern matching, where we refine the
+length index and equality proof by matching on the underlying list. However we still need to
+substitute the lemma $\lab{cong}\ (\ctorlab{1+})\ (\lab{\ctorlab{1+}-inj}\ p) = p$ in the recursive case.
+\begin{align*}
+  &\lab{elim-List'}\ P\ b\ r\ \ctorlab{0}\ (\ctorlab{nil}, \ctorlab{refl}) = b \\
+  &\lab{elim-List'}\ P\ b\ r\ (\ctorlab{1+}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, e) = \lab{subst}\
+  \begin{aligned}[t]
+  & (\lambda p .\ P\ (\ctorlab{1+}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, p))\ \\
+  & (\lab{\ctorlab{1+}-cong-id}\ e)\ (r\ x\ ({\mathit{xs}}, \lab{\ctorlab{1+}-inj}\ e))
+  \end{aligned}
+\end{align*}
+Finally, we need to prove that the eliminator satisfies the expected computation
+rules propositionally. These are
+\begin{align*}
+  & \lab{elim-List'-nil-id} : \lab{elim-List'}\ P\ b\ r\ \ctorlab 0\ (\ctorlab{nil}, \ctorlab{refl}) = b \\
+  & \lab{elim-List'-cons-id} : \lab{elim-List'}\ P\ b\ r\ (\ctorlab{1+}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, \lab{cong}\ (\ctorlab{1+})\ p) = r\ x\ (\mathit{xs}, p)
+\end{align*}
+which we leave as an exercise, though they are evident from the definition of
+$\lab{elim-List'}$. This completes the definition of the representation of
+$\datalab{Vec}$ as $\lab{List'}$, which would be written as
+\[
+  \Sreprvar{\datalab{Vec}\ T\ n}{\lab{List'}\ T\ n} \Sbody{
+    \ctorlab{nil}\ \as&\ \lab{nil} \\
+    \ctorlab{cons}\ \as&\ \lab{cons} \\
+    \elimlab{Vec}\ \as&\ \lab{elim-List'} \\
+     \by&\ \lab{elim-List'-nil-id}, \\ &\ \lab{elim-List'-cons-id}
+  }
+\]
+Now the hard work is done; Every time we are working with a $v : \datalab{Vec}\
+T\ n$, its real form will be $(l, p) : \lab{List'}\ T\ n$ at runtime, where $l$
+is the underlying list and $p$ is the proof that the length of $l$ is $n$. Under
+the assumption that the $\Sigma$-type's right component is irrelevant and erased
+at runtime, every vector is simply a list at runtime, where the length proof has
+been erased. In \ref{sec:implementation} we show how this erasure is achieved in
+practice in \superfluid using quantitative type theory \cite{Atkey2018-pj}.
 
-\subsection{Eventually will be represented by!}
+We can utilise this representation to convert between
+$\datalab{Vec}$ and $\datalab{List}$ at zero runtime cost, by using the
+$\repr{}$ and $\unrepr{}$ operators of the language. Specifically, we can define
+the functions
+\begin{align*}
+  &\lab{forget-length} : \datalab{Vec}\ T\ n \to \datalab{List}\ T \\
+  &\lab{forget-length}\ v = \letin{(l, \wildp)}{\repr{v}}{l} \\[1em]
+  &\lab{recall-length} : (l : \datalab{List}\ T) \to \datalab{Vec}\ T\ (\lab{length}\ l) \\
+  &\lab{recall-length}\ l = \unrepr{(l, \ctorlab{refl})}
+\end{align*}
+and it holds by reflexivity that $\lab{forget-length}$ is a left inverse of $\lab{recall-length}$.
+
+\subsection{General reindexing}
+
+The idea from the previous example can be generalised to any data type. Given
+a simple data type $\datalab{F} : \univ$ and an algebra
+\[
+  \lab{$\alpha$} : \tilde{\datalab{F}}\ J \to J
+\]
+which computes some index $J$ from $\datalab{F}$, we can construct
+a new type $\datalab{F}^\lab{$\alpha$} : J \to \univ$ which has the same constructors and arities,
+but with with new data arguments for the indices and a call to $\lab{$\alpha$}$ in the
+recursive arguments and return type. For this new type $\datalab{F}^\lab{$\alpha$}$, we can
+define a representation as
+\[
+  \Sreprvar{\datalab{F}^{\lab{$\alpha$}}\ j}{\{ x : \datalab{F} \mid \lab{fold}\ \lab{$\alpha$}\ x = j \}} \Sbody{
+    \ctorlab{c}_i\ \as&\ \ctorlab{c}_i \\
+    \elimlab{F}\ \as&\ \elimlab{G} \\
+    \by&\ \lab{elim-iso}
+  }
+\]
+$\datalab{F}$,
+
+If the interpretation of the algebraic ornament defined by $\alpha$ is the same
+as the type $\datalab{G}\ (f\ i)$, then we can represent $\datalab{F}\ i$ as
+$\{ g : \datalab{G}\ (f\ i) \mid \alpha\ g = \lab{im}\ f\ i \}$.
+
+
+one can construct a data type $\datalab{G} : J \to \univ$ which is
+
+
+\subsection{Transitivity}
+
+Representations are transitive, so in the previous example, the `terminal'
+representation of $\datalab{Vec}$ also depends on the representation of
+$\datalab{List}$. It is possible to define a custom representation for
+$\datalab{List}$ itself, for example a heap-backed array or a finger tree, and
+$\datalab{Vec}$ would inherit this representation. However it will still be the
+case that $\Repr{(\datalab{Vec}\ T\ n)} \equiv \datalab{List}\ T$, which means the
+$\repr{}/\Repr{}$ operators only look at the immediate representation of a
+term, not its terminal representation. Regardless, we can construct predicates that
+find terms which satisfy a certain `eventual' representation. For example, given a
+\datalab{Buf} type of byte buffers, we can consider the set of all types which are eventually
+represented as a \datalab{Buf}:
+\[
+  \Sdata {ReprBuf}{(T : \univ)}{} \Sbody{
+    \ctorlab{buf} &: \datalab{ReprBuf}\ \datalab{Buf} \\
+    \ctorlab{from} &: \datalab{ReprBuf}\ (\Repr{T}) \to \datalab{ReprBuf}\ T \\
+    \ctorlab{refined} &: \datalab{ReprBuf}\ T \to \datalab{ReprBuf}\ \{ t : T \mid  P\ t \}
+  }
+\]
+Every such type comes with a projection function to the \datalab{Buf} type
+\begin{align*}
+  &\lab{as-buf} :_{\forall T . \datalab{ReprBuf}\ T} T \to \datalab{Buf} \\
+  &\lab{as-buf}\ \ctorlab{buf}\ x = x \\
+  &\lab{as-buf}\ (\ctorlab{from}\ t)\ x = \lab{as-buf}\ t\ (\repr{x}) \\
+  &\lab{as-buf}\ (\ctorlab{refined}\ t)\ (x, \wildp) = \lab{as-buf}\ t\ x
+\end{align*}
+which eventually computes to the identity function after applying $\repr{}$ the
+appropriate amount of times. Upon compilation, every type is converted to its
+terminal representation, and all $\repr{}$ calls are erased, so the
+$\lab{as-buf}$ function is effectively the identity function at
+runtime. We do not guarrantee that an invocation of $\lab{as-buf}$ will
+be entirely erased, but rather that any invocation will eventually produce the
+identity function without having to perform a case analysis on its $T$ subject.
 
 
 \subsection{Views on arrays}

@@ -55,9 +55,10 @@ all inductive types with defined representations from the program.
 The in the final version of the paper, we plan to contribute the following:
 \begin{itemize}
   \item A dependent type system with inductive families $\lambdaind$,
-    and its extension with representations $\lambdarep$.
+    and its extension by representations $\lambdarep$.
   \item A formulation of common optimisations such as the `Nat-hack', and
-      similar for other inductive types, as representations.
+      similarly for other inductive types, as representations.
+  \item A demonstration of zero-cost data reuse when reindexing by using representations.
   \item A translation from $\lambdarep$ to $\lambdaind$ that erases all
     inductive types with representations from the program.
   \item An implementation of this system in \textsc{Superfluid}, a programming
@@ -65,7 +66,3 @@ The in the final version of the paper, we plan to contribute the following:
 \end{itemize}
 
 
-TODO:
-
-- primitive note
-- impl!
