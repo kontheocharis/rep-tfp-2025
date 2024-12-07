@@ -1,18 +1,18 @@
 # Fdb version 3
-["bibtex .out/main"] 1733534634 ".out/main.aux" ".out/main.bbl" ".out/main" 1733534776
+["bibtex .out/main"] 1733595801 ".out/main.aux" ".out/main.bbl" ".out/main" 1733596084
   "./splncs04.bst" 1730123111 32146 aadf770ded437d161532035219ea6f45 ""
-  ".out/main.aux" 1733534776 9077 aa252909ead1cd523c8cd23120753260 "pdflatex"
+  ".out/main.aux" 1733596039 9079 4d36b0aa7c7b17f741981b9849c7a4cd "pdflatex"
   "bib.bib" 1733328425 48985 1da8a207c68a304b3d7537e66b0d7d2d ""
   (generated)
-  ".out/main.blg"
   ".out/main.bbl"
-["pdflatex"] 1733534775 "/Users/constantine/git/abstracting-data-rep/main.tex" "/Users/constantine/git/abstracting-data-rep/.out/main.pdf" "main" 1733534776
-  ".out/main.aux" 1733534776 9077 aa252909ead1cd523c8cd23120753260 "pdflatex"
-  ".out/main.bbl" 1733534634 3584 87e22075cd12d1e40c1f16721fdf4691 "bibtex .out/main"
-  ".out/main.out" 1733534776 275 e8697098164b610f8033512d50a9d933 "pdflatex"
-  "/Users/constantine/git/abstracting-data-rep/.out/main.aux" 1733534776 9077 aa252909ead1cd523c8cd23120753260 ""
+  ".out/main.blg"
+["pdflatex"] 1733596038 "/Users/constantine/git/abstracting-data-rep/main.tex" "/Users/constantine/git/abstracting-data-rep/.out/main.pdf" "main" 1733596084
+  ".out/main.aux" 1733596039 9079 4d36b0aa7c7b17f741981b9849c7a4cd "pdflatex"
+  ".out/main.bbl" 1733595801 3584 87e22075cd12d1e40c1f16721fdf4691 "bibtex .out/main"
+  ".out/main.out" 1733596039 275 e8697098164b610f8033512d50a9d933 "pdflatex"
+  "/Users/constantine/git/abstracting-data-rep/.out/main.aux" 1733596039 9079 4d36b0aa7c7b17f741981b9849c7a4cd ""
   "/Users/constantine/git/abstracting-data-rep/main.tex" 1733340222 577 93317f7f128fe8040e8c451fd0f4eb75 ""
-  "/dev/null" 1733534721 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "/dev/null" 1733596073 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecbi0500.tfm" 1136768653 3072 5c02773c2e93e883bb03697d9281a6c7 ""
@@ -326,12 +326,12 @@
   "misc/rights.tex" 1727101400 1050 6124765dfe6cb612a966ac31849f412a ""
   "sections/implementation.tex" 1733528691 919 efa25aa8f4f2474e7aeeacdf2c8f746e ""
   "sections/intro.tex" 1733524976 4281 bc91ff3d7d38edb4d0ba2da77eb8abc3 ""
-  "sections/tour.tex" 1733534775 21592 594a816af72be2eab6fa52e94ebae4df ""
+  "sections/tour.tex" 1733596084 25783 b5bab97a073f18d156e46f832bfd26eb ""
   "sections/type-system.tex" 1733334050 17866 7398b3c7c6498be347052812593c12a8 ""
   (generated)
-  ".out/main.log"
-  ".out/main.pdf"
-  ".out/main.out"
-  "/Users/constantine/git/abstracting-data-rep/.out/main.pdf"
-  "/Users/constantine/git/abstracting-data-rep/.out/main.log"
   ".out/main.aux"
+  ".out/main.log"
+  "/Users/constantine/git/abstracting-data-rep/.out/main.log"
+  ".out/main.pdf"
+  "/Users/constantine/git/abstracting-data-rep/.out/main.pdf"
+  ".out/main.out"
