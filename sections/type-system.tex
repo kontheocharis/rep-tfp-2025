@@ -1,10 +1,12 @@
 \section{A type system for data representations}\label{sec:type-system}
 
-In this section, we state the basics of the type system of $\lambdarep$, a core
+In this section, we state the basics of the type system of $\lambdarep$, a
 language with dependent types and representations. We start with a core language
-with dependent types and inductive constructions $\lambdaind$. We then extend
-this language with data representations to form $\lambdarep$, which allow users
-to define custom representations for inductive types and other global symbols.
+with inductive constructions $\lambdaind$ that is extended with data
+representations to form $\lambdarep$, which allow users to define custom
+representations for inductive types and other global symbols. All of the
+examples in the paper are written in a surface language that elaborates to
+$\lambdarep$.
 
 The core languge $\lambdaind$, mirrors MLTT with $\Pi$-types and a Coquand-style
 universe hierarchy $\univ_i$ \cite[2.1]{Gratzer2020-kf}, extended with inductive
