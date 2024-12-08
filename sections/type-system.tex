@@ -6,15 +6,12 @@ with dependent types and inductive constructions $\lambdaind$. We then extend
 this language with data representations to form $\lambdarep$, which allow users
 to define custom representations for inductive types and other global symbols.
 
-\subsection{A core language with inductive types, $\lambdaind$}\label{sub:lambdaind}
-
-The core languge we start with is $\lambdaind$. It contains $\Pi$-types and a
-hierarchy of universe $\univ$ with $\univ : \univ$. We are not concerned with
-universe polymorphism or a sound logical interpretation, but all the results
-should be readily extensible to a sound language with a universe hierarchy. We
-follow a similar approach to \cite{Cockx2018-fk} by packaging named inductive
-constructions and global function definitions into a signature $\Sigma$, and
-indexing contexts by signatures.
+The core languge $\lambdaind$, mirrors MLTT with $\Pi$-types and a Coquand-style
+universe hierarchy $\univ_i$ \cite[2.1]{Gratzer2020-kf}, extended with inductive
+families and global definitions. We follow a similar approach to
+\cite{Cockx2018-fk} by packaging named inductive constructions and global
+function definitions into a signature $\Sigma$, and indexing contexts by
+signatures.
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
 
@@ -35,7 +32,7 @@ representation of the type $T$. The term $\repr{}$ takes a term of type $T$ to
 its representation of type $\Repr T$, and $\unrepr{}$ undoes the effect of
 $\repr{}$, treating a represented term as an inhabitant of its original type.
 These new constructs satisfy certain additional definitional equalities given in
-\cref{fig:global-rep-eq}, defining how these constructs can be used to rewrite
+\cref{fig:global-rep-eq}, determining how these constructs can be used to rewrite
 type families and constructors as their defined representations.
 
 \begin{figure}[h]
@@ -58,8 +55,8 @@ type families and constructors as their defined representations.
   \label{fig:global-rep-eq}
 \end{figure}
 
-We state some basic lemmas about the term formers $\repr{}$ and $\unrepr{}$ below,
-whose proofs we omit for the full version of the paper.
+We state some basic lemmas below, whose proofs we reserve for the full version of
+the paper.
 
 \begin{lemma}
   The term formers $\repr{}$ and $\unrepr{}$ are injective, i.e.
@@ -104,11 +101,13 @@ More specifically, the translation target is the extensional flavour of
 $\lambdaind$ by adding the equality reflection rule. We do this by translating
 well-formed contexts, substitutions, types, and terms in a mutual manner such
 that definitional equality is preserved. In other words, $\R$ is strict CWF
-morphism comprising of setoid homomorphisms on all syntactical categories.
-Informally, $\R$ preserves the structure of $\lambdaind$, but maps constructs to
-their eventual representations. Eliminator coherence rules are preserved by
-reflecting the propositional coherence rules provided by the defined
-representations. We prove some desired properties of $\R$ \cite{Boulier2017-cm}
-such as typing and computational soundness, and preservation of consistency. The
-final program can then be converted into an untyped language which erases
-irrelevant data.
+\cite{Castellan2019-sh} morphism comprising of setoid homomorphisms on all
+syntactical categories. Informally, $\R$ preserves the structure of
+$\lambdaind$, but maps constructs to their terminal representations. Eliminator
+coherence rules are preserved by reflecting the propositional coherence rules
+provided by the defined representations. We prove some desired properties of
+$\R$ \cite{Boulier2017-cm} such as typing and computational soundness, and
+preservation of consistency. The final program can then be converted into an
+untyped language which erases irrelevant data. We can recover a program
+in $\lambdaind$ by translating extensional typing derivations to intensional
+proofs \cite{Winterhalter2019-zw}.

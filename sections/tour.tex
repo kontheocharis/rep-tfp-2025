@@ -1,7 +1,7 @@
 \section{A tour of data representations}\label{sec:examples}
 
 A common optimisation done by programming languages with dependent types such as
-Idris 2 and Lean is to represent natural numbers as GMP-style \cite{GMP} big integers. The core
+Idris 2 and Lean is to represent natural numbers as GMP-style \cite{GMP} big integers. The
 definition of natural numbers looks like
 \begin{equation}\label{eq:nat-def}
   \Sdata{Nat}{}{} \Sbody{
@@ -9,28 +9,19 @@ definition of natural numbers looks like
     \ctorlab{1+} & : \datalab{Nat} \to \datalab{Nat}
   }
 \end{equation}
-This definition is convenient because it generates a Peano-style induction principle
-\begin{align*}
-  \elimlab{Nat} :\ &(P : \datalab{Nat} \to \univ) \\
-  & \to (m_{\ctorlab{0}} : P\ \ctorlab 0) \to (m_{\ctorlab{1+}} : (n : \datalab{Nat}) \to P\ n \to P\ (\ctorlab{1+}\ n)) \\
-  & \to (s : \datalab{Nat}) \to P\ s \,.
-\end{align*}
-Moreover, dependent pattern matching with structural recursion on
-$\datalab{Nat}$ can be elaborated into invocations of $\elimlab{Nat}$
-\cite{Goguen2006-sy,Cockx2018-bv,Cockx2018-fk}, and lemmas such as constructor
-injectivity, disjointness and acyclicity \cite{McBride2006-tz} can be
-substituted automatically to simplify the context and goal. This way, if
-addition is defined using recursion and pattern matching, proofs like the
-commutativity of addition or the additive identity of $\ctorlab 0$ are easy to
-write.
-
-When it comes to compilation, without further intervention, the $\datalab{Nat}$
-type is represented in unary form, where each digit is an empty heap cell. This
-is inefficient for a lot of the basic operations on natural numbers, especially
-since computers are particularly well-equipped to deal with numbers natively.
-For this reason, most real-world implementations will treat \datalab{Nat}
-specially, swapping the default inductive type representation with one based on
-GMP integers. This is done by performing the replacements
+and generates a Peano-style induction principle $\elimlab{Nat}$ of type
+\[
+   (P : \datalab{Nat} \to \univ)
+  \to P\ \ctorlab 0 \to ((n : \datalab{Nat}) \to P\ n \to P\ (\ctorlab{1+}\ n))
+  \to (s : \datalab{Nat}) \to P\ s \,.
+\]
+Without further intervention, the $\datalab{Nat}$ type is represented in unary
+form, where each digit becomes an empty heap cell at runtime. This is
+inefficient for a lot of the basic operations on natural numbers, especially
+since computers are particularly well-equipped to deal with numbers natively, so
+many real-world implementations will treat \datalab{Nat} specially, swapping the
+default inductive type representation with one based on GMP integers. This is
+done by performing the replacements
 \begin{align}
   |\ctorlab{0}| &= \primlab{0} \\ \label{eq:nat-repr-untyped}
   |\ctorlab{1+}| &= \primlab{1}\ \primlab{+} \\
@@ -54,11 +45,9 @@ The issue with this approach is that it only works for the data types which the
 compiler can recognise as special. Particularly in the presence of dependent
 types, other data types might end up being equivalent to \datalab{Nat} or
 another `nicely-representable' type, but in a non-trivial way that the compiler
-cannot recognise. Hence, our first goal is to extend this optimisation to work
-for any data type. Additionally, the optimisation is defined as a compilation
-step, which means that if non-trivial representations are provided by the user,
-their correctness is not guaranteed. To address this, our framework requires
-that representations are fully typed in a way that ensures the behaviour of the
+cannot recognise. Hence, one of our goals is to extend this optimisation to work
+for any data type. To achieve this this, our framework requires that
+representations are fully typed in a way that ensures the behaviour of the
 representation of a data type matches the behaviour of the data type itself.
 
 \subsection{The well-typed Nat-hack}
@@ -107,7 +96,7 @@ underlying implementation of $\primlab{UBig}$ indeed satisfies them, which is a
 separate concern from the correctness of the representation itself. However,
 postulates are only needed when the representation target is a primitive; the
 next examples use defined types as targets, so that the coherence of the target
-eliminator holds by the coherence of other eliminators used in its
+eliminator follows from the coherence of other eliminators used in its
 implementation.
 
 \subsection{Vectors are just certain lists}
@@ -116,16 +105,16 @@ In addition to representing inductive types as primitives, we can use
 representations to share the underlying data when converting between indexed
 views of the same data. For example, we can define a representation of
 $\datalab{Vec}$ in terms of $\datalab{List}$, so that the conversion from one to
-the other is `compiled away'. We can do this by representing the more indexed
-type as a refinement of the less indexed type by an appropriate relation. For
-the case of $\datalab{Vec}$, we know intuitively that
+the other is `compiled away'. We can do this by representing the indexed type as
+a refinement of the unindexed type by an appropriate relation. For the case of
+$\datalab{Vec}$, we know intuitively that
 \[
   \datalab{Vec}\ T\ n \simeq \{ l : \datalab{List}\ T \mid \lab{length}\ l = n \} := \lab{List'}\ T\ n
 \]
 so we can start by choosing $\lab{List'}\ T\ n$ as the representation of
-$\datalab{Vec}\ T\ n$. We will take the subset $\{ x : A \mid P\ x \}$ to mean a
+$\datalab{Vec}\ T\ n$.\footnote{We will take the subset $\{ x : A \mid P\ x \}$ to mean a
 $\Sigma$-type $(x : A) \times P\ x$ where the right component is irrelevant and
-erased at runtime. We are then tasked with providing terms that correspond to
+erased at runtime.} We are then tasked with providing terms that correspond to
 the constructors of $\datalab{Vec}$ but for $\lab{List'}$. These can be defined
 as
 \[
@@ -174,7 +163,7 @@ $\datalab{Vec}$ as $\lab{List'}$, which would be written as
   }
 \]
 Now the hard work is done; Every time we are working with a $v : \datalab{Vec}\
-T\ n$, its real form will be $(l, p) : \lab{List'}\ T\ n$ at runtime, where $l$
+T\ n$, its concrete form will be $(l, p) : \lab{List'}\ T\ n$ at runtime, where $l$
 is the underlying list and $p$ is the proof that the length of $l$ is $n$. Under
 the assumption that the $\Sigma$-type's right component is irrelevant and erased
 at runtime, every vector is simply a list at runtime, where the length proof has
@@ -286,7 +275,7 @@ $\datalab{Vec}$ would inherit this representation. However it will still be the
 case that $\Repr{(\datalab{Vec}\ T\ n)} \equiv \datalab{List}\ T$, which means the
 $\repr{}/\Repr{}$ operators only look at the immediate representation of a
 term, not its terminal representation. Regardless, we can construct predicates that
-find terms which satisfy a certain `eventual' representation. For example, given a
+find types which satisfy a certain `eventual' representation. For example, given a
 \datalab{Buf} type of byte buffers, we can consider the set of all types which are eventually
 represented as a \datalab{Buf}:
 \[
