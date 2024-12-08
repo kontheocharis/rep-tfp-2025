@@ -1,21 +1,22 @@
 
 \begin{abstract}
   Inductive families provide a convenient way of programming with dependent
-  types. Yet, when it comes to compilation, both their default linked-tree
-  runtime representations, as well as the need to convert between different
-  indexed views of the same data, can lead to unsatisfactory runtime
-  performance. In this paper, we aim to introduce a language with dependent
-  types, and inductive families with custom representations. Representations are
-  a version of Wadler's views \cite{Wadler1987-zp}, refined to inductive
-  families like in Epigram \cite{Mcbride2004-fd}. However, representations come
-  with compilation guarantees: a represented inductive family will not leave any
-  runtime traces behind, without having to rely on automated optimisations such
-  as deforestation \cite{Wadler1990-yo}. This way, we can build a library of
+  types. Yet, when it comes to compilation, their default linked-tree runtime
+  representations, as well as the need to convert between different indexed
+  views of the same data when programming with dependent types, can lead to
+  unsatisfactory runtime performance. In this paper, we aim to introduce a
+  language with dependent types, and inductive families with custom
+  representations. Representations are a version of Wadler's views
+  \cite{Wadler1987-zp}, refined to inductive families like in Epigram
+  \cite{Mcbride2004-fd}. However, representations come with compilation
+  guarantees: a represented inductive family will not leave any runtime traces
+  behind, without having to rely on automated optimisations such as
+  deforestation \cite{Wadler1990-yo}. This way, we can build a library of
   convenient inductive families based on a minimal set of primitives, whose
   re-indexing and conversion functions are erased at compile-time. In addition,
   we show how we can express inductive data optimisation techniques, such as
   representing \datalab{Nat}-like types as GMP-style big integers, without
-  special casing in the compiler. With dependent types, we can indeed reason
-  about data representations internally; in this spirit, we are awarded
+  special casing in the compiler. With dependent types, reasoning about data
+  representations is possible; for example, we get computationally irrelevant
   isomorphisms between the original and represented data.
 \end{abstract}

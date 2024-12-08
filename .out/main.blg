@@ -4,46 +4,45 @@ The top-level auxiliary file: .out/main.aux
 The style file: splncs04.bst
 Database file #1: bib.bib
 Warning--to sort, need author or key in GMP
-Warning--empty journal in Castellan2019-sh
 You've used 15 entries,
             2850 wiz_defined-function locations,
-            696 strings with 6946 characters,
-and the built_in function-call counts, 8703 in all, are:
-= -- 742
+            701 strings with 6999 characters,
+and the built_in function-call counts, 8921 in all, are:
+= -- 769
 > -- 199
-< -- 15
+< -- 16
 + -- 88
 - -- 68
-* -- 550
-:= -- 1062
-add.period$ -- 25
+* -- 559
+:= -- 1080
+add.period$ -- 27
 call.type$ -- 15
-change.case$ -- 92
+change.case$ -- 94
 chr.to.int$ -- 0
-cite$ -- 17
-duplicate$ -- 824
-empty$ -- 846
+cite$ -- 16
+duplicate$ -- 839
+empty$ -- 869
 format.name$ -- 79
-if$ -- 1929
+if$ -- 1991
 int.to.chr$ -- 0
 int.to.str$ -- 15
-missing$ -- 148
+missing$ -- 150
 newline$ -- 51
 num.names$ -- 28
-pop$ -- 289
+pop$ -- 288
 preamble$ -- 1
 purify$ -- 64
 quote$ -- 0
-skip$ -- 214
+skip$ -- 229
 stack$ -- 0
-substring$ -- 582
-swap$ -- 438
-text.length$ -- 15
+substring$ -- 604
+swap$ -- 452
+text.length$ -- 16
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 60
-warning$ -- 2
-while$ -- 72
+warning$ -- 1
+while$ -- 75
 width$ -- 17
-write$ -- 156
-(There were 2 warnings)
+write$ -- 161
+(There was 1 warning)

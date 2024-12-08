@@ -27,7 +27,7 @@ done by performing the replacements
   |\ctorlab{1+}| &= \primlab{1}\ \primlab{+} \\
   |\elimlab{Nat}\ P\ m_{\ctorlab 0}\ m_{\ctorlab{$1+$}}\ s| &=\primlab{ubig-rec}\ |s|\ |m_{\ctorlab 0}|\ |m_{\ctorlab{$1+$}}|
 \end{align}
-where $|\cdot|$ denotes a source translation into an untyped compilation target
+where $|\cdot|$ denotes a source translation into a compilation target
 language with primitives $\primlab{ubig-$\ast$}$.\footnote{
 Idris 2 will in fact look for any `Nat-like' types and apply this optimisation. A Nat-like type
 is any type with two constructors, one with arity zero and the other with arity one.
@@ -36,10 +36,9 @@ they have a canonical representation in the target runtime, Chez Scheme.}
 
 In addition to the constructors and eliminators, the compiler might also define
 translations for commonly used definitions which have a more efficient
-counterpart in the untyped target, such as recursively defined addition,
-multiplication, etc. The recursive versions are well-suited to proofs and
-reasoning, while the untyped versions based on GMP primitives are more efficient
-for computation.
+counterpart in the target, such as recursively-defined addition, multiplication,
+etc. The recursively-defined functions are well-suited to proofs and reasoning,
+while the GMP primitives are more efficient for computation.
 
 The issue with this approach is that it only works for the data types which the
 compiler can recognise as special. Particularly in the presence of dependent
@@ -60,12 +59,12 @@ A representation definition looks like
     \elimlab{Nat}\ \as&\ \primlab{ubig-elim}\\ \by&\ \primlab{ubig-elim-zero-id}, \\ &\ \primlab{ubig-elim-add-one-id}
   }
 \]
-We choose to represent the $\datalab{Nat}$ type as the type $\primlab{UBig}$
-of GMP-style unlimited-size unsigned integers, and provide translations for
-the constructors $\ctorlab{0}$ and $\ctorlab{1+}$, and the eliminator $\elimlab{Nat}$.
-Additionally, we have to show that the eliminator satisfies the expected computation rules
-of the $\datalab{Nat}$ eliminator, which are postulated as propositional equalities.
-For this we assume access to a signature
+$\datalab{Nat}$ is represented as the type $\primlab{UBig}$ of GMP-style
+unlimited-size unsigned integers, with translations for the constructors
+$\ctorlab{0}$ and $\ctorlab{1+}$, and the eliminator $\elimlab{Nat}$.
+Additionally, the eliminator satisfies the expected computation rules of the
+$\datalab{Nat}$ eliminator, which are postulated as propositional equalities.
+This representation is valid in a signature containing the primitives
 \begin{gather*}
   \primlab{0}, \primlab{1} : \primlab{UBig} \qquad
   \primlab{$+$},\primlab{$\times$} : \primlab{UBig} \to \primlab{UBig} \to \primlab{UBig} \\
@@ -73,21 +72,22 @@ For this we assume access to a signature
   \to ((n : \primlab{UBig}) \to P\ (\primlab{1}\,\primlab{$+$}\,n))
    \to (s : \primlab{UBig}) \to P\ s
 \end{gather*}
-which also contains propositional equalities
+and propositional equalities
 \begin{align*}
   &\primlab{ubig-elim-zero-id} : _{\forall Pbr}  \primlab{ubig-elim}\ P\ b\ r\ \primlab{0} = b \\
   &\primlab{ubig-elim-add-one-id} : _{\forall Pbrn}  \primlab{ubig-elim}\ P\ b\ r\ (\primlab{1}\,\primlab{$+$}\,n)
   = r\ n\ (\primlab{ubig-elim}\ P\ b\ r\ n)  \,.
 \end{align*}
-We can also define representations for functions on $\datalab{Nat}$, such as
+Representations can also be defined for functions on $\datalab{Nat}$, such as
 addition, multiplication, and other numeric operations, in terms of
-$\primlab{UBig}$ primitives, in our system, akin to rewriting rules
-\cite{Cockx2021-pw}
+$\primlab{UBig}$ primitives.
 \begin{align*}
   \Sreprvar{\datalab{add}}{\primlab{$+$}\ \by\ \primlab{$+$-id}}
   \qquad \Sreprvar{\datalab{mul}}{\primlab{$\times$}\ \by\ \primlab{$\times$-id}}
 \end{align*}
-if we have the appropriate primitives in the signature.
+ These will be replaced during a translation process
+back to $\lambdaind$, like rewriting rules \cite{Cockx2021-pw}, given
+that we have the appropriate lemmas to justify them in the signature.
 
 This will effectively erase the \datalab{Nat} type from the compiled program,
 replacing all occurrences with the $\primlab{UBig}$ type and its primitives. In
@@ -163,12 +163,12 @@ $\datalab{Vec}$ as $\lab{List'}$, which would be written as
   }
 \]
 Now the hard work is done; Every time we are working with a $v : \datalab{Vec}\
-T\ n$, its concrete form will be $(l, p) : \lab{List'}\ T\ n$ at runtime, where $l$
-is the underlying list and $p$ is the proof that the length of $l$ is $n$. Under
-the assumption that the $\Sigma$-type's right component is irrelevant and erased
-at runtime, every vector is simply a list at runtime, where the length proof has
-been erased. In the full paper we will show how this erasure is achieved in
-practice in \superfluid using Quantitative Type Theory \cite{Atkey2018-pj}.
+T\ n$, its form will be $(l, p)$ at runtime, where $l$ is the underlying list
+and $p$ is the proof that the length of $l$ is $n$. Under the assumption that
+the $\Sigma$-type's right component is irrelevant and erased at runtime, every
+vector is simply a list at runtime, where the length proof has been erased. In
+the full paper we will show how this erasure is achieved in practice in
+\superfluid using Quantitative Type Theory \cite{Atkey2018-pj}.
 
 We can utilise this representation to convert between $\datalab{Vec}$ and
 $\datalab{List}$ at zero runtime cost, by using the $\repr{}$ and $\unrepr{}$

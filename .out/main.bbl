@@ -22,10 +22,6 @@ Brady, E., McBride, C., McKinna, J.: Inductive families need not store their
   indices. In: Types for Proofs and Programs. pp. 115--129. Springer Berlin
   Heidelberg (2004)
 
-\bibitem{Castellan2019-sh}
-Castellan, S., Clairambault, P., Dybjer, P.: Categories with families:
-  Unityped, simply typed, and dependently typed  (Apr 2019)
-
 \bibitem{Cockx2018-fk}
 Cockx, J., Abel, A.: Elaborating dependent (co)pattern matching. Proc. ACM
   Program. Lang.  \textbf{2}(ICFP),  1--30 (Jul 2018)
@@ -42,6 +38,11 @@ Dagand, P.E., McBride, C.: A categorical treatment of ornaments. arXiv [cs.PL]
 \bibitem{Diehl2018-ba}
 Diehl, L., Firsov, D., Stump, A.: Generic zero-cost reuse for dependent types.
   Proc. ACM Program. Lang.  \textbf{2}(ICFP),  1--30 (Jul 2018)
+
+\bibitem{Goguen2006-sy}
+Goguen, H., McBride, C., McKinna, J.: Eliminating dependent pattern matching.
+  In: Algebra, Meaning, and Computation, pp. 521--540. Lecture notes in
+  computer science, Springer Berlin Heidelberg, Berlin, Heidelberg (2006)
 
 \bibitem{Gratzer2020-kf}
 Gratzer, D., Kavvos, G.A., Nuyts, A., Birkedal, L.: Multimodal dependent type

@@ -1,19 +1,18 @@
 \section{A type system for data representations}\label{sec:type-system}
 
-In this section, we state the basics of the type system of $\lambdarep$, a
-language with dependent types and representations. We start with a core language
-with inductive constructions $\lambdaind$ that is extended with data
-representations to form $\lambdarep$, which allow users to define custom
-representations for inductive types and other global symbols. All of the
+This section provides an overview of the language $\lambdarep$, which has
+dependent types and representations for inductive families and global function
+definitions. We start with a core language with inductive families $\lambdaind$,
+that is extended with data representations to form $\lambdarep$. All of the
 examples in the paper are written in a surface language that elaborates to
 $\lambdarep$.
 
-The core languge $\lambdaind$, mirrors MLTT with $\Pi$-types and a Coquand-style
-universe hierarchy $\univ_i$ \cite[2.1]{Gratzer2020-kf}, extended with inductive
-families and global definitions. We follow a similar approach to
-\cite{Cockx2018-fk} by packaging named inductive constructions and global
-function definitions into a signature $\Sigma$, and indexing contexts by
-signatures.
+The core languge $\lambdaind$, is a dependent type theory with $\Pi$ and a
+Coquand-style universe hierarchy $\univ_i$ \cite[2.1]{Gratzer2020-kf}, extended
+with strictly positive inductive families and global definitions similarly to
+\cite{Goguen2006-sy}. We follow a similar approach to \cite{Cockx2018-fk} by
+packaging named inductive constructions and global function definitions into a
+signature $\Sigma$, and indexing contexts by signatures.
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
 
@@ -21,21 +20,22 @@ signatures.
 
 We extend the language $\lambdaind$ to form $\lambdarep$, which allows users to
 define custom representations for inductive types and global functions. First,
-we add a modal type former
+we add a type former
 \begin{equation}\label{eq:repr-ty}
   \Repr{} : \Ty\ (\Sigma\mid \Gamma) \to \Ty\ (\Sigma\mid \Gamma)
 \end{equation}
-along with an isomorphism
+along with two new terms in the syntax, forming an isomorphism
 \begin{equation}\label{eq:repr-iso}
   \repr{} : \Tm\ (\Sigma\mid \Gamma)\ T \simeq \Tm\ (\Sigma\mid \Gamma)\ (\Repr T) : \unrepr{} \,.
 \end{equation}
-which preserves $\Pi$-types and universes. The type $\Repr T$ is the defined
-representation of the type $T$. The term $\repr{}$ takes a term of type $T$ to
-its representation of type $\Repr T$, and $\unrepr{}$ undoes the effect of
-$\repr{}$, treating a represented term as an inhabitant of its original type.
-These new constructs satisfy certain additional definitional equalities given in
-\cref{fig:global-rep-eq}, determining how these constructs can be used to rewrite
-type families and constructors as their defined representations.
+which holds definitionally and preserves $\Pi$ and universes. The type $\Repr T$
+is the defined representation of the type $T$. The term $\repr{}$ takes a term
+of type $T$ to its representation of type $\Repr T$, and $\unrepr{}$ undoes the
+effect of $\repr{}$, treating a represented term as an inhabitant of its
+original type. These new constructs satisfy certain equalities, some of which
+are given in \cref{fig:global-rep-eq}. New valid signature items are introduced,
+corresponding to representation definitions for components of inductive families
+and global function definitions.
 
 \begin{figure}[h]
   \begin{mathpar}
@@ -57,8 +57,8 @@ type families and constructors as their defined representations.
   \label{fig:global-rep-eq}
 \end{figure}
 
-We state some basic lemmas below, whose proofs we reserve for the full version of
-the paper.
+We state some basic lemmas below. The proof are left to the full version
+of the paper, along with the formalisation of computational irrelevance.
 
 \begin{lemma}
   The term formers $\repr{}$ and $\unrepr{}$ are injective, i.e.
@@ -91,25 +91,22 @@ the paper.
       \Sigma \mid \Gamma \vdash p : T\ \datalab{$\simeq$}\ T'
     }
   \end{mathpar}
-  Moreover, this isomorphism is computationally irrelevant, i.e.
-  it compiles to the identity function.
+  Moreover, this isomorphism is computationally irrelevant.
 \end{lemma}
 
-\section{Translating from $\lambdarep$ to $\lambdaind^{\textsc{Ext}}$}
+\section{Translating from $\lambdarep$ to $\lambdaind$}
 
 We can define a translation step $\R$ from $\lambdarep$ to
 $\lambdaind^{\textsc{Ext}}$, meant to be applied during the compilation process.
 More specifically, the translation target is the extensional flavour of
 $\lambdaind$ by adding the equality reflection rule. We do this by translating
 well-formed contexts, substitutions, types, and terms in a mutual manner such
-that definitional equality is preserved. In other words, $\R$ is strict CWF
-\cite{Castellan2019-sh} morphism comprising of setoid homomorphisms on all
-syntactical categories. Informally, $\R$ preserves the structure of
+that definitional equality is preserved. $\R$ preserves the structure of
 $\lambdarep$, but maps constructs to their terminal representations. Eliminator
 coherence rules are preserved by reflecting the propositional coherence rules
-provided by the defined representations. We prove some desired properties of
-$\R$ \cite{Boulier2017-cm} such as typing and computational soundness, and
-preservation of consistency. The final program can then be converted into an
-untyped language which erases irrelevant data. We can recover a program
-in $\lambdaind$ by translating extensional typing derivations to intensional
-proofs \cite{Winterhalter2019-zw}.
+provided by the defined representations. We will prove some desired properties
+of $\R$ \cite{Boulier2017-cm} such as typing and computational soundness, and
+preservation of consistency. The final program can then be converted into a
+simply-typed language which erases irrelevant data. We can recover a program in
+$\lambdaind$ by translating extensional typing derivations to intensional proofs
+\cite{Winterhalter2019-zw}.
