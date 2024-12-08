@@ -39,6 +39,11 @@ Cockx, J., Devriese, D.: Proof-relevant unification: Dependent pattern matching
   ~e12 (Jan 2018),
   \url{https://www.cambridge.org/core/services/aop-cambridge-core/content/view/E54D56DC3F5D5361CCDECA824030C38E/S095679681800014Xa.pdf/div-class-title-proof-relevant-unification-dependent-pattern-matching-with-only-the-axioms-of-your-type-theory-div.pdf}
 
+\bibitem{Cockx2021-pw}
+Cockx, J., Tabareau, N., Winterhalter, T.: The taming of the rew: a type theory
+  with computational assumptions. Proc. ACM Program. Lang.  \textbf{5}(POPL),
+  1--29 (Jan 2021), \url{https://doi.org/10.1145/3434341}
+
 \bibitem{Dagand2012-aw}
 Dagand, P.E., McBride, C.: A categorical treatment of ornaments. arXiv [cs.PL]
   (Dec 2012), \url{http://arxiv.org/abs/1212.3806}

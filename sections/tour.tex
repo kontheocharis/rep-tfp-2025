@@ -76,22 +76,29 @@ of GMP-style unlimited-size unsigned integers, and provide translations for
 the constructors $\ctorlab{0}$ and $\ctorlab{1+}$, and the eliminator $\elimlab{Nat}$.
 Additionally, we have to show that the eliminator satisfies the expected computation rules
 of the $\datalab{Nat}$ eliminator, which are postulated as propositional equalities.
-All in all, we assume access to a signature
-\begin{align*}
-  &\primlab{0} : \primlab{UBig} \\
-  &\primlab{1} : \primlab{UBig} \\
-  &\primlab{$+$} : \primlab{UBig} \to \primlab{UBig} \to \primlab{UBig} \\
-  &\primlab{$\times$} : \primlab{UBig} \to \primlab{UBig} \to \primlab{UBig} \\
-  &\primlab{ubig-elim} : (P : \primlab{UBig} \to \univ) \to P\ \primlab{0} \\
-  &  \to ((n : \primlab{UBig}) \to P\ (\primlab{1}\,\primlab{$+$}\,n)) \\
-  & \to (s : \primlab{UBig}) \to P\ s
-\end{align*}
+For this we assume access to a signature
+\begin{gather*}
+  \primlab{0}, \primlab{1} : \primlab{UBig} \qquad
+  \primlab{$+$},\primlab{$\times$} : \primlab{UBig} \to \primlab{UBig} \to \primlab{UBig} \\
+  \primlab{ubig-elim} : (P : \primlab{UBig} \to \univ) \to P\ \primlab{0}
+  \to ((n : \primlab{UBig}) \to P\ (\primlab{1}\,\primlab{$+$}\,n))
+   \to (s : \primlab{UBig}) \to P\ s
+\end{gather*}
 which also contains propositional equalities
 \begin{align*}
   &\primlab{ubig-elim-zero-id} : _{\forall Pbr}  \primlab{ubig-elim}\ P\ b\ r\ \primlab{0} = b \\
   &\primlab{ubig-elim-add-one-id} : _{\forall Pbrn}  \primlab{ubig-elim}\ P\ b\ r\ (\primlab{1}\,\primlab{$+$}\,n)
   = r\ n\ (\primlab{ubig-elim}\ P\ b\ r\ n)  \,.
 \end{align*}
+We can also define representations for functions on $\datalab{Nat}$, such as
+addition, multiplication, and other numeric operations, in terms of
+$\primlab{UBig}$ primitives, in our system, akin to rewriting rules
+\cite{Cockx2021-pw}
+\begin{align*}
+  \Sreprvar{\datalab{add}}{\primlab{$+$}\ \by\ \primlab{$+$-id}}
+  \qquad \Sreprvar{\datalab{mul}}{\primlab{$\times$}\ \by\ \primlab{$\times$-id}}
+\end{align*}
+if we have the appropriate primitives in the signature.
 
 This will effectively erase the \datalab{Nat} type from the compiled program,
 replacing all occurrences with the $\primlab{UBig}$ type and its primitives. In
@@ -113,19 +120,14 @@ the other is `compiled away'. We can do this by representing the more indexed
 type as a refinement of the less indexed type by an appropriate relation. For
 the case of $\datalab{Vec}$, we know intuitively that
 \[
-  \datalab{Vec}\ T\ n \simeq \{ l : \datalab{List}\ T \mid \lab{length}\ l = n \}
+  \datalab{Vec}\ T\ n \simeq \{ l : \datalab{List}\ T \mid \lab{length}\ l = n \} := \lab{List'}\ T\ n
 \]
-so we can start by choosing the type
-\[
-  \lab{List'}\ T\ n := \{ l : \datalab{List}\ T \mid \lab{length}\ l = n \}
-\]
-as the representation of $\datalab{Vec}\ T\ n$. We will take the subset $\{ x :
-A \mid P\ x \}$ to mean a $\Sigma$-type $(x : A) \times P\ x$ where the right
-component is irrelevant and erased at runtime.\footnote{In practice, a theory
-with erasure can be used to achieve this. In \superfluid we use Quantitiative
-Type Theory \cite{Atkey2018-pj}.} We are then tasked with providing terms that
-correspond to the constructors of $\datalab{Vec}$ but for $\lab{List'}$. These
-can be defined as
+so we can start by choosing $\lab{List'}\ T\ n$ as the representation of
+$\datalab{Vec}\ T\ n$. We will take the subset $\{ x : A \mid P\ x \}$ to mean a
+$\Sigma$-type $(x : A) \times P\ x$ where the right component is irrelevant and
+erased at runtime. We are then tasked with providing terms that correspond to
+the constructors of $\datalab{Vec}$ but for $\lab{List'}$. These can be defined
+as
 \[
   \begin{aligned}
   & \lab{nil} : \lab{List'}\ T\ 0 \\
@@ -179,10 +181,10 @@ at runtime, every vector is simply a list at runtime, where the length proof has
 been erased. In the full paper we will show how this erasure is achieved in
 practice in \superfluid using Quantitative Type Theory \cite{Atkey2018-pj}.
 
-We can utilise this representation to convert between
-$\datalab{Vec}$ and $\datalab{List}$ at zero runtime cost, by using the
-$\repr{}$ and $\unrepr{}$ operators of the language. Specifically, we can define
-the functions
+We can utilise this representation to convert between $\datalab{Vec}$ and
+$\datalab{List}$ at zero runtime cost, by using the $\repr{}$ and $\unrepr{}$
+operators of the language (defined in \cref{sec:type-system}). Specifically, we
+can define the functions
 \begin{align*}
   &\lab{forget-length} : \datalab{Vec}\ T\ n \to \datalab{List}\ T \\
   &\lab{forget-length}\ v = \letin{(l, \wildp)}{\repr{v}}{l} \\[1em]
@@ -195,10 +197,9 @@ and it holds by reflexivity that $\lab{forget-length}$ is a left inverse of $\la
 
 The idea from the previous example can be generalised to any data type. In
 general, suppose that we have two inductive families
-\begin{align*}
- &\datalab{F} : \Xi \to \univ \\
- &\datalab{G} : \Xi \to X\ \xi \to \univ
-\end{align*}
+\[
+ \datalab{F} : \Xi \to \univ \qquad \datalab{G} : \Xi \to X\ \xi \to \univ
+\]
 for some index family $X : \Xi \to \univ$. If we hope to represent $\datalab{G}$
 as some refinement of $\datalab{F}$ then we must be able to provide a way to
 compute $\datalab{G}$'s extra indices $X$ from $\datalab{F}$, like we computed
@@ -245,12 +246,11 @@ the number of items it contains, which might be defined similarly to $\datalab{V
 \]
 We can use the full power of inductive families to model the domain of our
 problem in the way that is most convenient for us. If we were writing this in a
-low-level language like C, we might choose to use the serialised format directly
-when manipulating the data, relying on the appropriate pointer arithmetic to
-access the fields of the serialised data. Doing this can result in much better
-performance, as we avoid the overhead of copying the data into a new format.
-Representations allow us to do this while still being able to work with the
-high-level inductive type.
+lower-level language, we might choose to use the serialised format directly when
+manipulating the data, relying on the appropriate pointer arithmetic to access
+the fields of the serialised data, to avoid copying overhead. Representations
+allow us to do this while still being able to work with the high-level inductive
+type.
 
 We can define a representation for $\datalab{Player}$
 as a pair of a byte buffer and a proof that the byte buffer contents correspond to

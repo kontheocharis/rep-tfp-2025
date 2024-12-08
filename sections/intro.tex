@@ -4,17 +4,13 @@ Inductive families are a broad generalisation of inductive data types found in
 most functional programming languages. Every inductive definition is equipped
 with a eliminator that captures the notion of mathematical induction over the
 data, and in particular, enables structural recursion over the data. This is a
-powerful tool for programming as well as theorem proving.
-
-However, this abstraction has a cost when it comes to compilation: the
-runtime representation of inductive types is a linked tree structure. A list as
-an inductively defined data structure is stored as a linked list on the heap,
-and a natural number is stored as a unary number where each digit is an empty
-heap cell. This representation is not always the most efficient for all
-operations, and often forces users to rely on more efficient machine primitives
-to achieve desirable performance. The `Nat-hack' in languages with dependent types is
-a prime example of this, where natural numbers are represented as GMP-style big
-integers for efficient arithmetic operations [CITE?].
+powerful tool for programming as well as theorem proving. However, this
+abstraction has a cost when it comes to compilation: the runtime representation
+of inductive types is a linked tree structure. This representation is not always
+the most efficient for all operations, and often forces users to rely on more
+efficient machine primitives to achieve desirable performance, at the cost of
+structural recursion and dependent pattern matching. This is the first problem
+we aim to address in this paper.
 
 Despite advances in the erasure of irrelevant indices in inductive families
 \cite{Brady2004-ay} and the use of theories with irrelevant fragments
@@ -46,12 +42,8 @@ through user-defined translations of the constructors and eliminators of an
 inductive type to a concrete implementation, which form a bijective view of the
 original data called a `representation'. Representations are defined internally
 to the language, and require coherence properties that ensure a representation
-defines an initial algebra for the endofunctor associated with the original
-inductive family. We define a type- and equality-preserving translation from the
-language with representations to a language without them, which provably erases
-all inductive types with defined representations from the program.
-
-The in the final version of the paper, we plan to contribute the following:
+is faithful to its the original inductive family. The in the final version of
+the paper, we plan to contribute the following:
 \begin{itemize}
   \item A dependent type system with inductive families $\lambdaind$,
     and its extension by representations $\lambdarep$.
