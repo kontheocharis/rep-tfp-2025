@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  7 DEC 2024 18:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  7 DEC 2024 22:57
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -883,8 +883,8 @@ Overfull \hbox (35.49239pt too wide) detected at line 267
 [][] \OT1/cmr/m/n/10 :[] (\OML/cmm/m/it/10 E \OT1/cmr/m/n/10 : \OML/cmm/m/it/10 ^^D \OMS/cmsy/m/n/10 ! U\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ! \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^E^^X \OT1/cmr/m/n/10 : \OML/cmm/m/it/10 ^^D\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ! \OML/cmm/m/it/10 E ^^X \OMS/cmsy/m/n/10 ! \OT1/cmr/m/n/10 ((\OML/cmm/m/it/10 ^^Ex \OT1/cmr/m/n/10 : [][] \OML/cmm/m/it/10 ^^X \OMS/cmsy/m/n/10 ! \OML/cmm/m/it/10 X ^^X\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ! \OML/cmm/m/it/10 E \OT1/cmr/m/n/10 ([][][] \OML/cmm/m/it/10 ^^X x\OT1/cmr/m/n/10 )) \OMS/cmsy/m/n/10 ! \OML/cmm/m/it/10 E ^^X
  []
 
-[7] [8] [9] [10]
-Overfull \hbox (7.96608pt too wide) in paragraph at lines 502--508
+[7] [8] [9] [10] [11]
+Overfull \hbox (7.96608pt too wide) in paragraph at lines 559--565
 [][] \OML/cmm/m/it/10 T \OMS/cmsy/m/n/10 ! [][]$\T1/cmr/m/n/10 . It is easy to con-struct a strong bi-jec-tion $[][] \OT1/cmr/m/n/10 ([][] ([][] \OML/cmm/m/it/10 T\OT1/cmr/m/n/10 )) \OML/cmm/m/it/10 n \OMS/cmsy/m/n/10 '
  []
 
@@ -893,7 +893,7 @@ Overfull \hbox (7.96608pt too wide) in paragraph at lines 502--508
 LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
 (Font)              using `U/stmry/m/n' instead on input line 11.
 
-[11]
+[12]
 Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 79.
 
 
@@ -902,11 +902,11 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [12pdfTeX warning (ext4): destination with the same identifier (name{figure.1.1}) has been already used, duplicate ignored
+ [13pdfTeX warning (ext4): destination with the same identifier (name{figure.1.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
 l.166 
-      ] [13pdfTeX warning (ext4): destination with the same identifier (name{figure.1.2}) has been already used, duplicate ignored
+      ] [14pdfTeX warning (ext4): destination with the same identifier (name{figure.1.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
 l.173 
@@ -925,12 +925,12 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[14]
+[15]
 Overfull \hbox (2.7118pt too wide) in paragraph at lines 323--325
 []\T1/cmr/m/n/10 The pair of maps $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^U\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x \OT1/cmr/m/n/10 : \OML/cmm/m/it/10 T\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 : [] [];  ^^U\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 y \OT1/cmr/m/n/10 : \OML/cmm/m/it/10 T[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 : [] []\OT1/cmr/m/n/10 )$
  []
 
-[15pdfTeX warning (ext4): destination with the same identifier (name{figure.1.4}) has been already used, duplicate ignored
+[16pdfTeX warning (ext4): destination with the same identifier (name{figure.1.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
 l.377 
@@ -938,11 +938,11 @@ l.377
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
 l.377 
-      ] [16pdfTeX warning (ext4): destination with the same identifier (name{figure.1.6}) has been already used, duplicate ignored
+      ] [17pdfTeX warning (ext4): destination with the same identifier (name{figure.1.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
 l.421   \end{mathpar}
-                     ]) (./sections/implementation.tex) (/Users/constantine/git/abstracting-data-rep/.out/main.bbl [17pdfTeX warning (ext4): destination with the same identifier (name{figure.1.7}) has been already used, duplicate ignored
+                     ]) (./sections/implementation.tex) (/Users/constantine/git/abstracting-data-rep/.out/main.bbl [18pdfTeX warning (ext4): destination with the same identifier (name{figure.1.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
 l.10 
@@ -966,7 +966,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 51--54
 \T1/cmtt/m/n/9 aop-[]cambridge-[]core / content / view / F8A44CAC27CCA178AF69DD84BC585A2D /
  []
 
-) [18] (/Users/constantine/git/abstracting-data-rep/.out/main.aux)
+) [19] (/Users/constantine/git/abstracting-data-rep/.out/main.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -974,18 +974,18 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: E8697098164B610F8033512D50A9D933;275.
  ) 
 Here is how much of TeX's memory you used:
- 27990 strings out of 478994
- 531888 string characters out of 5858183
- 864428 words of memory out of 5000000
+ 27992 strings out of 478994
+ 531911 string characters out of 5858183
+ 865422 words of memory out of 5000000
  44775 multiletter control sequences out of 15000+600000
  449698 words of font info for 135 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  133i,25n,133p,503b,1012s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfbi1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfcc0600.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfcc0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfcc0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfss0600.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfss0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfss0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfxc0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfxc0800.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb>
-Output written on /Users/constantine/git/abstracting-data-rep/.out/main.pdf (18 pages, 489988 bytes).
+Output written on /Users/constantine/git/abstracting-data-rep/.out/main.pdf (19 pages, 494873 bytes).
 PDF statistics:
- 380 PDF objects out of 1000 (max. 8388607)
- 292 compressed objects within 3 object streams
- 72 named destinations out of 1000 (max. 500000)
+ 388 PDF objects out of 1000 (max. 8388607)
+ 299 compressed objects within 3 object streams
+ 74 named destinations out of 1000 (max. 500000)
  117 words of extra memory for PDF output out of 10000 (max. 10000000)
 

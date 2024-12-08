@@ -163,7 +163,7 @@ Next we need to define the eliminator for $\lab{List'}$, which should have the f
   & \quad \to ((x : T) \to (n : \datalab{Nat}) \to (\mathit{xs} : \lab{List'}\ T\ n) \to E\ (\ctorlab{1+}\ n)\ (\lab{cons}\ x\ \mathit{xs})) \\
   & \quad \to (n : \datalab{Nat}) \to (v : \lab{List'}\ T\ n) \to E\ n\ v
 \end{align*}
-Some heavy lifting can be done by dependent pattern matching, where we refine the
+Dependent pattern matching does a lot of the heavy lifting by refining the
 length index and equality proof by matching on the underlying list. However we still need to
 substitute the lemma $\lab{cong}\ (\ctorlab{1+})\ (\lab{\ctorlab{1+}-inj}\ p) = p$ in the recursive case.
 \begin{align*}
@@ -243,7 +243,7 @@ $\tilde{\datalab F}$, denoted $|\wildp|$. This means we can define the represent
 each constructor $\ctorlab{c}_i$ of $\datalab{G}$ as
 \begin{align*}
   &\lab{$\datalab{F}^{\lab{comp}}$-$\ctorlab{c}_i$} : (\pi : \Pi_i) \to \mta{Rec}_{\datalab{G}}(\datalab{F}^{\lab{comp}}, \pi) \to \datalab{F}^{\lab{comp}} (\xi_i[ \pi]) \\
-  &\lab{$\datalab{F}^{\lab{comp}}$-$\ctorlab{c}_i$}\ \pi\ r = \letin{(r_0, r_1)}{r}{(|\ctorlab{c}_i\ \pi|\ r_0,\ \lab{cong}\ (\lab{$\alpha$}\ (|\ctorlab{c}_i\ \pi|\ r_0))\ r_1)} \\
+  &\lab{$\datalab{F}^{\lab{comp}}$-$\ctorlab{c}_i$}\ \pi\ r = \letin{(r_0, r_1)}{r}{(|\ctorlab{c}_i\ \pi|\ r_0,\ \lab{cong}\ (\lab{$\alpha$} \circ |\ctorlab{c}_i\ \pi|)\ r_1)} \\
 \end{align*}
 
 This is not quite enough to form a representation, however. To do this,
@@ -336,6 +336,63 @@ $\{ g : \datalab{G}\ (f\ i) \mid \alpha\ g = \lab{im}\ f\ i \}$.
 
 
 one can construct a data type $\datalab{G} : J \to \univ$ which is
+
+\subsection{Zero-copy deserialisation}
+
+The machinery of representations can be used to implement zero-copy deserialisation
+of data formats into inductive types. For example, consider the following
+record for a player in a game:
+\[
+  \Sdata{Player}{}{} \Sbody{
+    \ctorlab{player} : &\ (\fieldlab{position} : \datalab{Position}) \\
+    \to &\ (\fieldlab{direction} : \datalab{Direction}) \\
+    \to &\ (\fieldlab{items} : \datalab{Fin}\ \lab{MAX\_INVENTORY}) \\
+    \to &\ (\fieldlab{inventory} : \datalab{Inventory}\ \fieldlab{items}) \\
+    \to &\ \datalab{Player}
+  }
+\]
+We can use the $\datalab{Fin}$ type to maintain the invariant that the inventory
+has a maximum size. Additionally, we can index the $\datalab{Inventory}$ type by
+the number of items it contains, which might be defined similarly to $\datalab{Vec}$:
+\[
+  \Sdata{Inventory}{(n : \datalab{Nat})}{} \Sbody{
+    \ctorlab{empty} : &\ \datalab{Inventory}\ \ctorlab 0 \\
+    \ctorlab{add} : &\ \datalab{Item} \\
+    \to &\ \datalab{Inventory}\ n \\
+    \to &\ \datalab{Inventory}\ (\ctorlab{1+}\ n)
+  }
+\]
+We can use the full power of inductive families to model the domain of our problem
+in the way that is most convenient for us. However, we also want to be able to
+serialise and deserialise this data type to and from a binary format which is
+shared over the network. If we were writing this in a low-level language like C, we might
+choose to use the serialised format directly when manipulating the data, relying on
+the appropriate pointer arithmetic to access the fields of the serialised data.
+Doing this can result in much better performance, as we avoid the overhead of
+copying the data into a new format.
+
+Representations allow us to do this while still being able to work with the
+high-level inductive type. We can define a representation for $\datalab{Player}$
+as a pair of a byte buffer and a proof that the byte buffer contents correspond to
+a player record. Similarly, we can define a representation for $\datalab{Inventory}$
+as a pair of a byte buffer and a proof that the byte buffer contents correspond to
+an inventory record of a certain size. The projection
+\[
+  \fieldlab{inventory} : (p : \datalab{Player}) \to \datalab{Inventory}\ p.\fieldlab{items}
+\]
+is compiled into some code to slice into the inventory part of the player's byte
+buffer. We assume that the standard library already represents $\datalab{Fin}$ in the
+same way as $\datalab{Nat}$, so that reading the $\fieldlab{items}$ field is a constant-time
+operation (we do not need to build a unary numeral). We can thus define the representation
+of $\datalab{Player}$ as
+\[
+  \Sreprvar{\datalab{Player}}{\{ \datalab{Buf} \mid \datalab{IsPlayer} \}} \Sbody{
+    \ctorlab{player}\ \as&\ \lab{buf-is-player} \\
+    \elimlab{Player}\ \as&\ \lab{elim-buf-is-player} \\
+                      \by&\ \lab{elim-buf-is-player-id}
+  }
+\]
+
 
 
 \subsection{Transitivity}
