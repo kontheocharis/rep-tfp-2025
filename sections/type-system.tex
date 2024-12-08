@@ -1,200 +1,22 @@
 \section{A type system for data representations}\label{sec:type-system}
 
-In this section, we describe a type system for data representations in a
-language with dependent types. We start by defining a core language with
-dependent types and inductive constructions $\lambdaind$. We then extend this
-language with data representations to form $\lambdarep$, which allow users to
-define custom representations for inductive types and other global symbols.
-We present these languages with intrinsically well-formed contexts, types, and
-terms, quotiented by their definitional equality rules [altenkirch].
+In this section, we state the basics of the type system of $\lambdarep$, a core
+language with dependent types and representations. We start with a core language
+with dependent types and inductive constructions $\lambdaind$. We then extend
+this language with data representations to form $\lambdarep$, which allow users
+to define custom representations for inductive types and other global symbols.
 
 \subsection{A core language with inductive types, $\lambdaind$}\label{sub:lambdaind}
 
 The core languge we start with is $\lambdaind$. It contains $\Pi$-types and a
-single universe $\univ$ with $\univ : \univ$. We are not concerned with universe
-polymorphism or a sound logical interpretation as this is orthogonal to the main
-focus of this work. Nevertheless, all the results should be readily extensible
-to a sound language with a universe hierarchy.
-We follow a similar approach to
-\cite{Cockx2018-fk} by packaging named inductive constructions and
-global function definitions into a signature, and indexing contexts by
-signatures. A typing judgement looks like
-\[
-  \Sigma \mid \Gamma \vdash t : T
-\]
-and is read as ``in signature $\Sigma$ and context $\Gamma$, term $t$ has type
-$T$''. The rules for signatures, contexts and telescopes are given in \cref{fig:lambdaind-sig-rules}.
+hierarchy of universe $\univ$ with $\univ : \univ$. We are not concerned with
+universe polymorphism or a sound logical interpretation, but all the results
+should be readily extensible to a sound language with a universe hierarchy. We
+follow a similar approach to \cite{Cockx2018-fk} by packaging named inductive
+constructions and global function definitions into a signature $\Sigma$, and
+indexing contexts by signatures.
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
-
-\begin{figure}[h]
-  \begin{mathpar}
-    \inferrule[Sig-Empty]
-    {
-    }
-    {\isSig{\cdot}} \and
-    \inferrule[Sig-Extend]
-    {
-      \isSig{\Sigma} \\
-      \Sigma \vdash Z
-    }
-    {\isSig{\Sigma,Z}} \and
-    \inferrule[Con-Empty]
-    {
-      \isSig{\Sigma}
-    }
-    {\Sigma \vdash \isCon{\cdot}} \and
-    \inferrule[Con-Extend]
-    {
-      \Sigma \vdash \isCon{\Gamma} \\
-      \Sigma \mid \Gamma \vdash \istype{T}
-    }
-    {\Sigma \vdash \isCon{\Gamma,T}} \and
-    \inferrule[Tel-Empty]
-    {
-      \Sigma \vdash \isCon{\Gamma}
-    }
-    {\Sigma \mid \Gamma \vdash \isTel{\cdot}} \and
-    \inferrule[Tel-Extend]
-    {
-      \Sigma \mid \Gamma \vdash \isTel{\Delta} \and
-      \Sigma \mid \Gamma \vdash \istype{T}
-    }
-    {\Sigma \mid \Gamma \vdash \isTel{\Gamma,T}}
-  \end{mathpar}
-  \caption{Rules for signatures, contexts and telescopes in $\lambdaind$.}
-  \label{fig:lambdaind-sig-rules}
-\end{figure}
-
-Telescopes [deBrujin] are very similar to contexts, but restricted to types from a single stage and
-well formed with respect to a context $\Gamma$, meaning that telescopes can
-contain open terms. We use the notation $\Delta \to t$ to denote a repeated
-function type with parameters from $\Delta$ and codomain $T$ which may depend
-on the parameters. Additionally, we will sometimes explicitly bind the names of
-a telescope such as $(\delta : \Delta) \to T[\delta]$. Similar syntax is used
-to extend contexts with telescopes: $\Gamma, \Delta$ or $\Gamma, \delta :
-  \Delta$.
-
-Next, the rules for well-formed items in signatures are given in
-\cref{fig:lambdaind-item-rules}. \todo{Awkward spacing!}
-
-\begin{figure}[h]
-  \begin{mathpar}
-    \inferrule[Data-Item]
-    {
-      \Sigma \mid \cdot \vdash \isTel{\Delta} \\
-      \Sigma \mid \Delta \vdash \isTel{\Xi} \\
-      \isLabNotIn{D}{\Sigma} \\
-    }
-    {\Sigma \vdash \Sdata{D}{\Delta}{\Xi}} \and
-    \inferrule[Ctor-Item]
-    {
-      \Sdata{D}{\Delta}{\Xi} \in \Sigma \\
-      \Sclosed{\lab{D}, \wildp} \notin \Sigma \\
-      \isLabNotIn{C}{\Sigma} \\
-      \Sigma \mid \Delta \vdash \isTel{\Pi} \\
-      \Sigma \mid \Delta, \Pi \vdash \isTel{\Omega} \\
-      \Sigma \mid \Delta, \Pi \vdash \xi : \Xi
-    }
-    {\Sigma \vdash \Sctor{C}{\Pi\ \Omega}{D}{\Delta\ \xi}} \and
-    \inferrule[Closed-Item]
-    {
-      \Sdata{D}{\Delta}{\Xi} \in \Sigma \\
-      \forall i \in I. \ \Sctorvar{\lab{C}_i}{\Pi_i}{D}{\Delta\ \xi_i} \in \Sigma \\
-      \Sclosed{\lab{D}, \wildp} \notin \Sigma
-    }
-    {\Sigma \vdash \Sclosed{\lab{D}, \vec{\lab{C}}}} \and
-    \inferrule[Def-Type]
-    {
-      \Sigma \mid \cdot \vdash M : \univ \\
-      \isLabNotIn{f}{\Sigma}
-    }
-    {\Sigma \vdash \Sdef{f}{M}{m}} \and
-    \inferrule[Def-Item]
-    {
-      \Sigma, \Sdef{f}{M}{} \mid \cdot \vdash m : M \\
-      \isLabNotIn{f}{\Sigma}
-    }
-    {\Sigma \vdash \Sdef{f}{M}{m}}
-  \end{mathpar}
-  \caption{Rules for items in signatures in $\lambdaind$.}
-  \label{fig:lambdaind-item-rules}
-\end{figure}
-
-\begin{figure}[H]
-  \begin{mathpar}
-    \inferrule[Data-Form]
-    {
-      \Sdata{D}{\Delta}{\Xi} \in \Sigma
-    }
-    {\Sigma \mid \Gamma \vdash \datalab{D} : \Delta \to \Xi \to \univ} \and
-    \inferrule[Data-Intro]
-    {
-      \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
-      \Sctor{C}{\Pi}{D}{\Delta\ \xi} \in \Sigma
-    }
-    {\Sigma \mid \Gamma \vdash \ctorlab{C} : (\delta : \Delta) \to (\pi : \Pi [\delta]) \to \datalab{D} \  \delta \  (\xi [\delta, \pi]) } \and
-    \inferrule[Data-Case]
-    {
-      \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
-      \forall i \in I.\ \Sctorvar{\ctorlab{C}_i}{\Pi_i}{D}{\xi_i} \in \Sigma     \\
-      \Sclosed{\datalab D}{\vec{\ctorlab{C}}} \in \Sigma
-    }
-    {\Sigma \mid \Gamma \vdash \caselab{D} : (\delta : \Delta) \to \mta{Case}((\xi : \Xi[\delta],x : \datalab{D} \  \delta \  \xi), \{ (\pi : \Pi_i [\delta]), (\xi_i [\delta], \ctorlab{C}_i \  \delta \  \pi) \}_i ) } \and
-    \inferrule[Data-Case-ID$_j$]
-    {
-      \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
-      \forall i \in I.\ \Sctorvar{\ctorlab{C}_i}{\Pi_i}{\datalab D}{\xi_i} \in \Sigma     \\
-      \Sclosed{\datalab D}{\vec{\ctorlab{C}}} \in \Sigma \\
-      \Sigma \mid \Gamma \vdash \delta : \Delta
-    }
-    {\Sigma \mid \Gamma \vdash \ValidCase(\caselab{D}\ \delta)} \and
-    \inferrule[Def-Intro]
-    {
-      \Sdef{f}{M}{} \in \Sigma      \\
-    }
-    {\Sigma \mid \Gamma \vdash \lab{f} : M} \and
-    \inferrule[Def-Comp]
-    {
-      \Sdef{f}{M}{m} \in \Sigma     \\
-    }
-    {\Sigma \mid \Gamma \vdash \lab{f} \equiv m : M}
-  \end{mathpar}
-  \caption{Terms and types associated to items in signatures in $\lambdaind$.}
-  \label{fig:lambdaind-rules}
-\end{figure}
-
-The rules for data constructors do not consider the recursive occurences of $\lab{D}$ explicitly, which means
-that strict positivity is not ensured. Rather, we assume that a separate check is performed to ensure that
-the defined types adhere to strict positivity, if necessary. As a result, the eliminator for data types does
-not provide the inductive hypotheses directly, but we assume that the language allows general recursion. Similarly to
-the positivity requirements, we expect that if termination is a desirable property of the system, it is ensured separately
-to the provided typing rules.
-
-In \cref{fig:lambdaind-rules}, the type $\Sigma \mid \Gamma \vdash \mta{Case}(\Phi, \{\Pi_k, \phi_k\}_k) : \univ$ is defined as
-\begin{mathpar}
-  \inferrule
-  {
-    \Sigma \mid \Gamma \vdash \isTel{\Phi} \\
-    \forall k \in K .\ {\Sigma \mid \Gamma \vdash \isTel{\Pi_k}} \\
-    \forall k \in K .\ {\Sigma \mid \Gamma, \Pi_k \vdash \phi_k : \Phi}
-  }
-  {{\mta{Case}(\Phi, \{\Pi_k, \phi_k\}_k) := (P : \Phi \to \univ) \to \{ (\Pi_k \to P \  \phi_k) \}_k \to (\phi : \Phi) \to P \phi}}
-\end{mathpar}
-
-The $\Sigma \mid \Gamma \vdash \ValidCase(c)$ condition is defined inductively as
-\begin{mathpar}
-  \inferrule
-  {
-      \Sigma \mid \Gamma \vdash c : \mta{Case}(\Phi, \{\Pi_k, \phi_k\}_k) \\
-     {\begin{aligned}
-      \forall j \in K . \ \Sigma &\mid \Gamma,  P : \Phi \to \univ, \{\kappa_k : \Pi_k \to P \  \phi_k\}_k, \pi : \Pi_j \\[-0.5em]
-      &\vdash c \  P \  \{\kappa_k\}_k \  \phi_j [\pi] \equiv \kappa_j \  \pi : P \  \phi_j[\pi]
-    \end{aligned}}
-  }
-  {\Sigma \mid \Gamma \vdash \ValidCase(c)}
-\end{mathpar}
-
 
 \subsection{Extending $\lambdaind$ with representations}\label{sub:lambdarep}
 
@@ -202,61 +24,22 @@ We extend the language $\lambdaind$ to form $\lambdarep$, which allows users to
 define custom representations for inductive types and global functions. First,
 we add a modal type former
 \begin{equation}\label{eq:repr-ty}
-  \Repr{} : \Ty\ \Sigma\ \Gamma \to \Ty\ \Sigma\ \Gamma
+  \Repr{} : \Ty\ (\Sigma\mid \Gamma) \to \Ty\ (\Sigma\mid \Gamma)
 \end{equation}
 along with an isomorphism
 \begin{equation}\label{eq:repr-iso}
-  \repr{} : \Tm\ \Sigma\ \Gamma\ T \simeq \Tm\ \Sigma\ \Gamma\ (\Repr T) : \unrepr{} \,.
+  \repr{} : \Tm\ (\Sigma\mid \Gamma)\ T \simeq \Tm\ (\Sigma\mid \Gamma)\ (\Repr T) : \unrepr{} \,.
 \end{equation}
-
-The type $\Repr T$ is the defined representation of the type $T$. The term
-$\repr{}$ takes a term of type $T$ to its representation of type $\Repr T$, and
-$\unrepr{}$ undoes the effect of $\repr{}$, treating a represented term as an
-inhabitant of its original type. These new constructs satisfy certain
-definitional equalities given in \cref{fig:basic-rep-eq} and
-\cref{fig:global-rep-eq}. While the former rules can be summarised as `commute
-with $\Pi$ and types represent themselves', the latter rules define how
-these constructs can be used to rewrite global definitions as their defined
-representations. From these rules, we can derive some additional admissible
-lemmas.
-
-\begin{figure}[h]
-    \begin{align*}
-      &\Repr{(\Pi\ A\ B)} \equiv \Pi\ A\ (\Repr B) \\
-      &\Repr{\univ} \equiv \univ \\
-      &\Repr{(A [u])} \equiv (\Repr A) [u]
-    \end{align*}
-  \begin{minipage}[t]{0.5\textwidth}
-    \begin{align*}
-      &\repr{(\lambda\ t)} \equiv \lambda\ (\repr{t}) \\
-      &\repr{(\ap t)} \equiv \ap{(\repr t)} \\
-      &\repr{(t [u])} \equiv (\repr t)[u] \\
-      &\repr{(\code t)} \equiv \code t \\
-    \end{align*}
-  \end{minipage}
-  \hfill
-  \begin{minipage}[t]{0.5\textwidth}
-    \begin{align*}
-      &\unrepr{(\lambda\ t)} \equiv \lambda\ (\unrepr{t}) \\
-      &\unrepr{(\ap t)} \equiv \ap{(\unrepr t)} \\
-      &\unrepr{(t [u])} \equiv (\unrepr t)[u] \\
-      &\unrepr{(\code t)} \equiv \code t
-    \end{align*}
-  \end{minipage}
-  \caption{Basic definitional equalities for $\Repr{}$, $\repr{}$ and
-  $\unrepr{}$, omitting the ones that hold by the afforementioned
-  isomorphism. Notably $\Repr (\El t)$, as well as $\repr x$ where $x$ is a
-  variable, do not reduce.}
-  \label{fig:basic-rep-eq}
-\end{figure}
+which preserves $\Pi$-types and universes. The type $\Repr T$ is the defined
+representation of the type $T$. The term $\repr{}$ takes a term of type $T$ to
+its representation of type $\Repr T$, and $\unrepr{}$ undoes the effect of
+$\repr{}$, treating a represented term as an inhabitant of its original type.
+These new constructs satisfy certain additional definitional equalities given in
+\cref{fig:global-rep-eq}, defining how these constructs can be used to rewrite
+type families and constructors as their defined representations.
 
 \begin{figure}[h]
   \begin{mathpar}
-  \inferrule[Repr-Def-Id]
-  {
-    \Sreprvar{\lab f\ \Delta}{a} \in \Sigma
-  }
-  {\Sigma \mid \Gamma \vdash \repr{(\lab{f}\ \delta)} \equiv a [\delta] : M[\delta]} \and
   \inferrule[Repr-Ctor-Id]
   {
     \Sreprvar{\ctorlab c\ \Pi}{\kappa} \in \Sigma
@@ -268,9 +51,15 @@ lemmas.
   }
   {\Sigma \mid \Gamma \vdash \istype{\Repr{(\datalab{D}\ \delta\ \psi)} \equiv A [\delta,\psi]}}
   \end{mathpar}
-  \caption{Definitional equalities for $\Repr{}$ and $\repr{}$ relating to global items with defined representations.}
+  \caption{Definitional equalities for $\Repr{}$ and $\repr{}$ relating to data
+  types and constructors with defined representations. Similar equalities hold
+  for representations of global function definitions and eliminators, albeit
+  propositionally.}
   \label{fig:global-rep-eq}
 \end{figure}
+
+We state some basic lemmas about the term formers $\repr{}$ and $\unrepr{}$ below,
+whose proofs we omit for the full version of the paper.
 
 \begin{lemma}
   The term formers $\repr{}$ and $\unrepr{}$ are injective, i.e.
@@ -292,20 +81,6 @@ lemmas.
   \end{mathpar}
 \end{lemma}
 
-\begin{proof}
-  By the isomorphism in \eqref{eq:repr-iso}.
-\end{proof}
-
-Importantly, this injectivity rule can only be applied if $t$ and $t'$ have the
-same type. Otherwise, if $\Repr {\datalab{Bool}} = \Repr {\datalab{Bit}}$, we
-could derive $\repr{\ctorlab{true}} \equiv \repr{\ctorlab{zero}}$ and then
-$\ctorlab{true} \equiv \ctorlab{zero}$. Of course, the injectivity lemmas can
-only be stated if the types are equal, but when it comes to implementation, a
-unification algorithm must be type-aware to maintain soundness. While these term
-formers are injective, the type former $\Repr{}$ is not, since multiple distinct
-types can have the same representation. However, the weaker property holds that
-$\Repr{}$ is injective up to internal isomorphism.
-
 \begin{lemma}
   The type former $\Repr{}$ is injective up to internal isomorphism, i.e.
   \begin{mathpar}
@@ -317,149 +92,23 @@ $\Repr{}$ is injective up to internal isomorphism.
       \Sigma \mid \Gamma \vdash p : T\ \datalab{$\simeq$}\ T'
     }
   \end{mathpar}
+  Moreover, this isomorphism is computationally irrelevant, i.e.
+  it compiles to the identity function.
 \end{lemma}
 
-\begin{proof}
-  The pair of maps $(\lambda (x : T).\ \unrepr{(\repr{x})},\ \lambda (y : T').\ \unrepr{(\repr{y})})$ forms an isomorphism,
-  whose coherence proofs are both trivial.
-\end{proof}
+\section{Translating from $\lambdarep$ to $\lambdaind^{\textsc{Ext}}$}
 
-
-Next, we define the rules for defining representations in $\lambdarep$. Representations
-are a part of the signature, and can be defined for data types as well as global definitions.
-In the case of data types, the representation needs to be defined for the type itself, as well as
-for each of its constructors and the case eliminator. For global definitions, the representation
-must be in the form of a term of the same type as the original definition, which is moreover.
-TODO: maybe we leave global definitions to rewrite rules?
-
-
-\begin{figure}[H]
-  \begin{mathpar}
-    \inferrule[Repr-Data]
-    {
-      \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
-      \Sigma \mid \Delta, \Xi \vdash A : \univ \\
-    }
-    {\Sigma \vdash \Sreprvar{\datalab D\ \Delta\ \Xi}{A}} \and
-    \inferrule[Repr-Ctor]
-    {
-    \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
-    \forall i \in I .\ \Sctorvar{\ctorlab{C}_i}{\Pi_i}{D}{\Delta\ \xi_i} \in \Sigma     \\
-    \Sreprvar{\datalab D}{\Delta\ \Xi}{A} \in \Sigma \\
-    \forall i < k .\ \Sreprvar{\ctorlab{C}_i}{\Pi_i}{t_i} \in \Sigma     \\
-    \Sigma \mid \Delta, \Pi_k \vdash t_k : A \  \Delta \  \xi_k
-    % \Sigma \mid \vec{x} : \Crepr{\Delta}, \ \vec{z} : \Crepr{\Delta_{\ctorlab{C}_i}} \vdash t_i : (a : A) \times \textstyle \prod_{j < i} ((\vec{y} : \Crepr{\Delta_{\ctorlab{C}_j}}) \to a \neq \pi_1 t_j[\vec{x},\vec{y}])
-    }
-    {\Sigma \vdash \Sreprvar{\ctorlab{C}_k\ \Pi_k}{t_k}} \and
-    \inferrule[Repr-Case]
-    {
-    \Sdata{D}{\Delta}{\Xi} \in \Sigma     \\
-    \Sreprvar{\datalab D\ \Delta\ \Xi}{A} \in \Sigma \\
-    \forall i \in I .\ \Sctorvar{\ctorlab{C}_i}{\Pi_i}{D}{\Delta\ \xi_i} \in \Sigma     \\
-    \forall i \in I .\ \Sreprvar{\ctorlab{C}_i}{\Pi_i}{t_i} \in \Sigma     \\
-    \Sclosed{\datalab{D}}{\vec{\ctorlab{C}}} \in \Sigma \\
-    {\Sigma \mid \delta : \Delta \vdash c : \mta{Case}((\xi : \Xi[\delta],x : A \  \delta \  \xi), \{ (\pi : \Pi_i [\delta]), (\xi_i [\delta], A \  \delta \  \pi) \}_i ) } \\
-    \Sigma \mid \Delta \vdash \ValidCase ( c )
-    }
-    {\Sigma \vdash \Sreprvar{\caselab{D}}{\Delta}{c}} \and
-    \inferrule[Repr-Def]
-    {
-      \Sdef{f}{M}{m} \in \Sigma     \\
-      % \isLabNotIn{R}{\Sigma} \\
-      \Sigma \mid \cdot \vdash a : M \\
-      \Sigma \mid \cdot \vdash m \equiv a : M
-    }
-    {\Sigma \vdash \Sreprvar{\lab f}{a}}
-  \end{mathpar}
-  \caption{Rules for data representations in $\lambdarep$.}
-  \label{fig:lambdarep-rules}
-\end{figure}
-
-\subsection{Properties of $\lambdarep$}
-
-\begin{itemize}
-  \item Decidability of equality
-  \item Confluence of reduction
-  \item Strong normalization
-\end{itemize}
-
-\section{Translating from $\lambdarep$ to $\lambdaind$}
-
-Now we define a translation step $\R$ from $\lambdarep$ to $\lambdaind$, meant
-to be applied during the compilation process. We do this by translating
-contexts, substitutions, types, and terms in a mutual manner such that
-definitional equality is preserved. In other words, $\R$ is a setoid
-homomorphism if we consider definitional equality as a relation defining a
-setoid. The majority of the translation simply preserves the structure of
-$\lambdarep$, so we focus on the translation of definitions into their
-representations. This is shown in \cref{fig:translation}. By defining the
-translation in this way, we are awarded with some desirable properties by construction:
-
-\begin{lemma}
-  The translation $\R$ preserves typing, i.e.
-  \begin{mathpar}
-    \inferrule
-    {
-      \Sigma \mid \Gamma \vdash t : T
-    }
-    {
-      \R \Sigma \mid \R \Gamma \vdash \R t : \R T
-    }
-  \end{mathpar}
-\end{lemma}
-
-\begin{lemma}
-  The translation $\R$ preserves definitional equality, i.e.
-  \begin{mathpar}
-    \inferrule
-    {
-      \Sigma \mid \Gamma \vdash t \equiv t' : T
-    }
-    {
-      \R \Sigma \mid \R \Gamma \vdash \R t \equiv \R t' : \R T
-    }
-  \end{mathpar}
-\end{lemma}
-
-
-\begin{figure}[H]
-    \begin{align*}
-      &\R : \Ty_{\rep}\ \Sigma\ \Gamma \to \Ty_{\ind}\ (\R \Sigma)\ (\R \Gamma) \\
-      &\R (\datalab{D}\ \delta\ \psi) \mid \Sreprvar{\datalab D\ \Delta\ \Xi}{A} \in \Sigma = \R (A[\delta,\psi]) \\
-      &\R (\Repr A) = \R A \\
-      &\R T = \text{recurse on $T$} \\[2em]
-      &\R : \Tm_{\rep}\ \Sigma\ \Gamma\ T \to \Tm_{\ind}\ (\R \Sigma)\ (\R \Gamma)\ (\R T) \\
-      &\R (\ctorlab{C}\ \delta\ \pi) \mid \Sreprvar{\ctorlab c\ \Pi}{\kappa} \in \Sigma = \R (\kappa[\delta,\pi]) \\
-      &\R (\lab{f}\ \delta) \mid \Sreprvar{\lab f\ \delta}{a} \in \Sigma = \R (a[\delta]) \\
-      &\R (\repr t) = \R t \\
-      &\R (\unrepr t) = \R t \\
-      &\R t = \text{recurse on $t$}
-    \end{align*}
-  \caption{Translation from $\lambdarep$ to $\lambdaind$.}
-  \label{fig:translation}
-\end{figure}
-
-TODO: show how the def.equalities are mapped.
-
-The basic ones get mapped to reflexivity, the others are given as part of
-representations (validcase), and the rest are simply carried over.
-
-
-  % {
-  %   \Sreprvar{\lab f\ \Delta}{a} \in \Sigma
-  % }
-  % {\Sigma \mid \Gamma \vdash \repr{(\lab{f}\ \delta)} \equiv a [\delta] : M[\delta]} \and
-  % \inferrule[Repr-Ctor-Id]
-  % {
-  %   \Sreprvar{\ctorlab c\ \Pi}{\kappa} \in \Sigma
-  % }
-  % {\Sigma \mid \Gamma \vdash \repr{(\ctorlab{c}\ \delta\ \pi)} \equiv \kappa [\delta, \pi] : A[\delta, \xi[\pi]]} \and
-  % \inferrule[Repr-Data-Id]
-  % {
-  %   \Sreprvar{\datalab D\ \Delta\ \Xi}{A} \in \Sigma
-  % }
-
-
-\begin{itemize}
-  \item What other corollaries?
-\end{itemize}
+We can define a translation step $\R$ from $\lambdarep$ to
+$\lambdaind^{\textsc{Ext}}$, meant to be applied during the compilation process.
+More specifically, the translation target is the extensional flavour of
+$\lambdaind$ by adding the equality reflection rule. We do this by translating
+well-formed contexts, substitutions, types, and terms in a mutual manner such
+that definitional equality is preserved. In other words, $\R$ is strict CWF
+morphism comprising of setoid homomorphisms on all syntactical categories.
+Informally, $\R$ preserves the structure of $\lambdaind$, but maps constructs to
+their eventual representations. Eliminator coherence rules are preserved by
+reflecting the propositional coherence rules provided by the defined
+representations. We prove some desired properties of $\R$ \cite{Boulier2017-cm}
+such as typing and computational soundness, and preservation of consistency. The
+final program can then be converted into an untyped language which erases
+irrelevant data.

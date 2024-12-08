@@ -3,6 +3,9 @@
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
 
+\bibitem{GMP}
+The {GNU} {MP} bignum library. \url{https://gmplib.org/}, accessed: 2024-12-8
+
 \bibitem{Abel2023-ey}
 Abel, A., Danielsson, N.A., Eriksson, O.: A graded modal dependent type theory
   with a universe and erasure, formalized. Proc. ACM Program. Lang.
@@ -13,6 +16,12 @@ Atkey, R.: Syntax and semantics of quantitative type theory. In: Proceedings of
   the 33rd Annual ACM/IEEE Symposium on Logic in Computer Science. pp. 56--65.
   LICS '18, Association for Computing Machinery, New York, NY, USA (Jul 2018),
   \url{https://doi.org/10.1145/3209108.3209189}
+
+\bibitem{Boulier2017-cm}
+Boulier, S., P{\'e}drot, P.M., Tabareau, N.: The next 700 syntactical models of
+  type theory. In: Proceedings of the 6th {ACM} {SIGPLAN} Conference on
+  Certified Programs and Proofs. pp. 182--194. CPP 2017, Association for
+  Computing Machinery, New York, NY, USA (Jan 2017)
 
 \bibitem{Brady2004-ay}
 Brady, E., McBride, C., McKinna, J.: Inductive families need not store their
@@ -29,6 +38,10 @@ Cockx, J., Devriese, D.: Proof-relevant unification: Dependent pattern matching
   with only the axioms of your type theory. J. Funct. Prog.  \textbf{28}(e12),
   ~e12 (Jan 2018),
   \url{https://www.cambridge.org/core/services/aop-cambridge-core/content/view/E54D56DC3F5D5361CCDECA824030C38E/S095679681800014Xa.pdf/div-class-title-proof-relevant-unification-dependent-pattern-matching-with-only-the-axioms-of-your-type-theory-div.pdf}
+
+\bibitem{Dagand2012-aw}
+Dagand, P.E., McBride, C.: A categorical treatment of ornaments. arXiv [cs.PL]
+  (Dec 2012), \url{http://arxiv.org/abs/1212.3806}
 
 \bibitem{Diehl2018-ba}
 Diehl, L., Firsov, D., Stump, A.: Generic zero-cost reuse for dependent types.

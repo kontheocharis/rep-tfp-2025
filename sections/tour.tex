@@ -1,7 +1,7 @@
 \section{A tour of data representations}\label{sec:examples}
 
 A common optimisation done by programming languages with dependent types such as
-Idris 2 and Lean is to represent natural numbers as GMP-style big integers. The core
+Idris 2 and Lean is to represent natural numbers as GMP-style \cite{GMP} big integers. The core
 definition of natural numbers looks like
 \begin{equation}\label{eq:nat-def}
   \Sdata{Nat}{}{} \Sbody{
@@ -26,48 +26,57 @@ write.
 
 When it comes to compilation, without further intervention, the $\datalab{Nat}$
 type is represented in unary form, where each digit is an empty heap cell. This
-is inefficient for a lot of the basic operations on natural numbers; addition is
-a linear-time operation and multiplication is quadratic. For this reason, most
-real-world implementations will treat \datalab{Nat} specially, swapping the
-default inductive type representation with one based on GMP integers. The basic
-idea is to perform the replacements
+is inefficient for a lot of the basic operations on natural numbers, especially
+since computers are particularly well-equipped to deal with numbers natively.
+For this reason, most real-world implementations will treat \datalab{Nat}
+specially, swapping the default inductive type representation with one based on
+GMP integers. This is done by performing the replacements
 \begin{align}
-  |\ctorlab{0}| &= \primlab{ubig-zero} \\ \label{eq:nat-repr-untyped}
-  |\ctorlab{1+}| &= \primlab{ubig-add}\ \primlab{ubig-one} \\
-  |\elimlab{Nat}\ P\ m_{\ctorlab 0}\ m_{\ctorlab{$1+$}}\ s| &=\primlab{ubig-if-zero}\ |s|\ |m_{\ctorlab 0}|\ |m_{\ctorlab{$1+$}}|
+  |\ctorlab{0}| &= \primlab{0} \\ \label{eq:nat-repr-untyped}
+  |\ctorlab{1+}| &= \primlab{1}\ \primlab{+} \\
+  |\elimlab{Nat}\ P\ m_{\ctorlab 0}\ m_{\ctorlab{$1+$}}\ s| &=\primlab{ubig-rec}\ |s|\ |m_{\ctorlab 0}|\ |m_{\ctorlab{$1+$}}|
 \end{align}
 where $|\cdot|$ denotes a source translation into an untyped compilation target
-language with primitives $\lab{ubig-$\ast$}$.
-
-In addition to the constructors and eliminators, the compiler might also define translations
-for commonly used definitions which have a more efficient counterpart in the untyped target, such as
-$|+| = \primlab{ubig-add}$, $|\times| = \primlab{ubig-mul}$, etc.
+language with primitives $\primlab{ubig-$\ast$}$.\footnote{
 Idris 2 will in fact look for any `Nat-like' types and apply this optimisation. A Nat-like type
 is any type with two constructors, one with arity zero and the other with arity one.
-A similar optimisation is also done with list-like and boolean-like types.
+A similar optimisation is also done with list-like and boolean-like types because
+they have a canonical representation in the target runtime, Chez Scheme.}
+
+In addition to the constructors and eliminators, the compiler might also define
+translations for commonly used definitions which have a more efficient
+counterpart in the untyped target, such as recursively defined addition,
+multiplication, etc. The recursive versions are well-suited to proofs and
+reasoning, while the untyped versions based on GMP primitives are more efficient
+for computation.
 
 The issue with this approach is that it only works for the data types which the
 compiler can recognise as special. Particularly in the presence of dependent
-types, other data types might end up being equivalent to \datalab{Nat} or another
-`nicely-representable' type, but in a non-trivial way that the compiler cannot recognise.
-Hence, our first goal is to extend this optimisation to work for any data type.
-Additionally, the optimisation is defined as a compilation step, which means
-that if non-trivial representations are provided by the user, their correctness
-is not guaranteed. To address this, our framework requires that representations
-are fully typed, ensuring that the behaviour of the representation of a data
-type matches the behaviour of the data type itself.
+types, other data types might end up being equivalent to \datalab{Nat} or
+another `nicely-representable' type, but in a non-trivial way that the compiler
+cannot recognise. Hence, our first goal is to extend this optimisation to work
+for any data type. Additionally, the optimisation is defined as a compilation
+step, which means that if non-trivial representations are provided by the user,
+their correctness is not guaranteed. To address this, our framework requires
+that representations are fully typed in a way that ensures the behaviour of the
+representation of a data type matches the behaviour of the data type itself.
 
-\subsection{Main idea of representations}
+\subsection{The well-typed Nat-hack}
 
-TODO
-
-\subsection{Natural numbers as big unsigned integers}
-
-To build up data out of something other than just inductive types, we need
-access to some primitive types which are `provided by the runtime environment'.
-It would be reasonable to assume access to types corresponding to machine words
-of different widths, but for brevity we will go a step further and assume access
-to an unlimited-size unsigned integer type $\primlab{UBig}$, along with:
+A representation definition looks like
+\[
+  \Sreprvar{\datalab{Nat}}{\primlab{UBig}} \Sbody{
+    \ctorlab{0}\ \as&\ \primlab{0} \\
+    \ctorlab{1+}\ n\ \as&\ \primlab{1}\,\primlab{$+$}\,n \\
+    \elimlab{Nat}\ \as&\ \primlab{ubig-elim}\\ \by&\ \primlab{ubig-elim-zero-id}, \\ &\ \primlab{ubig-elim-add-one-id}
+  }
+\]
+We choose to represent the $\datalab{Nat}$ type as the type $\primlab{UBig}$
+of GMP-style unlimited-size unsigned integers, and provide translations for
+the constructors $\ctorlab{0}$ and $\ctorlab{1+}$, and the eliminator $\elimlab{Nat}$.
+Additionally, we have to show that the eliminator satisfies the expected computation rules
+of the $\datalab{Nat}$ eliminator, which are postulated as propositional equalities.
+All in all, we assume access to a signature
 \begin{align*}
   &\primlab{0} : \primlab{UBig} \\
   &\primlab{1} : \primlab{UBig} \\
@@ -77,67 +86,32 @@ to an unlimited-size unsigned integer type $\primlab{UBig}$, along with:
   &  \to ((n : \primlab{UBig}) \to P\ (\primlab{1}\,\primlab{$+$}\,n)) \\
   & \to (s : \primlab{UBig}) \to P\ s
 \end{align*}
-and propositional equalities
+which also contains propositional equalities
 \begin{align*}
   &\primlab{ubig-elim-zero-id} : _{\forall Pbr}  \primlab{ubig-elim}\ P\ b\ r\ \primlab{0} = b \\
   &\primlab{ubig-elim-add-one-id} : _{\forall Pbrn}  \primlab{ubig-elim}\ P\ b\ r\ (\primlab{1}\,\primlab{$+$}\,n)
   = r\ n\ (\primlab{ubig-elim}\ P\ b\ r\ n)  \,.
 \end{align*}
-The equalities above postulate that $\primlab{UBig}$'s eliminator satisfies the
-expected computation rules of the $\datalab{Nat}$ eliminator, albeit
-propositionally rather than definitionally.
-In contrast to the earlier example \eqref{eq:nat-repr-untyped}, this interface is fully \emph{typed}.
-
-Having access to $\primlab{UBig}$, we can define a representation for the $\datalab{Nat}$ data type
-which maps the constructors and eliminators of $\datalab{Nat}$ to the primitives of $\primlab{UBig}$:
-\[
-  \Sreprvar{\datalab{Nat}}{\primlab{UBig}} \Sbody{
-    \ctorlab{0}\ \as&\ \primlab{0} \\
-    \ctorlab{1+}\ n\ \as&\ \primlab{1}\,\primlab{$+$}\,n \\
-    \elimlab{Nat}\ \as&\ \primlab{ubig-elim}\\ \by&\ \primlab{ubig-elim-zero-id}, \\ &\ \primlab{ubig-elim-add-one-id}
-  }
-\]
 
 This will effectively erase the \datalab{Nat} type from the compiled program,
-replacing all occurrences with the $\primlab{UBig}$ type and its primitives.
-This is an example of a \emph{representation definition}, which is part of the
-global context of a program, which can access top-level symbols.
-
-% The
-% requirements for representing an inductive type family $\datalab{D}$,
-% with parameters $\Delta$ and indices $\Xi$ are to provide:
-
-% \subsection{Encoding datatypes}
-
-% A datatype $\datalab{D}$ is defined by the following data:
-% \begin{itemize}
-%   \item A telescope of parameters $\Delta$, used uniformly across constructors.
-%   \item A telescope of indices $\Delta \vdash \Xi$, which can vary between constructors.
-%   \item A list of constructors, and for each constructor $\ctorlab{c}_i$,
-%   \begin{itemize}
-%     \item A telescope of data arguments $\Delta \vdash \Pi_i$. These cannot refer to $\datalab{D}$.
-%     \item A telescope of arities $\Delta,\Pi \vdash \Omega_i$.
-%     \item For each spine $\omega : \Omega_i$,
-%       a spine of indices $\Delta,\Pi,\Omega_i \vdash \zeta_i : \Xi$
-%       for each recursive argument $\rho_\omega : \datalab{D}\ \delta\ (\zeta_i[\omega])$.
-%     \item A telescope of indices $\Delta \vdash \Xi$, which can vary between constructors.
-%     \item A spine of indices for the constructor $\Delta,\Pi \vdash \xi : \Xi$.
-%   \end{itemize}
-% \end{itemize}
-% \begin{itemize}
-%   \item A type family $R_{\datalab{D}} : \Delta \to \Xi \to \univ$.
-%   \item For each constructor $\ctorlab{c}$ of $\datalab{D}$, with data arguments $\pi$ and recursive arguments $\rho : ((\omega : \Omega) \to \datalab{D}\ \delta\ (\zeta \omega))$
-%         a term $r_{\ctorlab{c}} : \Pi \Delta \Pi \Xi \Pi \pi R_{\datalab{D}} \to R_{\datalab{D}} \rho$.
-% \end{itemize}
-
+replacing all occurrences with the $\primlab{UBig}$ type and its primitives. In
+a way, the hard work is done by the postulates above; we expect that the
+underlying implementation of $\primlab{UBig}$ indeed satisfies them, which is a
+separate concern from the correctness of the representation itself. However,
+postulates are only needed when the representation target is a primitive; the
+next examples use defined types as targets, so that the coherence of the target
+eliminator holds by the coherence of other eliminators used in its
+implementation.
 
 \subsection{Vectors are just certain lists}
 
-We can use representations to share the underlying data when converting between
-$\datalab{Vec}$ and $\datalab{List}$, so that the conversion is `compiled away'.
-We can do this by representing the more indexed type as a refinement of the less
-indexed type by an appropriate relation. For the case of $\datalab{Vec}$, we know
-intuitively that
+In addition to representing inductive types as primitives, we can use
+representations to share the underlying data when converting between indexed
+views of the same data. For example, we can define a representation of
+$\datalab{Vec}$ in terms of $\datalab{List}$, so that the conversion from one to
+the other is `compiled away'. We can do this by representing the more indexed
+type as a refinement of the less indexed type by an appropriate relation. For
+the case of $\datalab{Vec}$, we know intuitively that
 \[
   \datalab{Vec}\ T\ n \simeq \{ l : \datalab{List}\ T \mid \lab{length}\ l = n \}
 \]
@@ -145,17 +119,23 @@ so we can start by choosing the type
 \[
   \lab{List'}\ T\ n := \{ l : \datalab{List}\ T \mid \lab{length}\ l = n \}
 \]
-as the representation of $\datalab{Vec}\ T\ n$. We will take the subset $\{ x : A
-\mid P\ x \}$ to mean a $\Sigma$-type $(x : A) \times P\ x$ where the right
-component is irrelevant and erased at runtime. We are then tasked with providing
-terms that correspond to the constructors of $\datalab{Vec}$ but for
-$\lab{List'}$. These can be defined as
-\begin{align*}
+as the representation of $\datalab{Vec}\ T\ n$. We will take the subset $\{ x :
+A \mid P\ x \}$ to mean a $\Sigma$-type $(x : A) \times P\ x$ where the right
+component is irrelevant and erased at runtime.\footnote{In practice, a theory
+with erasure can be used to achieve this. In \superfluid we use Quantitiative
+Type Theory \cite{Atkey2018-pj}.} We are then tasked with providing terms that
+correspond to the constructors of $\datalab{Vec}$ but for $\lab{List'}$. These
+can be defined as
+\[
+  \begin{aligned}
   & \lab{nil} : \lab{List'}\ T\ 0 \\
-  & \lab{nil} = (\ctorlab{nil}, \ctorlab{refl}) \\[1em]
+  & \lab{nil} = (\ctorlab{nil}, \ctorlab{refl})
+  \end{aligned}\qquad
+  \begin{aligned}
   & \lab{cons} : T \to \lab{List'}\ T\ n \to \lab{List'}\ T\ (\ctorlab{1+}\ n) \\
   & \lab{cons}\ x\ (\mathit{xs}, p) = (\ctorlab{cons}\ x\ \mathit{xs}, \lab{cong}\ (\ctorlab{1+})\ p)
-\end{align*}
+  \end{aligned}
+\]
 Next we need to define the eliminator for $\lab{List'}$, which should have the form
 \begin{align*}
   & \lab{elim-List'} : (E : (n : \datalab{Nat}) \to \lab{List'}\ T\ n \to \lab{Type}) \\
@@ -196,8 +176,8 @@ T\ n$, its real form will be $(l, p) : \lab{List'}\ T\ n$ at runtime, where $l$
 is the underlying list and $p$ is the proof that the length of $l$ is $n$. Under
 the assumption that the $\Sigma$-type's right component is irrelevant and erased
 at runtime, every vector is simply a list at runtime, where the length proof has
-been erased. In \ref{sec:implementation} we show how this erasure is achieved in
-practice in \superfluid using quantitative type theory \cite{Atkey2018-pj}.
+been erased. In the full paper we will show how this erasure is achieved in
+practice in \superfluid using Quantitative Type Theory \cite{Atkey2018-pj}.
 
 We can utilise this representation to convert between
 $\datalab{Vec}$ and $\datalab{List}$ at zero runtime cost, by using the
@@ -232,110 +212,13 @@ which can then be used to form the family
 \[
   \datalab{F}^{\lab{comp}}\ \xi\ x :=  \{ f : \datalab{F}\ \xi \mid \lab{comp}\ f = x \} .
 \]
-such that the isomorphism $\datalab{G} \simeq \datalab{F}^{\lab{comp}}$
-holds. In particular, this is not just a simple isomorphism, but should come with
-a cartesian morphism between polynomial functors
-\[
-  P_{\tilde{\datalab G}} \Rightarrow P_{\tilde{\datalab F}}
-\]
-which comes with a map that takes shapes of $\tilde{\datalab G}$ to shapes of
-$\tilde{\datalab F}$, denoted $|\wildp|$. This means we can define the representation of
-each constructor $\ctorlab{c}_i$ of $\datalab{G}$ as
-\begin{align*}
-  &\lab{$\datalab{F}^{\lab{comp}}$-$\ctorlab{c}_i$} : (\pi : \Pi_i) \to \mta{Rec}_{\datalab{G}}(\datalab{F}^{\lab{comp}}, \pi) \to \datalab{F}^{\lab{comp}} (\xi_i[ \pi]) \\
-  &\lab{$\datalab{F}^{\lab{comp}}$-$\ctorlab{c}_i$}\ \pi\ r = \letin{(r_0, r_1)}{r}{(|\ctorlab{c}_i\ \pi|\ r_0,\ \lab{cong}\ (\lab{$\alpha$} \circ |\ctorlab{c}_i\ \pi|)\ r_1)} \\
-\end{align*}
-
-This is not quite enough to form a representation, however. To do this,
-we must provide an \emph{algebra} $\lab{$\alpha$} : \tilde{\datalab{F}}\ X\ \xi \to X\ \xi$ whose fold
-is $\lab{comp}$. This is because representations must be defined per constructor,
-and cannot reference the type being represented. Here $\tilde{\datalab{F}}$ is the
-endofunctor in $\Xi \to \univ$ associated with $\datalab{F}$. Additionally, we must
-provide a section for this algebra which satisfies the laws of the eliminator of $\datalab{F}$:
-\[
-  \lab{sect} : (x : X\ \xi) \to \datalab{F}^{\lab{comp}}\ \xi\ x
-\]
-
-
-\[
-  \lab{fold} :_{\forall \xi} (\Pi x : \datalab{F}\ \xi \to X\ \xi) \to \datalab{F}\ \xi \to X\ \xi
-\]
-Additionally, we must show that this is an initial algebra for the endofunctor
-by providing an induction principle
-\[
-  \elimlab{F} :_{\forall E} (E : \Xi \to \univ) \to (\Pi \xi : \Xi) \to E\ \xi \to ((\Pi x : \datalab{F}\ \xi \to X\ \xi) \to E\ (\datalab{F}^{\lab{comp}}\ \xi\ x)) \to E\ \xi
-\]
-
-
-Finding a \lab{comp} for a pair of inductive families like above is not always
-possible. But if it is, then $\datalab{F}^{\lab{comp}}$ is the algebraic
-ornament of $\datalab{F}$ by the algebra $\lab{$\alpha$}$ where
-$\lab{fold}\ \lab{$\alpha$} = \lab{comp}$.
-
-
-as a refinement of
-a type family $G : \Phi \to \univ$ if we can find a relation
-$R : \Xi \to (\phi : \Phi) \to \datalab G\ \phi \to \univ$
-such that
-\[
-  f : \datalab{F}  \Rightarrow  \lambda \xi.\ \{ g : \datalab{G}\ (k\ \phi) \mid R\ \xi\ \phi\ g \} .
-\]
-We abbreviate the representation type as $\{\datalab{G}\mid R\}$.
-Then each constructor $\ctorlab{c}_i$ of $\datalab{F}$ can be represented by
-\begin{align*}
-  &\ctorlab{c}_i^\datalab{G} : (\pi : \Pi_i) \to \mta{Rec}_{\datalab{F}}(\{\datalab{G}\mid R\}) \to \{\datalab{G}\mid R\} \\
-  &\ctorlab{c}_i^\datalab{G}\ \pi\ \rho = f\ (\ctorlab{c}_i\ \pi\ (f^{-1}\ {\rho})) \,,
-\end{align*}
-and the eliminator as
-\begin{align*}
-  &\elimlab{F}^\datalab{G} : (E : \Xi \to \univ) \to (\phi : \Phi) \to \{\datalab{G}\mid R\}\ \phi \to E\ \xi \\
-  &\quad \to ((\pi : \Pi_i) \to (n : \mta{Rec}_{\datalab{F}}(\{\datalab{G}\mid R\})) \to E\ (\lab{$\alpha$}\ n)) \\
-  &\quad \to (n : \mta{Rec}_{\datalab{F}}(\{\datalab{G}\mid R\})) \to E\ n \,.
-\end{align*}
-
-
-
-
-
-
-
-We need
-
-an inductive type $\datalab{F} : \univ$ and an inductive family
-$\datalab{G} : J \to \univ$ such that the following conditions hold:
-\begin{itemize}
-  \item There is a functon
-    \[
-      \lab{$\alpha$} : \datalab{F} \to J
-    \]
-    which computes some index $J$ from $\datalab{F}$.
-  \item There is a function
-\end{itemize}
-
-an algebra
-\[
-  \lab{$\alpha$} : \tilde{\datalab{F}}\ J \to J
-\]
-which computes some index $J$ from $\datalab{F}$, we can construct
-a new type $\datalab{F}^\lab{$\alpha$} : J \to \univ$ which has the same constructors and arities,
-but with with new data arguments for the indices and a call to $\lab{$\mu$}\ \lab{$\alpha$}$ in the
-recursive arguments and return type. For this new type $\datalab{F}^\lab{$\alpha$}$, we can
-define a representation as
-\[
-  \Sreprvar{\datalab{F}^{\lab{$\alpha$}}\ j}{\{ x : \datalab{F} \mid \lab{fold}\ \lab{$\alpha$}\ x = j \}} \Sbody{
-    \ctorlab{c}_i\ \as&\ \ctorlab{c}_i \\
-    \elimlab{F}\ \as&\ \elimlab{G} \\
-    \by&\ \lab{elim-iso}
-  }
-\]
-$\datalab{F}$,
-
-If the interpretation of the algebraic ornament defined by $\alpha$ is the same
-as the type $\datalab{G}\ (f\ i)$, then we can represent $\datalab{F}\ i$ as
-$\{ g : \datalab{G}\ (f\ i) \mid \alpha\ g = \lab{im}\ f\ i \}$.
-
-
-one can construct a data type $\datalab{G} : J \to \univ$ which is
+If $\datalab{G}$ is `equivalent' to the algebraic ornament of $\datalab{F}$ by
+the algebra defining $\lab{comp}$ (given by a cartesian isomorphism between the
+underlying polynomial functors), then it is also equivalent to the $\Sigma$-type
+above. The `recomputation lemma' of algebraic ornaments \cite{Dagand2012-aw}
+then arises from its projections. Our system allows us to \emph{set} the
+representation of $\datalab{G}$ as $\datalab{F}^{\lab{comp}}$, so that the
+forgetful map from $\datalab{G}$ to $\datalab{F}$ is the identity at runtime.
 
 \subsection{Zero-copy deserialisation}
 
@@ -357,22 +240,19 @@ the number of items it contains, which might be defined similarly to $\datalab{V
 \[
   \Sdata{Inventory}{(n : \datalab{Nat})}{} \Sbody{
     \ctorlab{empty} : &\ \datalab{Inventory}\ \ctorlab 0 \\
-    \ctorlab{add} : &\ \datalab{Item} \\
-    \to &\ \datalab{Inventory}\ n \\
-    \to &\ \datalab{Inventory}\ (\ctorlab{1+}\ n)
+    \ctorlab{add} : &\ \datalab{Item} \to \datalab{Inventory}\ n \to  \datalab{Inventory}\ (\ctorlab{1+}\ n)
   }
 \]
-We can use the full power of inductive families to model the domain of our problem
-in the way that is most convenient for us. However, we also want to be able to
-serialise and deserialise this data type to and from a binary format which is
-shared over the network. If we were writing this in a low-level language like C, we might
-choose to use the serialised format directly when manipulating the data, relying on
-the appropriate pointer arithmetic to access the fields of the serialised data.
-Doing this can result in much better performance, as we avoid the overhead of
-copying the data into a new format.
-
+We can use the full power of inductive families to model the domain of our
+problem in the way that is most convenient for us. If we were writing this in a
+low-level language like C, we might choose to use the serialised format directly
+when manipulating the data, relying on the appropriate pointer arithmetic to
+access the fields of the serialised data. Doing this can result in much better
+performance, as we avoid the overhead of copying the data into a new format.
 Representations allow us to do this while still being able to work with the
-high-level inductive type. We can define a representation for $\datalab{Player}$
+high-level inductive type.
+
+We can define a representation for $\datalab{Player}$
 as a pair of a byte buffer and a proof that the byte buffer contents correspond to
 a player record. Similarly, we can define a representation for $\datalab{Inventory}$
 as a pair of a byte buffer and a proof that the byte buffer contents correspond to
@@ -392,7 +272,8 @@ of $\datalab{Player}$ as
                       \by&\ \lab{elim-buf-is-player-id}
   }
 \]
-
+with an appropriate definition of $\datalab{IsPlayer}$ which refines a byte buffer.
+We will provide the full details of this construction in the final paper.
 
 
 \subsection{Transitivity}
@@ -426,143 +307,6 @@ which eventually computes to the identity function after applying $\repr{}$ the
 appropriate amount of times. Upon compilation, every type is converted to its
 terminal representation, and all $\repr{}$ calls are erased, so the
 $\lab{as-buf}$ function is effectively the identity function at
-runtime. We do not guarrantee that an invocation of $\lab{as-buf}$ will
+runtime.\footnote{We do not guarrantee that an invocation of $\lab{as-buf}$ will
 be entirely erased, but rather that any invocation will eventually produce the
-identity function without having to perform a case analysis on its $T$ subject.
-
-
-\subsection{Views on arrays}
-
-In functional languages, lists are automatically represented as linked lists by
-virtue of their inductive definition. This representation is particularly
-suitable for the recursion pattern where the head of the list is processed
-first, and the tail is processed recursively. However, it is not always the most
-efficient for all operations. For example, accessing the $n$-th element of a
-list requires $O(n)$ steps. In contrast, contiguous, homogenous arrays provide
-$O(1)$ access to elements, but cannot be defined inductively in any nice way.
-There is clearly a bijection between lists and arrays, which makes lists a good
-candidate for a custom representation.
-
-We assume access to a primitive type $\primlab{Array}\ T$ representing
-contiguous heap arrays of elements of type $T$, along with primitives
-\begin{align*}
-  &\primlab{array} : (n : \datalab{Nat}) \to (\datalab{Fin}\ n \to T) \to \primlab{Array}\ T \\
-  &\primlab{array-length} : \primlab{Array}\ T \to \datalab{Nat} \\
-  &\primlab{array-index} : (a : \primlab{Array}\ T) \to \datalab{Fin}\ (\primlab{array-length}\ a) \to T \\[1em]
-  &\primlab{array-elim} : (P : \primlab{Array}\ T \to \univ) \\
-  & \to (m_1 : P\ \lab{array-nil}) \\
-  & \to (m_2 : (x : T) \to (xs : \primlab{Array}\ T) \to P\ xs \to P\ (\lab{array-cons}\ x\ xs)) \\
-  & \to (s : \primlab{Array}\ T) \to P\ s \,.
-\end{align*}
-using the auxilliary definitions
-\begin{align*}
-  &\lab{array-nil} : \primlab{Array}\ T \\
-  &\lab{array-nil} = \primlab{array}\ \ctorlab 0\ (\lab{fin-zero-void}\ T) \\[1em]
-  &\lab{array-cons} : T \to \primlab{Array}\ T \to \primlab{Array}\ T \\[-1em]
-  &\lab{array-cons}\ x\ xs = \primlab{array}\ (\ctorlab{1+}\ \primlab{array-length}\ n) \Sbody{
-     \ctorlab{0f} &\mapsto x \\
-     \ctorlab{1f+}\ m &\mapsto \primlab{array-index}\ xs\ m
-  }
-\end{align*}
-
-In addition, we require that the following equalities hold definitionally:
-\begin{align*}
-  \primlab{array-elim}\ P\ a\ b\ \lab{array-nil} &\equiv a : P\ \lab{array-nil} \\
-  \primlab{array-elim}\ P\ a\ b\ (\lab{array-cons}\ x\ xs) &\equiv b\ x\ xs : P\ (\lab{array-cons}\ x\ xs)
-\end{align*}
-
-The symbols $\lab{array-nil}$, $\lab{array-cons}$, and $\lab{array-elim}$ along
-with the above definitional equalities form an inductive interface, which can be
-used as a representation for the $\datalab{List}$ data type:
-\[
-  \Sreprvar{\datalab{List}\ T}{\primlab{Array}\ T} \Sbody{
-    \ctorlab{[]}\ &\as\ \lab{array-nil} \\
-    \ctorlab{(}x\ctorlab{::}xs\ctorlab{)}\ &\as\ \lab{array-cons}\ x\ xs \\
-    \elimlab{List}\ &\as\ \primlab{array-elim}
-  }
-\]
-
-Now the indexing function for lists can be represented as the indexing function
-for arrays, and the length function for lists can be represented as the length
-function for arrays. To do this, it is required that some further definitional
-equalities hold:
-\begin{gather*}
-  \primlab{array-elim}\ (\kappa\ \datalab{Nat})\ \ctorlab{0}\ (\kappa\ \kappa\ \ctorlab{1+}) \equiv \primlab{array-length} : \datalab{Array}\ T \to \datalab{Nat} \\[1em]
-  \primlab{array-elim}\ (\lambda a .\ \datalab{Fin}\ (\primlab{array-length}\ a) \to T)\
-  (\lab{fin-zero-void}\ T)\ (\kappa\ .\ \elimlab{Fin}\ T)\\
-  \equiv \ \primlab{array-index} : \primlab{Array}\ T \to \datalab{Fin}\ (\primlab{array-length}\ a) \to T
-\end{gather*}
-Then we can set
-\begin{align*}
-  \repr{} \lab{index}\ &\as\ \primlab{array-index} \\
-  \repr{} \lab{length}\ &\as\ \primlab{array-length} \,.
-\end{align*}
-This works because the definition of $\lab{length}$ elaborates to the algebra above
-which is equated to $\primlab{array-length}$, satisfying the definitional equality requirements.
-
-
-\subsection{Reindexing and forgetful maps for free}
-
-Let us assume that in our language, for some data type
-\[
-  \Sdata{D}{\Delta}{\Xi}
-\]
-we have access to an internal description $\lab{desc}_{\datalab{D}} : \Delta \to \datalab{Desc}\ \Xi$, along
-with an interpretation function
-\[
-  \lab{$\llbracket \_ \rrbracket$} : \datalab{Desc}\ \Xi \to (\Xi \to \univ) \to (\Xi \to \univ)
-\]
-and a fixpoint operator
-\[
-  \Sdata{$\mu$}{(D : \datalab{Desc}\ \Xi ) \  (\xi : \Xi)}{} \Sbody {
-    \ctorlab{fix} : \llbracket D \rrbracket \ (\datalab{$\mu$}\ D) \ \xi \to \datalab{$\mu$}\ D \ \xi
-  }
-\]
-such that $\datalab{$\mu$} \ (\lab{desc}_{\datalab{D}} \ \delta) \simeq
-\datalab{D} \ \delta$ is a strong bijection.
-Then, we might choose to define the representation of $D$ as $\datalab{$\mu$} \
-(\lab{desc}_{\datalab{D}} \ \delta)$; in this way, we represent the `primitive'
-datatype $\datalab{D}$ as the interpretation of its code
-$\lab{desc}_{\datalab{D}}$.
-
-Now consider that we have an indexed datatype
-\[
-  \Sdata{C}{\Delta}{(\xi : \Xi) \to \Phi [\xi]}
-\]
-which is a refined version of $\datalab D$. If we can construct an algebra
-\[
-  \lab{phi}\ \delta : \llbracket \lab{desc}_{\datalab{D}} \rrbracket \ \Phi \ \xi \to \Phi \ \xi
-\]
-that computes the index $\Phi$, then we can form the description
-\[
-  \lab{alg-orn}\ (\lab{phi}\ \delta) : \datalab{Desc}\ (\datalab{$\Sigma$} \ \Xi \ \Phi)
-\]
-which is the ornament induced by the algebra $\lab{phi}$. If a strong bijection
-can be established between $\datalab{$\mu$} \ (\lab{alg-orn}\ (\lab{phi} \ \delta))$ and
-$\datalab{C} \ \delta$, then the former can be used as the representation of the
-latter. Finally, this allows us to define a zero-cost forgetful conversion function
-from $\datalab{C}$ and $\datalab{D}$, which is erased at compile-time, as
-\begin{align}
-  &\lab{forget-}\Phi : \datalab C\ \delta\ \xi\ \phi \to \datalab D\ \delta\ \xi \label{eq:forget} \\
-  &\lab{forget-}\Phi\ c\ d = \unrepr{(\lab{alg-orn-forget}\ (\repr c))}
-\end{align}
-
-\begin{example}
-  Let $\Delta = (T : \univ)$, $\Xi = \cdot$ and $\Phi = (n : \datalab{Nat})$.
-  Let $\datalab D\ T = \datalab{List}\ T$, and $\datalab C\ T\ n = \datalab{Vec}\ T\ n$.
-  Then let $\lab{desc}_{\datalab{List}}$ be the description for lists
-  \[
-    \ctorlab{$\sigma$} \ [\ctorlab{nil}, \ctorlab{cons}] \Sbody{
-      \ctorlab{nil} &\mapsto \ctorlab{end} \\
-      \ctorlab{cons} &\mapsto \ctorlab{$\sigma$}\ T\ (\lambda \wildp .\  \ctorlab{node$\times$}\ \ctorlab{end})
-    }
-  \]
-  and construct the algebra $\lab{phi} = \lab{length-alg}$ mirroring the length function $\lab{length}
-  : \datalab{List}\ T \to \datalab{Nat}$. It is easy to construct a strong
-  bijection $\datalab{$\mu$} \ (\lab{alg-orn}\ (\lab{length-alg} \ T))\ n \simeq
-  \datalab{Vec}\ T\ n$, so we can represent the latter as the former, and
-  define a zero-cost function to forget the length of a vector as $\lab{forget-}\datalab{Nat}$.
-\end{example}
-
-
-\subsection{Binary data}
+identity function without having to perform a case analysis on its $T$ subject.}
