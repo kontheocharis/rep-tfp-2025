@@ -1,18 +1,18 @@
 # Fdb version 3
-["bibtex .out/main"] 1733778639 ".out/main.aux" ".out/main.bbl" ".out/main" 1733779635
+["bibtex .out/main"] 1733778639 ".out/main.aux" ".out/main.bbl" ".out/main" 1733779769
   "./splncs04.bst" 1733698704 32146 aadf770ded437d161532035219ea6f45 ""
-  ".out/main.aux" 1733779635 5483 e60bcd14fd35742dda71f37be9abf084 "pdflatex"
+  ".out/main.aux" 1733779769 5483 e60bcd14fd35742dda71f37be9abf084 "pdflatex"
   "bib.bib" 1733698743 58763 12143ef0a3496a38b07a1e23c88432e8 ""
   (generated)
   ".out/main.blg"
   ".out/main.bbl"
-["pdflatex"] 1733779634 "/Users/constantine/git/rep-tfp-2025/main.tex" "/Users/constantine/git/rep-tfp-2025/.out/main.pdf" "main" 1733779635
-  ".out/main.aux" 1733779635 5483 e60bcd14fd35742dda71f37be9abf084 "pdflatex"
+["pdflatex"] 1733779768 "/Users/constantine/git/rep-tfp-2025/main.tex" "/Users/constantine/git/rep-tfp-2025/.out/main.pdf" "main" 1733779769
+  ".out/main.aux" 1733779769 5483 e60bcd14fd35742dda71f37be9abf084 "pdflatex"
   ".out/main.bbl" 1733778639 3085 023e83bcd286eeb7e42be04f96da49b2 "bibtex .out/main"
-  ".out/main.out" 1733779635 524 b47f2c42938823be4fc687b1ba419549 "pdflatex"
-  "/Users/constantine/git/rep-tfp-2025/.out/main.aux" 1733779635 5483 e60bcd14fd35742dda71f37be9abf084 ""
+  ".out/main.out" 1733779769 524 b47f2c42938823be4fc687b1ba419549 "pdflatex"
+  "/Users/constantine/git/rep-tfp-2025/.out/main.aux" 1733779769 5483 e60bcd14fd35742dda71f37be9abf084 ""
   "/Users/constantine/git/rep-tfp-2025/main.tex" 1733698743 391 0016266adfd745a3ef9d93ba4d534b22 ""
-  "/dev/null" 1733779622 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "/dev/null" 1733779726 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecbi0500.tfm" 1136768653 3072 5c02773c2e93e883bb03697d9281a6c7 ""
@@ -320,12 +320,12 @@
   "misc/rights.tex" 1733698704 1050 6124765dfe6cb612a966ac31849f412a ""
   "sections/implementation.tex" 1733698743 861 c594a497aac511939899dbf38fc922fc ""
   "sections/intro.tex" 1733698743 3811 28026f86d8c5a6a96008dd9f6f705461 ""
-  "sections/tour.tex" 1733779633 16798 db01c6407e957e4a8993f16ba3854e8b ""
+  "sections/tour.tex" 1733779768 16816 3e1a23e90e532285927d4d70046aaed0 ""
   "sections/type-system.tex" 1733698743 4908 464db2eafb989a865b0d7c969d546558 ""
   (generated)
+  "/Users/constantine/git/rep-tfp-2025/.out/main.log"
   ".out/main.pdf"
-  "/Users/constantine/git/rep-tfp-2025/.out/main.pdf"
-  ".out/main.aux"
   ".out/main.out"
   ".out/main.log"
-  "/Users/constantine/git/rep-tfp-2025/.out/main.log"
+  "/Users/constantine/git/rep-tfp-2025/.out/main.pdf"
+  ".out/main.aux"

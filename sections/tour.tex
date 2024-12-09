@@ -80,7 +80,7 @@ and propositional equalities
 \begin{align*}
   &\primlab{ubig-elim-zero-id} : _{\forall Pbr}  \primlab{ubig-elim}\ P\ b\ r\ \primlab{0} = b \\
   &\primlab{ubig-elim-add-one-id} : _{\forall Pbrn}  \primlab{ubig-elim}\ P\ b\ r\ (\primlab{1}\,\primlab{$+$}\,n)
-  = r\ n\ (\primlab{ubig-elim}\ P\ b\ r\ n)  \,.
+  = r\ n\ (\lambda \wildp. \ \primlab{ubig-elim}\ P\ b\ r\ n)  \,.
 \end{align*}
 Representations can also be defined for functions on $\datalab{Nat}$, such as
 addition, multiplication, and other numeric operations, in terms of
