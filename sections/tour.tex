@@ -9,10 +9,12 @@ definition of natural numbers looks like
     \ctorlab{1+} & : \datalab{Nat} \to \datalab{Nat}
   }
 \end{equation}
-and generates a Peano-style induction principle $\elimlab{Nat}$ of type
+and generates a Peano-style induction principle $\elimlab{Nat}$ of type\footnote{Recursive parameters
+like $\overline{P\ n}$ are lazy, which makes the eliminator more efficient when they
+are not used.}
 \[
    (P : \datalab{Nat} \to \univ)
-  \to P\ \ctorlab 0 \to ((n : \datalab{Nat}) \to P\ n \to P\ (\ctorlab{1+}\ n))
+  \to P\ \ctorlab 0 \to ((n : \datalab{Nat}) \to \overline{P\ n} \to P\ (\ctorlab{1+}\ n))
   \to (s : \datalab{Nat}) \to P\ s \,.
 \]
 Without further intervention, the $\datalab{Nat}$ type is represented in unary
@@ -25,7 +27,7 @@ done by performing the replacements
 \begin{align}
   |\ctorlab{0}| &= \primlab{0} \\ \label{eq:nat-repr-untyped}
   |\ctorlab{1+}| &= \primlab{1}\ \primlab{+} \\
-  |\elimlab{Nat}\ P\ m_{\ctorlab 0}\ m_{\ctorlab{$1+$}}\ s| &=\primlab{ubig-rec}\ |s|\ |m_{\ctorlab 0}|\ |m_{\ctorlab{$1+$}}|
+  |\elimlab{Nat}\ P\ m_{\ctorlab 0}\ m_{\ctorlab{$1+$}}\ s| &=\primlab{ubig-elim}\ |s|\ |m_{\ctorlab 0}|\ |m_{\ctorlab{$1+$}}|
 \end{align}
 where $|\cdot|$ denotes a source translation into a compilation target
 language with primitives $\primlab{ubig-$\ast$}$.\footnote{
@@ -68,9 +70,11 @@ This representation is valid in a signature containing the primitives
 \begin{gather*}
   \primlab{0}, \primlab{1} : \primlab{UBig} \qquad
   \primlab{$+$},\primlab{$\times$} : \primlab{UBig} \to \primlab{UBig} \to \primlab{UBig} \\
-  \primlab{ubig-elim} : (P : \primlab{UBig} \to \univ) \to P\ \primlab{0}
-  \to ((n : \primlab{UBig}) \to P\ (\primlab{1}\,\primlab{$+$}\,n))
-   \to (s : \primlab{UBig}) \to P\ s
+  \begin{aligned}
+  \primlab{ubig-elim} :\ &(P : \primlab{UBig} \to \univ) \to P\ \primlab{0}
+  \to ((n : \primlab{UBig}) \to \overline{P\ n} \to P\ (\primlab{1}\,\primlab{$+$}\,n)) \\
+   &\to (s : \primlab{UBig}) \to P\ s
+  \end{aligned}
 \end{gather*}
 and propositional equalities
 \begin{align*}
@@ -131,7 +135,7 @@ Next we need to define the eliminator for $\lab{List'}$, which should have the f
 \begin{align*}
   & \lab{elim-List'} : (E : (n : \datalab{Nat}) \to \lab{List'}\ T\ n \to \lab{Type}) \\
   & \quad \to E\ 0\ \lab{nil} \\
-  & \quad \to ((x : T) \to (n : \datalab{Nat}) \to (\mathit{xs} : \lab{List'}\ T\ n) \to E\ (\ctorlab{1+}\ n)\ (\lab{cons}\ x\ \mathit{xs})) \\
+  & \quad \to ((x : T) \to (n : \datalab{Nat}) \to (\mathit{xs} : \lab{List'}\ T\ n) \to \overline{E\ n\ xs} \to E\ (\ctorlab{1+}\ n)\ (\lab{cons}\ x\ \mathit{xs})) \\
   & \quad \to (n : \datalab{Nat}) \to (v : \lab{List'}\ T\ n) \to E\ n\ v
 \end{align*}
 Dependent pattern matching does a lot of the heavy lifting by refining the
@@ -142,14 +146,16 @@ substitute the lemma $\lab{cong}\ (\ctorlab{1+})\ (\lab{\ctorlab{1+}-inj}\ p) = 
   &\lab{elim-List'}\ P\ b\ r\ (\ctorlab{1+}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, e) = \lab{subst}\
   \begin{aligned}[t]
   & (\lambda p .\ P\ (\ctorlab{1+}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, p))\ \\
-  & (\lab{\ctorlab{1+}-cong-id}\ e)\ (r\ x\ ({\mathit{xs}}, \lab{\ctorlab{1+}-inj}\ e))
+  & (\lab{\ctorlab{1+}-cong-id}\ e)\ (r\ x\ ({\mathit{xs}}, \lab{\ctorlab{1+}-inj}\ e) \\
+  & (\lambda \wildp . \ \lab{elim-List'}\ P\ b\ r\ m\ ({\mathit{xs}}, \lab{\ctorlab{1+}-inj}\ e)))
   \end{aligned}
 \end{align*}
 Finally, we need to prove that the eliminator satisfies the expected computation
 rules propositionally. These are
 \begin{align*}
-  & \lab{elim-List'-nil-id} : \lab{elim-List'}\ P\ b\ r\ \ctorlab 0\ (\ctorlab{nil}, \ctorlab{refl}) = b \\
-  & \lab{elim-List'-cons-id} : \lab{elim-List'}\ P\ b\ r\ (\ctorlab{1+}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, \lab{cong}\ (\ctorlab{1+})\ p) = r\ x\ (\mathit{xs}, p)
+  \lab{elim-List'-nil-id} : &\ \lab{elim-List'}\ P\ b\ r\ \ctorlab 0\ (\ctorlab{nil}, \ctorlab{refl}) = b \\[0.5em]
+  \lab{elim-List'-cons-id} :&\  \lab{elim-List'}\ P\ b\ r\ (\ctorlab{1+}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, \lab{cong}\ (\ctorlab{1+})\ p) \\
+  & = r\ x\ (\mathit{xs}, p)\ (\lambda \wildp .\ \lab{elim-List'}\ P\ b\ r\ m\ (\mathit{xs}, p))
 \end{align*}
 which we leave as an exercise, though they are evident from the definition of
 $\lab{elim-List'}$. This completes the definition of the representation of
