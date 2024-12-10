@@ -2,7 +2,7 @@
 
 Inductive families are a generalisation of inductive data types found in some
 programming languages with dependent types. Every inductive definition is
-equipped with a eliminator that captures the notion of mathematical induction
+equipped with an eliminator that captures the notion of mathematical induction
 over the data, and in particular, enables structural recursion over the data.
 This is a powerful tool for programming as well as theorem proving. However,
 this abstraction has a cost when it comes to compilation: the runtime
@@ -22,7 +22,7 @@ types, unless vectors are defined as a refinement of lists with an erased length
 field (which hinders dependent pattern matching due to the presence of
 non-structural witnesses), or a Church encoding is used in a Curry-style context
 \cite{Diehl2018-ba} (which restricts the flexibility of data representation).
-This is the second problem we aim to address in this paper
+This is the second problem we aim to address in this paper.
 
 Wadler's views \cite{Wadler1987-zp} provide a way to abstract over inductive
 interfaces, so that different views of the same data can be defined and
