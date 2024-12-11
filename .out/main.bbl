@@ -7,15 +7,14 @@
 The {GNU} {MP} bignum library. \url{https://gmplib.org/}, accessed: 2024-12-8
 
 \bibitem{Atkey2018-pj}
-Atkey, R.: Syntax and semantics of quantitative type theory. In: Proceedings of
-  the 33rd Annual ACM/IEEE Symposium on Logic in Computer Science. pp. 56--65.
-  LICS '18, Association for Computing Machinery, New York, NY, USA (Jul 2018)
+Atkey, R.: Syntax and semantics of quantitative type theory. In: LICS 2018. pp.
+  56--65. LICS '18, Association for Computing Machinery, New York, NY, USA (Jul
+  2018)
 
 \bibitem{Boulier2017-cm}
 Boulier, S., P{\'e}drot, P.M., Tabareau, N.: The next 700 syntactical models of
-  type theory. In: Proceedings of the 6th {ACM} {SIGPLAN} Conference on
-  Certified Programs and Proofs. pp. 182--194. CPP 2017, Association for
-  Computing Machinery, New York, NY, USA (Jan 2017)
+  type theory. In: CPP 2017. pp. 182--194. CPP 2017, Association for Computing
+  Machinery, New York, NY, USA (Jan 2017)
 
 \bibitem{Brady2004-ay}
 Brady, E., McBride, C., McKinna, J.: Inductive families need not store their
@@ -49,13 +48,12 @@ Gratzer, D., Kavvos, G.A., Nuyts, A., Birkedal, L.: Multimodal dependent type
   theory. arXiv [cs.LO]  (Nov 2020)
 
 \bibitem{Mcbride2004-fd}
-Mcbride, C., Mckinna, J.: The view from the left. J. Funct. Programming
-  \textbf{14}(1),  69--111 (Jan 2004)
+Mcbride, C., Mckinna, J.: The view from the left. JFP  \textbf{14}(1),  69--111
+  (Jan 2004)
 
 \bibitem{Moon2021-eb}
 Moon, B., Eades, III, H., Orchard, D.: Graded modal dependent type theory. In:
-  Programming Languages and Systems. pp. 462--490. Springer International
-  Publishing (2021)
+  Programming Languages and Systems. pp. 462--490. Springer (2021)
 
 \bibitem{Wadler1987-zp}
 Wadler, P.: Views: a way for pattern matching to cohabit with data abstraction.
@@ -69,7 +67,6 @@ Wadler, P.: Deforestation: transforming programs to eliminate trees. Theor.
 
 \bibitem{Winterhalter2019-zw}
 Winterhalter, T., Sozeau, M., Tabareau, N.: Eliminating reflection from type
-  theory. In: Proceedings of the 8th ACM SIGPLAN International Conference on
-  Certified Programs and Proofs. ACM, New York, NY, USA (Jan 2019)
+  theory. In: CPP 2019. ACM, New York, NY, USA (Jan 2019)
 
 \end{thebibliography}

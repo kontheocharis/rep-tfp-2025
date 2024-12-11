@@ -226,8 +226,7 @@ record for a player in a game:
     \ctorlab{player} : &\ (\fieldlab{position} : \datalab{Position}) \\
     \to &\ (\fieldlab{direction} : \datalab{Direction}) \\
     \to &\ (\fieldlab{items} : \datalab{Fin}\ \lab{MAX\_INVENTORY}) \\
-    \to &\ (\fieldlab{inventory} : \datalab{Inventory}\ \fieldlab{items}) \\
-    \to &\ \datalab{Player}
+    \to &\ (\fieldlab{inventory} : \datalab{Inventory}\ \fieldlab{items}) \to \datalab{Player}
   }
 \]
 We can use the $\datalab{Fin}$ type to maintain the invariant that the inventory
@@ -252,9 +251,7 @@ as a pair of a byte buffer and a proof that the byte buffer contents correspond 
 a player record. Similarly, we can define a representation for $\datalab{Inventory}$
 as a pair of a byte buffer and a proof that the byte buffer contents correspond to
 an inventory record of a certain size. The projection
-\[
-  \fieldlab{inventory} : (p : \datalab{Player}) \to \datalab{Inventory}\ p.\fieldlab{items}
-\]
+$\fieldlab{inventory} : (p : \datalab{Player}) \to \datalab{Inventory}\ p.\fieldlab{items}$
 is compiled into some code to slice into the inventory part of the player's byte
 buffer. We assume that the standard library already represents $\datalab{Fin}$ in the
 same way as $\datalab{Nat}$, so that reading the $\fieldlab{items}$ field is a constant-time

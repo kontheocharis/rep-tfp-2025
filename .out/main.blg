@@ -6,7 +6,7 @@ Database file #1: bib.bib
 Warning--to sort, need author or key in GMP
 You've used 15 entries,
             2850 wiz_defined-function locations,
-            701 strings with 6999 characters,
+            700 strings with 6721 characters,
 and the built_in function-call counts, 8921 in all, are:
 = -- 769
 > -- 199
