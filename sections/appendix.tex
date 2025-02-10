@@ -1,0 +1,244 @@
+\section{Appendix}
+
+\begin{figure}[h]
+  \begin{minipage}[t]{0.5\textwidth}
+  \begin{align*}
+  \Ty &: \Con \to \Set \\
+  \univ &: \Ty\ \Gamma \\
+  \Pi &: (A : \Ty\ \Gamma) \to \Ty\ (\Gamma \rhd A) \to \Ty\ \Gamma \\
+  \El{} &: \Tm\ \Gamma\ \univ \to \Ty\ \Gamma \\
+  \_[\_] &: \Ty\ \Delta \to \Sub\ \Gamma\ \Delta \to \Ty\ \Gamma
+  \end{align*}%
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}%
+  \begin{align*}
+  \Tm &: (\Gamma : \Con) \to \Ty\ \Gamma \to \Set \\
+  \lambda &: \Tm\ (\Gamma \rhd A)\ B \to \Tm\ \Gamma\ (\Pi\ A\ B) \\
+  \ap{} &: \Tm\ \Gamma\ (\Pi\ A\ B) \to \Tm\ (\Gamma \rhd A)\ B \\
+  \Code{} &: \Ty\ \Gamma \to \Tm\ \Gamma\ \univ \\
+  \_[\_] &: \Tm\ \Delta\ A \to (\sigma : \Sub\ \Gamma\ \Delta) \to \Tm\ \Gamma\ (A[\sigma])
+  \end{align*}
+  \end{minipage}
+  \caption{The formers of the base type system.}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{minipage}[t]{0.5\textwidth}
+  \begin{align*}
+  \Ty &: \Con \to \Set \\
+  \univ &: \Ty\ \Gamma \\
+  \Pi &: (A : \Ty\ \Gamma) \to \Ty\ (\Gamma \rhd A) \to \Ty\ \Gamma \\
+  \El{} &: \Tm\ \Gamma\ \univ \to \Ty\ \Gamma \\
+  \_[\_] &: \Ty\ \Delta \to \Sub\ \Gamma\ \Delta \to \Ty\ \Gamma
+  \end{align*}%
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}%
+  \begin{align*}
+  \Tm &: (\Gamma : \Con) \to \Ty\ \Gamma \to \Set \\
+  \lambda &: \Tm\ (\Gamma \rhd A)\ B \to \Tm\ \Gamma\ (\Pi\ A\ B) \\
+  \ap{} &: \Tm\ \Gamma\ (\Pi\ A\ B) \to \Tm\ (\Gamma \rhd A)\ B \\
+  \Code{} &: \Ty\ \Gamma \to \Tm\ \Gamma\ \univ \\
+  \_[\_] &: \Tm\ \Delta\ A \to (\sigma : \Sub\ \Gamma\ \Delta) \to \Tm\ \Gamma\ (A[\sigma])
+  \end{align*}
+  \end{minipage}
+  \caption{Equations in the base type system.}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{mathpar}
+  \inferrule[Repr-$\Pi$-Id]
+  {
+    \Sigma \mid \Gamma \vdash \istype{T}_i \\
+    \Sigma \mid \Gamma,T \vdash \istype{U}_i
+  }
+  {
+    \Sigma \mid \Gamma \vdash \Repr{(\Pi\ T\ U)} \equiv \Pi\ T\ (\Repr{U})
+  }\and
+  \inferrule[Repr-$\lambda$-Id]
+  {
+    \Sigma \mid \Gamma, T \vdash u : U
+  }
+  {
+    \Sigma \mid \Gamma \vdash \repr{(\lambda\ u)} \equiv \lambda\ (\repr{u}) : \Repr{(\Pi\ T\ U)}
+  } \and
+  \inferrule[Unepr-$\lambda$-Id]
+  {
+    \Sigma \mid \Gamma, T \vdash u : \Repr U
+  }
+  {
+    \Sigma \mid \Gamma \vdash \unrepr{(\lambda\ u)} \equiv \lambda\ (\unrepr{u}) : \Pi\ T\ U
+  } \and
+  \inferrule[Repr-App-Id]
+  {
+    \Sigma \mid \Gamma \vdash f : \Pi\ T\ U \\
+    \Sigma \mid \Gamma \vdash t : T
+  }
+  {
+    \Sigma \mid \Gamma \vdash \repr{(f\ t)} \equiv (\repr{f})\ t : \Repr{U}
+  } \and
+  \inferrule[Unrepr-App-Id]
+  {
+    \Sigma \mid \Gamma \vdash f : \Repr{(\Pi\ T\ U)} \\
+    \Sigma \mid \Gamma \vdash t : T
+  }
+  {
+    \Sigma \mid \Gamma \vdash \unrepr{(f\ t)} \equiv (\unrepr{f})\ t : U
+  }
+  \end{mathpar}
+  \caption{Coherence of representation terms with $\Pi$-types.}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{mathpar}
+  \inferrule[Repr-Form]
+  {
+    \Sigma \mid \Gamma \vdash \istype{T}_i
+  }
+  {
+    \Sigma \mid \Gamma \vdash \istype{\Repr{T}}_i
+  } \and
+  \inferrule[Repr-Intro]
+  {
+    \Sigma \mid \Gamma \vdash t : T
+  }
+  {
+    \Sigma \mid \Gamma \vdash \repr{t} : \Repr{T}
+  } \and
+  \inferrule[Repr-Elim]
+  {
+    \Sigma \mid \Gamma \vdash u : \Repr{T}
+  }
+  {
+    \Sigma \mid \Gamma \vdash \unrepr{u} : T
+  } \and
+  \inferrule[Repr-Unrepr-Id]
+  {
+    \Sigma \mid \Gamma \vdash u : \Repr{T}
+  }
+  {
+    \Sigma \mid \Gamma \vdash \repr{(\unrepr{u})} \equiv u : \Repr{T}
+  } \and
+  \inferrule[Unrepr-Repr-Id]
+  {
+    \Sigma \mid \Gamma \vdash t : T
+  }
+  {
+    \Sigma \mid \Gamma \vdash \unrepr{(\repr{t})} \equiv t : T
+  } \and
+  \inferrule[Repr-Type-Subst-Id]
+  {
+    \Sigma \mid \Gamma \vdash \istype{T}_i \\
+    \Sigma \mid \Delta \vdash \sigma : \Gamma
+  }
+  {
+    \Sigma \mid \Delta \vdash \Repr{(T[\sigma])} \equiv (\Repr{T})[\sigma]
+  } \and
+  \inferrule[Repr-Term-Subst-Id]
+  {
+    \Sigma \mid \Gamma \vdash t : T \\
+    \Sigma \mid \Delta \vdash \sigma : \Gamma
+  }
+  {
+    \Sigma \mid \Delta \vdash \repr{(t[\sigma])} \equiv (\repr{t})[\sigma] : \Repr{(T[\sigma])}
+  } \and
+  \inferrule[Unrepr-Term-Subst-Id]
+  {
+    \Sigma \mid \Gamma \vdash t : \Repr T \\
+    \Sigma \mid \Delta \vdash \sigma : \Gamma
+  }
+  {
+    \Sigma \mid \Delta \vdash \unrepr{(t[\sigma])} \equiv (\unrepr{t})[\sigma] : T[\sigma]
+  }
+  \end{mathpar}
+  \caption{New term and type formers, and accompanying definitional equalities in $\lambdarep$.}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{mathpar}
+  \inferrule[Repr-$\Pi$-Id]
+  {
+    \Sigma \mid \Gamma \vdash \istype{T}_i \\
+    \Sigma \mid \Gamma,T \vdash \istype{U}_i
+  }
+  {
+    \Sigma \mid \Gamma \vdash \Repr{(\Pi\ T\ U)} \equiv \Pi\ T\ (\Repr{U})
+  }\and
+  \inferrule[Repr-$\lambda$-Id]
+  {
+    \Sigma \mid \Gamma, T \vdash u : U
+  }
+  {
+    \Sigma \mid \Gamma \vdash \repr{(\lambda\ u)} \equiv \lambda\ (\repr{u}) : \Repr{(\Pi\ T\ U)}
+  } \and
+  \inferrule[Unepr-$\lambda$-Id]
+  {
+    \Sigma \mid \Gamma, T \vdash u : \Repr U
+  }
+  {
+    \Sigma \mid \Gamma \vdash \unrepr{(\lambda\ u)} \equiv \lambda\ (\unrepr{u}) : \Pi\ T\ U
+  } \and
+  \inferrule[Repr-App-Id]
+  {
+    \Sigma \mid \Gamma \vdash f : \Pi\ T\ U \\
+    \Sigma \mid \Gamma \vdash t : T
+  }
+  {
+    \Sigma \mid \Gamma \vdash \repr{(f\ t)} \equiv (\repr{f})\ t : \Repr{U}
+  } \and
+  \inferrule[Unrepr-App-Id]
+  {
+    \Sigma \mid \Gamma \vdash f : \Repr{(\Pi\ T\ U)} \\
+    \Sigma \mid \Gamma \vdash t : T
+  }
+  {
+    \Sigma \mid \Gamma \vdash \unrepr{(f\ t)} \equiv (\unrepr{f})\ t : U
+  }
+  \end{mathpar}
+  \caption{Coherence of representation terms with $\Pi$-types.}
+\end{figure}
+
+
+
+\begin{figure}[h]
+  \begin{mathpar}
+  \inferrule[Repr-$\univ_i$-Id]
+  { }
+  {
+    \Sigma \mid \Gamma \vdash \Repr{\univ_i} \equiv \univ_i 
+  } \and
+  \inferrule[Repr-Code-Id]
+  {
+    \Sigma \mid \Gamma \vdash \istype{T}_i
+  }
+  {
+    \Sigma \mid \Gamma \vdash \repr{(\Code{T})} \equiv \Code{T} : \univ_i
+  } \and
+  \inferrule[Unrepr-Code-Id]
+  {
+    \Sigma \mid \Gamma \vdash \istype{T}_i
+  }
+  {
+    \Sigma \mid \Gamma \vdash \unrepr{(\Code{T})} \equiv \Code{T} : \univ_i
+  }
+  \end{mathpar}
+  \caption{Coherence of representation terms with universes.}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{mathpar}
+  \inferrule[Repr-Ctor-Id]
+  {
+    \Sreprvar{\ctorlab c\ \Pi}{\kappa} \in \Sigma
+  }
+  {\Sigma \mid \Gamma \vdash \repr{(\ctorlab{c}\ \delta\ \pi)} \equiv \kappa [\delta, \pi] : A[\delta, \xi[\pi]]} \and
+  \inferrule[Repr-Data-Id]
+  {
+    \Sreprvar{\datalab D\ \Delta\ \Xi}{A} \in \Sigma
+  }
+  {\Sigma \mid \Gamma \vdash \istype{\Repr{(\datalab{D}\ \delta\ \psi)} \equiv A [\delta,\psi]}}
+  \end{mathpar}
+  \caption{Definitional equalities for $\Repr{}$ and $\repr{}$ relating to data
+  types and constructors with defined representations. Similar equalities hold
+  for representations of global function definitions and eliminators, albeit
+  propositionally.}
+\end{figure}

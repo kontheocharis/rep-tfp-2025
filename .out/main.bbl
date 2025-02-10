@@ -6,6 +6,13 @@
 \bibitem{GMP}
 The {GNU} {MP} bignum library. \url{https://gmplib.org/}, accessed: 2024-12-8
 
+\bibitem{Altenkirch2016-zc}
+Altenkirch, T., Kaposi, A.: Type theory in type theory using quotient inductive
+  types. In: Proceedings of the 43rd Annual ACM SIGPLAN-SIGACT Symposium on
+  Principles of Programming Languages. pp. 18--29. POPL '16, Association for
+  Computing Machinery, New York, NY, USA (Jan 2016),
+  \url{https://doi.org/10.1145/2837614.2837638}
+
 \bibitem{Atkey2018-pj}
 Atkey, R.: Syntax and semantics of quantitative type theory. In: LICS 2018. pp.
   56--65. LICS '18, Association for Computing Machinery, New York, NY, USA (Jul
@@ -37,15 +44,6 @@ Dagand, P.E., McBride, C.: A categorical treatment of ornaments. arXiv [cs.PL]
 \bibitem{Diehl2018-ba}
 Diehl, L., Firsov, D., Stump, A.: Generic zero-cost reuse for dependent types.
   Proc. ACM Program. Lang.  \textbf{2}(ICFP),  1--30 (Jul 2018)
-
-\bibitem{Goguen2006-sy}
-Goguen, H., McBride, C., McKinna, J.: Eliminating dependent pattern matching.
-  In: Algebra, Meaning, and Computation, pp. 521--540. Lecture notes in
-  computer science, Springer Berlin Heidelberg, Berlin, Heidelberg (2006)
-
-\bibitem{Gratzer2020-kf}
-Gratzer, D., Kavvos, G.A., Nuyts, A., Birkedal, L.: Multimodal dependent type
-  theory. arXiv [cs.LO]  (Nov 2020)
 
 \bibitem{Mcbride2004-fd}
 Mcbride, C., Mckinna, J.: The view from the left. JFP  \textbf{14}(1),  69--111

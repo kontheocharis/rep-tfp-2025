@@ -4,45 +4,45 @@ The top-level auxiliary file: .out/main.aux
 The style file: splncs04.bst
 Database file #1: bib.bib
 Warning--to sort, need author or key in GMP
-You've used 15 entries,
+You've used 14 entries,
             2850 wiz_defined-function locations,
-            700 strings with 6721 characters,
-and the built_in function-call counts, 8921 in all, are:
-= -- 769
-> -- 199
+            694 strings with 6645 characters,
+and the built_in function-call counts, 8402 in all, are:
+= -- 735
+> -- 172
 < -- 16
-+ -- 88
-- -- 68
-* -- 559
-:= -- 1080
++ -- 77
+- -- 58
+* -- 527
+:= -- 1008
 add.period$ -- 27
-call.type$ -- 15
-change.case$ -- 94
+call.type$ -- 14
+change.case$ -- 86
 chr.to.int$ -- 0
-cite$ -- 16
-duplicate$ -- 839
-empty$ -- 869
-format.name$ -- 79
-if$ -- 1991
+cite$ -- 15
+duplicate$ -- 792
+empty$ -- 825
+format.name$ -- 68
+if$ -- 1886
 int.to.chr$ -- 0
-int.to.str$ -- 15
-missing$ -- 150
-newline$ -- 51
-num.names$ -- 28
-pop$ -- 288
+int.to.str$ -- 14
+missing$ -- 140
+newline$ -- 48
+num.names$ -- 26
+pop$ -- 265
 preamble$ -- 1
-purify$ -- 64
+purify$ -- 57
 quote$ -- 0
-skip$ -- 229
+skip$ -- 217
 stack$ -- 0
-substring$ -- 604
-swap$ -- 452
+substring$ -- 583
+swap$ -- 431
 text.length$ -- 16
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 60
+type$ -- 56
 warning$ -- 1
-while$ -- 75
-width$ -- 17
-write$ -- 161
+while$ -- 72
+width$ -- 16
+write$ -- 153
 (There was 1 warning)

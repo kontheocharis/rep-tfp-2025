@@ -7,12 +7,168 @@ that is extended with data representations to form $\lambdarep$. All of the
 examples in the paper are written in a surface language that elaborates to
 $\lambdarep$.
 
-The core languge $\lambdaind$, is a dependent type theory with $\Pi$ and a
-Coquand-style universe hierarchy $\univ_i$ \cite[2.1]{Gratzer2020-kf}, extended
-with strictly positive inductive families and global definitions similarly to
-\cite{Goguen2006-sy}. We follow a similar approach to \cite{Cockx2018-fk} by
-packaging named inductive constructions and global function definitions into a
-signature $\Sigma$, and indexing contexts by signatures.
+\subsection{The core language, $\lambdaind$}
+
+The languge $\lambdaind$, is a dependent type theory with $\Pi$ and a universe
+$\univ$, extended with strictly positive inductive families and global
+definitions. The base layer is a standard dependent type theory, defined in an
+intrinsically well-formed fashion quotiented by conversion. The constructors of
+the syntax are given in \cref{fig:base-formers}. We omit the conversion
+equations for brevity as they are standard \cite{Altenkirch2016-zc}.
+
+\begin{figure}[h]
+  \begin{minipage}[t]{0.5\textwidth}
+  \begin{align*}
+  \Ty &: \Con \to \Set \\
+  \_[\_] &: \Ty\ \Delta \to \Sub\ \Gamma\ \Delta \to \Ty\ \Gamma\\
+  \univ &: \Ty\ \Gamma \\
+  \Pi &: (A : \Ty\ \Gamma) \to \Ty\ (\Gamma \rhd A) \to \Ty\ \Gamma \\
+  \El{} &: \Tm\ \Gamma\ \univ \to \Ty\ \Gamma 
+  \end{align*}%
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}%
+  \begin{align*}
+  \Tm &: (\Gamma : \Con) \to \Ty\ \Gamma \to \Set \\
+  \_[\_] &: \Tm\ \Delta\ A \to (\sigma : \Sub\ \Gamma\ \Delta) \to \Tm\ \Gamma\ A[\sigma] \\
+  \pi_2 &: (\sigma : \Sub\ \Gamma\ (\Delta \rhd A)) \to \Tm\ \Gamma\ A[\pi_1 \sigma] \\
+  \lambda &: \Tm\ (\Gamma \rhd A)\ B \to \Tm\ \Gamma\ (\Pi\ A\ B) \\
+  \ap{} &: \Tm\ \Gamma\ (\Pi\ A\ B) \to \Tm\ (\Gamma \rhd A)\ B \\
+  \Code{} &: \Ty\ \Gamma \to \Tm\ \Gamma\ \univ 
+  \end{align*}
+  \end{minipage}
+  \caption{The type and term formers of the base layer of $\lambdaind$.}
+  \label{fig:base-formers}
+\end{figure}
+
+We will not convern ourselves with universe levels because a sound logical
+interpretation is not of much interest in this paper. Nevertheless, all of our
+results should be readily adaptable to a calculus with universe levels.
+
+We follow a similar approach to Cockx~and~Abel~\cite{Cockx2018-fk}
+by packaging named inductive constructions and global function definitions into
+a signature $\Sigma$, and indexing contexts by signatures.
+
+To do this, we define signatures, local contexts, and contexts (as well as terms
+and types) by mutual induction.
+\begin{figure}[h]
+  \begin{minipage}[t]{0.5\textwidth}
+  \begin{align*}
+  \Sig &: \Set \\
+  \epsilon &: \Sig \\
+  \rhd &: (\Sigma : \Sig) \to (A : \Item\ \Sigma) \to \Sig
+  \end{align*}
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}
+  \begin{align*}
+  \Item &: \Sig \to \Set \\
+  \mta{ind} &: \Ind\ \Sigma \to \Item\ \Sigma \\
+  \mta{def} &: (A : \Ty\ (\Sigma, \epsilon)) \to \Tm\ (\Sigma, \epsilon)\ A \to \Item\ \Sigma \\
+  \mta{post} &: \Ty\ (\Sigma, \epsilon) \to \Item\ \Sigma \\
+  \end{align*}
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}
+  \begin{align*}
+  \Impl &: (\Sigma : \Sig) \to \Item \Sigma \to \Set \\
+  \mta{ind-rep} &: \mta{InitialAlg}\ F \to \Impl\ \Sigma\ (\mta{ind}\ F) \\
+  \mta{def-rep} &: (x : \Tm\ (\Sigma, \epsilon)\ A) \to \Tm\ (\Sigma, \epsilon)\ (x = t) \to \Impl\ \Sigma\ (\mta{def}\ A\ t) \\
+  \mta{post-rep} &: \Tm\ (\Sigma, \epsilon)\ A \to \Impl\ \Sigma\ (\mta{post}\ A) \\
+  \end{align*}
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}
+  \begin{align*}
+  \Loc &: \Sig \to \Set \\
+  \epsilon &: \Loc\ \Sigma \\
+  \rhd &: (\Delta : \Loc\ \Sigma) \to \Ty\ (\Sigma,\Delta) \to \Loc\ \Sigma
+  \end{align*}
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}
+  \begin{align*}
+  \Con &: \Set \\
+  \Con &:= (\Sigma : \Sig) \times \Loc\ \Sigma
+  \end{align*}
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}
+  \begin{align*}
+  \Rep &: \Sig \to \Sig \to \Set \\
+  \mta{id} &: \Rep\ \Sigma\ \Sigma \\
+  \epsilon &: \Rep\ \Sigma\ \epsilon \\
+  \rhd &: (\rho : \Rep\ \Sigma_1\ \Sigma_2) \to \Impl\ \Sigma_1\ I[\rho] \to \Rep\ \Sigma_1\ (\Sigma_2\rhd I) \\
+  \circ &: \Rep\ \Sigma_1\ \Sigma_2 \to \Rep\ \Sigma_2\ \Sigma_3 \to \Rep\ \Sigma_1\ \Sigma_3 \\
+  \pi_1 &: \Rep\ \Sigma_1\ (\Sigma_2 \rhd I) \to \Rep\ \Sigma_1\ \Sigma_2
+  \end{align*}
+  \end{minipage}
+  \caption{Signatures and items in $\lambdaind$.}
+  \label{fig:signatures-items}
+\end{figure}
+\begin{figure}[h]
+  \begin{minipage}[t]{\textwidth}
+  \begin{align*}
+  \Sub &: \Con \to \Con \to \Set \\
+  \mta{id} &: \Sub\ \Gamma\ \Gamma \\
+  \epsilon &: \Sub\ (\Sigma, \Delta)\ (\Sigma, \epsilon) \\
+  \rhd &: (\sigma : \Sub\ (\Sigma,\Delta_1)\ (\Sigma,\Delta_2)) \to \Tm\ (\Sigma, \Delta_1)\ A[\sigma] \to \Sub\ (\Sigma,\Delta_1)\ (\Sigma,\Delta_2 \rhd A) \\
+  \circ &: \Sub\ \Gamma_1\ \Gamma_2 \to \Sub\ \Gamma_2\ \Gamma_3 \to \Sub\ \Gamma_1\ \Gamma_3 \\
+  \pi_1 &: \Sub\ (\Sigma,\Delta_1)\ (\Sigma, \Delta_2 \rhd A) \to \Sub\ (\Sigma,\Delta_1)\ (\Sigma,\Delta_2) 
+  \end{align*}
+  \end{minipage}
+  \caption{Signatures, local contexts, local substitutions, contexts and substitutions of $\lambdaind$. Once again, we omit the conversion rules for brevity.}
+  \label{fig:signatures-local-contexts}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{minipage}[t]{0.5\textwidth}
+  \begin{align*}
+  \Ind &: (\Sigma : \Sig) \to \Set \\
+  \Ind\ \Sigma &:= (P : \Loc\ \Sigma) \times (\Xi : \Tel\ (\Sigma, P)) \times \Theory\ (\Sigma, P)\ \Xi \\
+  \end{align*}
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}
+  \begin{align*}
+  \Theory &: (\Gamma : \Con) \to \Tel\ \Gamma \to \Set \\
+  \Theory\ \Gamma\ \Xi &:= \mta{List}\ (\Op\ \Gamma\ \Xi)
+  \end{align*}
+  \end{minipage}
+  \begin{minipage}[t]{0.5\textwidth}
+  \begin{align*}
+  \Op &: (\Gamma : \Con) \to (\Xi : \Tel\ \Gamma) \to \Set \\
+  \Pi_{\mta{ext}} &: (A : \Ty\ \Gamma) \to \Op\ (\Gamma \rhd A)\ \Xi^+ \to \Op\ \Gamma\ \Xi \\
+  \Pi_{\mta{int}} &: \Tms\ \Gamma\ \Xi \to \Op\ \Gamma\ \Xi \to \Op\ \Gamma\ \Xi \\
+  \mta{ret} &: \Tms\ \Gamma\ \Xi \to \Op\ \Gamma\ \Xi
+  \end{align*}
+  \end{minipage}\\
+  \begin{minipage}[t]{\textwidth}
+  \begin{alignat*}{2}
+  &\llbracket\_\rrbracket &&: \Op\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Ty\ (\Gamma \unrhd \Xi) \\
+  &\llbracket \Pi_{\mta{ext}}\ A\ B \rrbracket\ X &&:= \Pi\ A\ (\llbracket B \rrbracket X) \\
+  &\llbracket \Pi_{\mta{int}}\ \xi\ B \rrbracket\ X &&:= \Pi\ (X [\langle \xi \rangle])\ (\llbracket B \rrbracket X)^+ \\
+  &\llbracket \mta{ret}\ \xi \rrbracket\ X &&:= X [\langle \xi \rangle]
+  \end{alignat*}
+  \end{minipage}
+  \begin{minipage}[t]{\textwidth}
+  \begin{alignat*}{2}
+  &\llbracket\_\rrbracket_\Sigma &&: \Op\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Set \\
+  &\llbracket \Pi_{\mta{ext}}\ A\ B \rrbracket_\Sigma\ X &&:= \Sigma\ (a : \Tm\ \Gamma\ A)\ \llbracket B [\langle a \rangle] \rrbracket_\Sigma X \\
+  &\llbracket \Pi_{\mta{int}}\ \xi\ B \rrbracket_\Sigma\ X &&:= \Tm\ \Gamma\ (X [\langle \xi \rangle]) \times \llbracket B \rrbracket_\Sigma X \\
+  &\llbracket \mta{ret}\ \xi \rrbracket_\Sigma\ X &&:= \mathbb{1}
+  \end{alignat*}
+  \begin{alignat*}{2}
+  &\mta{out} &&: (O : \Op\ \Gamma\ \Xi) \to \llbracket O \rrbracket_\Sigma X \to \Tms\ \Gamma\ \Xi \\
+  &\mta{out}\ (\Pi_{\mta{ext}}\ A\ B)\ (a, r) &&:= \mta{out}\ B[\langle a \rangle]\ r \\
+  &\mta{out}\ (\Pi_{\mta{int}}\ \xi\ B)\ (a, r) &&:= \mta{out}\ B\ r \\
+  &\mta{out}\ (\mta{ret}\ \xi)\ () &&:= \xi
+  \end{alignat*}
+  \end{minipage}
+  \begin{minipage}[t]{\textwidth}
+  \begin{alignat*}{2}
+  \mta{data} &: (\mta{ind}\ (P, \Xi, T) \in \Sigma) \to (p : \Tms\ (\Sigma, \Delta)\ P) \to \Ty\ ((\Sigma, \Delta) \unrhd \Xi[\langle p \rangle]) \\
+  \mta{ctor} &: (i : \mta{ind}\ (P, \Xi, T) \in \Sigma) \to (p : \Tms\ (\Sigma, \Delta)\ P) \\
+    & \to (n : \mta{Index}\ T) \to (a : \llbracket T \, ! \, n \rrbracket_\Sigma (\mta{data}\ i\ p)) \\
+    & \to \Tm\ (\Sigma, \Delta)\ (\mta{data}\ i\ p) [\langle \mta{out}\ (T\,!\,n)\ a \rangle]
+  \end{alignat*}
+  \end{minipage}
+  \caption{Inductive types and theories}
+  \label{fig:theories}
+\end{figure}
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
 
@@ -32,10 +188,147 @@ which holds definitionally and preserves $\Pi$ and universes. The type $\Repr T$
 is the defined representation of the type $T$. The term $\repr{}$ takes a term
 of type $T$ to its representation of type $\Repr T$, and $\unrepr{}$ undoes the
 effect of $\repr{}$, treating a represented term as an inhabitant of its
-original type. These new constructs satisfy certain equalities, some of which
-are given in \cref{fig:global-rep-eq}. New valid signature items are introduced,
+original type. These new constructs satisfy certain equalities, which are
+spelled out in . New valid signature items are introduced,
 corresponding to representation definitions for components of inductive families
-and global function definitions.
+and global function definitions, shown in \cref{fig:global-rep-eq}.
+
+\begin{figure}[h]
+  \begin{mathpar}
+  \inferrule[Repr-Form]
+  {
+    \Sigma \mid \Gamma \vdash \istype{T}_i
+  }
+  {
+    \Sigma \mid \Gamma \vdash \istype{\Repr{T}}_i
+  } \and
+  \inferrule[Repr-Intro]
+  {
+    \Sigma \mid \Gamma \vdash t : T
+  }
+  {
+    \Sigma \mid \Gamma \vdash \repr{t} : \Repr{T}
+  } \and
+  \inferrule[Repr-Elim]
+  {
+    \Sigma \mid \Gamma \vdash u : \Repr{T}
+  }
+  {
+    \Sigma \mid \Gamma \vdash \unrepr{u} : T
+  } \and
+  \inferrule[Repr-Unrepr-Id]
+  {
+    \Sigma \mid \Gamma \vdash u : \Repr{T}
+  }
+  {
+    \Sigma \mid \Gamma \vdash \repr{(\unrepr{u})} \equiv u : \Repr{T}
+  } \and
+  \inferrule[Unrepr-Repr-Id]
+  {
+    \Sigma \mid \Gamma \vdash t : T
+  }
+  {
+    \Sigma \mid \Gamma \vdash \unrepr{(\repr{t})} \equiv t : T
+  } \and
+  \inferrule[Repr-Type-Subst-Id]
+  {
+    \Sigma \mid \Gamma \vdash \istype{T}_i \\
+    \Sigma \mid \Delta \vdash \sigma : \Gamma
+  }
+  {
+    \Sigma \mid \Delta \vdash \Repr{(T[\sigma])} \equiv (\Repr{T})[\sigma]
+  } \and
+  \inferrule[Repr-Term-Subst-Id]
+  {
+    \Sigma \mid \Gamma \vdash t : T \\
+    \Sigma \mid \Delta \vdash \sigma : \Gamma
+  }
+  {
+    \Sigma \mid \Delta \vdash \repr{(t[\sigma])} \equiv (\repr{t})[\sigma] : \Repr{(T[\sigma])}
+  } \and
+  \inferrule[Unrepr-Term-Subst-Id]
+  {
+    \Sigma \mid \Gamma \vdash t : \Repr T \\
+    \Sigma \mid \Delta \vdash \sigma : \Gamma
+  }
+  {
+    \Sigma \mid \Delta \vdash \unrepr{(t[\sigma])} \equiv (\unrepr{t})[\sigma] : T[\sigma]
+  }
+  \end{mathpar}
+  \caption{New term and type formers, and accompanying definitional equalities in $\lambdarep$.}
+  \label{fig:repr-rules}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{mathpar}
+  \inferrule[Repr-$\Pi$-Id]
+  {
+    \Sigma \mid \Gamma \vdash \istype{T}_i \\
+    \Sigma \mid \Gamma,T \vdash \istype{U}_i
+  }
+  {
+    \Sigma \mid \Gamma \vdash \Repr{(\Pi\ T\ U)} \equiv \Pi\ T\ (\Repr{U})
+  }\and
+  \inferrule[Repr-$\lambda$-Id]
+  {
+    \Sigma \mid \Gamma, T \vdash u : U
+  }
+  {
+    \Sigma \mid \Gamma \vdash \repr{(\lambda\ u)} \equiv \lambda\ (\repr{u}) : \Repr{(\Pi\ T\ U)}
+  } \and
+  \inferrule[Unepr-$\lambda$-Id]
+  {
+    \Sigma \mid \Gamma, T \vdash u : \Repr U
+  }
+  {
+    \Sigma \mid \Gamma \vdash \unrepr{(\lambda\ u)} \equiv \lambda\ (\unrepr{u}) : \Pi\ T\ U
+  } \and
+  \inferrule[Repr-App-Id]
+  {
+    \Sigma \mid \Gamma \vdash f : \Pi\ T\ U \\
+    \Sigma \mid \Gamma \vdash t : T
+  }
+  {
+    \Sigma \mid \Gamma \vdash \repr{(f\ t)} \equiv (\repr{f})\ t : \Repr{U}
+  } \and
+  \inferrule[Unrepr-App-Id]
+  {
+    \Sigma \mid \Gamma \vdash f : \Repr{(\Pi\ T\ U)} \\
+    \Sigma \mid \Gamma \vdash t : T
+  }
+  {
+    \Sigma \mid \Gamma \vdash \unrepr{(f\ t)} \equiv (\unrepr{f})\ t : U
+  }
+  \end{mathpar}
+  \caption{Coherence of representation terms with $\Pi$-types.}
+  \label{fig:repr-pi-rules}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{mathpar}
+  \inferrule[Repr-$\univ_i$-Id]
+  { }
+  {
+    \Sigma \mid \Gamma \vdash \Repr{\univ_i} \equiv \univ_i 
+  } \and
+  \inferrule[Repr-Code-Id]
+  {
+    \Sigma \mid \Gamma \vdash \istype{T}_i
+  }
+  {
+    \Sigma \mid \Gamma \vdash \repr{(\Code{T})} \equiv \Code{T} : \univ_i
+  } \and
+  \inferrule[Unrepr-Code-Id]
+  {
+    \Sigma \mid \Gamma \vdash \istype{T}_i
+  }
+  {
+    \Sigma \mid \Gamma \vdash \unrepr{(\Code{T})} \equiv \Code{T} : \univ_i
+  }
+  \end{mathpar}
+  \caption{Coherence of representation terms with universes.}
+  \label{fig:repr-univ-rules}
+\end{figure}
 
 \begin{figure}[h]
   \begin{mathpar}
