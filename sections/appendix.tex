@@ -112,11 +112,13 @@ of the languages presented in this paper.
   & \mta{data} &&: (\mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\ 
   &            && \to \Ty\ (\Gamma \unrhd \Xi[\langle p \rangle]) \\[0.5em]
   & \mta{ctor} &&: (i : \mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\
-  &            && \to (n : \mta{Index}\ T) \to (a : \mta{In}\ (T \, ! \, n)\ (\mta{data}\ i\ p)) \\
+  &            && \to (n : \mta{Index}\ T) \to (a : \mta{In}\ (T \, ! \, n)) \\
+  &            && \to (r : \mta{Rec}\ (T \, ! \, n)\ (\mta{data}\ i\ p)) \\
   &            && \to \Tm\ \Gamma\ (\mta{data}\ i\ p) [\langle \mta{out}\ (T\,!\,n)\ a \rangle] \\[0.5em]
   & \mta{elim} &&: (i : \mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\
   &            && \to (M : \Ty\ (\Gamma \unrhd \Xi[\langle p \rangle])) \to (m : \mta{Methods}\ \Gamma\ T\ M) \\
-  &            && \to \Tm\ (\Gamma \unrhd \Xi[\langle p \rangle] \rhd \mta{data}\ i\ p)\ M
+  &            && \to \Tm\ (\Gamma \unrhd \Xi[\langle p \rangle] \rhd \mta{data}\ i\ p)\ M \\
+  & \mta{match} &&: (\mta{elim}\ i\ p\ M\ m)[\langle \xi, \mta{ctor}\ i\ p\ n\ a\ r \rangle] = (m\,!\,n)[\langle a , \mta{rec}\ i\ p\ M\ m\ n \rangle]
   \end{alignat*}
   \caption{Data type, constructor and eliminator terms in $\lambdaind$.}
   \label{fig:lambdaind-data-ctor}
@@ -175,20 +177,58 @@ of the languages presented in this paper.
 
 \begin{figure}[H]
   \begin{alignat*}{2}
-  & \Impl &&: (\Sigma : \Sig) \to \Item\ \Sigma \to \Set \\
-  & \mta{ind-rep} &&: \mta{IndRep}\ F \to \Impl\ \Sigma\ (\mta{ind}\ F) \\
-  & \mta{def-rep} &&: (x : \Tm\ (\Sigma, \epsilon)\ A) \to \Tm\ (\Sigma, \epsilon)\ (x = t) \to \Impl\ \Sigma\ (\mta{def}\ A\ t) \\
-  & \mta{post-rep} &&: \Tm\ (\Sigma, \epsilon)\ A \to \Impl\ \Sigma\ (\mta{post}\ A) \\[1em]
-  & \Rep &&: \Sig \to \Sig \to \Set \\
-  & \mta{id} &&: \Rep\ \Sigma\ \Sigma \\
-  & \epsilon &&: \Rep\ \Sigma\ \epsilon \\
-  & \rhd &&: (\rho : \Rep\ \Sigma_1\ \Sigma_2) \to \Impl\ \Sigma_1\ I[\rho] \to \Rep\ \Sigma_1\ (\Sigma_2\rhd I) \\
-  & \circ &&: \Rep\ \Sigma_1\ \Sigma_2 \to \Rep\ \Sigma_2\ \Sigma_3 \to \Rep\ \Sigma_1\ \Sigma_3 \\
-  & \pi_1 &&: \Rep\ \Sigma_1\ (\Sigma_2 \rhd I) \to \Rep\ \Sigma_1\ \Sigma_2
+  & \Rep &&: (\Sigma : \Sig) \to \Item\ \Sigma \to \Set \\
+  & \mta{ind-rep} &&: \mta{IndRep}\ F \to \Rep\ \Sigma\ (\mta{ind}\ F) \\
+  & \mta{def-rep} &&: (x : \Tm\ (\Sigma, \epsilon)\ A) \to \Tm\ (\Sigma, \epsilon)\ (x = t) \to \Rep\ \Sigma\ (\mta{def}\ A\ t) \\
+  & \mta{post-rep} &&: \Tm\ (\Sigma, \epsilon)\ A \to \Rep\ \Sigma\ (\mta{post}\ A) \\[1em]
   \end{alignat*}
   \caption{Implementations of items and representations of signatures in $\lambdarep$.}
   \label{fig:lambdaind-impls-reprs}
 \end{figure}
+
+\subsection{The translation}
+
+\begin{figure}[H]
+  \begin{alignat*}{2}
+  & \mta{Impl} &&: \Sig_\rep \to \Set \\
+  & \mta{Impl}\ \Sigma &&:= (I \in \Sigma) \to \mta{Maybe}\ (\Rep\ I)
+  \end{alignat*}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{alignat*}{2}
+  & \R &&: (\Sigma : \Sig_\rep) \to \Impl\ \Sigma \to \Sig_\ind \\
+  & \R\ (\epsilon)\ f &&:= \epsilon \\
+  & \R\ (\Sigma \rhd I)\ f &&:= \kwd{if}\ f\ (\Sigma \rhd I)\ \mta{here} = \mta{just}\ r\ \kwd{then}\ \Sigma\ \kwd{else}\ (\Sigma \rhd I) \\
+  \end{alignat*}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{alignat*}{2}
+  & \R_{f : \Impl\ \Sigma} &&: \Ty_\rep\ (\Sigma, \Delta)\ \to \Ty_\ind\ (\R_f\ (\Sigma, \Delta)) \\
+  & \R_f\ (T[\sigma]) &&:= (\R_f\ T)[\R_f\ \sigma] \\
+  & \R_f\ (\univ) &&:= \univ \\
+  & \R_f\ (\Pi\ A\ B) &&:= \Pi\ (\R_f\ A)\ (\R_f\ B) \\
+  & \R_f\ (\El t) &&:= \El{(\R_f\ t)} \\
+  & \R_f\ (\mta{data}\ i\ p) &&:= \kwd{if}\ f\ \Sigma\ i = \mta{just}\ (\mta{ind-rep}\ r)\ \kwd{then}\ \emb{r}\ \kwd{else}\ (\mta{data}\ i\ p) \\
+  & \R_f\ (\MRepr\ T) &&:= \R_f\ T \\[1em]
+  & \R_{f : \Impl\ \Sigma} &&: \Tm_\rep\ (\Sigma, \Delta)\ T \to \Tm_\ind\ (\R_f\ (\Sigma, \Delta))\ (\R_f\ T) \\
+  & \R_f\ (t[\sigma]) &&:= (\R_f\ t)[\R_f\ \sigma] \\
+  & \R_f\ (\pi_2\ \sigma) &&:= \pi_2\ (\R_f\ \sigma) \\
+  & \R_f\ (\lambda\ t) &&:= \lambda\ (\R_f\ t) \\
+  & \R_f\ (t\ @) &&:= (\R_f\ t)\ @ \\
+  & \R_f\ (\code T) &&:= \code (\R_f\ T) \\
+  & \R_f\ (\mta{ctor}\ i\ p\ n\ a) &&:= \kwd{if}\ f\ \Sigma\ i = \mta{just}\ (\mta{ind-rep}\ r)\ \kwd{then}\ \emb{r}\ \kwd{else}\ (\mta{ctor}\ i\ p\ n\ a) \\
+  & \R_f\ (\mta{elim}\ i\ p\ M\ m) &&:= \kwd{if}\ f\ \Sigma\ i = \mta{just}\ (\mta{ind-rep}\ r)\ \kwd{then}\ \emb{r}\ \kwd{else}\ (\mta{elim}\ i\ p\ M\ m) \\
+  & \R_f\ (\Mrepr\ t) &&:= \R_f\ t \\
+  & \R_f\ (\Munrepr\ t) &&:= \R_f\ t
+  \end{alignat*}
+\end{figure}
+  % & \R\ (\epsilon) &&:= \epsilon \\
+  % & \R\ (\Sigma \rhd I) &&:= \R \Sigma \unrhd \R I \\[1em]
+  % & \R &&: \Item_\rep\ \Sigma \to \mta{Items}_\ind\ (\R \Sigma) \\
+  % & \R\ (\mta{ind}\ I) \mid \mta{ind}\ I &&:= \epsilon \\
+  % & \R\ (\Sigma \rhd I) &&:= \R \Sigma \unrhd \R I
 
 % \begin{figure}[h]
 %   \begin{mathpar}
@@ -217,3 +257,10 @@ of the languages presented in this paper.
   % &\llbracket \mta{ret}\ \xi \rrbracket\ X &&:= X [\langle \xi \rangle]
   % \end{alignat*}
   % \end{minipage}
+
+  % & \Rep &&: \Sig \to \Sig \to \Set \\
+  % & \mta{id} &&: \Rep\ \Sigma\ \Sigma \\
+  % & \epsilon &&: \Rep\ \Sigma\ \epsilon \\
+  % & \rhd &&: (\rho : \Rep\ \Sigma_1\ \Sigma_2) \to \Rep\ \Sigma_1\ I[\rho] \to \Rep\ \Sigma_1\ (\Sigma_2\rhd I) \\
+  % & \circ &&: \Rep\ \Sigma_1\ \Sigma_2 \to \Rep\ \Sigma_2\ \Sigma_3 \to \Rep\ \Sigma_1\ \Sigma_3 \\
+  % & \pi_1 &&: \Rep\ \Sigma_1\ (\Sigma_2 \rhd I) \to \Rep\ \Sigma_1\ \Sigma_2
