@@ -81,12 +81,11 @@ of the languages presented in this paper.
   \begin{alignat*}{2}
   & \Ind &&: (\Sigma : \Sig) \to \Set \\
   & \Ind\ \Sigma &&:= (P : \Loc\ \Sigma) \times (\Xi : \Tel\ (\Sigma, P)) \times \Theory\ (\Sigma, P)\ \Xi \\[1em]
-  & \Theory &&: (\Gamma : \Con) \to \Tel\ \Gamma \to \Set \\
-  & \Theory\ \Gamma\ \Xi &&:= \mta{List}\ (\Op\ \Gamma\ \Xi) \\[1em]
-  & \Op &&: (\Gamma : \Con) \to (\Xi : \Tel\ \Gamma) \to \Set \\
-  & \Pi_{\mta{ext}} &&: (A : \Ty\ \Gamma) \to \Op\ (\Gamma \rhd A)\ \Xi^+ \to \Op\ \Gamma\ \Xi \\
-  & \Pi_{\mta{int}} &&: \Tms\ \Gamma\ \Xi \to \Op\ \Gamma\ \Xi \to \Op\ \Gamma\ \Xi \\
-  & \mta{ret} &&: \Tms\ \Gamma\ \Xi \to \Op\ \Gamma\ \Xi
+  & \Theory &&: (\Gamma : \Con) \to (\Xi : \Tel\ \Gamma) \to \Set \\
+  & \Pi_{\mta{ext}} &&: (A : \Set) \to (A \to \Theory\ \Gamma\ \Xi) \to \Theory\ \Gamma\ \Xi \\
+  & \Pi_{\mta{int}} &&: (A : \Ty\ \Gamma) \to \Theory\ (\Gamma \rhd A)\ \Xi^+ \to \Theory\ \Gamma\ \Xi \\
+  & \Pi_{\mta{rec}} &&: \Tms\ \Gamma\ \Xi \to \Theory\ \Gamma\ \Xi \to \Theory\ \Gamma\ \Xi \\
+  & \mta{ret} &&: \Tms\ \Gamma\ \Xi \to \Theory\ \Gamma\ \Xi
   \end{alignat*}
   \caption{Inductive types, theories and operations in $\lambdaind$.}
   \label{fig:lambdaind-inductive-theories}
@@ -94,14 +93,11 @@ of the languages presented in this paper.
 
 \begin{figure}[H]
   \begin{alignat*}{2}
-  &\mta{In} &&: \Op\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Set \\
-  &\mta{In}\ (\Pi_{\mta{ext}}\ A\ B)\ X &&:= (a : \Tm\ \Gamma\ A) \times \mta{In}\ B [\langle a \rangle]\ X \\
-  &\mta{In}\ (\Pi_{\mta{int}}\ \xi\ B)\ X &&:= \Tm\ \Gamma\ (X [\langle \xi \rangle]) \times \mta{In}\ B\ X \\
-  &\mta{In}\ (\mta{ret}\ \xi)\ X &&:= \mathbb{1} \\[1em]
-  &\mta{out} &&: (O : \Op\ \Gamma\ \Xi) \to \mta{In}\ O\ X \to \Tms\ \Gamma\ \Xi \\
-  &\mta{out}\ (\Pi_{\mta{ext}}\ A\ B)\ (a, r) &&:= \mta{out}\ B[\langle a \rangle]\ r \\
-  &\mta{out}\ (\Pi_{\mta{int}}\ \xi\ B)\ (a, r) &&:= \mta{out}\ B\ r \\
-  &\mta{out}\ (\mta{ret}\ \xi)\ () &&:= \xi
+  &\mta{In} &&: \Theory\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Tms\ \Gamma\ \Xi \to \Set \\
+  &\mta{In}\ (\Pi_{\mta{ext}}\ A\ B)\ X\ \xi &&:= (x : X) \times \mta{In}\ (B\ x)\ X\ \xi \\
+  &\mta{In}\ (\Pi_{\mta{int}}\ A\ B)\ X\ \xi &&:= (a : \Tm\ \Gamma\ A) \times \mta{In}\ B [\langle a \rangle]\ X\ \xi \\
+  &\mta{In}\ (\Pi_{\mta{rec}}\ \xi'\ B)\ X\ \xi &&:= \Tm\ \Gamma\ (X [\langle \xi' \rangle]) \times \mta{In}\ B\ X\ \xi \\
+  &\mta{In}\ (\mta{ret}\ \xi')\ X\ \xi &&:= \xi = \xi'
   \end{alignat*}
   \caption{Interpretation of operation inputs (i.e. constructor arguments) and outputs (constructor return indices).}
   \label{fig:lambdaind-operation-interp}
@@ -109,16 +105,45 @@ of the languages presented in this paper.
 
 \begin{figure}[H]
   \begin{alignat*}{2}
-  & \mta{data} &&: (\mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\ 
-  &            && \to \Ty\ (\Gamma \unrhd \Xi[\langle p \rangle]) \\[0.5em]
+  &\mta{Alg} &&: \Theory\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Set \\
+  &\mta{Alg}\ (\Pi_{\mta{ext}}\ A\ B)\ X &&:= (x : X) \to \mta{Alg}\ (B\ x)\ X \\
+  &\mta{Alg}\ (\Pi_{\mta{int}}\ A\ B)\ X &&:= (a : \Tm\ \Gamma\ A) \to \mta{Alg}\ B [\langle a \rangle]\ X \\
+  &\mta{Alg}\ (\Pi_{\mta{rec}}\ \xi'\ B)\ X &&:= \Tm\ \Gamma\ (X [\langle \xi' \rangle]) \to \mta{Alg}\ B\ X \\
+  &\mta{Alg}\ (\mta{ret}\ \xi)\ X &&:= X\ \xi \\[1em]
+  \end{alignat*}
+  \caption{Interpretation of operation inputs (i.e. constructor arguments) and outputs (constructor return indices).}
+\end{figure}
+
+\newcommand{\Msub}[1]{\langle{#1}\rangle}
+
+\begin{figure}[H]
+  \begin{align*}
+  &\mta{Motive} : \Theory\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Set \\
+  &\mta{Motive}\ T\ X := \Ty\ (\Gamma \unrhd \Xi \rhd X) \\[1em]
+  &\mta{Method} : \{T : \Theory\ \Gamma\ \Xi\} \to \mta{Motive}\ T\ X \to \mta{Alg}\ T\ X \to \Set \\
+  &\begin{alignedat}{2}
+  &\mta{Method}\ \{\Pi_{\mta{ext}}\ A\ B\}\ X\ M\ \alpha &&:= (x : A) \to \mta{Method}\ (B\ x)\ X\ M\ (\alpha\ x) \\
+  &\mta{Method}\ \{\Pi_{\mta{int}}\ A\ B\}\ X\ M\ \alpha &&:= (a : \Tm\ \Gamma\ A) \to \mta{Method}\ B [\langle a \rangle]\ X\ M\ (\alpha\ a) \\
+  &\mta{Method}\ \{\Pi_{\mta{rec}}\ \xi\ B\}\ X\ M\ \alpha &&:= (x : \Tm\ \Gamma\ X [\langle \xi \rangle]) \to \Tm\ \Gamma\ M [\langle \xi ; x \rangle] \to \mta{Method}\ B\ X\ M\ (\alpha\ x) \\
+  &\mta{Method}\ \{\mta{ret}\ \xi\}\ X\ M\ \alpha &&:= \Tm\ \Gamma\ M [\langle \xi ; \alpha \rangle] 
+  \end{alignedat} \\[1em]
+  &\mta{Section} : \{T : \Theory\ \Gamma\ \Xi\} \to \mta{Motive}\ T\ X \to \Set \\
+  &\mta{Section}\ \{T\}\ \{X\} := (\xi : \Tms\ \Gamma\ \Xi) \to (x : \Tm\ \Gamma\ (X[\Msub \xi])) \to \Tm\ \Gamma\ M[\Msub {\xi; x}] \\[1em]
+  \end{align*}
+  \caption{Methods}
+  \label{fig:lambdaind-motive-methods}
+\end{figure}
+
+\newcommand{\fmap}{\;\langle\$\rangle\;}
+
+\begin{figure}[H]
+  \begin{alignat*}{2}
+  & \mta{data} &&: (\mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \to (\xi : \Tms\ \Gamma\ \Xi[\langle p \rangle]) \to \Ty\ \Gamma \\ 
   & \mta{ctor} &&: (i : \mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\
-  &            && \to (n : \mta{Index}\ T) \to (a : \mta{In}\ (T \, ! \, n)) \\
-  &            && \to (r : \mta{Rec}\ (T \, ! \, n)\ (\mta{data}\ i\ p)) \\
-  &            && \to \Tm\ \Gamma\ (\mta{data}\ i\ p) [\langle \mta{out}\ (T\,!\,n)\ a \rangle] \\[0.5em]
-  & \mta{elim} &&: (i : \mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\
-  &            && \to (M : \Ty\ (\Gamma \unrhd \Xi[\langle p \rangle])) \to (m : \mta{Methods}\ \Gamma\ T\ M) \\
-  &            && \to \Tm\ (\Gamma \unrhd \Xi[\langle p \rangle] \rhd \mta{data}\ i\ p)\ M \\
-  & \mta{match} &&: (\mta{elim}\ i\ p\ M\ m)[\langle \xi, \mta{ctor}\ i\ p\ n\ a\ r \rangle] = (m\,!\,n)[\langle a , \mta{rec}\ i\ p\ M\ m\ n \rangle]
+  &            && \to (a : \mta{In}\ T\ (\mta{data}\ i\ p)\ \xi) \to \Tm\ \Gamma\ (\mta{data}\ i\ p\ xi) \\[0.5em]
+  & \mta{elim} &&: (i : \mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\ 
+  &            && \to (M : \mta{Motive}\ T\ (\mta{data}\ i\ p)) \to (m : \mta{Methods}\ M) \to \mta{Section}\ M \\
+  & \mta{match} &&: (\mta{elim}\ i\ p\ M\ m)[\langle \xi, \mta{ctor}\ i\ p\ n\ a \rangle] = (m\,!\,n)[\langle a , \mta{elim}\ i\ p\ M\ m \fmap a \rangle]
   \end{alignat*}
   \caption{Data type, constructor and eliminator terms in $\lambdaind$.}
   \label{fig:lambdaind-data-ctor}
