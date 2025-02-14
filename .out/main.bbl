@@ -6,13 +6,6 @@
 \bibitem{GMP}
 The {GNU} {MP} bignum library. \url{https://gmplib.org/}, accessed: 2024-12-8
 
-\bibitem{Altenkirch2016-zc}
-Altenkirch, T., Kaposi, A.: Type theory in type theory using quotient inductive
-  types. In: Proceedings of the 43rd Annual ACM SIGPLAN-SIGACT Symposium on
-  Principles of Programming Languages. pp. 18--29. POPL '16, Association for
-  Computing Machinery, New York, NY, USA (Jan 2016),
-  \url{https://doi.org/10.1145/2837614.2837638}
-
 \bibitem{Atkey2018-pj}
 Atkey, R.: Syntax and semantics of quantitative type theory. In: LICS 2018. pp.
   56--65. LICS '18, Association for Computing Machinery, New York, NY, USA (Jul

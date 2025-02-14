@@ -9,20 +9,33 @@ $\lambdarep$.
 
 \subsection{The core language, $\lambdaind$}
 
-The languge $\lambdaind$, is a dependent type theory with $\Pi$ and a universe
-$\univ$, extended with strictly positive inductive families and global
-definitions. The base layer is a standard dependent type theory, defined in an
-intrinsically well-formed fashion quotiented by conversion. The constructors of
-the syntax are given in \cref{fig:base-formers}. We omit the conversion
-equations for brevity as they are standard \cite{Altenkirch2016-zc}.
+The languge $\lambdaind$, is a dependent type theory with $\Pi$, $\mta{Id}$, and
+a universe $\univ$, presented in the QIIT style by Kaposi and Altenkirch~[CITE].
+It also has inductive families and global definitions. We follow a similar
+approach to Cockx~and~Abel~\cite{Cockx2018-fk} by packaging named inductive
+constructions and function definitions into a signature $\Sigma : \Sig$, and
+indexing contexts by signatures. The contexts $\Con$ in the resulting theory are
+pairs $(\Sigma : \Sig) \times \Loc\ \Sigma$ where $\Loc\ \Sigma$ are local
+contexts given by a closed telescope of types as usual. Items in a signature
+$\Sigma$ can be either
 
-We will not convern ourselves with universe levels because a sound logical
-interpretation is not of much interest in this paper. Nevertheless, all of our
-results should be readily adaptable to a calculus with universe levels.
+\begin{itemize}
+  \item function definitions $\mta{def}\ P\ A\ t$ for some parameters $P : \Loc\
+    \Sigma$, return type $A : \Ty\ (\Sigma, P)$ and implementation $t : \Tm\ A\ (\Sigma, P)$,
+  \item postulates $\mta{post}\ P\ A$ for some parameters $P : \Loc\
+    \Sigma$ and return type $A : \Ty\ (\Sigma, P)$, or
+  \item inductive type definitions $\mta{data}\ P\ \Xi\ T$ for some parameters $P : \Loc\
+    \Sigma$, indices $\Xi : \Tel\ (\Sigma, P)$ and theory $T : \Theory\ (\Sigma, P)\ \Xi$.
+\end{itemize}
 
-We follow a similar approach to Cockx~and~Abel~\cite{Cockx2018-fk}
-by packaging named inductive constructions and global function definitions into
-a signature $\Sigma$, and indexing contexts by signatures.
+The $\Theory\ \Gamma\ \Xi$ sort stands for the contexts $\Con_{\mathbb{A}\
+\Gamma\ \Xi}$ of a family of theories of algebraic signatures $\mathbb{A}$
+indexed by contexts $\Gamma$ and telescopes $\Xi$ in $\lambdaind$. In
+particular, $\mathbb{A}\ \Gamma\ \Xi$ describes positive signatures for a single
+family of sorts $\iota : \Tms\ \Gamma\ \Xi \to \Ty_{\mathbb{A}\ \Gamma\ \Xi}$.
+In other words, a syntax for inductive families over an index $\Xi$ which are
+allowed to reference $\lambdaind$ types in $\Gamma$.
+
 
 To do this, we define signatures, local contexts, and contexts (as well as terms
 and types) by mutual induction.
