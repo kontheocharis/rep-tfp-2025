@@ -193,20 +193,20 @@ and it holds by reflexivity that $\lab{forget-length}$ is a left inverse of $\la
 The idea from the previous example can be generalised to any data type. In
 general, suppose that we have two inductive families
 \[
- \datalab{F} : \Xi \to \univ \qquad \datalab{G} : \Xi \to X\ \xi \to \univ
+ \datalab{F} : P \to \univ \qquad \datalab{G} : P \to X\ p \to \univ
 \]
-for some index family $X : \Xi \to \univ$. If we hope to represent $\datalab{G}$
+for some index family $X : P \to \univ$. If we hope to represent $\datalab{G}$
 as some refinement of $\datalab{F}$ then we must be able to provide a way to
 compute $\datalab{G}$'s extra indices $X$ from $\datalab{F}$, like we computed
 $\datalab{Vec}$'s extra $\datalab{Nat}$ index from $\datalab{List}$ with
 $\lab{length}$ in the previous example. This means that we need to provide a
 function
 \[
-  \lab{comp} :_{\forall \xi} \datalab{F}\ \xi \to X\ \xi
+  \lab{comp} :_{\forall p} \datalab{F}\ p \to X\ p
 \]
 which can then be used to form the family
 \[
-  \datalab{F}^{\lab{comp}}\ \xi\ x :=  \{ f : \datalab{F}\ \xi \mid \lab{comp}\ f = x \} .
+  \datalab{F}^{\lab{comp}}\ p\ x :=  \{ f : \datalab{F}\ p \mid \lab{comp}\ f = x \} .
 \]
 If $\datalab{G}$ is `equivalent' to the algebraic ornament of $\datalab{F}$ by
 the algebra defining $\lab{comp}$ (given by an isomorphism between the

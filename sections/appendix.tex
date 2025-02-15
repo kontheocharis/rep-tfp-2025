@@ -1,9 +1,9 @@
 \section{Appendix}
 
 The metatheory is presented internally to an extensional dependent type theory
-with an internal universe $\Set$, dependent function types $(a : A) \to B$ and 
+with internal universes $\Set_i$, dependent function types $(a : A) \to B$ and 
 dependent pair types $(a : A) \times B$. The metatheory also supports 
-quotient inductive-inductive definitions, which are used to define the syntaxes
+quotient-inductive-inductive definitions, which are used to define the syntaxes
 of the languages presented in this paper.
 
 \subsection{The language $\lambdaind$}
@@ -94,10 +94,10 @@ of the languages presented in this paper.
 \begin{figure}[H]
   \begin{alignat*}{2}
   &\mta{In} &&: \Theory\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Tms\ \Gamma\ \Xi \to \Set \\
-  &\mta{In}\ (\Pi_{\mta{ext}}\ A\ B)\ X\ \xi &&:= (x : X) \times \mta{In}\ (B\ x)\ X\ \xi \\
-  &\mta{In}\ (\Pi_{\mta{int}}\ A\ B)\ X\ \xi &&:= (a : \Tm\ \Gamma\ A) \times \mta{In}\ B [\langle a \rangle]\ X\ \xi \\
-  &\mta{In}\ (\Pi_{\mta{rec}}\ \xi'\ B)\ X\ \xi &&:= \Tm\ \Gamma\ (X [\langle \xi' \rangle]) \times \mta{In}\ B\ X\ \xi \\
-  &\mta{In}\ (\mta{ret}\ \xi')\ X\ \xi &&:= \xi = \xi'
+  &\mta{In}\ (\Pi_{\mta{ext}}\ A\ B)\ X\ p &&:= (x : X) \times \mta{In}\ (B\ x)\ X\ p \\
+  &\mta{In}\ (\Pi_{\mta{int}}\ A\ B)\ X\ p &&:= (a : \Tm\ \Gamma\ A) \times \mta{In}\ B [\langle a \rangle]\ X\ p \\
+  &\mta{In}\ (\Pi_{\mta{rec}}\ p'\ B)\ X\ p &&:= \Tm\ \Gamma\ (X [\langle p' \rangle]) \times \mta{In}\ B\ X\ p \\
+  &\mta{In}\ (\mta{ret}\ p')\ X\ p &&:= p = p'
   \end{alignat*}
   \caption{Interpretation of operation inputs (i.e. constructor arguments) and outputs (constructor return indices).}
   \label{fig:lambdaind-operation-interp}
@@ -108,8 +108,8 @@ of the languages presented in this paper.
   &\mta{Alg} &&: \Theory\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Set \\
   &\mta{Alg}\ (\Pi_{\mta{ext}}\ A\ B)\ X &&:= (x : X) \to \mta{Alg}\ (B\ x)\ X \\
   &\mta{Alg}\ (\Pi_{\mta{int}}\ A\ B)\ X &&:= (a : \Tm\ \Gamma\ A) \to \mta{Alg}\ B [\langle a \rangle]\ X \\
-  &\mta{Alg}\ (\Pi_{\mta{rec}}\ \xi'\ B)\ X &&:= \Tm\ \Gamma\ (X [\langle \xi' \rangle]) \to \mta{Alg}\ B\ X \\
-  &\mta{Alg}\ (\mta{ret}\ \xi)\ X &&:= X\ \xi \\[1em]
+  &\mta{Alg}\ (\Pi_{\mta{rec}}\ p'\ B)\ X &&:= \Tm\ \Gamma\ (X [\langle p' \rangle]) \to \mta{Alg}\ B\ X \\
+  &\mta{Alg}\ (\mta{ret}\ p)\ X &&:= X\ p \\[1em]
   \end{alignat*}
   \caption{Interpretation of operation inputs (i.e. constructor arguments) and outputs (constructor return indices).}
 \end{figure}
@@ -124,11 +124,11 @@ of the languages presented in this paper.
   &\begin{alignedat}{2}
   &\mta{Method}\ \{\Pi_{\mta{ext}}\ A\ B\}\ X\ M\ \alpha &&:= (x : A) \to \mta{Method}\ (B\ x)\ X\ M\ (\alpha\ x) \\
   &\mta{Method}\ \{\Pi_{\mta{int}}\ A\ B\}\ X\ M\ \alpha &&:= (a : \Tm\ \Gamma\ A) \to \mta{Method}\ B [\langle a \rangle]\ X\ M\ (\alpha\ a) \\
-  &\mta{Method}\ \{\Pi_{\mta{rec}}\ \xi\ B\}\ X\ M\ \alpha &&:= (x : \Tm\ \Gamma\ X [\langle \xi \rangle]) \to \Tm\ \Gamma\ M [\langle \xi ; x \rangle] \to \mta{Method}\ B\ X\ M\ (\alpha\ x) \\
-  &\mta{Method}\ \{\mta{ret}\ \xi\}\ X\ M\ \alpha &&:= \Tm\ \Gamma\ M [\langle \xi ; \alpha \rangle] 
+  &\mta{Method}\ \{\Pi_{\mta{rec}}\ p\ B\}\ X\ M\ \alpha &&:= (x : \Tm\ \Gamma\ X [\langle p \rangle]) \to \Tm\ \Gamma\ M [\langle p ; x \rangle] \to \mta{Method}\ B\ X\ M\ (\alpha\ x) \\
+  &\mta{Method}\ \{\mta{ret}\ p\}\ X\ M\ \alpha &&:= \Tm\ \Gamma\ M [\langle p ; \alpha \rangle] 
   \end{alignedat} \\[1em]
   &\mta{Section} : \{T : \Theory\ \Gamma\ \Xi\} \to \mta{Motive}\ T\ X \to \Set \\
-  &\mta{Section}\ \{T\}\ \{X\} := (\xi : \Tms\ \Gamma\ \Xi) \to (x : \Tm\ \Gamma\ (X[\Msub \xi])) \to \Tm\ \Gamma\ M[\Msub {\xi; x}] \\[1em]
+  &\mta{Section}\ \{T\}\ \{X\} := (p : \Tms\ \Gamma\ \Xi) \to (x : \Tm\ \Gamma\ (X[\Msub p])) \to \Tm\ \Gamma\ M[\Msub {p; x}] \\[1em]
   \end{align*}
   \caption{Methods}
   \label{fig:lambdaind-motive-methods}
@@ -138,12 +138,12 @@ of the languages presented in this paper.
 
 \begin{figure}[H]
   \begin{alignat*}{2}
-  & \mta{data} &&: (\mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \to (\xi : \Tms\ \Gamma\ \Xi[\langle p \rangle]) \to \Ty\ \Gamma \\ 
+  & \mta{data} &&: (\mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \to (p : \Tms\ \Gamma\ \Xi[\langle p \rangle]) \to \Ty\ \Gamma \\ 
   & \mta{ctor} &&: (i : \mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\
-  &            && \to (a : \mta{In}\ T\ (\mta{data}\ i\ p)\ \xi) \to \Tm\ \Gamma\ (\mta{data}\ i\ p\ xi) \\[0.5em]
+  &            && \to (a : \mta{In}\ T\ (\mta{data}\ i\ p)\ p) \to \Tm\ \Gamma\ (\mta{data}\ i\ p\ xi) \\[0.5em]
   & \mta{elim} &&: (i : \mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\ 
   &            && \to (M : \mta{Motive}\ T\ (\mta{data}\ i\ p)) \to (m : \mta{Methods}\ M) \to \mta{Section}\ M \\
-  & \mta{match} &&: (\mta{elim}\ i\ p\ M\ m)[\langle \xi, \mta{ctor}\ i\ p\ n\ a \rangle] = (m\,!\,n)[\langle a , \mta{elim}\ i\ p\ M\ m \fmap a \rangle]
+  & \mta{match} &&: (\mta{elim}\ i\ p\ M\ m)[\langle p, \mta{ctor}\ i\ p\ n\ a \rangle] = (m\,!\,n)[\langle a , \mta{elim}\ i\ p\ M\ m \fmap a \rangle]
   \end{alignat*}
   \caption{Data type, constructor and eliminator terms in $\lambdaind$.}
   \label{fig:lambdaind-data-ctor}
@@ -261,7 +261,7 @@ of the languages presented in this paper.
 %   {
 %     \Sreprvar{\ctorlab c\ \Pi}{\kappa} \in \Sigma
 %   }
-%   {\Sigma \mid \Gamma \vdash \repr{(\ctorlab{c}\ \delta\ \pi)} \equiv \kappa [\delta, \pi] : A[\delta, \xi[\pi]]} \and
+%   {\Sigma \mid \Gamma \vdash \repr{(\ctorlab{c}\ \delta\ \pi)} \equiv \kappa [\delta, \pi] : A[\delta, p[\pi]]} \and
 %   \inferrule[Repr-Data-Id]
 %   {
 %     \Sreprvar{\datalab D\ \Delta\ \Xi}{A} \in \Sigma
@@ -278,8 +278,8 @@ of the languages presented in this paper.
   % \begin{alignat*}{2}
   % &\llbracket\_\rrbracket &&: \Op\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Ty\ (\Gamma \unrhd \Xi) \\
   % &\llbracket \Pi_{\mta{ext}}\ A\ B \rrbracket\ X &&:= \Pi\ A\ (\llbracket B \rrbracket X) \\
-  % &\llbracket \Pi_{\mta{int}}\ \xi\ B \rrbracket\ X &&:= \Pi\ (X [\langle \xi \rangle])\ (\llbracket B \rrbracket X)^+ \\
-  % &\llbracket \mta{ret}\ \xi \rrbracket\ X &&:= X [\langle \xi \rangle]
+  % &\llbracket \Pi_{\mta{int}}\ p\ B \rrbracket\ X &&:= \Pi\ (X [\langle p \rangle])\ (\llbracket B \rrbracket X)^+ \\
+  % &\llbracket \mta{ret}\ p \rrbracket\ X &&:= X [\langle p \rangle]
   % \end{alignat*}
   % \end{minipage}
 
