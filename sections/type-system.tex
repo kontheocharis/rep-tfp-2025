@@ -22,7 +22,7 @@ languages defined.
 
 % & \mta{ctor} &&: (i : \mta{ind}\ (P, P, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\
 % &            && \to (a : \mta{In}\ T\ (\mta{data}\ i\ p)\ p) \to \Tm\ \Gamma\ (\mta{data}\ i\ p\ xi) \\[0.5em]
-% & \mta{elim} &&: (i : \mta{ind}\ (P, P, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\ 
+% & \mta{elim} &&: (i : \mta{ind}\ (P, P, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\
 % &            && \to (M : \mta{Motive}\ T\ (\mta{data}\ i\ p)) \to (m : \mta{Methods}\ M) \to \mta{Section}\ M \\
 % & \mta{match} &&: (\mta{elim}\ i\ p\ M\ m)[\langle p, \mta{ctor}\ i\ p\ n\ a \rangle] = (m\,!\,n)[\langle a , \mta{elim}\ i\ p\ M\ m \fmap a \rangle]
 % \end{alignat*}
@@ -36,68 +36,70 @@ A representation of a data type must be able to emulate the behaviour of the
 original data type. In turn, the behaviour of the original data type is
 determined by its elimination, or induction principle. This means that a
 representation $r$ of a data type $\mta{data}\ P\ T$ should provide an
-implementation of induction. Induction can be characterised in terms of algebras 
+implementation of induction. Induction can be characterised in terms of algebras
 and displayed algebras of theories.
 
 An algebra $(X, a) : \mta{Alg}\ T$ for a carrier set $X$ and theory (context)
-$T$ defines a way to interpret the structure of $T$ into a metatheoretic type
-$X$. This is done by providing some data that matches $T$. The
-function arrows in $T$ are interpreted as functions in the metatheory, and 
+$T$ defines a way to interpret the structure of $T$ in terms of a type in a type theory
+$X : \mta{Ty}\ \Gamma$. This is done by providing some data that matches $T$. The
+function arrows in $T$ are interpreted as functions in the type theory, and
 and $\iota$ as $X$. For example, natural numbers defined by
 \[
-  \mta{NatTh} = \bullet \rhd zero : \iota \rhd succ:\iota \Rightarrow \iota
+	\mta{NatTh} = \bullet \rhd zero : \iota \rhd succ:\iota \Rightarrow \iota
 \]
 have algebras
 \[
-   \mta{Alg}\ \mta{NatTh}\simeq (X : \Set) \times (zero : X) \times (succ : X \to X)
+	\mta{Alg}\ \mta{NatTh}\simeq (X : \Ty\ \Gamma) \times (zero : \Tm\ \Gamma\ X) \times (succ : \Tm\ \Gamma\ (\Pi\ X\ X))
 \]
 An algebra $(R, r)$ supports recursion if for all other algebras $(X, a)$ there
 is a function from $R$ to $X$ which preserves the structure of $T$. The recursor
 is typed as
 \[
-  \mta{Rec}_R := ((X, a) : \mta{Alg}\ T) \to (p : \Tms\ \Gamma\ P) \to (R\ p \to X\ p)
+	\mta{Rec}_R := ((X, a) : \mta{Alg}\ T) \to (p : \Tms\ \Gamma\ P) \to \Tm\ \Gamma\ R[\Msub p] \to \Tm\ \Gamma\ X[\Msub p]
 \]
 In the case of natural numbers, this computes to
-\[
-  \mta{Rec}_{\mta{NatTh}} \simeq (X : \Set) \to (zero : X) \to (succ : X \to X) \to \mta{Nat} \to X
-\]
-where $\mta{Nat}$ is the carrier set of the term algebra of natural numbers, in
-some sense defining the `actual' natural numbers. The term algebra is `freely
-generated' by the theory $T$ with carrier set $\Tm_{\mathbb{A}}\ T\ (\iota\ p)$,
-the set of fully-applied $\mathbb{A}$-terms in $T$ with indices $p$. It supports
-recursion. The output function $\mta{rec}\ (X, a)\ p : \Tm_{\mathbb{A}}\ T\
-(\iota\ p) \to X\ p$ must pick its values from the algebra $a$. For natural
-numbers, this results in the equations
-\[
-  f\ (\mta{zero}) = zero \qquad \qquad f\ (\mta{succ}\ n) &= succ\ (f\ n)
-\]
-for an algebra $(X, zero, succ)$ where $\mta{zero}$ and $\mta{succ}$ are from 
+\begin{align*}
+	\mta{Rec}_{\mta{NatTh}} \simeq\  & (X : \Ty\ \Gamma)                             \\
+	                                 & \to (zero : \Tm\ \Gamma\ X)                   \\
+	                                 & \to (succ : \Tm\ \Gamma\ (\Pi\ X\ X))         \\
+	                                 & \to \Tm\ \Gamma\ \mta{Nat} \to \Tm\ \Gamma\ X
+\end{align*}
+if $\mta{Nat} : \mta{Ty}\ \Gamma$ is the carrier set of the term algebra of
+natural numbers in the type theory, in some sense defining the `actual' natural
+numbers. This algebra supports recursion. The output $\mta{rec}\ (X, a)\ p\ n :
+	\Tm\ \Gamma\ X$ must pick its values from the algebra
+$a$. For natural numbers, this results in the equations
+\begin{align*}
+	\mta{rec}\ (X, zero, succ)\ \mta{zero}                  & = zero                                             \\
+	\mta{rec}\ (X, zero, succ))\ (\mta{app}\ \mta{succ}\ n) & = \mta{app}\ succ\ (\mta{rec}\ (X, zero, succ)\ n)
+\end{align*}
+for an algebra $(X, zero, succ)$ where $\mta{zero}$ and $\mta{succ}$ are from
 the term algebra.
 
 For induction, we need the elimination type to depend not only on the parameters $p$
-but also on the data type itself. 
-\begin{definition} 
-  An algebra $(X, a) : \mta{Alg}\ T$ is \emph{inductive} if for every
-\emph{displayed} algebra $(D, d) : \mta{DispAlg}\ (X, a)$ there is a
-\emph{section} $s : \mta{Section}\ (D, d)$.
+but also on the data type itself.
+\begin{definition}
+	An algebra $(X, a) : \mta{Alg}\ T$ is \emph{inductive} if for every
+	\emph{displayed} algebra $(D, d) : \mta{DispAlg}\ (X, a)$ there is a
+	\emph{section} $s : \mta{Section}\ (D, d)$.
 \end{definition}
-The displayed algebras for natural numbers are 
+The displayed algebras for natural numbers are
 \begin{align*}
-  \mta{DispAlg}\ (X, zero, succ) &\simeq (Y : X \to \Set) \\
-   & \quad \times (zero' : Y\ zero) \\ 
-   & \quad \times (succ' : (x : X) \to Y\ x \to Y\ (succ\ x))
+	\mta{DispAlg}\ (X, zero, succ) & \simeq (Y : \Ty\ (\Gamma \rhd X))                                                      \\
+	                               & \quad \times (zero' : \Tm\ \Gamma\ Y[zero])                                            \\
+	                               & \quad \times (succ' : \Tm\ \Gamma\ (\Pi\ (x : X)\ (\Pi\ Y[x]\ Y[\mta{app}\ succ\ x])))
 \end{align*}
 and sections are the dependent functions
 \begin{align*}
-  \mta{Section}\ &\{(X, zero, succ)\}\ (Y, zero', succ') \\ 
-    &\simeq (f : (x : X) \to Y x) \\
-   & \quad \times (f\ zero = zero') \\
-   & \quad \times ((x : X) \to f\ (succ\ x) = succ'\ (f\ x))
+	\mta{Section}\  & \{(X, zero, succ)\}\ (Y, zero', succ')                                                                                           \\
+	                & \simeq (f : \Tm\ \Gamma\ (\Pi\ (x : X)\ Y[x]))                                                                                   \\
+	                & \quad \times (\mta{app}\ f\ zero = zero')                                                                                        \\
+	                & \quad \times ((x : \Tm\ \Gamma\ X) \to \mta{app}\ f\ (\mta{app}\ succ\ x) = \mta{app}\ (\mta{app}\ succ'\ x)\ (\mta{app}\ f\ x))
 \end{align*}
 A displayed algebra packages the motive and methods of an induction principle, while the
 section takes the subject of the induction and produces the motive.
-The equations that are required for a section have been stated to hold on the level of the 
-equality of the metatheory, but soon we will utilise a notion of section where the equalities 
+The equations that are required for a section have been stated to hold on the level of the
+equality of the metatheory, but soon we will utilise a notion of section where the equalities
 only hold up to the internal equality type of $\lambdaind$.
 
 \subsection{The core language, $\lambdaind$}
@@ -113,73 +115,69 @@ contexts given by a closed telescope of types as usual. Items in a signature
 $\Sigma$ can be either
 
 \begin{itemize}
-  \item function definitions $\mta{def}\ P\ A\ t$ for some parameters $P : \Loc\
-    \Sigma$, return type $A : \Ty\ (\Sigma, P)$ and implementation $t : \Tm\ A\ (\Sigma, P)$,
-  \item postulates $\mta{post}\ P\ A$ for some parameters $P : \Loc\
-    \Sigma$ and return type $A : \Ty\ (\Sigma, P)$, or
-  \item inductive type definitions $\mta{data}\ P\ T$ for some indices $P :
-  \Loc\ \Sigma$ and theory $T : \Theory\ (\Sigma, \bullet)\ P$.
+	\item function definitions $\mta{def}\ P\ A\ t$ for some parameters $P : \Loc\
+		      \Sigma$, return type $A : \Ty\ (\Sigma, P)$ and implementation $t : \Tm\ A\ (\Sigma, P)$,
+	\item postulates $\mta{post}\ P\ A$ for some parameters $P : \Loc\
+		      \Sigma$ and return type $A : \Ty\ (\Sigma, P)$, or
+	\item inductive type definitions $\mta{data}\ P\ T$ for some indices $P :
+		      \Loc\ \Sigma$ and theory $T : \Theory\ (\Sigma, \bullet)\ P$.
 \end{itemize}
 
 The $\Theory\ \Gamma\ P$ sort stands for the contexts $\Con_{\mathbb{A}\ \Gamma\
-P}$ of a theory of positive signatures \cite{Kovacs2023-gq} $\mathbb{A}$ indexed
+		P}$ of a theory of positive signatures \cite{Kovacs2023-gq} $\mathbb{A}$ indexed
 by contexts $\Gamma$ and telescopes $P$ in $\lambdaind$. In particular,
 $\mathbb{A}\ \Gamma\ P$ describes positive signatures for a single family of
 sorts $\iota : \Tms\ \Gamma\ P \to \Ty_{\mathbb{A}\ \Gamma\ P}$. An inductive
 family can be defined as a context in this theory like $\bullet \rhd zero :
-\iota \rhd succ:\iota \Rightarrow \iota$. This context is allowed to reference
+	\iota \rhd succ:\iota \Rightarrow \iota$. This context is allowed to reference
 types in $\lambdaind$ from context $\Gamma$ and must apply $\iota$ to a spine of
 parameters $P$. The $\mta{data}$ definition packages the parameters $P$ and the
 context for the inductive family being defined. For vectors this would be
 \begin{align*}
-&\mta{Vect} : \mta{data} \\
-&\quad\begin{aligned}
-  \quad (\bullet&\rhd\univ \rhd \mta{Nat})\ \\
-  \quad (\bullet&\rhd nil : (T : \univ) \to \iota\ T\ \mta{zero}  \\
-  \quad         &\rhd cons : (T : \univ) \to (n : \mta{Nat}) \to \iota\ T\ n \Rightarrow T \to \iota\ T\ (\mta{succ}\ n))
-\end{aligned}
+	 & \mta{Vect} : \mta{data}                                                                                                        \\
+	 & \quad\begin{aligned}
+		        \quad (\bullet & \rhd\univ \rhd \mta{Nat})\                                                                               \\
+		        \quad (\bullet & \rhd nil : (T : \univ) \to \iota\ T\ \mta{zero}                                                          \\
+		        \quad          & \rhd cons : (T : \univ) \to (n : \mta{Nat}) \to \iota\ T\ n \Rightarrow T \to \iota\ T\ (\mta{succ}\ n))
+	        \end{aligned}
 \end{align*}
 The function arrows $\to$ and $\Rightarrow$ are different because the former
 denotes abstraction over an external type (from $\Ty\ \Gamma$) and the latter a
 recursive occurence of the inductive type being defined (with indices from
 $\Tms\ \Gamma\ P$). All function arrows must eventually return $\iota\ p$ for
-some $p : \Tms\ \Gamma\ P$ 
+some $p : \Tms\ \Gamma\ P$
 
 In order to actually construct inductive types in $\lambdaind$, we need to
 extend the syntax with some term and type formers. First, we add a type former
 \[
-\mta{D} : \mta{data}\ P\ T \in \Sigma \to \Tms\ (\Sigma, \Delta)\ P \to \Ty\ (\Sigma, \Delta)
+	\mta{D} : \mta{data}\ P\ T \in \Sigma \to \Ty\ (\Sigma, \Delta \rhd P)
 \]
 which, given a data definition $i$ in $\Sigma$, and terms for its
-indices $p$, constructs the data type $\mta{D}\ i\ p$. The relation $i \in
-\Sigma$ should be thought of as `variables for item $i$ in a signature
+indices $p$, constructs the data type $(\mta{D}\ i)[p]$. The relation $I \in
+	\Sigma$ should be thought of as `variables for item $I$ in a signature
 $\Sigma$', in a similar way to how $\mta{Var}\ \Gamma\ A$ defines variables for
 type $A$ in a local context $\Gamma$.
 
 Additionally, we add a constructor term
 \[
-\mta{C} :\ \forall i\ p.\ \mta{Args}\ i\ p \to \Tm\ \Gamma\ (\mta{D}\ i\ p) \\
+	\mta{C} :\ \forall i.\ (j : \mta{Var}_{\mathbb{A}}\ T) \to \Tm\ (\Sigma, \Delta \rhd \mta{args}\ j)\ (\mta{D}\ i)[\mta{out}] \\
 \]
-which fully applied, defines the data constructor $\mta{C}\ a$ of type
-$\mta{D}\ i\ p$ for arguments $a$. The type $\mta{Args}\ i\ p$ is defined such
+which fully applied, defines the data constructor $(\mta{C}\ j)[\Msub a]$ of type
+$(\mta{D}\ i)[\mta{out}\ a]$ for arguments $a$. The type $\mta{Args}\ i\ p$ is defined such
 that
 \begin{equation}
-  (\forall p.\ \mta{Args}\ i\ p \to \Tm\ \Gamma\ (\mta{D}\ i\ p)) \simeq ((X, a) : \mta{Alg}\ T) \times (X = \lambda p.\ \Tm\ \Gamma\ (\mta{D}\ i\ p)) \,.\label{eq:args-iso}
+	((j : \mta{Var}_{\mathbb{A}}\ T\ A) \to \Tm\ (\Gamma \rhd \mta{args\ j})\ (\mta{D}\ i)[\mta{out}]) \simeq ((X, a) : \mta{Alg}\ T) \times (X = \mta{D}\ i) \,.\label{eq:args-iso}
 \end{equation}
-This is possible because the algebras for a theory $T$ over $\Tm\ \Gamma\
-(\mta{D}\ i\ p)$ are described by a product of curried functions ending in $\Tm\
-\Gamma\ (\mta{D}\ i\ p)$, which is equivalent to a function out of a coproduct
-$\mta{Args}\ T\ p$ into $\Tm\ \Gamma\ (\mta{D}\ i\ p)$.
 
 \begin{definition}
-The \emph{internal term algebra} $\mta{TmAlg}\ \Gamma\ i$ of a data type $i$ is
-the algebra with carrier $\Tm\ \Gamma\ (\mta{D}\ i\ p)$, given by $\mta{C}\ a$
-after applying the isomorphism in \eqref{eq:args-iso}.
+	The \emph{internal term algebra} $\mta{TmAlg}\ \Gamma\ i$ of a data type $i$ is
+	the algebra with carrier $p .\ \mta{D}\ i\ p$, given by $\mta{C}\ a$
+	before applying the isomorphism in \eqref{eq:args-iso}.
 \end{definition}
 
 Finally, we add an eliminator term
 \[
-\mta{E} :\ \forall i.\ (M : \mta{Motive}\ \Gamma\ i) \to \mta{Methods}\ M \to \forall p.\ (d : \Tm\ \Gamma\ (\mta{D}\ i\ p)) \to \Tm\ \Gamma\ (M\ d) \\
+	\mta{E} :\ \forall i.\ (M : \mta{Motive}\ \Gamma\ i) \to \mta{Methods}\ M \to \forall p.\ (d : \Tm\ \Gamma\ (\mta{D}\ i)[\Msub p]) \to \Tm\ \Gamma\ (M[\Msub{p; d}]) \\
 \]
 which given a data definition $i$ in $\Sigma$, a motive and methods for $i$,
 eliminates each $d : \mta{D}\ i\ p$ into $M\ d$. This captures the induction
@@ -188,38 +186,38 @@ and the output of $\mta{E}$ captures the data part of the produced section. The
 structure preservation part of the section is captured by an equality
 constructor
 \[
-\mta{E-id} : \forall M\ m\ a.\ \mta{E}\ M\ m\ (\mta{C}\ a) = m\ a\ (\mta{E}\ M\ m \fmap a)
+	\mta{E-id} : \forall M\ m\ a.\ \mta{E}\ M\ m\ (\mta{C}\ a) = m\ a\ (\mta{E}\ M\ m \fmap a)
 \]
 The types $\mta{Motive}$ and $\mta{Methods}$ are defined as
 \begin{align*}
-  \mta{Motive}\ \Gamma\ i &:= \forall p.\ \Tm\ \Gamma\ (\mta{D}\ i\ p) \to \Ty\ \Gamma \\
-  \mta{Methods}\ M &:= (a : \mta{Args}\ i\ p) \times \mta{ArgsOver}\ a\ M \to  \Tm\ \Gamma\ (M\ (\mta{C}\ a))
+	\mta{Motive}\ \Gamma\ i & := \forall p.\ \Tm\ \Gamma\ (\mta{D}\ i\ p) \to \Ty\ \Gamma                               \\
+	\mta{Methods}\ M        & := (a : \mta{Args}\ i\ p) \times \mta{ArgsOver}\ a\ M \to  \Tm\ \Gamma\ (M\ (\mta{C}\ a))
 \end{align*}
 and the `fmap' operation $\langle\$\rangle$ is defined as
 \[
-  \langle\$\rangle : \forall i\ p.\ ((d : \Tm\ \Gamma\ (\mta{D}\ i\ p)) \to \Tm\ \Gamma\ (M\ d)) \to (a : \mta{Args}\ i\ p) \to \mta{ArgsOver}\ a\ M \,.
+	\langle\$\rangle : \forall i\ p.\ ((d : \Tm\ \Gamma\ (\mta{D}\ i\ p)) \to \Tm\ \Gamma\ (M\ d)) \to (a : \mta{Args}\ i\ p) \to \mta{ArgsOver}\ a\ M \,.
 \]
 and applies the section $m$ to all recursive arguments in $\mta{Args}\ i\ p$.
 Similarly to \eqref{eq:args-iso}, we have an isomorphism
 \begin{equation}
-  \mta{isDispAlg} : (M : \mta{Motive}\ \Gamma\ i) \times \mta{Methods}\ M \simeq \mta{DispAlg}\ (\mta{TmAlg}\ \Gamma\ i)
+	\mta{isDispAlg} : (M : \mta{Motive}\ \Gamma\ i) \times \mta{Methods}\ M \simeq \mta{DispAlg}\ (\mta{TmAlg}\ \Gamma\ i)
 \end{equation}
 exhibiting that a motive and methods for a data type $i$ are equivalent to a
 displayed algebra of the internal term algebra of $i$.
 Additionally, the output of the eliminator paired with the $\mta{E-id}$ equality
 constructor defines a section of this displayed algebra
 \begin{align*}
-  \mta{isSection}\ M\ m :\ &(f : (d : \Tm\ \Gamma\ (\mta{D}\ i\ p)) \to \Tm\ \Gamma\ (M\ d)) \\ 
-    &\quad\times (\forall a.\ f\ (\mta{C}\ a) = m\ a\ (f \fmap a)) \\
-    &\simeq \mta{Section}\ (\mta{isDispAlg}\ (M,\ m)) \,.
+	\mta{isSection}\ M\ m :\  & (f : (d : \Tm\ \Gamma\ (\mta{D}\ i\ p)) \to \Tm\ \Gamma\ (M\ d)) \\
+	                          & \quad\times (\forall a.\ f\ (\mta{C}\ a) = m\ a\ (f \fmap a))    \\
+	                          & \simeq \mta{Section}\ (\mta{isDispAlg}\ (M,\ m)) \,.
 \end{align*}
 
 \begin{lemma}
-The internal term algebra of a data type $i$ is inductive.
-\begin{proof}
-  For every displayed algebra $(D, d)$, we get a motive $M$ and methods $m$ by
-  $\mta{isDispAlg}^{-1}\ (D, d)$. Then we get a section by $\mta{isSection}\ (\mta{E}\ M\ m, \mta{E-id})$.
-\end{proof}
+	The internal term algebra of a data type $i$ is inductive.
+	\begin{proof}
+		For every displayed algebra $(D, d)$, we get a motive $M$ and methods $m$ by
+		$\mta{isDispAlg}^{-1}\ (D, d)$. Then we get a section by $\mta{isSection}\ (\mta{E}\ M\ m, \mta{E-id})$.
+	\end{proof}
 \end{lemma}
 
 % \begin{definition}
@@ -232,11 +230,11 @@ We extend the language $\lambdaind$ to form $\lambdarep$, which allows users to
 define custom representations for inductive types and global functions. First,
 we add a type former
 \begin{equation}\label{eq:repr-ty}
-  \MRepr{} : \Ty\ (\Sigma\mid \Gamma) \to \Ty\ (\Sigma\mid \Gamma)
+	\MRepr{} : \Ty\ (\Sigma\mid \Gamma) \to \Ty\ (\Sigma\mid \Gamma)
 \end{equation}
 along with two new terms in the syntax, forming an isomorphism
 \begin{equation}\label{eq:repr-iso}
-  \repr{} : \Tm\ (\Sigma\mid \Gamma)\ T \simeq \Tm\ (\Sigma\mid \Gamma)\ (\Repr T) : \unrepr{} \,.
+	\repr{} : \Tm\ (\Sigma\mid \Gamma)\ T \simeq \Tm\ (\Sigma\mid \Gamma)\ (\Repr T) : \unrepr{} \,.
 \end{equation}
 which holds definitionally and preserves $\Pi$ and universes. The type $\Repr T$
 is the defined representation of the type $T$. The term $\repr{}$ takes a term
@@ -248,197 +246,197 @@ corresponding to representation definitions for components of inductive families
 and global function definitions, shown in \cref{fig:global-rep-eq}.
 
 \begin{figure}[h]
-  \begin{mathpar}
-  \inferrule[Repr-Form]
-  {
-    \Sigma \mid \Gamma \vdash \istype{T}_i
-  }
-  {
-    \Sigma \mid \Gamma \vdash \istype{\Repr{T}}_i
-  } \and
-  \inferrule[Repr-Intro]
-  {
-    \Sigma \mid \Gamma \vdash t : T
-  }
-  {
-    \Sigma \mid \Gamma \vdash \repr{t} : \Repr{T}
-  } \and
-  \inferrule[Repr-Elim]
-  {
-    \Sigma \mid \Gamma \vdash u : \Repr{T}
-  }
-  {
-    \Sigma \mid \Gamma \vdash \unrepr{u} : T
-  } \and
-  \inferrule[Repr-Unrepr-Id]
-  {
-    \Sigma \mid \Gamma \vdash u : \Repr{T}
-  }
-  {
-    \Sigma \mid \Gamma \vdash \repr{(\unrepr{u})} \equiv u : \Repr{T}
-  } \and
-  \inferrule[Unrepr-Repr-Id]
-  {
-    \Sigma \mid \Gamma \vdash t : T
-  }
-  {
-    \Sigma \mid \Gamma \vdash \unrepr{(\repr{t})} \equiv t : T
-  } \and
-  \inferrule[Repr-Type-Subst-Id]
-  {
-    \Sigma \mid \Gamma \vdash \istype{T}_i \\
-    \Sigma \mid \Delta \vdash \sigma : \Gamma
-  }
-  {
-    \Sigma \mid \Delta \vdash \Repr{(T[\sigma])} \equiv (\Repr{T})[\sigma]
-  } \and
-  \inferrule[Repr-Term-Subst-Id]
-  {
-    \Sigma \mid \Gamma \vdash t : T \\
-    \Sigma \mid \Delta \vdash \sigma : \Gamma
-  }
-  {
-    \Sigma \mid \Delta \vdash \repr{(t[\sigma])} \equiv (\repr{t})[\sigma] : \Repr{(T[\sigma])}
-  } \and
-  \inferrule[Unrepr-Term-Subst-Id]
-  {
-    \Sigma \mid \Gamma \vdash t : \Repr T \\
-    \Sigma \mid \Delta \vdash \sigma : \Gamma
-  }
-  {
-    \Sigma \mid \Delta \vdash \unrepr{(t[\sigma])} \equiv (\unrepr{t})[\sigma] : T[\sigma]
-  }
-  \end{mathpar}
-  \caption{New term and type formers, and accompanying definitional equalities in $\lambdarep$.}
-  \label{fig:repr-rules}
+	\begin{mathpar}
+		\inferrule[Repr-Form]
+		{
+			\Sigma \mid \Gamma \vdash \istype{T}_i
+		}
+		{
+			\Sigma \mid \Gamma \vdash \istype{\Repr{T}}_i
+		} \and
+		\inferrule[Repr-Intro]
+		{
+			\Sigma \mid \Gamma \vdash t : T
+		}
+		{
+			\Sigma \mid \Gamma \vdash \repr{t} : \Repr{T}
+		} \and
+		\inferrule[Repr-Elim]
+		{
+			\Sigma \mid \Gamma \vdash u : \Repr{T}
+		}
+		{
+			\Sigma \mid \Gamma \vdash \unrepr{u} : T
+		} \and
+		\inferrule[Repr-Unrepr-Id]
+		{
+			\Sigma \mid \Gamma \vdash u : \Repr{T}
+		}
+		{
+			\Sigma \mid \Gamma \vdash \repr{(\unrepr{u})} \equiv u : \Repr{T}
+		} \and
+		\inferrule[Unrepr-Repr-Id]
+		{
+			\Sigma \mid \Gamma \vdash t : T
+		}
+		{
+			\Sigma \mid \Gamma \vdash \unrepr{(\repr{t})} \equiv t : T
+		} \and
+		\inferrule[Repr-Type-Subst-Id]
+		{
+			\Sigma \mid \Gamma \vdash \istype{T}_i \\
+			\Sigma \mid \Delta \vdash \sigma : \Gamma
+		}
+		{
+			\Sigma \mid \Delta \vdash \Repr{(T[\sigma])} \equiv (\Repr{T})[\sigma]
+		} \and
+		\inferrule[Repr-Term-Subst-Id]
+		{
+			\Sigma \mid \Gamma \vdash t : T \\
+			\Sigma \mid \Delta \vdash \sigma : \Gamma
+		}
+		{
+			\Sigma \mid \Delta \vdash \repr{(t[\sigma])} \equiv (\repr{t})[\sigma] : \Repr{(T[\sigma])}
+		} \and
+		\inferrule[Unrepr-Term-Subst-Id]
+		{
+			\Sigma \mid \Gamma \vdash t : \Repr T \\
+			\Sigma \mid \Delta \vdash \sigma : \Gamma
+		}
+		{
+			\Sigma \mid \Delta \vdash \unrepr{(t[\sigma])} \equiv (\unrepr{t})[\sigma] : T[\sigma]
+		}
+	\end{mathpar}
+	\caption{New term and type formers, and accompanying definitional equalities in $\lambdarep$.}
+	\label{fig:repr-rules}
 \end{figure}
 
 \begin{figure}[h]
-  \begin{mathpar}
-  \inferrule[Repr-$\Pi$-Id]
-  {
-    \Sigma \mid \Gamma \vdash \istype{T}_i \\
-    \Sigma \mid \Gamma,T \vdash \istype{U}_i
-  }
-  {
-    \Sigma \mid \Gamma \vdash \Repr{(\Pi\ T\ U)} \equiv \Pi\ T\ (\Repr{U})
-  }\and
-  \inferrule[Repr-$\lambda$-Id]
-  {
-    \Sigma \mid \Gamma, T \vdash u : U
-  }
-  {
-    \Sigma \mid \Gamma \vdash \repr{(\lambda\ u)} \equiv \lambda\ (\repr{u}) : \Repr{(\Pi\ T\ U)}
-  } \and
-  \inferrule[Unepr-$\lambda$-Id]
-  {
-    \Sigma \mid \Gamma, T \vdash u : \Repr U
-  }
-  {
-    \Sigma \mid \Gamma \vdash \unrepr{(\lambda\ u)} \equiv \lambda\ (\unrepr{u}) : \Pi\ T\ U
-  } \and
-  \inferrule[Repr-App-Id]
-  {
-    \Sigma \mid \Gamma \vdash f : \Pi\ T\ U \\
-    \Sigma \mid \Gamma \vdash t : T
-  }
-  {
-    \Sigma \mid \Gamma \vdash \repr{(f\ t)} \equiv (\repr{f})\ t : \Repr{U}
-  } \and
-  \inferrule[Unrepr-App-Id]
-  {
-    \Sigma \mid \Gamma \vdash f : \Repr{(\Pi\ T\ U)} \\
-    \Sigma \mid \Gamma \vdash t : T
-  }
-  {
-    \Sigma \mid \Gamma \vdash \unrepr{(f\ t)} \equiv (\unrepr{f})\ t : U
-  }
-  \end{mathpar}
-  \caption{Coherence of representation terms with $\Pi$-types.}
-  \label{fig:repr-pi-rules}
+	\begin{mathpar}
+		\inferrule[Repr-$\Pi$-Id]
+		{
+			\Sigma \mid \Gamma \vdash \istype{T}_i \\
+			\Sigma \mid \Gamma,T \vdash \istype{U}_i
+		}
+		{
+			\Sigma \mid \Gamma \vdash \Repr{(\Pi\ T\ U)} \equiv \Pi\ T\ (\Repr{U})
+		}\and
+		\inferrule[Repr-$\lambda$-Id]
+		{
+			\Sigma \mid \Gamma, T \vdash u : U
+		}
+		{
+			\Sigma \mid \Gamma \vdash \repr{(\lambda\ u)} \equiv \lambda\ (\repr{u}) : \Repr{(\Pi\ T\ U)}
+		} \and
+		\inferrule[Unepr-$\lambda$-Id]
+		{
+			\Sigma \mid \Gamma, T \vdash u : \Repr U
+		}
+		{
+			\Sigma \mid \Gamma \vdash \unrepr{(\lambda\ u)} \equiv \lambda\ (\unrepr{u}) : \Pi\ T\ U
+		} \and
+		\inferrule[Repr-App-Id]
+		{
+			\Sigma \mid \Gamma \vdash f : \Pi\ T\ U \\
+			\Sigma \mid \Gamma \vdash t : T
+		}
+		{
+			\Sigma \mid \Gamma \vdash \repr{(f\ t)} \equiv (\repr{f})\ t : \Repr{U}
+		} \and
+		\inferrule[Unrepr-App-Id]
+		{
+			\Sigma \mid \Gamma \vdash f : \Repr{(\Pi\ T\ U)} \\
+			\Sigma \mid \Gamma \vdash t : T
+		}
+		{
+			\Sigma \mid \Gamma \vdash \unrepr{(f\ t)} \equiv (\unrepr{f})\ t : U
+		}
+	\end{mathpar}
+	\caption{Coherence of representation terms with $\Pi$-types.}
+	\label{fig:repr-pi-rules}
 \end{figure}
 
 \begin{figure}[h]
-  \begin{mathpar}
-  \inferrule[Repr-$\univ_i$-Id]
-  { }
-  {
-    \Sigma \mid \Gamma \vdash \Repr{\univ_i} \equiv \univ_i 
-  } \and
-  \inferrule[Repr-Code-Id]
-  {
-    \Sigma \mid \Gamma \vdash \istype{T}_i
-  }
-  {
-    \Sigma \mid \Gamma \vdash \repr{(\Code{T})} \equiv \Code{T} : \univ_i
-  } \and
-  \inferrule[Unrepr-Code-Id]
-  {
-    \Sigma \mid \Gamma \vdash \istype{T}_i
-  }
-  {
-    \Sigma \mid \Gamma \vdash \unrepr{(\Code{T})} \equiv \Code{T} : \univ_i
-  }
-  \end{mathpar}
-  \caption{Coherence of representation terms with universes.}
-  \label{fig:repr-univ-rules}
+	\begin{mathpar}
+		\inferrule[Repr-$\univ_i$-Id]
+		{ }
+		{
+			\Sigma \mid \Gamma \vdash \Repr{\univ_i} \equiv \univ_i
+		} \and
+		\inferrule[Repr-Code-Id]
+		{
+			\Sigma \mid \Gamma \vdash \istype{T}_i
+		}
+		{
+			\Sigma \mid \Gamma \vdash \repr{(\Code{T})} \equiv \Code{T} : \univ_i
+		} \and
+		\inferrule[Unrepr-Code-Id]
+		{
+			\Sigma \mid \Gamma \vdash \istype{T}_i
+		}
+		{
+			\Sigma \mid \Gamma \vdash \unrepr{(\Code{T})} \equiv \Code{T} : \univ_i
+		}
+	\end{mathpar}
+	\caption{Coherence of representation terms with universes.}
+	\label{fig:repr-univ-rules}
 \end{figure}
 
 \begin{figure}[h]
-  \begin{mathpar}
-  \inferrule[Repr-Ctor-Id]
-  {
-    \Sreprvar{\ctorlab c\ \Pi}{\kappa} \in \Sigma
-  }
-  {\Sigma \mid \Gamma \vdash \repr{(\ctorlab{c}\ \delta\ \pi)} \equiv \kappa [\delta, \pi] : A[\delta, p[\pi]]} \and
-  \inferrule[Repr-Data-Id]
-  {
-    \Sreprvar{\datalab D\ \Delta\ P}{A} \in \Sigma
-  }
-  {\Sigma \mid \Gamma \vdash \istype{\Repr{(\datalab{D}\ \delta\ \psi)} \equiv A [\delta,\psi]}}
-  \end{mathpar}
-  \caption{Definitional equalities for $\Repr{}$ and $\repr{}$ relating to data
-  types and constructors with defined representations. Similar equalities hold
-  for representations of global function definitions and eliminators, albeit
-  propositionally.}
-  \label{fig:global-rep-eq}
+	\begin{mathpar}
+		\inferrule[Repr-Ctor-Id]
+		{
+			\Sreprvar{\ctorlab c\ \Pi}{\kappa} \in \Sigma
+		}
+		{\Sigma \mid \Gamma \vdash \repr{(\ctorlab{c}\ \delta\ \pi)} \equiv \kappa [\delta, \pi] : A[\delta, p[\pi]]} \and
+		\inferrule[Repr-Data-Id]
+		{
+			\Sreprvar{\datalab D\ \Delta\ P}{A} \in \Sigma
+		}
+		{\Sigma \mid \Gamma \vdash \istype{\Repr{(\datalab{D}\ \delta\ \psi)} \equiv A [\delta,\psi]}}
+	\end{mathpar}
+	\caption{Definitional equalities for $\Repr{}$ and $\repr{}$ relating to data
+		types and constructors with defined representations. Similar equalities hold
+		for representations of global function definitions and eliminators, albeit
+		propositionally.}
+	\label{fig:global-rep-eq}
 \end{figure}
 
 We state some basic lemmas below. The proof are left to the full version
 of the paper, along with the formalisation of computational irrelevance.
 
 \begin{lemma}
-  The term formers $\repr{}$ and $\unrepr{}$ are injective, i.e.
-  \begin{mathpar}
-    \inferrule
-    {
-      \Sigma \mid \Gamma \vdash \repr{t} \equiv \repr{t'} : \Repr T
-    }
-    {
-      \Sigma \mid \Gamma \vdash t \equiv t' : T
-    } \and
-    \inferrule
-    {
-      \Sigma \mid \Gamma \vdash \unrepr{t} \equiv \unrepr{t'} : T
-    }
-    {
-      \Sigma \mid \Gamma \vdash t \equiv t' : \Repr T
-    }
-  \end{mathpar}
+	The term formers $\repr{}$ and $\unrepr{}$ are injective, i.e.
+	\begin{mathpar}
+		\inferrule
+		{
+			\Sigma \mid \Gamma \vdash \repr{t} \equiv \repr{t'} : \Repr T
+		}
+		{
+			\Sigma \mid \Gamma \vdash t \equiv t' : T
+		} \and
+		\inferrule
+		{
+			\Sigma \mid \Gamma \vdash \unrepr{t} \equiv \unrepr{t'} : T
+		}
+		{
+			\Sigma \mid \Gamma \vdash t \equiv t' : \Repr T
+		}
+	\end{mathpar}
 \end{lemma}
 
 \begin{lemma}
-  The type former $\Repr{}$ is injective up to internal isomorphism, i.e.
-  \begin{mathpar}
-    \inferrule
-    {
-      \Sigma \mid \Gamma \vdash \istype{\Repr T \equiv \Repr T'}
-    }
-    {
-      \Sigma \mid \Gamma \vdash p : T\ \datalab{$\simeq$}\ T'
-    }
-  \end{mathpar}
-  Moreover, this isomorphism is computationally irrelevant.
+	The type former $\Repr{}$ is injective up to internal isomorphism, i.e.
+	\begin{mathpar}
+		\inferrule
+		{
+			\Sigma \mid \Gamma \vdash \istype{\Repr T \equiv \Repr T'}
+		}
+		{
+			\Sigma \mid \Gamma \vdash p : T\ \datalab{$\simeq$}\ T'
+		}
+	\end{mathpar}
+	Moreover, this isomorphism is computationally irrelevant.
 \end{lemma}
 
 \section{Translating from $\lambdarep$ to $\lambdaind$}
