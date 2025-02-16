@@ -1,23 +1,20 @@
 # Fdb version 3
-["bibtex .out/main"] 1739720557 ".out/main.aux" ".out/main.bbl" ".out/main" 1739720734
+["bibtex .out/main"] 1739722989 ".out/main.aux" ".out/main.bbl" ".out/main" 1739723313
   "./splncs04.bst" 1733698704 32146 aadf770ded437d161532035219ea6f45 ""
-  ".out/main.aux" 1739720696 11232 a7414efe554bd7606301870f5a50efdc "pdflatex"
+  ".out/main.aux" 1739723255 11232 4eb579afcbaafe701f8af751bb4d8e92 "pdflatex"
   "bib.bib" 1739579386 368369 10956d206936f6f5152accad4f61a33c ""
   (generated)
-  ".out/main.blg"
   ".out/main.bbl"
-["pdflatex"] 1739720734 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739720734
-  ".out/main.aux" 1739720696 11232 a7414efe554bd7606301870f5a50efdc "pdflatex"
-  ".out/main.bbl" 1739720558 3518 3c4b7672af6c0b92707ad086dc34dd0d "bibtex .out/main"
-  ".out/main.out" 1739720696 275 e8697098164b610f8033512d50a9d933 "pdflatex"
+  ".out/main.blg"
+["pdflatex"] 1739723313 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739723313
+  ".out/main.aux" 1739723255 11232 4eb579afcbaafe701f8af751bb4d8e92 "pdflatex"
+  ".out/main.bbl" 1739722989 3518 3c4b7672af6c0b92707ad086dc34dd0d "bibtex .out/main"
+  ".out/main.out" 1739723255 275 e8697098164b610f8033512d50a9d933 "pdflatex"
   "/Users/constantine/git/rep-tfp-2025/main.tex" 1739641219 422 b0f7be7083386e9171bc3b9405fbf6af ""
-  "/dev/null" 1739720734 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "/dev/null" 1739723313 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
-  "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecbi0500.tfm" 1136768653 3072 5c02773c2e93e883bb03697d9281a6c7 ""
-  "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecbi0700.tfm" 1136768653 3072 d954c3b8c413504af8820bec51a4b82c ""
-  "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecbi1000.tfm" 1136768653 3072 e6fe53b666f9cbd66cb135c6fdea66d3 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecbx0500.tfm" 1136768653 3584 0913860e6fa2bdf78ecaf460b391112b ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecbx0600.tfm" 1136768653 3584 ad9fcbc26a2a7bccd6d08b0a5792fbe0 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecbx0700.tfm" 1136768653 3584 ca0c423beaacd28d53ddce5a826cd558 ""
@@ -131,7 +128,6 @@
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb" 1248133631 31764 459c573c03a4949a528c2cc7f557e217 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/bbold-type1/bbold10.pfb" 1290383964 25452 d4e98a3bf6b13d4b7dcffd6302990a65 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/bbold-type1/bbold7.pfb" 1290383964 25570 857e8ef1d068e88b2d8db4f6176e0f5c ""
-  "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfbi1000.pfb" 1215737283 193571 dce9a978093738902238b3e227edef6c ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb" 1215737283 143961 201304b65f97bc643fbd0bcf0685d1fe ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb" 1215737283 145408 43d44302ca7d82d487f511f83e309505 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb" 1215737283 140176 d4962f948b4cc0adf4d3dde77a128c95 ""
@@ -341,9 +337,9 @@
   "sections/implementation.tex" 1739641425 861 c594a497aac511939899dbf38fc922fc ""
   "sections/intro.tex" 1739575850 3813 99e1e29adc9e7656ddf20b2bde0ad6d0 ""
   "sections/tour.tex" 1739577969 16773 0f272f8982fd3b8630c56c94e283d375 ""
-  "sections/type-system.tex" 1739720734 20215 0c16e90eae026fa9f13e717125428066 ""
+  "sections/type-system.tex" 1739723313 21544 e2db443ad89fbf6e7a2fddd2293358d4 ""
   (generated)
-  ".out/main.pdf"
   ".out/main.log"
-  ".out/main.aux"
   ".out/main.out"
+  ".out/main.aux"
+  ".out/main.pdf"

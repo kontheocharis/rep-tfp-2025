@@ -299,7 +299,7 @@ which are represented in the signature.
 In the following rules, $r : \mta{data-rep}\ (R, r)\ Q \in_i \Sigma$.
 Firstly, we define the reduction that occurs when a type $\mta{D}\ i$ is represented,
 \begin{equation}
-  \mta{Repr-D} : \forall r.\ \MRepr\ (\mta{D}\ i) \equiv R \,, \label{eq:lambdaind-Repr-D}
+  \mta{Repr-D} : \forall r.\ \MRepr\ (\mta{D}\ i) = R \,, \label{eq:lambdaind-Repr-D}
 \end{equation}
 yielding the carrier $R$ of the inductive algebra that represents it.
 Additionally, we can add a similar rule for constructors, albeit in propositional form, where
@@ -326,43 +326,31 @@ First, representing an eliminator just applies $\mta{repr}$ to the motive and me
 \begin{align*}
 &\mta{repr-E} : \forall r.\ \Tm\ (\Sigma, \Delta)\ (\mta{Id}\ (\Mrepr\ (\mta{E}\ M\ m))\ (\mta{E}\ (\mta{Repr}\ M)\ (\mta{repr} \fmap m)))
 \end{align*}
-Additionally, eliminating
+Additionally, eliminating something using $\mta{E}$ should be the same as
+eliminating the representation of that thing using the represented eliminator $Q$:
+\begin{align*}
+&\mta{unrepr-E} : \forall r.\ \Tm\ (\Sigma, \Delta)\ (\mta{Id}\ (\mta{E}\ M\ m)\ (\mta{Q}[\Msub{M^{\mta{Unrepr}}, m^{\mta{Unrepr}}}]))
+\end{align*}
+Here, the \mta{Unrepr} operations are typed as
+\begin{align*}
+&\_^{\mta{Unrepr}} : \Ty\ (\Gamma \rhd P \rhd \mta{D}\ i) \to \Ty\ (\Gamma \rhd P \rhd R) \\
+&\_^{\mta{Unrepr}} : \mta{Methods}\ M \to \mta{Methods}\ M^{\mta{Unrepr}}\,.
+\end{align*}
+The first one takes a motive over $\mta{D}\ i$ and produces a motive over $R$ by applying
+\mta{unrepr} to the $\mta{D}\ i$ in the context, while the second one takes some
+methods over $\mta{D}\ i$ and produces methods over $R$ by applying
+$\mta{unrepr}$ to all recursive arguments in the context, and then applying
+$\mta{repr}$ to the result to obtain an inhabitant of $M^{\mta{Unrepr}}$.
 
-We state some basic lemmas below. The proof are left to the full version
-of the paper, along with the formalisation of computational irrelevance.
-
-\begin{lemma}
-	The term formers $\repr{}$ and $\unrepr{}$ are injective, i.e.
-	\begin{mathpar}
-		\inferrule
-		{
-			\Sigma \mid \Gamma \vdash \repr{t} \equiv \repr{t'} : \Repr T
-		}
-		{
-			\Sigma \mid \Gamma \vdash t \equiv t' : T
-		} \and
-		\inferrule
-		{
-			\Sigma \mid \Gamma \vdash \unrepr{t} \equiv \unrepr{t'} : T
-		}
-		{
-			\Sigma \mid \Gamma \vdash t \equiv t' : \Repr T
-		}
-	\end{mathpar}
-\end{lemma}
+Now we state some basic lemmas of the representation operators.
 
 \begin{lemma}
-	The type former $\Repr{}$ is injective up to internal isomorphism, i.e.
-	\begin{mathpar}
-		\inferrule
-		{
-			\Sigma \mid \Gamma \vdash \istype{\Repr T \equiv \Repr T'}
-		}
-		{
-			\Sigma \mid \Gamma \vdash p : T\ \datalab{$\simeq$}\ T'
-		}
-	\end{mathpar}
-	Moreover, this isomorphism is computationally irrelevant.
+	The term formers $\Mrepr{}$ and $\Munrepr{}$ are injective, i.e.
+	$\Mrepr\ x = \Mrepr\ y \to x = y$ and $\Munrepr\ x = \Munrepr\ y \to x = y$.
+	\begin{proof}
+				By applying $\mta{unrepr}/\mta{repr}$ to both sides
+				followed by the rule $\mta{reprr}/\mta{reprl}$.
+	\end{proof}
 \end{lemma}
 
 \section{Translating from $\lambdarep$ to $\lambdaind$}
@@ -373,7 +361,9 @@ More specifically, the translation target is the extensional flavour of
 $\lambdaind$ by adding the equality reflection rule. We do this by translating
 well-formed contexts, substitutions, types, and terms in a mutual manner such
 that definitional equality is preserved. $\R$ preserves the structure of
-$\lambdarep$, but maps constructs to their terminal representations. Eliminator
+$\lambdarep$, but maps constructs to their terminal representations.
+
+Eliminator
 coherence rules are preserved by reflecting the propositional coherence rules
 provided by the defined representations. We will prove some desired properties
 of $\R$ \cite{Boulier2017-cm} such as typing and computational soundness, and
@@ -382,3 +372,25 @@ simply-typed language which erases irrelevant data. We can recover a program in
 $\lambdaind$ by translating extensional typing derivations to intensional proofs
 \cite{Winterhalter2019-zw}.
 \cite{Winterhalter2019-zw}.
+
+\begin{definition}
+    A non-dependent function $f : \mta{Tm}\ \Gamma\ (\Pi\ A\ B)$ is \emph{computationally irrelevant} if
+    $\R A = \R B$ and $\R f = \mta{id}_{\R A}$.
+\end{definition}
+
+\begin{lemma}
+	The type former $\MRepr{}$ is injective up to internal isomorphism, i.e.
+	\begin{equation}
+	\mta{Repr}\ T = \mta{Repr}\ T' \to \Tm\ \Gamma\ (\mta{Iso}\ T\ T')
+	\end{equation}
+	Moreover, this isomorphism is computationally irrelevant.
+	\begin{proof}
+	The forward direction is given by first applying $\mta{repr}$ to $t$,
+	transporting over the equality and then applying $\mta{unrepr}$. The
+	backward direction is given by applying $\mta{repr}$ to $t'$, transporting
+	over the equality and then applying $\mta{unrepr}$. The coherence holds by
+	the rules $\mta{reprr}$ and $\mta{reprl}$. After applying $\R$, all
+	representation operators are erased and the isomorphism is the identity on both
+	sides.
+	\end{proof}
+\end{lemma}
