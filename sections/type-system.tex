@@ -329,7 +329,7 @@ First, representing an eliminator just applies $\mta{repr}$ to the motive and me
 Additionally, eliminating something using $\mta{E}$ should be the same as
 eliminating the representation of that thing using the represented eliminator $Q$:
 \begin{align*}
-&\mta{unrepr-E} : \forall r.\ \Tm\ (\Sigma, \Delta)\ (\mta{Id}\ (\mta{E}\ M\ m)\ (\mta{Q}[\Msub{M^{\mta{Unrepr}}, m^{\mta{Unrepr}}}]))
+&\mta{unrepr-E} : \forall r.\ \Tm\ (\Sigma, \Delta)\ (\mta{Id}\ (\mta{E}\ M\ m)\ (s.\ \mta{Q}_0[\Msub{M^{\mta{Unrepr}}, m^{\mta{Unrepr}}, \mta{repr}\ s}])))
 \end{align*}
 Here, the \mta{Unrepr} operations are typed as
 \begin{align*}
@@ -360,22 +360,60 @@ $\lambdaind^{\textsc{Ext}}$, meant to be applied during the compilation process.
 More specifically, the translation target is the extensional flavour of
 $\lambdaind$ by adding the equality reflection rule. We do this by translating
 well-formed contexts, substitutions, types, and terms in a mutual manner such
-that definitional equality is preserved. $\R$ preserves the structure of
+that definitional equality is preserved.
+$\R$ preserves the structure of
 $\lambdarep$, but maps constructs to their terminal representations.
+First, we define a translation of signatures
+\begin{align*}
+& \R : \Sig_\rep \to \Sig_\ind \\
+& \R\ \bullet := \bullet \\
+& \R\ (\Sigma \rhd I) := \R \Sigma \rhd \R I \\
+& \R\ (\Sigma \unrhd I \ R) := \R \Sigma
+\end{align*}
+which erases all items with defined representations.
+This uses a translation of items
+\begin{align*}
+& \R : \Item_\rep\ \Sigma \to \Item_\ind\ \R \Sigma
+\end{align*}
+which simply recurses on all constructors. Types are translated as
+\begin{align*}
+  & \R : \Ty_\rep\ (\Sigma, \Delta)\ \to \Ty_\ind\ (\R \Sigma, \R \Delta) \\
+  & \R\ (\mta{D}\ i) := \kwd{if}\ \mta{data-rep}\ (R, r)\ Q \in_i \Sigma\ \kwd{then}\ \R R\ \kwd{else}\ \mta{D}\ \R i \\
+  & \R\ (\MRepr\ T) := \R T \\
+  & \text{(otherwise recurse on all subterms with $\R$)}
+\end{align*}
+and terms are translated as
+\begin{align*}
+  & \R : \Tm_\rep\ (\Sigma, \Delta)\ T \to \Tm_\ind\ (\R \Sigma, \R \Delta)\ \R T \\
+  & \R\ (\mta{C}_i\ a) := \kwd{if}\ \mta{data-rep}\ (R, r)\ Q \in_i \Sigma\ \\
+    &\qquad \kwd{then}\ \mta{isAlgebra}^{-1}\ \R r\ \R a\ \kwd{else}\ \mta{C}_{\R i}\ \R a \\
+  & \R\ (\mta{E}_i\ M\ m) :=  \kwd{if}\ \mta{data-rep}\ (R, r)\ Q \in_i \Sigma\ \\
+    &\qquad \kwd{then}\ (\R Q_0)[\Msub{\R M, \R m}]\ \kwd{else}\ \mta{E}_{\R i}\ \R M\ \R m \\
+  & \R\ (\Mrepr\ t) := \R t \\
+  & \R\ (\Munrepr\ t) := \R t \\
+  & \R\ (\mta{repr-C}_i\ a) := \mta{refl} \\
+  & \R\ (\mta{repr-E}_i\ M\ m) := \mta{refl} \\
+  & \R\ (\mta{unrepr-E}_i\ M\ m) := \mta{refl} \\
+  & \text{(otherwise recurse on all subterms with $\R$)}
+\end{align*}
 
-Eliminator
-coherence rules are preserved by reflecting the propositional coherence rules
-provided by the defined representations. We will prove some desired properties
-of $\R$ \cite{Boulier2017-cm} such as typing and computational soundness, and
-preservation of consistency. The final program can then be converted into a
-simply-typed language which erases irrelevant data. We can recover a program in
-$\lambdaind$ by translating extensional typing derivations to intensional proofs
-\cite{Winterhalter2019-zw}.
-\cite{Winterhalter2019-zw}.
+The definitional coherence rules for representation operators
+\cref{fig:lambdaind-repr-coherence-pi-univ} are preserved by metatheoretic
+reflexivity on the other side, since all representation operators are erased.
+The coherence rules for eliminators $\mta{E}$ are preserved by reflecting the
+propositional coherence rules provided by the defined representations:
+\begin{align*}
+& \mta{ap}_\R\ (\mta{E-id}_i\ M\ m) :=  \kwd{if}\ \mta{data-rep}\ (R, r)\ Q \in_i \Sigma\ \\
+      &\qquad \kwd{then}\ \mta{reflect}\ (\R Q_1)[\Msub{\R M, \R m}]\ \kwd{else}\ \mta{E-id}_{\R i}\ \R M\ \R m \,.
+\end{align*}
+
+By construction, $\R$ is sound with respect to typing and definitional equality.
+
+\subsection{Computational irrelevance}
 
 \begin{definition}
-    A non-dependent function $f : \mta{Tm}\ \Gamma\ (\Pi\ A\ B)$ is \emph{computationally irrelevant} if
-    $\R A = \R B$ and $\R f = \mta{id}_{\R A}$.
+    A non-dependent internal function $f : \mta{Tm}\ \Gamma\ (\Pi\ A\ B)$ is \emph{computationally irrelevant} if
+    $\R A = \R B$ and $\R (\mta{app}\ f\ a) = a$ for all $a : \mta{Tm}\ \Gamma\ A$.
 \end{definition}
 
 \begin{lemma}
@@ -394,3 +432,12 @@ $\lambdaind$ by translating extensional typing derivations to intensional proofs
 	sides.
 	\end{proof}
 \end{lemma}
+
+
+We will prove some desired properties
+of $\R$ \cite{Boulier2017-cm} such as typing and computational soundness, and
+preservation of consistency. The final program can then be converted into a
+simply-typed language which erases irrelevant data. We can recover a program in
+$\lambdaind$ by translating extensional typing derivations to intensional proofs
+\cite{Winterhalter2019-zw}.
+\cite{Winterhalter2019-zw}.
