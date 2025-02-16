@@ -1,10 +1,16 @@
 \section{Appendix}
 
 The metatheory is presented internally to an extensional dependent type theory
-with internal universes $\Set_i$, dependent function types $(a : A) \to B$ and 
-dependent pair types $(a : A) \times B$. The metatheory also supports 
+with internal universes $\Set_i$, dependent function types $(a : A) \to B$ and
+dependent pair types $(a : A) \times B$. The metatheory also supports
 quotient-inductive-inductive definitions, which are used to define the syntaxes
 of the languages presented in this paper.
+
+\subsection{Utilities when working with algebras}
+
+% \begin{align*}
+% \textdollar : T^D\
+% \end{align*}
 
 \subsection{The language $\lambdaind$}
 
@@ -15,7 +21,7 @@ of the languages presented in this paper.
   \_[\_] &: \Ty\ \Delta \to \Sub\ \Gamma\ \Delta \to \Ty\ \Gamma\\
   \univ &: \Ty\ \Gamma \\
   \Pi &: (A : \Ty\ \Gamma) \to \Ty\ (\Gamma \rhd A) \to \Ty\ \Gamma \\
-  \El{} &: \Tm\ \Gamma\ \univ \to \Ty\ \Gamma 
+  \El{} &: \Tm\ \Gamma\ \univ \to \Ty\ \Gamma
   \end{align*}%
   \end{minipage}
   \begin{minipage}[t]{0.5\textwidth}%
@@ -25,7 +31,7 @@ of the languages presented in this paper.
   \pi_2 &: (\sigma : \Sub\ \Gamma\ (\Delta \rhd A)) \to \Tm\ \Gamma\ A[\pi_1 \sigma] \\
   \lambda &: \Tm\ (\Gamma \rhd A)\ B \to \Tm\ \Gamma\ (\Pi\ A\ B) \\
   \ap{} &: \Tm\ \Gamma\ (\Pi\ A\ B) \to \Tm\ (\Gamma \rhd A)\ B \\
-  \Code{} &: \Ty\ \Gamma \to \Tm\ \Gamma\ \univ 
+  \Code{} &: \Ty\ \Gamma \to \Tm\ \Gamma\ \univ
   \end{align*}
   \end{minipage}
   \caption{The type and term formers of the base layer of $\lambdaind$.}
@@ -70,7 +76,7 @@ of the languages presented in this paper.
   \epsilon &: \Sub\ (\Sigma, \Delta)\ (\Sigma, \epsilon) \\
   \rhd &: (\sigma : \Sub\ (\Sigma,\Delta_1)\ (\Sigma,\Delta_2)) \to \Tm\ (\Sigma, \Delta_1)\ A[\sigma] \to \Sub\ (\Sigma,\Delta_1)\ (\Sigma,\Delta_2 \rhd A) \\
   \circ &: \Sub\ \Gamma_1\ \Gamma_2 \to \Sub\ \Gamma_2\ \Gamma_3 \to \Sub\ \Gamma_1\ \Gamma_3 \\
-  \pi_1 &: \Sub\ (\Sigma,\Delta_1)\ (\Sigma, \Delta_2 \rhd A) \to \Sub\ (\Sigma,\Delta_1)\ (\Sigma,\Delta_2) 
+  \pi_1 &: \Sub\ (\Sigma,\Delta_1)\ (\Sigma, \Delta_2 \rhd A) \to \Sub\ (\Sigma,\Delta_1)\ (\Sigma,\Delta_2)
   \end{align*}
   \end{minipage}
   \caption{Substitutions between contexts in $\lambdaind$.}
@@ -125,7 +131,7 @@ of the languages presented in this paper.
   &\mta{Method}\ \{\Pi_{\mta{ext}}\ A\ B\}\ X\ M\ \alpha &&:= (x : A) \to \mta{Method}\ (B\ x)\ X\ M\ (\alpha\ x) \\
   &\mta{Method}\ \{\Pi_{\mta{int}}\ A\ B\}\ X\ M\ \alpha &&:= (a : \Tm\ \Gamma\ A) \to \mta{Method}\ B [\langle a \rangle]\ X\ M\ (\alpha\ a) \\
   &\mta{Method}\ \{\Pi_{\mta{rec}}\ p\ B\}\ X\ M\ \alpha &&:= (x : \Tm\ \Gamma\ X [\langle p \rangle]) \to \Tm\ \Gamma\ M [\langle p ; x \rangle] \to \mta{Method}\ B\ X\ M\ (\alpha\ x) \\
-  &\mta{Method}\ \{\mta{ret}\ p\}\ X\ M\ \alpha &&:= \Tm\ \Gamma\ M [\langle p ; \alpha \rangle] 
+  &\mta{Method}\ \{\mta{ret}\ p\}\ X\ M\ \alpha &&:= \Tm\ \Gamma\ M [\langle p ; \alpha \rangle]
   \end{alignedat} \\[1em]
   &\mta{Section} : \{T : \Theory\ \Gamma\ \Xi\} \to \mta{Motive}\ T\ X \to \Set \\
   &\mta{Section}\ \{T\}\ \{X\} := (p : \Tms\ \Gamma\ \Xi) \to (x : \Tm\ \Gamma\ (X[\Msub p])) \to \Tm\ \Gamma\ M[\Msub {p; x}] \\[1em]
@@ -138,10 +144,10 @@ of the languages presented in this paper.
 
 \begin{figure}[H]
   \begin{alignat*}{2}
-  & \mta{data} &&: (\mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \to (p : \Tms\ \Gamma\ \Xi[\langle p \rangle]) \to \Ty\ \Gamma \\ 
+  & \mta{data} &&: (\mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \to (p : \Tms\ \Gamma\ \Xi[\langle p \rangle]) \to \Ty\ \Gamma \\
   & \mta{ctor} &&: (i : \mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\
   &            && \to (a : \mta{In}\ T\ (\mta{data}\ i\ p)\ p) \to \Tm\ \Gamma\ (\mta{data}\ i\ p\ xi) \\[0.5em]
-  & \mta{elim} &&: (i : \mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\ 
+  & \mta{elim} &&: (i : \mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\
   &            && \to (M : \mta{Motive}\ T\ (\mta{data}\ i\ p)) \to (m : \mta{Methods}\ M) \to \mta{Section}\ M \\
   & \mta{match} &&: (\mta{elim}\ i\ p\ M\ m)[\langle p, \mta{ctor}\ i\ p\ n\ a \rangle] = (m\,!\,n)[\langle a , \mta{elim}\ i\ p\ M\ m \fmap a \rangle]
   \end{alignat*}
@@ -176,7 +182,7 @@ of the languages presented in this paper.
   \begin{alignat*}{2}
   & \mta{reprr} &&: \Munrepr\ (\Mrepr\ t) \equiv t \\
   & \mta{reprl} &&: \Mrepr\ (\Munrepr\ t) \equiv t \\[1em]
-  & \MRepr\text{-}\Pi &&: \MRepr\ {(\Pi\ T\ U)} \equiv \Pi\ T\ (\MRepr\ U) \\ 
+  & \MRepr\text{-}\Pi &&: \MRepr\ {(\Pi\ T\ U)} \equiv \Pi\ T\ (\MRepr\ U) \\
   & \Mrepr\text{-}\lambda &&: \Mrepr\ {(\lambda\ u)} \equiv \lambda\ (\Mrepr\ u) \\
   & \Munrepr\text{-}\lambda &&: \Munrepr\ {(\lambda\ u)} \equiv \lambda\ (\Munrepr\ u) \\
   & \Mrepr\text{-}@ &&: \Mrepr\ (\ap f) \equiv \ap {(\Mrepr\ f)} \\
@@ -190,14 +196,14 @@ of the languages presented in this paper.
   & \Munrepr\text{-}\Code{} &&: \Munrepr\ {(\Code T)} \equiv \Code T \\[1em]
   & \MRepr[] &&: \MRepr\ {(T[\sigma])} \equiv (\MRepr\ {T})[\sigma] \\
   & \Mrepr[] &&: \Mrepr\ {(t[\sigma])} \equiv (\Mrepr\ {t})[\sigma] \\
-  & \Munrepr[] &&: \Munrepr\ {(t[\sigma])} \equiv (\Munrepr\ {t})[\sigma] 
+  & \Munrepr[] &&: \Munrepr\ {(t[\sigma])} \equiv (\Munrepr\ {t})[\sigma]
   \end{alignat*}
   \end{minipage}%
   \caption{Coherence of representation terms with substitutions, $\Pi$-types and
   universes. The terms $\MRepr\ (\El{t})$, $\Mrepr\ (\pi_2 \sigma)$ and
   $\Munrepr\ (\pi_2 \sigma)$ do not reduce, and there is no rule to collapse
   repeated invocations of $\MRepr{}$, $\Mrepr{}$ and $\Munrepr{}$.}
-  \label{fig:lambdaind-repr-coherence-pi-univ}
+  \label{fig:lambdaind-repr-coherence-pi-univ-2}
 \end{figure}
 
 \begin{figure}[H]
