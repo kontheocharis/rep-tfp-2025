@@ -102,6 +102,62 @@ The equations that are required for a section have been stated to hold on the le
 equality of the metatheory, but soon we will utilise a notion of section where the equalities
 only hold up to the internal equality type of $\lambdaind$.
 
+For the remainder of the paper we choose a fixed representation for algebras as
+\begin{align*}
+    &\mta{Algebra}\ T\ X := (a : \mta{Args}\ T\ X) \to \Tm\ \Gamma\ X[\Msub{\mta{out}\ a}] \\
+    &\mta{Alg}\ T := (X : \Ty\ \Gamma) \times \mta{Algebra}\ T\ X \,,
+\end{align*}
+displayed algebras as
+\begin{align*}
+    &\mta{DispAlgebra}\ (X, x)\ M := (a : \mta{DispArgs}\ X\ M) \to \Tm\ \Gamma\ X[\Msub{\mta{out}\ a; x\ a}] \\
+    &\mta{DispAlg}\ (X, x) := (M : \Ty\ (\Gamma \rhd P \rhd X)) \times \mta{DispAlgebra}\ (X, x)\ M
+\end{align*}
+and finally sections as
+\begin{align*}
+    &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f \\
+    &\mta{Sec}\ M := \Tm\ (\Gamma \rhd P \rhd X)\ M \\
+    &\mta{Coh}\ f := \forall a. f[\Msub{\mta{out}\ a; x\ a}] = m\ (\mta{disp}\ f\ a)
+\end{align*}
+where $\mta{disp} : \mta{Sec}\ M \to \mta{Args}\ T\ X \to \mta{DispArgs}\ X\ M$
+takes some arguments of the algebra $(X, x)$ and a section $f$ and returns
+arguments of the displayed algebra $m$ by applying the section $T$ to all
+recursive occurrences of $X$.
+
+We can also define a fully internal notion of algebras
+\begin{align*}
+    &\mta{alg}\ T : \Tel\ \Gamma \\
+    &\mta{alg}\ T := (X : \Pi\ P\ \univ) \rhd \mta{algebra}\ T \\
+    &\mta{algebra}\ T : \Tel\ (\Gamma \rhd X) \,,
+\end{align*}
+displayed algebras
+\begin{align*}
+    &\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
+    &\mta{dispAlg} := X\ x.\ (M : \Pi\ P\ (\Pi\ X\ \univ)) \rhd \mta{dispAlgebra} \\
+    &\mta{dispAlgebra} : \Tel\ (\Gamma \rhd (X, x) : \mta{alg}\ T \rhd \Pi\ P\ (\Pi\ X\ \univ)))  \,,
+\end{align*}
+and sections
+\begin{align*}
+    &\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
+    &\mta{section} := X\ x\ M\ m.\ (f : \Pi\ P\ (\Pi\ X\ M)) \rhd \mta{coh}\ f \\
+    &\mta{coh}\ f : \Tel\ (\Gamma \rhd (X, x) : \mta{alg}\ T\rhd (M, m) : \mta{dispAlg} \rhd \Pi\ P\ (\Pi\ X\ M)) \\ \,.
+\end{align*}
+This can be put together to internally define inductive algebras as
+\begin{align*}
+    &\mta{inductiveAlg}\ T : \Tel\ \Gamma \\
+    &\mta{inductiveAlg}\ T := \mta{alg}\ T \rhd \Pi\ \mta{dispAlg}\ \mta{section}
+\end{align*}
+where $\Pi$ is extended to operate on telescopes.
+
+We also get `realisation' functions which produce external equivalents of algebras
+and displayed algebras
+\begin{align*}
+    &\emb{\_} : \Tms\ \Gamma\ (\mta{alg}\ T) \to \mta{Alg}\ T \\
+    &\emb{\_} : (t : \Tms\ \Gamma\ (\mta{alg}\ T)) \to \Tms\ \Gamma\ (\mta{dispAlg}[\Msub{t}]) \to \mta{DispAlg}\ \emb{t} \\
+\end{align*}
+
+
+% with a `realisation' function $\mta{real} : \Tms\ \Gamma\
+
 \subsection{The core language, $\lambdaind$}
 
 The languge $\lambdaind$, is a dependent type theory with $\Pi$, $\mta{Id}$, and
@@ -173,38 +229,43 @@ described by a metatheoretic product of internal curried functions ending in
 $\mta{D}\ i$, which is equivalent to a function out of a coproduct
 $\mta{Args}\ i$ into $\mta{D}\ i$. All occurences of $\mta{Tm}$ in
 $\mta{Args}$ occur positively and are part of the inductive syntax.
+$\mta{Args}$ is also a functor in $X$ by
 
 \begin{definition}
 	The \emph{internal term algebra} $\mta{TmAlg}\ \Gamma\ i$ of a data type $i$ is
 	the algebra with carrier $\mta{D}\ i$, given by $\mta{isAlgebra}\ \mta{C}_i$.
 \end{definition}
 
+From now we will use $\mta{isAlgebra}$ implicitly when applying an algebra to
+some arguments.
+
 Finally, we add an eliminator term
 \[
-	\mta{E} :\ \forall i.\ (M : \Ty\ (\Gamma \rhd P \rhd \mta{D}\ i)) \to \mta{Methods}\ T\ M \to \Tm\ (\Gamma \rhd P \rhd \mta{D}\ i)\ M \\
+	\mta{E} :\ \forall i.\ (M : \Ty\ (\Gamma \rhd P \rhd \mta{D}\ i)) \to \mta{Methods}\ \mta{C}\ M \to \Tm\ (\Gamma \rhd P \rhd \mta{D}\ i)\ M \\
 \]
 which given a data definition $i$ in $\Sigma$, a motive and methods for $i$,
 eliminates each $d : (\mta{D}\ i)[\Msub p]$ into $M[\Msub{p;d}]$. This captures the induction
-principle of the data type. The motive and methods package a displayed algebra,
+principle of the data type. The motive and methods package a displayed algebra $(M, m)$.
 and the output of $\mta{E}$ captures the data part of the produced section. The
 structure preservation part of the section is captured by an equality
 constructor
 \[
-	\mta{E-id}\ M\ m : \forall a.\ \mta{E}\ M\ m\ [\Msub{\mta{out}\ a; \mta{C}\ a}] = \mta{applyDisp}\ m\ a\ (\mta{E}\ M\ m)
+	\mta{E-id}\ M\ m : \forall a.\ \mta{E}\ M\ m\ [\Msub{\mta{out}\ a; \mta{C}\ a}] = \mta{applyDisp}\ m\ (\mta{E}\ M\ m)\ a
 \]
 The type $\mta{Methods}$ describes displayed algebras of the internal term algebra.
 It has an accompanying function $\mta{applyDisp}$ with the form
 \begin{align*}
-    \mta{applyDisp} :\ &(m : \mta{Methods}\ M) \to (a : \mta{Args}\ i) \\
-    &\to (s : \Tm\ (\Gamma \rhd P \rhd \mta{D}\ i)\ M) \to \Tm\ \Gamma\ (M[\Msub{\mta{out}\ a; \mta{C}\ a}]
+    \mta{applyDisp} :\ \forall M\ l.\ &(m : \mta{Methods}\ l\ M) \to (s : \Tm\ (\Gamma \rhd P \rhd X)\ M) \\
+    &\to (a : \mta{Args}\ T\ X) \\
+    &\to \Tm\ \Gamma\ (M[\Msub{\mta{out}\ a; l\ a}]
 \end{align*}
 which applies the arguments $a$ to the appropriate method in $m$, sampling the inductive hypothesis
 from the section $s$.
 The output of the eliminator paired with the $\mta{E-id}$ equality
 constructor defines a section of this displayed algebra
 \begin{align*}
-    \mta{isSection}\ M\ m :\ & (f : \Tm\ (\Gamma \rhd P \rhd \mta{D}\ i)\ M) \\
-    &\quad\times (\forall a.\ f\ [\Msub{\mta{out}\ a;\mta{C}\ a}] = \mta{applyDisp}\ m\ a\ f) \\
+    \mta{isSection}\ M\ m :\ & (f : \Tm\ (\Gamma \rhd P \rhd X)\ M) \\
+    &\quad\times (\forall a.\ f\ [\Msub{\mta{out}\ a;l\ a}] = \mta{applyDisp}\ m\ f\ a) \\
     &\simeq \mta{Section}\ (M,\ m)
 \end{align*}
 
@@ -240,6 +301,8 @@ Representations in turn are defined as
 & \mta{data-rep} : (a : \mta{Alg}\ T) \to \mta{Inductive}\ a \to \Rep\ \Sigma\ (\mta{data}\ P\ T) \\
 & \mta{def-rep} : (x : \Tm\ (\Sigma, P)\ A) \to \Tm\ (\Sigma, P)\ (\mta{Id}\ x\ t) \to \Rep\ \Sigma\ (\mta{def}\ P\ A\ t)
 \end{align*}
+Data types are represented by providing an inductive algebra for their theory.
+
 We also include representations for definitions, where a definition can be
 represented by a term propositionally equal to original definition, but perhaps
 with better computational properties.
@@ -386,7 +449,7 @@ and terms are translated as
 \begin{align*}
   & \R : \Tm_\rep\ (\Sigma, \Delta)\ T \to \Tm_\ind\ (\R \Sigma, \R \Delta)\ \R T \\
   & \R\ (\mta{C}_i\ a) := \kwd{if}\ \mta{data-rep}\ (R, r)\ Q \in_i \Sigma\ \\
-    &\qquad \kwd{then}\ \mta{isAlgebra}^{-1}\ \R r\ \R a\ \kwd{else}\ \mta{C}_{\R i}\ \R a \\
+    &\qquad \kwd{then}\ \R r\ \R a\ \kwd{else}\ \mta{C}_{\R i}\ \R a \\
   & \R\ (\mta{E}_i\ M\ m) :=  \kwd{if}\ \mta{data-rep}\ (R, r)\ Q \in_i \Sigma\ \\
     &\qquad \kwd{then}\ (\R Q_0)[\Msub{\R M, \R m}]\ \kwd{else}\ \mta{E}_{\R i}\ \R M\ \R m \\
   & \R\ (\Mrepr\ t) := \R t \\
@@ -404,16 +467,28 @@ The coherence rules for eliminators $\mta{E}$ are preserved by reflecting the
 propositional coherence rules provided by the defined representations:
 \begin{align*}
 & \mta{ap}_\R\ (\mta{E-id}_i\ M\ m) :=  \kwd{if}\ \mta{data-rep}\ (R, r)\ Q \in_i \Sigma\ \\
-      &\qquad \kwd{then}\ \mta{reflect}\ (\R Q_1)[\Msub{\R M, \R m}]\ \kwd{else}\ \mta{E-id}_{\R i}\ \R M\ \R m \,.
+      &\qquad \kwd{then}\ \mta{reflect}\ (\R Q_1)[\Msub{\R M, \R m}]\ \kwd{else}\ \mta{E-id}_{\R i}\ \R M\ \R m  \\
+& \text{(otherwise recurse on all equality constructors with $\mta{ap}_\R$)}
 \end{align*}
 
 By construction, $\R$ is sound with respect to typing and definitional equality.
 
 \subsection{Computational irrelevance}
 
+In order to reason about computational irrelevance, we assume that there is
+an additional program extraction step $\mathcal{E}$ from $\lambdaind$ into some
+simply-typed calculus $\lambda$, denoted by vertical bars $|x|$. As opposed to
+$\R$, $\mathcal{E}$ operates on the unquotiented syntax of $\lambdaind$. This
+can be justified by interpreting the quotient-inductive constructions from
+before into setoids. This kind of
+transformation is used because we might want to compile two definitionally equal
+terms differently. For example, we might not always want to reduce function
+application redexes. We will use the \texttt{monospace} font for terms in
+$\lambda$.
+
 \begin{definition}
-    A non-dependent internal function $f : \mta{Tm}\ \Gamma\ (\Pi\ A\ B)$ is \emph{computationally irrelevant} if
-    $\R A = \R B$ and $\R (\mta{app}\ f\ a) = a$ for all $a : \mta{Tm}\ \Gamma\ A$.
+    An function $f : \mta{Tm}_\rep\ \Gamma\ (\Pi\ A\ B)$, is \emph{computationally irrelevant} if
+    $|\R A| = |\R B|$ and $|\R f| = \texttt{id}$ for all $a : \mta{Tm}\ \Gamma\ A$.
 \end{definition}
 
 \begin{lemma}
@@ -429,7 +504,7 @@ By construction, $\R$ is sound with respect to typing and definitional equality.
 	over the equality and then applying $\mta{unrepr}$. The coherence holds by
 	the rules $\mta{reprr}$ and $\mta{reprl}$. After applying $\R$, all
 	representation operators are erased and the isomorphism is the identity on both
-	sides.
+	sides (even before extraction).
 	\end{proof}
 \end{lemma}
 
