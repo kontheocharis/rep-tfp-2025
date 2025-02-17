@@ -47,6 +47,10 @@ Diehl, L., Firsov, D., Stump, A.: Generic zero-cost reuse for dependent types.
   Proc. ACM Program. Lang.  \textbf{2}(ICFP),  1--30 (Jul 2018),
   \url{https://doi.org/10.1145/3236799}
 
+\bibitem{Kovacs2022-vb}
+Kovács, A.: Staged compilation with two-level type theory. arXiv [cs.PL]  (Sep
+  2022), \url{http://arxiv.org/abs/2209.09729}
+
 \bibitem{Kovacs2023-gq}
 Kovács, A.: Type-theoretic signatures for algebraic theories and inductive
   types. Ph.D. thesis (2023),

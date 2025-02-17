@@ -611,21 +611,20 @@ Thus, by construction, $\R$ is sound with respect to typing and definitional equ
 
 In order to reason about computational irrelevance, we assume that there is
 an additional program extraction step $\mathcal{E}$ from $\lambdaind$ into some
-simply-typed calculus $\lambda$, denoted by vertical bars $|x|$. As opposed to
+simply-typed calculus, denoted by vertical bars $|x|$. As opposed to
 $\R$, $\mathcal{E}$ operates on the unquotiented syntax of $\lambdaind$. This
 can be justified by interpreting the quotient-inductive constructions from
-before into setoids. This kind of
-transformation is used because we might want to compile two definitionally equal
-terms differently. For example, we might not always want to reduce function
-application redexes. We will use the \texttt{monospace} font for terms in
-$\lambda$.
+before into setoids \cite{Kovacs2022-vb}. This kind of transformation is used
+because we might want to compile two definitionally equal terms differently. For
+example, we might not always want to reduce function application redexes. We
+will use the \texttt{monospace} font for terms in $\lambda$.
 
 \begin{definition}
-    An function $f : \mta{Tm}_\rep\ \Gamma\ (\Pi\ A\ B)$, is \emph{computationally irrelevant} if
+    A function $f : \mta{Tm}\ \Gamma\ (\Pi\ A\ B)$, is \emph{computationally irrelevant} if
     $|\R A| = |\R B|$ and $|\R f| = \texttt{id}$.
 \end{definition}
 
-\begin{lemma}
+\begin{theorem}
 	The type former $\MRepr{}$ is injective up to internal isomorphism, i.e.
 	\begin{equation}
 	\mta{Repr}\ T = \mta{Repr}\ T' \to \Tm\ \Gamma\ (\mta{Iso}\ T\ T')
@@ -640,26 +639,28 @@ $\lambda$.
 	representation operators are erased and the isomorphism is the identity on both
 	sides (even before extraction).
 	\end{proof}
-\end{lemma}
+\end{theorem}
 
-Consider extending the languages $\lambdarep$ and $\lambdarep$ with subset $\Sigma$-types
+Consider extending our languages with usage-aware
+subset $\Sigma$-types
 \[
 \{ \_ \mid \_ \} : (A : \Ty\ \Gamma) \to \Ty\ (\Gamma \rhd A) \to \Ty\ \Gamma
 \]
 in such a way that $\MRepr$ and $\R$ preserve them, but such that the extraction
 step erases the right component, i.e. $|\{A \mid B\}| = |A|$, $|(x, y)| = |x|$ and $|\pi_1 x| =
-|x|$. Then if we have an inductive family $G : \mta{data}\ (\bullet \rhd I)\ T_G
+|x|$.\footnote{This can be implemented using quantitative type theory for example.}
+Then if we have an inductive family $G : \mta{data}\ (\bullet \rhd I)\ T_G
 \in \Sigma$ over some index type $I$, and an inductive type $F : \mta{data}\ \bullet\
 T_F \in \Sigma$ such that $G$ is represented by a refinement $f : \Tm\
 (\Sigma,\bullet)\ (\Pi\ (\mta{D}\ F)\ I)$ of $F$,
 \[
-    \mta{data-rep}\ (i.\ \{ x : \mta{D}\ F \mid \mta{Id}\ (\mta{app}\ f\ x)\ i \}, r, Q) \in_G \Sigma
+    \mta{data-rep}\ (i.\ \{ x : \mta{D}\ F \mid \mta{Id}\ (\mta{app}\ f\ x)\ i \}, r, Q) \in_G \Sigma \,,
 \]
 then we can construct computationally irrelevant forgetful and recomputation functions
 \begin{align*}
 &\mta{forget}_i : \Tm\ \Gamma\ (\Pi\ (\mta{D}\ G)[i]\ (\mta{D}\ F)) \\
-&\mta{forget}_i = g.\ \pi_1\ (\mta{repr}\ g) \\[1em]
+&\mta{forget}_i = \lambda g.\ \pi_1\ (\mta{repr}\ g) \\[1em]
 &\mta{remember} : \Tm\ \Gamma\ (\Pi\ (x : \mta{D}\ F)\ (\mta{D}\ G[\mta{app}\ f\ x])) \\
-&\mta{remember} = x.\ (\mta{unrepr}\ x, \mta{refl})
+&\mta{remember} = \lambda x.\ (\mta{unrepr}\ x, \mta{refl})
 \end{align*}
 Clearly $|\R\ \mta{forget}_i| = |\R\ \mta{remember}| = \texttt{id}$.

@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex .out/main"] 1739832069 ".out/main.aux" ".out/main.bbl" ".out/main" 1739832296
+["bibtex .out/main"] 1739832700 ".out/main.aux" ".out/main.bbl" ".out/main" 1739832702
   "./splncs04.bst" 1733698704 32146 aadf770ded437d161532035219ea6f45 ""
-  ".out/main.aux" 1739832295 7336 4e12ce5932507cf97bffcf40b797fac9 "pdflatex"
-  "bib.bib" 1739806963 368367 7d976b2fc19e7d62797e95e2a0b0ceb6 ""
+  ".out/main.aux" 1739832702 7389 95f83b6b285eb1f42534201fc623b22e "pdflatex"
+  "bib.bib" 1739832700 368363 4887c6b6e9b48a7304472569119b46bb ""
   (generated)
   ".out/main.bbl"
   ".out/main.blg"
-["pdflatex"] 1739832294 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739832296
-  ".out/main.aux" 1739832295 7336 4e12ce5932507cf97bffcf40b797fac9 "pdflatex"
-  ".out/main.bbl" 1739832069 3573 6b8c2d30b0f32657b62e4f6cf205fbfd "bibtex .out/main"
-  ".out/main.out" 1739832295 275 e8697098164b610f8033512d50a9d933 "pdflatex"
+["pdflatex"] 1739832701 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739832702
+  ".out/main.aux" 1739832702 7389 95f83b6b285eb1f42534201fc623b22e "pdflatex"
+  ".out/main.bbl" 1739832701 3725 c40183bbee9b5c6c9ed6d2901c4a4d75 "bibtex .out/main"
+  ".out/main.out" 1739832702 275 e8697098164b610f8033512d50a9d933 "pdflatex"
   "/Users/constantine/git/rep-tfp-2025/main.tex" 1739641219 422 b0f7be7083386e9171bc3b9405fbf6af ""
-  "/dev/null" 1739832294 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "/dev/null" 1739832693 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -329,9 +329,9 @@
   "sections/implementation.tex" 1739641425 861 c594a497aac511939899dbf38fc922fc ""
   "sections/intro.tex" 1739807442 3812 1527e92d2e6befd42ff80330fb4fc825 ""
   "sections/tour.tex" 1739806986 16762 531039a2df291f6fcf2fae23645f8584 ""
-  "sections/type-system.tex" 1739832294 35665 fee96889925b84c632bfa51c21772dec ""
+  "sections/type-system.tex" 1739832665 35754 1a0dcc253ee4a2f838799a59a8711541 ""
   (generated)
   ".out/main.aux"
-  ".out/main.out"
   ".out/main.log"
+  ".out/main.out"
   ".out/main.pdf"
