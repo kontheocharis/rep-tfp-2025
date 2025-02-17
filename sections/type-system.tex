@@ -383,37 +383,41 @@ $\MRepr\ T$, and $\Munrepr{}$ undoes the effect of $\Mrepr{}$, treating a
 represented term as an inhabitant of its original type. These new constructs
 come with equality constructors in the syntax
 shown in \cref{fig:lambdaind-repr-coherence-pi-univ}.
-
 \begin{figure}[H]
   \begin{minipage}[t]{0.5\textwidth}%
-  \begin{alignat*}{2}
-  & \mta{reprr} &&: \Munrepr\ (\Mrepr\ t) \equiv t \\
-  & \mta{reprl} &&: \Mrepr\ (\Munrepr\ t) \equiv t \\[1em]
-  & \MRepr\text{-}\Pi &&: \MRepr\ {(\Pi\ T\ U)} \equiv \Pi\ T\ (\MRepr\ U) \\
-  & \Mrepr\text{-}\lambda &&: \Mrepr\ {(\lambda\ u)} \equiv \lambda\ (\Mrepr\ u) \\
-  & \Munrepr\text{-}\lambda &&: \Munrepr\ {(\lambda\ u)} \equiv \lambda\ (\Munrepr\ u) \\
-  & \Mrepr\text{-}@ &&: \Mrepr\ (\ap f) \equiv \ap {(\Mrepr\ f)} \\
-  & \Munrepr\text{-}@ &&: \Munrepr\ (\ap f) \equiv \ap {(\Munrepr\ f)}
+  \begin{alignat*}{1}
+  & \mta{reprr} : \Munrepr\ (\Mrepr\ t) \equiv t \\
+  & \mta{reprl} : \Mrepr\ (\Munrepr\ t) \equiv t \\[1em]
+  & \MRepr\text{-}\Pi : \MRepr\ {(\Pi\ T\ U)} \equiv \Pi\ T\ (\MRepr\ U) \\
+  & \Mrepr\text{-}\lambda : \Mrepr\ {(\lambda\ u)} \equiv \lambda\ (\Mrepr\ u) \\
+  & \Munrepr\text{-}\lambda : \Munrepr\ {(\lambda\ u)} \equiv \lambda\ (\Munrepr\ u) \\
+  & \Mrepr\text{-}@ : \Mrepr\ (\ap f) \equiv \ap {(\Mrepr\ f)} \\
+  & \Munrepr\text{-}@ : \Munrepr\ (\ap f) \equiv \ap {(\Munrepr\ f)} \\[1em]
+  & \Mrepr[] : \Mrepr\ {(t[\sigma])} \equiv (\Mrepr\ {t})[\sigma] \\
+  & \Munrepr[] : \Munrepr\ {(t[\sigma])} \equiv (\Munrepr\ {t})[\sigma] \\
+  & \MRepr[] : \MRepr\ {(T[\sigma])} \equiv (\MRepr\ {T})[\sigma]
   \end{alignat*}
   \end{minipage}%
   \begin{minipage}[t]{0.5\textwidth}%
-  \begin{alignat*}{2}
-  & \MRepr\text{-}\univ &&: \MRepr\ {\univ} \equiv \univ \\
-  & \Mrepr\text{-}\Code{} &&: \Mrepr\ {(\Code T)} \equiv \Code T \\
-  & \Munrepr\text{-}\Code{} &&: \Munrepr\ {(\Code T)} \equiv \Code T \\[1em]
-  & \MRepr[] &&: \MRepr\ {(T[\sigma])} \equiv (\MRepr\ {T})[\sigma] \\
-  & \Mrepr[] &&: \Mrepr\ {(t[\sigma])} \equiv (\Mrepr\ {t})[\sigma] \\
-  & \Munrepr[] &&: \Munrepr\ {(t[\sigma])} \equiv (\Munrepr\ {t})[\sigma]
+  \begin{alignat*}{1}
+  & \MRepr\text{-}\univ : \MRepr\ {\univ} \equiv \univ \\
+  & \Mrepr\text{-}\Code{} : \Mrepr\ {(\Code T)} \equiv \Code T \\
+  & \Munrepr\text{-}\Code{} : \Munrepr\ {(\Code T)} \equiv \Code T \\[1em]
+  & \MRepr\text{-}\mta{Id} : \MRepr\ (\mta{Id}\ a\ b) \equiv \mta{Id}\ (\Mrepr\ a)\ (\Mrepr\ b) \\
+  & \Mrepr\text{-}\mta{refl} : \Mrepr\ (\mta{refl}\ u) \equiv \mta{refl}\ (\Mrepr\ u) \\
+  & \Munrepr\text{-}\mta{refl} : \Munrepr\ (\mta{refl}\ u)  \equiv \mta{refl}\ (\Munrepr\ u) \\
+  & \Mrepr\text{-}\mta{J} : \Mrepr\ (\mta{J}\ C\ w\ e) \\ & \qquad \qquad  \equiv \mta{J}\ (\mta{Repr}\ C)\ (\mta{repr}\ w)\ e \\
+  & \Munrepr\text{-}\mta{J} : \Munrepr\ (\mta{J}\ (\mta{Repr}\ C)\ w\ e) \\ &  \qquad \qquad  \equiv \mta{J}\ C\ (\mta{unrepr}\ w)\ e
   \end{alignat*}
   \end{minipage}%
-  \caption{Coherence of the representation operators with substitutions, $\Pi$-types and
-  universes. The terms $\MRepr\ (\El{t})$, $\Mrepr\ (\pi_2 \sigma)$ and
+  \caption{Coherence of the representation operators with substitutions, $\Pi$, $\mta{Id}$,
+  universes and codes. The terms $\MRepr\ (\El{t})$, $\Mrepr\ (\pi_2 \sigma)$ and
   $\Munrepr\ (\pi_2 \sigma)$ do not reduce.}
   \label{fig:lambdaind-repr-coherence-pi-univ}
 \end{figure}
 
-
-So far the representation operators do not really do anything. In order to make
+So far the representation operators do not really do much other than commute
+with almost everything in the syntax. In order to make
 them useful, we need to define how they compute when they encounter data types
 which are represented in the signature.
 In the following rules, $r : \mta{data-rep}\ (R, r, Q) \in_i \Sigma$.
@@ -489,9 +493,9 @@ We can define a translation step $\R$ from $\lambdarep$ to
 $\lambdaind^{\textsc{Ext}}$, meant to be applied during the compilation process.
 More specifically, the translation target is the extensional flavour of
 $\lambdaind$ by adding the equality reflection rule. We do this by translating
-well-formed contexts, substitutions, types, and terms in a mutual manner such
-that definitional equality is preserved. $\R$ preserves the structure of
-$\lambdarep$, but maps constructs to their terminal representations.
+the syntax \cite{Boulier2017-cm} such that definitional equality is preserved.
+Overall, $\R$ preserves the structure of $\lambdarep$, but maps constructs to
+their terminal representations.
 
 First, we define a translation of signatures $\R : \Sig_\rep \to \Sig_\ind$ as
 \[

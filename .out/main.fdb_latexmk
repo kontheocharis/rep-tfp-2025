@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex .out/main"] 1739822174 ".out/main.aux" ".out/main.bbl" ".out/main" 1739822719
+["bibtex .out/main"] 1739823795 ".out/main.aux" ".out/main.bbl" ".out/main" 1739824062
   "./splncs04.bst" 1733698704 32146 aadf770ded437d161532035219ea6f45 ""
-  ".out/main.aux" 1739822664 7400 40cf964616bda5743e7e3b6e384d15be "pdflatex"
+  ".out/main.aux" 1739824062 7458 7321ba3c779e02d4d9741044e0383655 "pdflatex"
   "bib.bib" 1739806963 368367 7d976b2fc19e7d62797e95e2a0b0ceb6 ""
   (generated)
   ".out/main.bbl"
   ".out/main.blg"
-["pdflatex"] 1739822663 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739822719
-  ".out/main.aux" 1739822664 7400 40cf964616bda5743e7e3b6e384d15be "pdflatex"
-  ".out/main.bbl" 1739822174 3881 1678cfb6dc066277c88972b54b7dd9aa "bibtex .out/main"
-  ".out/main.out" 1739822664 275 e8697098164b610f8033512d50a9d933 "pdflatex"
+["pdflatex"] 1739824061 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739824062
+  ".out/main.aux" 1739824062 7458 7321ba3c779e02d4d9741044e0383655 "pdflatex"
+  ".out/main.bbl" 1739823795 3881 1678cfb6dc066277c88972b54b7dd9aa "bibtex .out/main"
+  ".out/main.out" 1739824062 275 e8697098164b610f8033512d50a9d933 "pdflatex"
   "/Users/constantine/git/rep-tfp-2025/main.tex" 1739641219 422 b0f7be7083386e9171bc3b9405fbf6af ""
-  "/dev/null" 1739822688 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "/dev/null" 1739824061 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -328,9 +328,9 @@
   "sections/implementation.tex" 1739641425 861 c594a497aac511939899dbf38fc922fc ""
   "sections/intro.tex" 1739807442 3812 1527e92d2e6befd42ff80330fb4fc825 ""
   "sections/tour.tex" 1739806986 16762 531039a2df291f6fcf2fae23645f8584 ""
-  "sections/type-system.tex" 1739822719 32259 9d5ce66c76a4e744d170f1253f5a7ebe ""
+  "sections/type-system.tex" 1739824061 32821 5259c285fa43107e9b680c83bad46725 ""
   (generated)
-  ".out/main.out"
-  ".out/main.pdf"
-  ".out/main.aux"
   ".out/main.log"
+  ".out/main.pdf"
+  ".out/main.out"
+  ".out/main.aux"
