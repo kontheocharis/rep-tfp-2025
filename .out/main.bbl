@@ -74,10 +74,4 @@ Wadler, P.: Deforestation: transforming programs to eliminate trees. Theor.
   Comput. Sci.  \textbf{73}(2),  231--248 (Jun 1990),
   \url{https://www.sciencedirect.com/science/article/pii/030439759090147A}
 
-\bibitem{Winterhalter2019-zw}
-Winterhalter, T., Sozeau, M., Tabareau, N.: Eliminating reflection from type
-  theory. In: Proceedings of the 8th ACM SIGPLAN International Conference on
-  Certified Programs and Proofs. ACM, New York, NY, USA (Jan 2019),
-  \url{https://dl.acm.org/doi/10.1145/3293880.3294095}
-
 \end{thebibliography}

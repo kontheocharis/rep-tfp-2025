@@ -141,22 +141,21 @@ type $\mta{Args}$ is defined as $(v : \mta{Var}\ T) \times \Tms\ \Gamma\
 (\mta{argsFor}\ (T\ v)\ X)$ for the obvious type $\mta{Var}\ T$ which indexes
 operations in theories, where
 \begin{align*}
-    &\mta{argsFor} : \mta{Op}\ \Gamma\ T \to \Ty\ \Gamma \to \Tel\ \Gamma \\
+    &\mta{argsFor} : \mta{Op}\ \Gamma\ P \to \Ty\ \Gamma \to \Tel\ \Gamma \\
     &\mta{argsFor}\ (\Pi\ A\ B)\ X := \bullet \rhd (a : A) \rhd \mta{argsFor}\ B[\Msub a]\ X \\
     &\mta{argsFor}\ (\Pi\iota\ p\ B)\ X := \bullet \rhd X[\Msub p] \rhd \mta{argsFor}\ B\ X \\
     &\mta{argsFor}\ (\iota\ p)\ X := \bullet
 \end{align*}
 and $\mta{out}$ is defined as $\mta{outFor}\ \{T\ v\}\ a\ X$ where
 \begin{align*}
-    &\mta{outFor} : \{T : \Theory\ \Gamma\ P\} \to \Tms\ \Gamma\ (\mta{argsFor}\ O\ X) \to \Ty\ \Gamma \to \Tms\ \Gamma\ P \\
-    &\mta{outFor} : \mta{Op}\ \Gamma\ T \to \Ty\ \Gamma \to \Tel\ \Gamma \\
+    &\mta{outFor} : \{O : \Op\ \Gamma\ P\} \to \Tms\ \Gamma\ (\mta{argsFor}\ O\ X) \to \Ty\ \Gamma \to \Tms\ \Gamma\ P \\
     &\mta{outFor}\ \{\Pi\ A\ B\}\ (a, t)\ X := \mta{outFor}\ \{B[\Msub a]\}\ t\ X \\
     &\mta{outFor}\ \{\Pi\iota\ p\ B\}\ (r, t)\ X := \mta{outFor}\ \{B\}\ t\ X \\
     &\mta{outFor}\ \{\iota\ p\}\ (\,)\ X := p \,.
 \end{align*}
 We can also define a fully-internal version of algebras $\mta{algebra}\ T\ X$ as $\mta{Var}\ T$-indexed telescopes of
 \begin{align*}
-    &\mta{algebraFor} : \mta{Op}\ \Gamma\ T \to \Ty\ \Gamma \to \Ty\ \Gamma \\
+    &\mta{algebraFor} : \mta{Op}\ \Gamma\ P \to \Ty\ \Gamma \to \Ty\ \Gamma \\
     &\mta{algebraFor}\ (\Pi\ A\ B)\ X := \Pi\ (a : A)\ (\mta{algebraFor}\ B[\Msub a]\ X) \\
     &\mta{algebraFor}\ (\Pi\iota\ p\ B)\ X := \Pi\ X[\Msub p]\ (\mta{algebraFor}\ B\ X) \\
     &\mta{algebraFor}\ (\iota\ p)\ X := X[\Msub p] \,.
@@ -218,7 +217,6 @@ These also have internal analogues
     &\mta{section} := X\ x\ M\ m.\ \mta{sec} \rhd \mta{coh}
 \end{align*}
 which only use propositional equality.
-
 Once again, we can define realisation functions
 \begin{align*}
     &\emb{\_}_0 : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}]) \to \mta{Sec}\ \emb{m} \\
@@ -302,7 +300,7 @@ theory. We can now construct, for example, natural numbers as
     \mta{C}_{\textit{Nat}}\ (\textit{succ}, (\mta{C}_{\textit{Nat}}\ (\textit{zero}, (\,))) : \mta{Tm}\ \Gamma\ (\mta{D}\ \textit{Nat}) \,.
 \]
 
-Finally, we add an eliminator term
+Next, we add an eliminator term
 \[
 	\mta{E} :\ \forall i.\ (m : \mta{DispAlg}\ \mta{C}_i) \to \mta{Sec}\ m
 \]
@@ -321,6 +319,16 @@ the syntactic categories of the type theory.
 		For every displayed algebra $m$ over $\mta{C}$ we get a section $(\mta{E}\ m, \mta{E-id}\ m)$.
 	\end{proof}
 \end{lemma}
+
+Finally, we add terms to the language for global function definitions and postulates
+\begin{align*}
+	\mta{F} : \mta{def}\ P\ A\ t \in \Sigma \to \Tm\ (\Sigma, \Delta \rhd P)\ A \\
+	\mta{P} : \mta{post}\ P\ A \in \Sigma \to \Tm\ (\Sigma, \Delta \rhd P)\ A
+\end{align*}
+along with an equality constructor for function definitions
+\begin{align*}
+	\mta{F-id} : \forall i.\ \mta{F}\ i = t \,.
+\end{align*}
 
 The language we have defined thus far is sufficient to express a lot of the
 programs which can be written in a modern proof assistant. Next, we will explore
@@ -471,6 +479,11 @@ using $\mta{repr}$ and unrepresent inputs in a negative position using
 $\mta{unrepr}$. The full definitions can be found in \cref{app:reprs} of the
 appendix.
 
+We do not need an additional equality rule for representing function definitions
+as this is given by the equality proof $p$ in the definition of a
+representation $\mta{def-repr}\ t\ p$, when accounting for the definitional
+equality between a definition and its implementation.
+
 \subsection{Normalisation by evaluation for $\lambdarep$}
 
 To demonstrate that definitional equality is decidable in $\lambdarep$ with the addition
@@ -490,23 +503,28 @@ every term uniquely corresponds to a value.
 \section{Translating from $\lambdarep$ to $\lambdaind$}
 
 We can define a translation step $\R$ from $\lambdarep$ to
-$\lambdaind^{\textsc{Ext}}$, meant to be applied during the compilation process.
+$\lambdaind^{\lang{ext}}$, meant to be applied during the compilation process.
 More specifically, the translation target is the extensional flavour of
-$\lambdaind$ by adding the equality reflection rule. We do this by translating
-the syntax \cite{Boulier2017-cm} such that definitional equality is preserved.
-Overall, $\R$ preserves the structure of $\lambdarep$, but maps constructs to
-their terminal representations.
+$\lambdaind$ by adding the equality reflection rule. Doing so results in undecidable
+type checking, but this is not a problem because type checking is decidable
+$\lambdarep$ and we only apply this transformation after typechecking (when we
+already know that everything is well-typed).
 
-First, we define a translation of signatures $\R : \Sig_\rep \to \Sig_\ind$ as
+
+This translation is defined over the syntax of $\lambdarep$
+\cite{Boulier2017-cm} such that definitional equality is preserved. Overall,
+$\R$ preserves the structure of $\lambdarep$, but maps constructs to
+their terminal representations.
+First, we define a translation of signatures $\R : \Sig_\rep \to \Sig_\ind^\lang{ext}$ as
 \[
 \R\ \bullet := \bullet \qquad \R\ (\Sigma \rhd I) := \R \Sigma \rhd \R I \qquad \R\ (\Sigma \unrhd I \ R) := \R \Sigma
 \]
 which erases all items with defined representations.
-This utilises a translation of items $\R : \Item_\rep\ \Sigma \to \Item_\ind\ \R
+This utilises a translation of items $\R : \Item_\rep\ \Sigma \to \Item_\ind^\lang{ext}\ \R
 \Sigma$ which simply recurses on all subterms with $\R$.
 Types are translated as
 \begin{align*}
-  & \R : \Ty_\rep\ (\Sigma, \Delta)\ \to \Ty_\ind\ (\R \Sigma, \R \Delta) \\
+  & \R : \Ty_\rep\ (\Sigma, \Delta)\ \to \Ty_\ind^\lang{ext}\ (\R \Sigma, \R \Delta) \\
   & \R\ (\mta{D}\ i) := \begin{cases}
   \R\ (\mta{El}\ R@) & \text{if $\mta{data-rep}\ (R, r, Q) \in_i \Sigma$} \\
   \mta{D}\ \R i & \text{otherwise}
@@ -518,7 +536,7 @@ This mirrors the definitional equality rules of $\mta{Repr}$, but $\R$ is applie
 to all subterms.
 Similarly, terms are translated as
 \begin{align*}
-  & \R : \Tm_\rep\ (\Sigma, \Delta)\ T \to \Tm_\ind\ (\R \Sigma, \R \Delta)\ \R T \\
+  & \R : \Tm_\rep\ (\Sigma, \Delta)\ T \to \Tm_\ind^\lang{ext}\ (\R \Sigma, \R \Delta)\ \R T \\
   &\R\ (\mta{C}_i\ a) = \begin{cases}
       \emb{\R r}\ \R a & \text{if}\ \mta{data-rep}\ (R, r, Q) \in_i \Sigma \\
       \mta{C}_{\R i}\ \R a & \text{otherwise}
@@ -527,6 +545,10 @@ Similarly, terms are translated as
       \emb{\R Q}_0\ \R m & \text{if}\ \mta{data-rep}\ (R, r, Q) \in_i \Sigma \\
       \mta{E}_{\R i}\ \R m & \text{otherwise}
   \end{cases} \\
+  &\R\ (\mta{F}_i) = \begin{cases}
+        \R t & \text{if}\ \mta{def-rep}\ (t, p) \in_i \Sigma \\
+        \mta{F}_{\R i} & \text{otherwise}
+    \end{cases} \\
   & \R\ (\Mrepr\ t) := \R t \\
   & \R\ (\Munrepr\ t) := \R t \\
   & \R\ (\mta{repr-C}_i\ a) := \mta{refl} \\
@@ -535,29 +557,55 @@ Similarly, terms are translated as
   & \R\ (\mta{repr-methods-E}_i\ m) := \mta{refl} \\
   & \text{(otherwise recurse on all subterms with $\R$)}
 \end{align*}
-Constructor and eliminator translations mirror the equality rules in
+Constructor, eliminator and definition translations mirror the equality rules in
 \cref{sub:lambdarep}, but apply $\R$ to all subterms rather than only the
 recursive occurrences of the data type being represented. As a result, all of
 the propositional equality constructors are translated to reflexivity, since
 after applying $\R$ both sides are identical.
 
 The equality constructors of the syntax of $\lambdarep$ must also be translated.
-The base equalities of the type theory are preserved by their counterparts in $\lambdaind$.
+The base equalities of the type theory are preserved by their counterparts in $\lambdaind^\lang{ext}$.
 The coherence rules for representation operators
 (\cref{fig:lambdaind-repr-coherence-pi-univ}) are preserved by metatheoretic
 reflexivity on the other side, since all representation operators are erased.
-Finally, coherence rules for eliminators $\mta{E}$ are preserved by reflecting
-the propositional coherence rules provided by the sections of the defined
-representations:
+Finally, coherence rules for definitions $\mta{F}$ and eliminators $\mta{E}$ are
+preserved by reflecting the propositional coherence rules provided by their
+defined representations:
 \begin{align*}
 & \mta{ap}_\R\ (\mta{E-id}_i\ m) :=
 \begin{cases}
     \mta{reflect}\ \emb{\R Q}_1\ \R m & \text{if}\ \mta{data-rep}\ (R, r)\ Q \in_i \Sigma \\
     \mta{E-id}_{\R i}\ \R m & \text{otherwise}
     \end{cases} \\
+    & \mta{ap}_\R\ (\mta{F-id}_i) :=
+    \begin{cases}
+        \mta{reflect}\ \R p & \text{if}\ \mta{def-rep}\ (t, p) \in_i \Sigma \\
+        \mta{F-id}_{\R i} & \text{otherwise}
+        \end{cases} \\
 & \text{(otherwise recurse on all equality constructors with $\mta{ap}_\R$)}
 \end{align*}
 Thus, by construction, $\R$ is sound with respect to typing and definitional equality.
+
+\begin{theorem}
+    $\R$ preserves typing and definitional equality.
+    \begin{proof}
+        By construction, since it is defined on well-typed syntax quotiented by equality.
+    \end{proof}
+\end{theorem}
+
+\begin{theorem}
+    $\R$ is a left-inverse of the evident inclusion $i : \lambdaind \hookrightarrow \lambdarep$.
+    \[
+        (t : \Tm_{\ind}\ \Gamma\ A) \to \R(i t) = t
+    \]
+    \begin{proof}
+        The inclusion produces signatures in $\lambdarep$ without the $\unrhd$ constructor. Thus no
+        items have defined representations. Furthermore, the action of $\R$ on
+        the image of $i$ does not invoke the equality reflection rule. With that
+        constraint, and by induction on the syntax, $\R \circ i$ is the identity
+        function.
+    \end{proof}
+\end{theorem}
 
 \subsection{Computational irrelevance}
 
@@ -574,7 +622,7 @@ $\lambda$.
 
 \begin{definition}
     An function $f : \mta{Tm}_\rep\ \Gamma\ (\Pi\ A\ B)$, is \emph{computationally irrelevant} if
-    $|\R A| = |\R B|$ and $|\R f| = \texttt{id}$ for all $a : \mta{Tm}\ \Gamma\ A$.
+    $|\R A| = |\R B|$ and $|\R f| = \texttt{id}$.
 \end{definition}
 
 \begin{lemma}
@@ -585,7 +633,7 @@ $\lambda$.
 	Moreover, this isomorphism is computationally irrelevant.
 	\begin{proof}
 	The forward direction is given by first applying $\mta{repr}$ to $t$,
-	transporting over the equality and then applying $\mta{unrepr}$. The
+	transporting over the given equality and then applying $\mta{unrepr}$. The
 	backward direction is given by applying $\mta{repr}$ to $t'$, transporting
 	over the equality and then applying $\mta{unrepr}$. The coherence holds by
 	the rules $\mta{reprr}$ and $\mta{reprl}$. After applying $\R$, all
@@ -594,11 +642,24 @@ $\lambda$.
 	\end{proof}
 \end{lemma}
 
-
-We will prove some desired properties
-of $\R$ \cite{Boulier2017-cm} such as typing and computational soundness, and
-preservation of consistency. The final program can then be converted into a
-simply-typed language which erases irrelevant data. We can recover a program in
-$\lambdaind$ by translating extensional typing derivations to intensional proofs
-\cite{Winterhalter2019-zw}.
-\cite{Winterhalter2019-zw}.
+Consider extending the languages $\lambdarep$ and $\lambdarep$ with subset $\Sigma$-types
+\[
+\{ \_ \mid \_ \} : (A : \Ty\ \Gamma) \to \Ty\ (\Gamma \rhd A) \to \Ty\ \Gamma
+\]
+in such a way that $\MRepr$ and $\R$ preserve them, but such that the extraction
+step erases the right component, i.e. $|\{A \mid B\}| = |A|$, $|(x, y)| = |x|$ and $|\pi_1 x| =
+|x|$. Then if we have an inductive family $G : \mta{data}\ (\bullet \rhd I)\ T_G
+\in \Sigma$ over some index type $I$, and an inductive type $F : \mta{data}\ \bullet\
+T_F \in \Sigma$ such that $G$ is represented by a refinement $f : \Tm\
+(\Sigma,\bullet)\ (\Pi\ (\mta{D}\ F)\ I)$ of $F$,
+\[
+    \mta{data-rep}\ (i.\ \{ x : \mta{D}\ F \mid \mta{Id}\ (\mta{app}\ f\ x)\ i \}, r, Q) \in_G \Sigma
+\]
+then we can construct computationally irrelevant forgetful and recomputation functions
+\begin{align*}
+&\mta{forget}_i : \Tm\ \Gamma\ (\Pi\ (\mta{D}\ G)[i]\ (\mta{D}\ F)) \\
+&\mta{forget}_i = g.\ \pi_1\ (\mta{repr}\ g) \\[1em]
+&\mta{remember} : \Tm\ \Gamma\ (\Pi\ (x : \mta{D}\ F)\ (\mta{D}\ G[\mta{app}\ f\ x])) \\
+&\mta{remember} = x.\ (\mta{unrepr}\ x, \mta{refl})
+\end{align*}
+Clearly $|\R\ \mta{forget}_i| = |\R\ \mta{remember}| = \texttt{id}$.

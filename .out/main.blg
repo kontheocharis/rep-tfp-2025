@@ -12,45 +12,45 @@ I was expecting a `,' or a `}'---line 3056 of file bib.bib
  :                                                         of Type Theory that
 I'm skipping whatever remains of this entry
 Warning--missing school in Kovacs2023-gq
-You've used 14 entries,
+You've used 13 entries,
             2850 wiz_defined-function locations,
-            709 strings with 7648 characters,
-and the built_in function-call counts, 8549 in all, are:
-= -- 755
-> -- 178
+            701 strings with 7364 characters,
+and the built_in function-call counts, 7997 in all, are:
+= -- 712
+> -- 161
 < -- 16
-+ -- 78
-- -- 60
-* -- 575
-:= -- 1049
-add.period$ -- 27
-call.type$ -- 14
-change.case$ -- 85
++ -- 71
+- -- 54
+* -- 537
+:= -- 978
+add.period$ -- 25
+call.type$ -- 13
+change.case$ -- 77
 chr.to.int$ -- 0
-cite$ -- 15
-duplicate$ -- 798
-empty$ -- 821
-format.name$ -- 70
-if$ -- 1904
+cite$ -- 14
+duplicate$ -- 743
+empty$ -- 764
+format.name$ -- 63
+if$ -- 1784
 int.to.chr$ -- 0
-int.to.str$ -- 14
-missing$ -- 141
-newline$ -- 48
-num.names$ -- 28
-pop$ -- 247
+int.to.str$ -- 13
+missing$ -- 130
+newline$ -- 45
+num.names$ -- 26
+pop$ -- 223
 preamble$ -- 1
-purify$ -- 58
+purify$ -- 53
 quote$ -- 0
-skip$ -- 214
+skip$ -- 207
 stack$ -- 0
-substring$ -- 588
-swap$ -- 434
+substring$ -- 565
+swap$ -- 410
 text.length$ -- 16
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 56
+type$ -- 52
 warning$ -- 1
-while$ -- 75
-width$ -- 16
-write$ -- 167
+while$ -- 72
+width$ -- 15
+write$ -- 156
 (There were 2 error messages)
