@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex .out/main"] 1739759365 ".out/main.aux" ".out/main.bbl" ".out/main" 1739760370
+["bibtex .out/main"] 1739815970 ".out/main.aux" ".out/main.bbl" ".out/main" 1739816014
   "./splncs04.bst" 1733698704 32146 aadf770ded437d161532035219ea6f45 ""
-  ".out/main.aux" 1739760333 11222 60b93af5bbd058b318f36c1024197959 "pdflatex"
-  "bib.bib" 1739579386 368369 10956d206936f6f5152accad4f61a33c ""
+  ".out/main.aux" 1739816014 12098 17653308ac1a0d92c23ad871467ca2ee "pdflatex"
+  "bib.bib" 1739806963 368367 7d976b2fc19e7d62797e95e2a0b0ceb6 ""
   (generated)
   ".out/main.bbl"
   ".out/main.blg"
-["pdflatex"] 1739760370 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739760370
-  ".out/main.aux" 1739760333 11222 60b93af5bbd058b318f36c1024197959 "pdflatex"
-  ".out/main.bbl" 1739759365 3518 3c4b7672af6c0b92707ad086dc34dd0d "bibtex .out/main"
-  ".out/main.out" 1739760333 275 e8697098164b610f8033512d50a9d933 "pdflatex"
+["pdflatex"] 1739816012 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739816014
+  ".out/main.aux" 1739816014 12098 17653308ac1a0d92c23ad871467ca2ee "pdflatex"
+  ".out/main.bbl" 1739815970 3881 1678cfb6dc066277c88972b54b7dd9aa "bibtex .out/main"
+  ".out/main.out" 1739816014 275 e8697098164b610f8033512d50a9d933 "pdflatex"
   "/Users/constantine/git/rep-tfp-2025/main.tex" 1739641219 422 b0f7be7083386e9171bc3b9405fbf6af ""
-  "/dev/null" 1739760370 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "/dev/null" 1739816014 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -338,13 +338,13 @@
   "misc/macros.tex" 1739637589 7331 48506d63569932b72c23ad4c02d0e390 ""
   "misc/packages.tex" 1739201167 1376 a00f5907e64888dc034db4e80542a725 ""
   "misc/rights.tex" 1733698704 1050 6124765dfe6cb612a966ac31849f412a ""
-  "sections/appendix.tex" 1739716545 13820 71844ca42e2d6f62800c2ee4ce08448d ""
+  "sections/appendix.tex" 1739814117 13756 4b41fd9a8c7e03934f3e344e4689cb10 ""
   "sections/implementation.tex" 1739641425 861 c594a497aac511939899dbf38fc922fc ""
-  "sections/intro.tex" 1739575850 3813 99e1e29adc9e7656ddf20b2bde0ad6d0 ""
-  "sections/tour.tex" 1739577969 16773 0f272f8982fd3b8630c56c94e283d375 ""
-  "sections/type-system.tex" 1739760370 27866 b28c0e80abc7d13dd04cc27d66a6503b ""
+  "sections/intro.tex" 1739807442 3812 1527e92d2e6befd42ff80330fb4fc825 ""
+  "sections/tour.tex" 1739806986 16762 531039a2df291f6fcf2fae23645f8584 ""
+  "sections/type-system.tex" 1739816012 32126 fd40b865e80aa54bd91eeb027946f874 ""
   (generated)
-  ".out/main.aux"
   ".out/main.out"
-  ".out/main.log"
+  ".out/main.aux"
   ".out/main.pdf"
+  ".out/main.log"

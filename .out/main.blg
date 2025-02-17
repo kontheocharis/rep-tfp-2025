@@ -3,10 +3,6 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: .out/main.aux
 The style file: splncs04.bst
 Database file #1: bib.bib
-I was expecting a `,' or a `}'---line 59 of file bib.bib
- :                    Martin-L\"
- :                              of type theory. Our technique only requires
-I'm skipping whatever remains of this entry
 I was expecting a `,' or a `}'---line 2509 of file bib.bib
  :                    of Martin-L\"
  :                                 of type theory which combines two different type
@@ -15,47 +11,46 @@ I was expecting a `,' or a `}'---line 3056 of file bib.bib
  :   abstract      = "We present an extension of Martin-L\"
  :                                                         of Type Theory that
 I'm skipping whatever remains of this entry
-Warning--I didn't find a database entry for "GMP"
 Warning--missing school in Kovacs2023-gq
-You've used 13 entries,
+You've used 14 entries,
             2850 wiz_defined-function locations,
-            702 strings with 7369 characters,
-and the built_in function-call counts, 7876 in all, are:
-= -- 692
-> -- 166
-< -- 15
-+ -- 73
-- -- 56
-* -- 531
-:= -- 969
-add.period$ -- 24
-call.type$ -- 13
-change.case$ -- 78
+            709 strings with 7648 characters,
+and the built_in function-call counts, 8549 in all, are:
+= -- 755
+> -- 178
+< -- 16
++ -- 78
+- -- 60
+* -- 575
+:= -- 1049
+add.period$ -- 27
+call.type$ -- 14
+change.case$ -- 85
 chr.to.int$ -- 0
-cite$ -- 14
-duplicate$ -- 735
-empty$ -- 754
-format.name$ -- 65
-if$ -- 1749
+cite$ -- 15
+duplicate$ -- 798
+empty$ -- 821
+format.name$ -- 70
+if$ -- 1904
 int.to.chr$ -- 0
-int.to.str$ -- 13
-missing$ -- 130
-newline$ -- 45
-num.names$ -- 26
-pop$ -- 227
+int.to.str$ -- 14
+missing$ -- 141
+newline$ -- 48
+num.names$ -- 28
+pop$ -- 247
 preamble$ -- 1
-purify$ -- 54
+purify$ -- 58
 quote$ -- 0
-skip$ -- 197
+skip$ -- 214
 stack$ -- 0
-substring$ -- 541
-swap$ -- 402
-text.length$ -- 15
+substring$ -- 588
+swap$ -- 434
+text.length$ -- 16
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 52
+type$ -- 56
 warning$ -- 1
-while$ -- 69
-width$ -- 15
-write$ -- 154
-(There were 3 error messages)
+while$ -- 75
+width$ -- 16
+write$ -- 167
+(There were 2 error messages)

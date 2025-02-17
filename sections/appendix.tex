@@ -6,7 +6,7 @@ dependent pair types $(a : A) \times B$. The metatheory also supports
 quotient-inductive-inductive definitions, which are used to define the syntaxes
 of the languages presented in this paper.
 
-\subsection{Utilities when working with algebras}
+\subsection{Utilities when working with algebras} \label{app:algebras}
 
 % \begin{align*}
 % \textdollar : T^D\
@@ -120,8 +120,6 @@ of the languages presented in this paper.
   \caption{Interpretation of operation inputs (i.e. constructor arguments) and outputs (constructor return indices).}
 \end{figure}
 
-\newcommand{\Msub}[1]{\langle{#1}\rangle}
-
 \begin{figure}[H]
   \begin{align*}
   &\mta{Motive} : \Theory\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Set \\
@@ -139,8 +137,6 @@ of the languages presented in this paper.
   \caption{Methods}
   \label{fig:lambdaind-motive-methods}
 \end{figure}
-
-\newcommand{\fmap}{\;\langle\$\rangle\;}
 
 \begin{figure}[H]
   \begin{alignat*}{2}

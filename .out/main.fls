@@ -1350,11 +1350,6 @@ INPUT sections/type-system.tex
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbx7.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbx5.tfm
-INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecsi1000.tfm
-INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecti0700.tfm
-INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecsi0700.tfm
-INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecti0500.tfm
-INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecsi0500.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmmib10.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmmib7.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmmib5.tfm
@@ -1371,6 +1366,11 @@ INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/bbold/Ubbold.fd
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/bbold/bbold10.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/bbold/bbold7.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/bbold/bbold5.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecsi1000.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecti0700.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecsi0700.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecti0500.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecsi0500.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbx9.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmbx6.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/bbold/bbold9.tfm

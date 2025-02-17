@@ -1,169 +1,233 @@
 \section{A type system for data representations}\label{sec:type-system}
 
-This section provides an overview of the language $\lambdarep$, which has
-dependent types and representations for inductive families and global function
-definitions. We start with a core language with inductive families $\lambdaind$,
-that is extended with data representations to form $\lambdarep$. All of the
-examples in the paper are written in a surface language that elaborates to
-$\lambdarep$.
 
-We work in an extensional metatheory with universes $\Set_i$ (though levels are
-ommited for simplicity), $(a : A) \times B$ for dependent pairs, $(a : A) \to B$
-for dependent products, and $=$ for equality. The metatheory also supports
-quotient-inductive-inductive definitions, which are used to define the syntaxes
-of the languages presented in this paper in the style of Kaposi and
-Altenkirch~[CITE]. Weakening of terms is generally also left implicit to reduce
-syntactic noise, and sometimes higher-order abstract syntax notation is used for the
+In this section, we will develop an extension of dependent type theory with
+inductive families and custom data representations. We start in
+\cref{sub:algebras} by exploring the semantics of data representations in terms
+of algebras for signatures. In \cref{sub:lambdaind}
+we define a core language with inductive families $\lambdaind$. In
+\cref{sub:lambdarep}, we extend this language with data representations to form
+$\lambdarep$. All of the examples in the paper are written in a surface language
+that elaborates to $\lambdarep$.
+
+We work in an extensional metatheory with a small universe $\Set$, $(a : A)
+\times B$ for dependent pairs, $(a : A) \to B$ for dependent products, and $=$
+for equality. The metatheory also supports quotient-inductive-inductive
+definitions, which are used to define the syntaxes of the languages presented in
+this paper in the style of Kaposi and Altenkirch~\cite{Altenkirch2016-zc}.
+Weakening of terms is generally also left implicit to reduce syntactic noise,
+and sometimes higher-order abstract syntax notation is used for the
 languages defined.
-
-
-
-
-
-% & \mta{ctor} &&: (i : \mta{ind}\ (P, P, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\
-% &            && \to (a : \mta{In}\ T\ (\mta{data}\ i\ p)\ p) \to \Tm\ \Gamma\ (\mta{data}\ i\ p\ xi) \\[0.5em]
-% & \mta{elim} &&: (i : \mta{ind}\ (P, P, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\
-% &            && \to (M : \mta{Motive}\ T\ (\mta{data}\ i\ p)) \to (m : \mta{Methods}\ M) \to \mta{Section}\ M \\
-% & \mta{match} &&: (\mta{elim}\ i\ p\ M\ m)[\langle p, \mta{ctor}\ i\ p\ n\ a \rangle] = (m\,!\,n)[\langle a , \mta{elim}\ i\ p\ M\ m \fmap a \rangle]
-% \end{alignat*}
-
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
 
-\subsection{Representations of data types as inductive algebras}
+\subsection{Algebras, displayed algebras and inductive algebras} \label{sub:algebras}
 
 A representation of a data type must be able to emulate the behaviour of the
 original data type. In turn, the behaviour of the original data type is
 determined by its elimination, or induction principle. This means that a
-representation $r$ of a data type $\mta{data}\ P\ T$ should provide an
-implementation of induction. Induction can be characterised in terms of algebras
-and displayed algebras of theories.
+representation of a data type should provide an implementation of induction of
+the same `shape' as the original. Induction can be characterised in terms of
+algebras and displayed algebras of algebraic signatures.
 
-An algebra $(X, a) : \mta{Alg}\ T$ for a carrier set $X$ and theory (context)
-$T$ defines a way to interpret the structure of $T$ in terms of a type in a type theory
-$X : \mta{Ty}\ \Gamma$. This is done by providing some data that matches $T$. The
-function arrows in $T$ are interpreted as functions in the type theory, and
-and $\iota$ as $X$. For example, natural numbers defined by
+Algebraic signatures consist of a list of operations, each with a specified
+arity. There are many flavours of algebraic signatures with varying degrees of
+expressiveness. For this paper, we are interested in algebraic signatures which can
+be used as a syntax for defining inductive families in a type theory. Thus, we define
+\begin{align*}
+    &\mta{Theory} : (\Gamma : \Con) \to \mta{Tel}\ \Gamma \to \Set \\
+    &\bullet : \mta{Theory}\ \Gamma\ P \\
+    &\rhd : (T : \mta{Theory}\ P) \to \mta{Op}\ P \to \mta{Theory}\ P \\[1em]
+    &\mta{Op} : (\Gamma : \Con) \to \mta{Tel}\ \Gamma \to \Set \\
+    &\Pi : (A : \Ty\ \Gamma) \to \mta{Op}\ (\Gamma \rhd A)\ P \to \mta{Op}\ \Gamma\ P \\
+    &\Pi\iota : (p : \Tms\ \Gamma\ P) \to \mta{Op}\ \Gamma\ P \to \mta{Op}\ \Gamma\ P \\
+    &\iota : (p : \Tms\ \Gamma\ P) \to \mta{Op}\ \Gamma\ P
+\end{align*}
+The $\mta{Theory}$ sort represents a simple class of algebraic signatures. We do
+not call it $\mta{Signature}$ to avoid a name clash with another kind of `signatures'
+that we will define later. Indeed, algebraic theories are a generalization of
+algebraic signatures. Each theory has an associated telescope of parameters $P$
+picked from some external type theory (not the metatheory), and contains a list of operations:
+\begin{itemize}
+    \item $\Pi\ A\ B$, a (dependent) abstraction over some type $A$ from the
+    external type theory, of another operation $B$. \item $\Pi\iota\ p\ B$, an
+    abstraction over a recursive occurence of
+    the object being defined, with parameters $p$, of another operation
+    $B$.
+    \item $\iota\ p$, a constructor of the object being defined, with parameters $p$.
+\end{itemize}
+For example, the theory of natural numbers lives in the empty context has an
+empty telescope of parameters. It is defined by
+\begin{align*}
+	&\mta{NatTh} : \mta{Theory}\ \bullet\ \bullet \\
+	&\mta{NatTh} := \bullet \rhd \iota\ (\,) \rhd \Pi\iota\ (\,)\ (\iota\ (\,))
+\end{align*}
+We can add labels to aid readability, omitting parameters
+if they are empty, and using $\Rightarrow$ for simple arrows:
 \[
-	\mta{NatTh} = \bullet \rhd zero : \iota \rhd succ:\iota \Rightarrow \iota
+\mta{NatTh} := \bullet \rhd zero : \iota \rhd succ : \iota \Rightarrow \iota
 \]
-have algebras
+Notice that this syntax only allows occurrences of $\iota$ in positive
+positions, which is a requirement for inductive types.
+We could also add other constructors for operations. For example, we allow
+external quantification in some other type theory, but we could also allow quantification
+on the level of the \emph{metatheory} (ignoring size issues) by an operation
+\[
+\Pi_{\mta{meta}} : (A : \Set) \to (A \to \mta{Op}\ \Gamma\ P) \to \mta{Op}\ \Gamma\ P
+\]
+We do not require this kind of abstraction for this paper but different classes of
+theories and quantification are explored in detail by Kov\'acs \cite{Kovacs2023-gq}.
+
+In order to make use of our definition for theories, we would like to be able to interpret
+the structure into a semantic universe. An algebra $(X, a) : \mta{Alg}\ T$
+for a carrier $X$ and theory $T$ defines a way to interpret the structure of $T$
+in terms of a type in a type theory $X : \mta{Ty}\ \Gamma$. This produces a type which
+matches the structure of $T$ but replaces each occurrence of $\iota$ with $X$.
+The function arrows in $T$ are interpreted as function arrows in the target universe.
+Algebras for the theory of natural numbers might look like
 \[
 	\mta{Alg}\ \mta{NatTh}\simeq (X : \Ty\ \Gamma) \times (zero : \Tm\ \Gamma\ X) \times (succ : \Tm\ \Gamma\ (\Pi\ X\ X))
 \]
-An algebra $(R, r)$ supports recursion if for all other algebras $(X, a)$ there
-is a function from $R$ to $X$ which preserves the structure of $T$. The recursor
-is typed as
-\[
-	\mta{Rec}_R := ((X, a) : \mta{Alg}\ T) \to (p : \Tms\ \Gamma\ P) \to \Tm\ \Gamma\ R[\Msub p] \to \Tm\ \Gamma\ X[\Msub p]
-\]
-In the case of natural numbers, this computes to
-\begin{align*}
-	\mta{Rec}_{\mta{NatTh}} \simeq\  & (X : \Ty\ \Gamma)                             \\
-	                                 & \to (zero : \Tm\ \Gamma\ X)                   \\
-	                                 & \to (succ : \Tm\ \Gamma\ (\Pi\ X\ X))         \\
-	                                 & \to \Tm\ \Gamma\ \mta{Nat} \to \Tm\ \Gamma\ X
-\end{align*}
-if $\mta{Nat} : \mta{Ty}\ \Gamma$ is the carrier set of the term algebra of
-natural numbers in the type theory, in some sense defining the `actual' natural
-numbers. This algebra supports recursion. The output $\mta{rec}\ (X, a)\ p\ n :
-	\Tm\ \Gamma\ X$ must pick its values from the algebra
-$a$. For natural numbers, this results in the equations
-\begin{align*}
-	\mta{rec}\ (X, zero, succ)\ \mta{zero}                  & = zero                                             \\
-	\mta{rec}\ (X, zero, succ))\ (\mta{app}\ \mta{succ}\ n) & = \mta{app}\ succ\ (\mta{rec}\ (X, zero, succ)\ n)
-\end{align*}
-for an algebra $(X, zero, succ)$ where $\mta{zero}$ and $\mta{succ}$ are from
-the term algebra.
+We have a choice in terms of how much we want to interpret $T$ in the external type theory,
+and how much we want to interpret it in the \emph{metatheory}. Here we have chosen to interpret
+a theory as a metatheoretical iterated pair type, but an operation as a term in the type theory.
 
-For induction, we need the elimination type to depend not only on the parameters $p$
-but also on the data type itself.
-\begin{definition}
-	An algebra $(X, a) : \mta{Alg}\ T$ is \emph{inductive} if for every
-	\emph{displayed} algebra $(D, d) : \mta{DispAlg}\ (X, a)$ there is a
-	\emph{section} $s : \mta{Section}\ (D, d)$.
-\end{definition}
-The displayed algebras for natural numbers are
+Very special classes of algebras support \emph{induction}.
+To formulate induction, we first need to define displayed algebras.
+A displayed algebra $(M, m)$ over an algebra $(X, a)$ for a theory $T$ with
+carrier $M$ mirrors the shape of $T$ like an algebra does, but each recursive
+occurrence $\iota$ is now replaced by $M$ applied to the corresponding value of
+the algebra. The displayed algebras for natural numbers are
 \begin{align*}
-	\mta{DispAlg}\ (X, zero, succ) & \simeq (Y : \Ty\ (\Gamma \rhd X))                                                      \\
-	                               & \quad \times (zero' : \Tm\ \Gamma\ Y[zero])                                            \\
-	                               & \quad \times (succ' : \Tm\ \Gamma\ (\Pi\ (x : X)\ (\Pi\ Y[x]\ Y[\mta{app}\ succ\ x])))
+	\mta{DispAlg}\ (X, zero, succ) & \simeq (M : \Ty\ (\Gamma \rhd X))                                                      \\
+	                               & \quad \times (zero' : \Tm\ \Gamma\ M[zero])                                            \\
+	                               & \quad \times (succ' : \Tm\ \Gamma\ (\Pi\ (x : X)\ (\Pi\ M[x]\ M[\mta{app}\ succ\ x])))
 \end{align*}
-and sections are the dependent functions
+The type $M$ is often called the \emph{motive}, and $m$ the \emph{methods}.
+
+\begin{definition}
+An algebra is \emph{inductive} if every displayed algebra over it has a section.
+\end{definition}
+A section is a dependent function from $X$ to $M$ which takes its values from
+the displayed algebra. For natural numebrs,
 \begin{align*}
-	\mta{Section}\  & \{(X, zero, succ)\}\ (Y, zero', succ')                                                                                           \\
-	                & \simeq (f : \Tm\ \Gamma\ (\Pi\ (x : X)\ Y[x]))                                                                                   \\
+	\mta{Section}\  & \{(X, zero, succ)\}\ (M, zero', succ')                                                                                           \\
+	                & \simeq (f : \Tm\ \Gamma\ (\Pi\ (x : X)\ M[x]))                                                                                   \\
 	                & \quad \times (\mta{app}\ f\ zero = zero')                                                                                        \\
 	                & \quad \times ((x : \Tm\ \Gamma\ X) \to \mta{app}\ f\ (\mta{app}\ succ\ x) = \mta{app}\ (\mta{app}\ succ'\ x)\ (\mta{app}\ f\ x))
 \end{align*}
-A displayed algebra packages the motive and methods of an induction principle, while the
-section takes the subject of the induction and produces the motive.
-The equations that are required for a section have been stated to hold on the level of the
-equality of the metatheory, but soon we will utilise a notion of section where the equalities
-only hold up to the internal equality type of $\lambdaind$.
+A section is the output of induction: a proof of $M$ for all $X$.
 
-For the remainder of the paper we choose a fixed representation for algebras as
-\begin{align*}
-    &\mta{Algebra}\ T\ X := (a : \mta{Args}\ T\ X) \to \Tm\ \Gamma\ X[\Msub{\mta{out}\ a}] \\
-    &\mta{Alg}\ T := (X : \Ty\ \Gamma) \times \mta{Algebra}\ T\ X \,,
-\end{align*}
-displayed algebras as
-\begin{align*}
-    &\mta{DispAlgebra}\ (X, x)\ M := (a : \mta{DispArgs}\ X\ M) \to \Tm\ \Gamma\ X[\Msub{\mta{out}\ a; x\ a}] \\
-    &\mta{DispAlg}\ (X, x) := (M : \Ty\ (\Gamma \rhd P \rhd X)) \times \mta{DispAlgebra}\ (X, x)\ M
-\end{align*}
-and finally sections as
-\begin{align*}
-    &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f \\
-    &\mta{Sec}\ M := \Tm\ (\Gamma \rhd P \rhd X)\ M \\
-    &\mta{Coh}\ f := \forall a. f[\Msub{\mta{out}\ a; x\ a}] = m\ (\mta{disp}\ f\ a)
-\end{align*}
-where $\mta{disp} : \mta{Sec}\ M \to \mta{Args}\ T\ X \to \mta{DispArgs}\ X\ M$
-takes some arguments of the algebra $(X, x)$ and a section $f$ and returns
-arguments of the displayed algebra $m$ by applying the section $T$ to all
-recursive occurrences of $X$.
+\subsection{Internal and external constructions}
 
-We can also define a fully internal notion of algebras
-\begin{align*}
-    &\mta{alg}\ T : \Tel\ \Gamma \\
-    &\mta{alg}\ T := \Pi\ P\ \univ \rhd \mta{algebra}\ T \\
-    &\mta{algebra}\ T : \Tel\ (\Gamma \rhd \Pi\ P\ \univ) \,,
-\end{align*}
-displayed algebras
-\begin{align*}
-    &\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
-    &\mta{dispAlg} := X\ x.\ (M : \Pi\ P\ (\Pi\ X\ \univ)) \rhd \mta{dispAlgebra} \\
-    &\mta{dispAlgebra} : \Tel\ (\Gamma \rhd (X, x) : \mta{alg}\ T \rhd \Pi\ P\ (\Pi\ X\ \univ)))  \,,
-\end{align*}
-and sections
-\begin{align*}
-    &\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
-    &\mta{section} := X\ x\ M\ m.\ \Pi\ P\ (\Pi\ X\ M) \rhd \mta{coh} \\
-    &\mta{coh} : \Tel\ (\Gamma \rhd (X, x) : \mta{alg}\ T\rhd (M, m) : \mta{dispAlg} \rhd \Pi\ P\ (\Pi\ X\ M)) \\ \,.
-\end{align*}
-This can be put together to internally define inductive algebras as
-\begin{align*}
-    &\mta{inductiveAlg}\ T : \Tel\ \Gamma \\
-    &\mta{inductiveAlg}\ T := \mta{alg}\ T \rhd \Pi\ \mta{dispAlg}\ \mta{section}
-\end{align*}
-where $\Pi$ is extended to operate on telescopes.
+For the remainder of the paper we choose a fixed representation for algebras,
+displayed algebras and sections. We will omit the full definitions here for
+space, but they can be found in \cref{app:algebras} of the appendix.
 
-We also get `realisation' functions which produce external equivalents of algebras
-and displayed algebras
+First, we define an `external' version of algebras
+\begin{align*}
+    &\mta{Alg}\ T := (X : \Ty\ \Gamma) \times \mta{Algebra}\ T\ X \\
+    &\mta{Algebra}\ T\ X := (a : \mta{Args}\ T\ X) \to \Tm\ \Gamma\ X[\Msub{\mta{out}\ a}] \,.
+\end{align*}
+which takes some arguments $\mta{Args}$ and produces the output $X$
+evaluated at the appropriate index $\mta{out}\ a$ based on the arguments. The
+type $\mta{Args}$ is defined as $(v : \mta{Var}\ T) \times \Tms\ \Gamma\
+(\mta{argsFor}\ (T\ v)\ X)$ for a type $\mta{Var}\ T$ which indexes operations
+in theories, where
+\begin{align*}
+    &\mta{argsFor} : \mta{Op}\ \Gamma\ T \to \Ty\ \Gamma \to \Tel\ \Gamma \\
+    &\mta{argsFor}\ (\Pi\ A\ B)\ X := \bullet \rhd (a : A) \rhd \mta{argsFor}\ B[\Msub a]\ X \\
+    &\mta{argsFor}\ (\Pi\iota\ p\ B)\ X := \bullet \rhd X[\Msub p] \rhd \mta{argsFor}\ B\ X \\
+    &\mta{argsFor}\ (\iota\ p)\ X := \bullet
+\end{align*}
+and $\mta{out}$ is defined as $\mta{outFor}\ \{T\ v\}\ a\ X$ where
+\begin{align*}
+    &\mta{outFor} : \{T : \Theory\ \Gamma\ P\} \to \Tms\ \Gamma\ (\mta{argsFor}\ O\ X) \to \Ty\ \Gamma \to \Tms\ \Gamma\ P \\
+    &\mta{outFor} : \mta{Op}\ \Gamma\ T \to \Ty\ \Gamma \to \Tel\ \Gamma \\
+    &\mta{outFor}\ \{\Pi\ A\ B\}\ (a, t)\ X := \mta{outFor}\ \{B[\Msub a]\}\ t\ X \\
+    &\mta{outFor}\ \{\Pi\iota\ p\ B\}\ (r, t)\ X := \mta{outFor}\ \{B\}\ t\ X \\
+    &\mta{outFor}\ \{\iota\ p\}\ (\,)\ X := p \,.
+\end{align*}
+We can also define a fully-internal version of algebras $\mta{algebra}\ T\ X$ as $\mta{Var}\ T$-indexed telescopes of
+\begin{align*}
+    &\mta{algebraFor} : \mta{Op}\ \Gamma\ T \to \Ty\ \Gamma \to \Ty\ \Gamma \\
+    &\mta{algebraFor}\ (\Pi\ A\ B)\ X := \Pi\ (a : A)\ (\mta{algebraFor}\ B[\Msub a]\ X) \\
+    &\mta{algebraFor}\ (\Pi\iota\ p\ B)\ X := \Pi\ X[\Msub p]\ (\mta{algebraFor}\ B\ X) \\
+    &\mta{algebraFor}\ (\iota\ p)\ X := X[\Msub p] \,.
+\end{align*}
+which has evident `realisation' functions into the metatheory
 \begin{align*}
     &\emb{\_} : \Tms\ \Gamma\ (\mta{alg}\ T) \to \mta{Alg}\ T \\
-    &\emb{\_} : \Tms\ \Gamma\ (\mta{dispAlg}[\Msub{t}]) \to \mta{DispAlg}\ \emb{t} \\
-    &\emb{\_} : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}]) \to \mta{Sec}\ \emb{m}
+    &\emb{\_} : \Tms\ \Gamma\ (\mta{algebra}\ T\ X) \to \mta{Algebra}\ T\ X \,.
 \end{align*}
-Such a function does not exist for section coherence however, because the
-equalities given by $\mta{coh}$ are propositional, while the ones given by
-$\mta{Coh}$ are definitional, and we do not assume that we have access to
-equality reflection yet.
 
+% We can similarly define internal displayed algebras over external algebras $(X,
+% x) : \mta{Alg}\ T$ as
+% \begin{align*}
+%     &\mta{dispAlgebra}\ (X, x) : \Tel\ (\Gamma \rhd M : \Ty\ (\Gamma \rhd P \rhd X)) \\
+%     &\mta{dispAlg}\ (X, x) := \bullet \rhd M : \Ty\ (\Gamma \rhd P \rhd X) \rhd \mta{dispAlgebra}\ (X, x)
+% \end{align*}
+% and finally sections as
+% \begin{align*}
+%     &\mta{Sec}\ M := \Tm\ (\Gamma \rhd P \rhd X)\ M \\
+%     &\mta{Coh}\ f := \forall a. f[\Msub{\mta{out}\ a; x\ a}] = m\ (\mta{disp}\ f\ a) \\
+%     &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f
+% \end{align*}
 
-% with a `realisation' function $\mta{real} : \Tms\ \Gamma\
+A similar construction can be performed for displayed algebras over external algebras
+\begin{align*}
+&\mta{dispAlgebra}\ (X, x)\ M : \Tel\ \Gamma \\
+&\mta{DispAlg}\ (X, x) := (M : \mta{Ty}\ (\Gamma \rhd P \rhd X)) \times \mta{Tms}\ \Gamma\ (\mta{dispAlgebra}\ (X, x)\ M)
+\end{align*}
+and we can use the realisation function for algebras to get internal displayed
+algebras over internal algebras
+\begin{align*}
+    &\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
+    &\mta{dispAlg} := a.\ \bullet \rhd (M : \Pi\ P\ (\Pi\ X\ \univ)) \rhd \mta{dispAlgebra}\ \emb{a}\ (\mta{El}\ M@@) \,.
+\end{align*}
+with evident realisation functions
+\begin{align*}
+    &\emb{\_} : \Tms\ \Gamma\ (\mta{dispAlg}[\Msub{t}]) \to \mta{DispAlg}\ \emb t \\
+    &\emb{\_} : \Tms\ \Gamma\ (\mta{dispAlgebra}\ t\ M) \to \mta{DispAlgebra}\ t\ M \,.
+\end{align*}
 
-\subsection{The core language, $\lambdaind$}
+Finally, we can get external sections over displayed algebras
+\begin{align*}
+     &\mta{Sec}\ M := \Tm\ (\Gamma \rhd P \rhd X)\ M \\
+     &\mta{Coh}\ f := \forall a. f[\Msub{\mta{out}\ a; x\ a}] = \mta{apply}\ m\ f\ a \\
+     &\mta{IntCoh}\ f := \forall a. \Tm\ \Gamma\ (\mta{Id}\ f[\Msub{\mta{out}\ a; x\ a}]\ (\mta{apply}\ m\ f\ a)) \\
+     &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f
+\end{align*}
+which have coherence rules using either the equality of the metatheory (\mta{Coh}) or
+the propositional equality of the type theory (\mta{IntCoh}).
+The $\mta{apply}$ function takes a displayed algebra, a section, and some
+arguments $\mta{Args}$, and evaluates the section at those arguments.
+
+These also have internal analogues
+\begin{align*}
+    &\mta{sec} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
+    &\mta{sec} := X\ x\ M\ m.\ \Pi\ P\ (\Pi\ X\ M) \\[1em]
+    &\mta{coh} : \Tel\ (\Gamma \rhd (X, x) : \mta{alg}\ T\rhd (M, m) : \mta{dispAlg} \rhd \Pi\ P\ (\Pi\ X\ M)) \\[1em]
+    &\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
+    &\mta{section} := X\ x\ M\ m.\ \mta{sec} \rhd \mta{coh}
+\end{align*}
+which only use propositional equality.
+
+Once again, we can define realisation functions
+\begin{align*}
+    &\emb{\_}_0 : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}]) \to \mta{Sec}\ \emb{m} \\
+    &\emb{\_}_1 : (t : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}])) \to \mta{IntCoh}\ \emb{t}_0
+\end{align*}
+which produce only internal coherence proofs.
+
+Later we will make use of the external versions of algebras, displayed algebras,
+and sections in order to `freely' add inductive algebras to the inductive syntax
+of a type theory in a strictly-positive but fully-applied manner. On the other
+hand, we will make use of the internal versions in order to be able to package
+inductive algebras as a single syntactic entity that corresponds to data
+representations.
+
+\subsection{The core language, $\lambdaind$}\label{sub:lambdaind}
 
 The languge $\lambdaind$, is a dependent type theory with $\Pi$, $\mta{Id}$, and
 a universe $\univ$.
@@ -208,6 +272,7 @@ recursive occurence of the inductive type being defined (with indices from
 $\Tms\ \Gamma\ P$). All function arrows must eventually return $\iota\ p$ for
 some $p : \Tms\ \Gamma\ P$
 
+
 In order to actually construct inductive types in $\lambdaind$, we need to
 extend the syntax with some term and type formers. First, we add a type former
 \[
@@ -218,6 +283,7 @@ indices $p$, constructs the data type $(\mta{D}\ i)[p]$. The relation $I \in
 	\Sigma$ should be thought of as `variables for item $I$ in a signature
 $\Sigma$', in a similar way to how $\mta{Var}\ \Gamma\ A$ defines variables for
 type $A$ in a local context $\Gamma$.
+
 
 Additionally, we add a constructor term
 \[
@@ -240,6 +306,8 @@ $(\mta{D}\ i)[\Msub p]$ for arguments $a$.
 \begin{definition}
 	The \emph{internal term algebra} of a data type $i$ is $\mta{C}_i$.
 \end{definition}
+
+
 
 % From now we will use $\mta{isAlgebra}$ implicitly when applying an algebra to
 % some arguments.
@@ -283,7 +351,7 @@ captured by an equality constructor
 % A \emph{representation} of a theory $T$ is an algebra $(R, r)$ of the theory $T$ which supports induction.
 % \end{definition}
 
-\subsection{Extending $\lambdaind$ with representations}
+\subsection{Extending $\lambdaind$ with representations} \label{sub:lambdarep}
 
 We extend the language $\lambdaind$ to form $\lambdarep$, which allows users to
 define custom representations for inductive types and global functions.
@@ -318,6 +386,8 @@ where $i : I \in \Sigma'$.
 This relation is a proposition, so it is proof-irrelevant. Furthermore, it is stable under
 weakening of contexts and signatures, because each item can only be represented once in a signature.
 
+
+
 To allow reasoning about representations in $\lambdarep$ we add a type former
 \begin{equation}\label{eq:repr-ty}
 	\MRepr{} : \Ty\ \Gamma \to \Ty\ \Gamma
@@ -333,6 +403,8 @@ and $\Munrepr{}$ undoes the
 effect of $\Mrepr{}$, treating a represented term as an inhabitant of its
 original type. These new constructs come with equality constructors in the syntax
 shown in \cref{fig:lambdaind-repr-coherence-pi-univ}.
+
+
 
 \begin{figure}[H]
   \begin{minipage}[t]{0.5\textwidth}%
@@ -361,6 +433,7 @@ shown in \cref{fig:lambdaind-repr-coherence-pi-univ}.
   $\Munrepr\ (\pi_2 \sigma)$ do not reduce.}
   \label{fig:lambdaind-repr-coherence-pi-univ}
 \end{figure}
+
 
 So far the representation operators do not really do anything. In order to make
 them useful, we need to define how they compute when they encounter data types
@@ -428,7 +501,10 @@ Now we state some basic lemmas of the representation operators.
 	\end{proof}
 \end{lemma}
 
+
 \section{Translating from $\lambdarep$ to $\lambdaind$}
+
+
 
 We can define a translation step $\R$ from $\lambdarep$ to
 $\lambdaind^{\textsc{Ext}}$, meant to be applied during the compilation process.

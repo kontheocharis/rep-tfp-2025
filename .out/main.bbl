@@ -3,6 +3,13 @@
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
 
+\bibitem{Altenkirch2016-zc}
+Altenkirch, T., Kaposi, A.: Type theory in type theory using quotient inductive
+  types. In: Proceedings of the 43rd Annual ACM SIGPLAN-SIGACT Symposium on
+  Principles of Programming Languages. pp. 18--29. POPL '16, Association for
+  Computing Machinery, New York, NY, USA (Jan 2016),
+  \url{https://doi.org/10.1145/2837614.2837638}
+
 \bibitem{Atkey2018-pj}
 Atkey, R.: Syntax and semantics of quantitative type theory. In: Proceedings of
   the 33rd Annual ACM/IEEE Symposium on Logic in Computer Science. pp. 56--65.
