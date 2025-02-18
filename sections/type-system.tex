@@ -194,11 +194,8 @@ algebras over internal algebras
     &\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
     &\mta{dispAlg} := a.\ \bullet \rhd (M : \Pi\ P\ (\Pi\ X\ \univ)) \rhd \mta{dispAlgebra}\ \emb{a}\ (\mta{El}\ M@@) \,.
 \end{align*}
-with realisation functions
-\begin{align*}
-    &\emb{\_} : \Tms\ \Gamma\ (\mta{dispAlg}[\Msub{t}]) \to \mta{DispAlg}\ \emb t \\
-    &\emb{\_} : \Tms\ \Gamma\ (\mta{dispAlgebra}\ t\ M) \to \mta{DispAlgebra}\ t\ M \,.
-\end{align*}
+with realisation functions $\emb{\_} : \Tms\ \Gamma\ (\mta{dispAlg}[\Msub{t}]) \to \mta{DispAlg}\ \emb t$ and
+$\emb{\_} : \Tms\ \Gamma\ (\mta{dispAlgebra}\ t\ M) \to \mta{DispAlgebra}\ t\ M$.
 
 Finally, we construct external sections over displayed algebras
 \begin{align*}
@@ -219,11 +216,10 @@ Sections also have internal analogues
     &\mta{coh} : \Tel\ (\Gamma \rhd (X, x) : \mta{alg}\ T\rhd (M, m) : \mta{dispAlg} \rhd \Pi\ P\ (\Pi\ X\ M))
 \end{align*}
 which only use propositional equality.
-Once again, we can define realisation functions
-\begin{align*}
-    &\emb{\_}_0 : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}]) \to \mta{Sec}\ \emb{m} \\
-    &\emb{\_}_1 : (t : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}])) \to \mta{IntCoh}\ \emb{t}_0
-\end{align*}
+
+We can define realisations
+$\emb{\_}_0 : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}]) \to \mta{Sec}\ \emb{m}$ and
+$\emb{\_}_1 : (t : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}])) \to \mta{IntCoh}\ \emb{t}_0$
 which produce only internal coherence proofs.
 Now we can define a synonym for internal inductive algebras as a telescope
 \[
@@ -626,18 +622,21 @@ subset $\Sigma$-types
 in such a way that $\MRepr$ and $\R$ preserve them, but such that the extraction
 step erases the right component, i.e. $|\{A \mid B\}| = |A|$, $|(x, y)| = |x|$ and $|\pi_1 x| =
 |x|$.\footnote{This can be implemented using quantitative type theory for example.}
-Then if we have an inductive family $G : \mta{data}\ (\bullet \rhd I)\ T_G
+Suppose we have an inductive family $G : \mta{data}\ (\bullet \rhd I)\ T_G
 \in \Sigma$ over some index type $I$, and an inductive type $F : \mta{data}\ \bullet\
 T_F \in \Sigma$ such that $G$ is represented by a refinement $f : \Tm\
 (\Sigma,\bullet)\ (\Pi\ (\mta{D}\ F)\ I)$ of $F$,
 \[
-    \mta{datarep}\ (i.\ \{ x : \mta{D}\ F \mid \mta{Id}\ (\mta{app}\ f\ x)\ i \}, r, Q) \in_G \Sigma \,,
+    \mta{datarep}\ (i.\ \{ x : \mta{D}\ F \mid \mta{Id}\ (\mta{app}\ f\ x)\ i \}, r, Q) \in_G \Sigma \,.
 \]
-we can create computationally irrelevant forgetful and recomputation functions
+Then, we can construct computationally irrelevant functions
 \begin{align*}
+&\begin{aligned}
 &\mta{forget}_i : \Tm\ \Gamma\ (\Pi\ (\mta{D}\ G)[i]\ (\mta{D}\ F)) \\
-&\mta{forget}_i = \lambda g.\ \pi_1\ (\mta{repr}\ g) \\[1em]
-&\mta{remember} : \Tm\ \Gamma\ (\Pi\ (x : \mta{D}\ F)\ (\mta{D}\ G)[\mta{app}\ f\ x]) \\
+&\mta{forget}_i = \lambda g.\ \pi_1\ (\mta{repr}\ g)
+\end{aligned} \quad \begin{aligned}
+&\mta{remember} : \Tm\ \Gamma\ (\Pi\ (x : \mta{D}\ F)\ (\mta{D}\ G)[f\ x]) \\
 &\mta{remember} = \lambda x.\ \mta{unrepr}\ (x, \mta{refl}) \,.
+\end{aligned}
 \end{align*}
 Clearly $|\R\ \mta{forget}_i| = |\R\ \mta{remember}| = \texttt{id}$.
