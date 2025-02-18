@@ -18,6 +18,11 @@ Allais, G.: Builtin types viewed as inductive families. In: Programming
 Allais, G.: Seamless, correct, and generic programming over serialised data.
   arXiv [cs.PL]  (20~Oct 2023), \url{http://arxiv.org/abs/2310.13441}
 
+\bibitem{Altenkirch2020-rm}
+Altenkirch, T., Geniet, C.: Big step normalisation for type theory (24~Sep
+  2020),
+  \url{https://drops.dagstuhl.de/storage/00lipics/lipics-vol175-types2019/LIPIcs.TYPES.2019.4/LIPIcs.TYPES.2019.4.pdf}
+
 \bibitem{Altenkirch2016-zc}
 Altenkirch, T., Kaposi, A.: Type theory in type theory using quotient inductive
   types. In: Proceedings of the 43rd Annual ACM SIGPLAN-SIGACT Symposium on

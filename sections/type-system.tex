@@ -33,34 +33,30 @@ representation of a data type should provide an implementation of induction of
 the same `shape' as the original. Induction can be characterised in terms of
 algebras and displayed algebras of algebraic signatures.
 
-Algebraic signatures consist of a list of operations, each with a specified
+Algebraic signatures \cite{Adamek2010-ls,Kovacs2023-gq} consist of a list of operations, each with a specified
 arity. There are many flavours of algebraic signatures with varying degrees of
 expressiveness. For this paper, we are interested in algebraic signatures which can
 be used as a syntax for defining inductive families in a object theory. Thus, we define
-{\small
-\begin{minipage}[t]{0.5\textwidth}
+{\small%
+\begin{minipage}[t]{0.4\textwidth}
 \begin{align*}
-    &\mta{Theory} : (\Gamma : \Con) \to \mta{Tel}\ \Gamma \to \Set \\
-    &\bullet : \mta{Theory}\ \Gamma\ P \\
-    &\rhd : (T : \mta{Theory}\ P) \to \mta{Op}\ P \to \mta{Theory}\ P \\[1em]
+&\Sig : (\Gamma : \Con) \to \mta{Tel}\ \Gamma \to \Set \\
+&\bullet : \Sig\ \Gamma\ P \\
+&\rhd : (T : \Sig\ P) \to \mta{Op}\ P \to \Sig\ P \\[1em]
 \end{align*}
-\end{minipage}
-\begin{minipage}[t]{0.5\textwidth}
+\end{minipage}%
+\begin{minipage}[t]{0.6\textwidth}
 \begin{align*}
 &\mta{Op} : (\Gamma : \Con) \to \mta{Tel}\ \Gamma \to \Set \\
 &\Pi : (A : \Ty\ \Gamma) \to \mta{Op}\ (\Gamma \rhd A)\ P \to \mta{Op}\ \Gamma\ P \\
 &\Pi\iota : (p : \Tms\ \Gamma\ P) \to \mta{Op}\ \Gamma\ P \to \mta{Op}\ \Gamma\ P \\
 &\iota : (p : \Tms\ \Gamma\ P) \to \mta{Op}\ \Gamma\ P
 \end{align*}
-\end{minipage}
-}
-The $\mta{Theory}$ sort represents a simple class of algebraic signatures with
-values in some object theory $(\mta{Con}, \mta{Ty}, \mta{Tm}, \ldots)$. We do not
-call it $\mta{Signature}$ to avoid a name clash with another kind of
-`signatures' that we will define later. Indeed, algebraic theories \cite{Adamek2010-ls} are a
-generalization of algebraic signatures. Each theory is described by an associated telescope
-of indices $P$ as a telescope of indices,  a \emph{finite list} of operations:
-\begin{itemize}
+\end{minipage}}
+The $\Sig$ sort represents a simple class of algebraic signatures with
+values in some object theory $(\mta{Con}, \mta{Ty}, \mta{Tm}, \ldots)$. Each
+signature is described by an associated telescope of indices $P$ as a telescope
+of indices, a \emph{finite list} of operations: \begin{itemize}
     \item $\Pi\ A\ B$, a (dependent) abstraction over some type $A$ from the
     object theory, of another operation $B$. \item $\Pi\iota\ p\ B$, an
     abstraction over a recursive occurence of
@@ -68,8 +64,8 @@ of indices $P$ as a telescope of indices,  a \emph{finite list} of operations:
     $B$.
     \item $\iota\ p$, a constructor of the object being defined, with indices $p$.
 \end{itemize}
-For example, the theory of natural numbers lives in the empty context has an
-empty telescope of indices. It is defined by $\mta{NatTh} : \mta{Theory}\
+For example, the signature of natural numbers lives in the empty context has an
+empty telescope of indices. It is defined by $\mta{NatTh} : \mta{Sig}\
 \bullet\ \bullet\ =\ \bullet \rhd \iota\ (\,) \rhd \Pi\iota\ (\,)\ (\iota\
 (\,))$. We can add labels to aid readability, omitting parameters if they are empty:
 \[
@@ -84,11 +80,11 @@ Kov\'acs \cite{Kovacs2023-gq}.
 
 In order to make use of our definition for theories, we would like to be able to interpret
 the structure into a semantic universe. An algebra $(X, a) : \mta{Alg}\ T$
-for a carrier $X$ and theory $T$ defines a way to interpret the structure of $T$
-in terms of a type $X : \mta{Ty}\ \Gamma$. This produces a type which
+for a signature $T$ and carrier $X$ defines a way to interpret the structure of $T$
+in terms of an object type $X : \mta{Ty}\ \Gamma$. This produces a type which
 matches the structure of $T$ but replaces each occurrence of $\iota$ with $X$.
 The function arrows in $T$ are interpreted as function arrows in the target universe.
-Algebras for the theory of natural numbers might look like
+Algebras for the signature of natural numbers might look like
 \[
 	\mta{Alg}\ \mta{NatTh}\simeq (X : \Ty\ \Gamma) \times (\textit{zero} : \Tm\ \Gamma\ X) \times (\textit{succ} : \Tm\ \Gamma\ (\Pi\ X\ X))
 \]
@@ -98,7 +94,7 @@ a theory as a metatheoretical iterated pair type, but an operation as a term in 
 
 Very special classes of algebras support \emph{induction}.
 To formulate induction, we first need to define displayed algebras.
-A displayed algebra $(M, m)$ over an algebra $(X, a)$ for a theory $T$ with
+A displayed algebra $(M, m)$ over an algebra $(X, a)$ for a signature $T$ with
 carrier $M$ mirrors the shape of $T$ like an algebra does, but each recursive
 occurrence $\iota$ is now replaced by $M$ applied to the corresponding value of
 the algebra. The displayed algebras for natural numbers are
@@ -136,7 +132,7 @@ they can be added into the syntax retroactively.
 
 First, we define an `external' version of algebras
 \begin{align*}
-    &\mta{Algebra} : (T : \mta{Theory}\ \Gamma\ P) \to \Ty\ (\Gamma \rhd P) \\
+    &\mta{Algebra} : (T : \mta{Sig}\ \Gamma\ P) \to \Ty\ (\Gamma \rhd P) \\
     &\mta{Algebra}\ T\ X := (a : \mta{In}\ T\ X) \to \Tm\ \Gamma\ X[\Msub{\mta{out}\ a}] \\[1em]
     &\mta{Alg}\ T := (X : \Ty\ (\Gamma \rhd P)) \times \mta{Algebra}\ T\ X \,,
 \end{align*}
@@ -164,7 +160,7 @@ the indices. It is defined as $\mta{out}\ \{T\ v\}\ a\ X$, where
 We can also define an internal version of algebras as telescopes
 $\mta{alg}\ T := \bullet \rhd (X : \Pi\ P\ \univ) \rhd \mta{algebra}\ T\ X$ where
 \begin{align*}
-    &\mta{algebra} : \mta{Theory}\ \Gamma\ P \to \Ty\ (\Gamma \rhd P) \to \Tel\ \Gamma \\
+    &\mta{algebra} : \mta{Sig}\ \Gamma\ P \to \Ty\ (\Gamma \rhd P) \to \Tel\ \Gamma \\
     &\mta{algebra}\ \bullet\ X := \bullet \\
     &\mta{algebra}\ (T \rhd O)\ X := \mta{algebra}\ T\ X \rhd \Pi\ (a : \mta{in}\ O\ X)\ X[\Msub{\mta{out}\ O\ a\ X}] \,.
 \end{align*}
@@ -235,7 +231,7 @@ with realisations
 
 Next we will make use of the external versions of algebras, displayed algebras,
 and sections in order to add inductive algebras as part of the well-typed
-syntactical definition of an object theory in a strictly-positive but fully-applied
+syntactical definition of an object theory in a strictly-positive, fully-applied
 manner. Later, we will make use of the internal versions in order to be able to
 package inductive algebras as a single syntactic entity that corresponds to data
 representations.
@@ -248,11 +244,11 @@ universe hierarchy but our results should be readily extensible to such a type
 theory. This language also has inductive families and global definitions. We
 follow a similar approach
 to Cockx~and~Abel~\cite{Cockx2018-fk} by packaging named inductive constructions
-and function definitions into a signature $\Sigma : \Sig$, and indexing contexts
-by signatures. The contexts $\Con$ in the resulting theory are pairs $(\Sigma :
-\Sig) \times \Loc\ \Sigma$ where $\Loc\ \Sigma$ are local contexts given by a
-closed telescope of types as usual. Substitutions only occur between contexts of
-the same signature. Items in a signature $\Sigma$ can be either
+and function definitions into a global context $\Sigma : \Glob$, and indexing local contexts
+by global contexts. The contexts $\Con$ in the resulting theory are pairs $(\Sigma :
+\Glob) \times \Loc\ \Sigma$ where $\Loc\ \Sigma$ are local contexts given by a
+closed telescope of types as usual. Substitutions only occur between local contexts.
+Items in a signature $\Sigma$ can be either
 
 \begin{itemize}
 	\item function definitions $\mta{def}\ P\ A\ t$ for some parameters $P : \Loc\
@@ -260,10 +256,10 @@ the same signature. Items in a signature $\Sigma$ can be either
 	\item postulates $\mta{post}\ P\ A$ for some parameters $P : \Loc\
 		      \Sigma$ and return type $A : \Ty\ (\Sigma, P)$, or
 	\item inductive type definitions $\mta{data}\ P\ T$ for some indices $P :
-		      \Loc\ \Sigma$ and theory $T : \Theory\ (\Sigma, \bullet)\ P$.
+		      \Loc\ \Sigma$ and signature $T : \Sig\ (\Sigma, \bullet)\ P$.
 \end{itemize}
 
-We reuse the \mta{Theory} type defined in the previous section. This allows us
+We reuse the \mta{Sig} type defined in the previous section. This allows us
 to define data types such as vectors
 \begin{align*}
 	 & \textit{Vect} : \mta{data}\ (\bullet \rhd \univ \rhd \textit{Nat})               \\
@@ -283,7 +279,7 @@ extend the syntax with some term and type formers. First, we add a type former
 \]
 which, given a data definition $i$ in $\Sigma$, and terms for its
 indices $p$, constructs the data type $(\mta{D}\ i)[p]$. The relation $I \in
-\Sigma$ finds items in a signature, to be thought of in a similar way to how
+\Sigma$ finds items in a global context, to be thought of in a similar way to how
 $\mta{Var}\ \Gamma\ A$ defines variables for type $A$ in a local context
 $\Gamma$. It is evidently a decidable relation, and is a proposition for a fixed
 $I$ and $\Sigma$.
@@ -334,9 +330,9 @@ definition of custom representations for data types and global functions. The
 machinery of algebras that we have developed in \cref{sub:algebras} allows for a
 very direct definition of representations of data types: A representation for
 $\mta{data}\ P\ T$ is an inductive algebra for $T$.
-Representations live alongside items in signatures, and each item only corresponds
-to at most one representation. We achieve this by adding a constructor to signatures
-$\unrhd : (\Sigma : \Sig) \to (I : \Item\ \Sigma) \to \Rep\ \Sigma\ I \to \Sig$.
+Representations live alongside items in a global context, and each item only corresponds
+to at most one representation. We achieve this by adding a constructor to global contexts
+$\unrhd : (\Sigma : \Glob) \to (I : \Item\ \Sigma) \to \Rep\ \Sigma\ I \to \Glob$.
 Representations are defined inductively by
 \begin{align*}
 % & \Rep : (\Sigma : \Sig) \to \Item\ \Sigma \to \Set \\
@@ -400,12 +396,12 @@ shown in \cref{fig:lambdaind-repr-coherence-pi-univ}.
 So far the representation operators do not really do much other than commute
 with almost everything in the syntax. In order to make
 them useful, we need to define how they compute when they encounter data types
-which are represented in the signature.
+which have a defined representation in the global context.
 We use a decidable relation $R \in_i \Sigma'$ to mean that $R :
 \mta{Rep}\ \Sigma\ I$ is the representation of an item $I : \mta{Item}\ \Sigma$
 where $i : I \in \Sigma'$.
 This relation is a proposition, so it is proof-irrelevant. Furthermore, it is stable under
-weakening of contexts and signatures, because each item can only be represented once in a signature.
+weakening of global and local contexts, because each item can only be represented once in a global context.
 In the following rules, $r : \mta{datarep}\ (R, r, Q) \in_i \Sigma$.
 
 Firstly, we define the reduction that occurs when a type $\mta{D}\ i$ is represented,
@@ -470,7 +466,7 @@ transformation after type checking, on fully-typed terms. The translation is
 defined over the syntax of $\lambdarep$ \cite{Boulier2017-cm} such that
 definitional equality is preserved. Overall, $\R$ preserves the structure of
 $\lambdarep$, but maps constructs to their `terminal' representations.
-First, we define a translation of signatures $\R : \Sig_\rep \to \Sig_\ind^\lang{ext}$ as
+First, we define a translation of global contexts $\R : \Glob_\rep \to \Glob_\ind^\lang{ext}$ as
 \[
 \R\ \bullet := \bullet \qquad \R\ (\Sigma \rhd I) := \R \Sigma \rhd \R I \qquad \R\ (\Sigma \unrhd I \ R) := \R \Sigma
 \]
@@ -541,7 +537,7 @@ defined representations:
     \end{proof}
 \end{theorem}
 $\R$ is not injective in general, because two distinct (by their location in the
-signature) data types might be defined to have the same representation.
+global context) data types might be defined to have the same representation.
 
 \begin{theorem}
     $\R$ is a left-inverse of the evident inclusion $i : \lambdaind \hookrightarrow \lambdarep$:
@@ -549,7 +545,7 @@ signature) data types might be defined to have the same representation.
         (t : \Tm_{\ind}\ \Gamma\ A) \to \R(i t) = t \,.
     \]
     \begin{proof}
-        The inclusion produces signatures in $\lambdarep$ without the $\unrhd$ constructor. Thus no
+        The inclusion produces global contexts in $\lambdarep$ without the $\unrhd$ constructor. Thus no
         items have defined representations. Also, the action of $\R$ on
         the image of $i$ does not invoke the equality reflection rule. With that
         constraint, and by induction on the syntax, $\R \circ i$ is the identity
