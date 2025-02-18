@@ -103,10 +103,6 @@ the algebra. The displayed algebras for natural numbers are
 	                               & \quad \times (\textit{succ'} : \Tm\ \Gamma\ (\Pi\ (x : X)\ \Pi\ M[\Msub{x}]\ M[\Msub{\textit{succ}\ x}]))
 \end{align*}
 The type $M$ is often called the \emph{motive}, and $m$ the \emph{methods}.
-
-\begin{definition}
-An algebra is \emph{inductive} if every displayed algebra over it has a section.
-\end{definition}
 A section is a dependent function from $X$ to $M$ which takes its values from
 the displayed algebra. For natural numebrs,
 \begin{align*}
@@ -115,7 +111,12 @@ the displayed algebra. For natural numebrs,
 	                & \quad \times (f\ \textit{zero} = \textit{zero'})                                                                                        \\
 	                & \quad \times ((x : \Tm\ \Gamma\ X) \to f\ (\textit{succ}\ x) = \textit{succ'}\ x\ (f\ x))
 \end{align*}
-A section is the output of induction: a proof of $M$ for all $X$.
+
+\begin{definition}
+An algebra is \emph{inductive} if every displayed algebra over it has a section.
+A displayed algebra is the input of induction: a proof of $M$ for each structural case in $X$.
+A section is the output: a proof of $M$ for all $X$.
+\end{definition}
 
 \subsection{Internal and external constructions}
 
@@ -161,7 +162,7 @@ $\mta{alg}\ T := \bullet \rhd (X : \Pi\ P\ \univ) \rhd \mta{algebra}\ T\ X$ wher
 \begin{align*}
     &\mta{algebra} : \mta{Theory}\ \Gamma\ P \to \Ty\ (\Gamma \rhd P) \to \Tel\ \Gamma \\
     &\mta{algebra}\ \bullet\ X := \bullet \\
-    &\mta{algebra}\ (T \rhd O)\ X := \mta{algebra}\ T\ X \rhd \Pi\ (a : \mta{in}\ O\ X)\ X[\msub{\mta{out}\ O\ a\ X}] \,.
+    &\mta{algebra}\ (T \rhd O)\ X := \mta{algebra}\ T\ X \rhd \Pi\ (a : \mta{in}\ O\ X)\ X[\Msub{\mta{out}\ O\ a\ X}] \,.
 \end{align*}
 
 All internal constructions have `realisation' functions into the metatheory
@@ -352,7 +353,7 @@ Representations for definitions are also included, where a definition can be
 represented by a term propositionally equal to original definition, but perhaps
 with better computational properties.
 
-\subsection{Reasoning about representations} \label{sub:lambdarep}
+\subsection{Reasoning about representations} \label{sub:reasoningrep}
 
 To allow reasoning about representations internally to $\lambdarep$ we add a
 type former
@@ -566,7 +567,7 @@ signature) data types might be defined to have the same representation.
     \end{proof}
 \end{theorem}
 
-\subsection{Computational irrelevance}
+\subsection{Computational irrelevance}\label{sub:irr}
 
 In order to reason about computational irrelevance, we assume that there is
 an additional program extraction step $\mathcal{E}$ from $\lambdaind$ into some
@@ -599,10 +600,10 @@ will use the \texttt{monospace} font for terms in $\lambda$.
 	&\Munrepr_{T'}\ (\mta{J}\ \mta{id}\ (\Mrepr\ (\Munrepr_{T}\ (\mta{J}\ \mta{id}\ (\Mrepr\ x)\ (\mta{sym}\ p))))\ p) \\
 	&= \Munrepr_{T'}\ (\mta{J}\ \mta{id}\ (\mta{J}\ \mta{id}\ (\Mrepr\ x)\ (\mta{sym}\ p))\ p) \text{ by }{\mta{reprl}} \\
     &= \mta{J}\ \mta{id}\ (\mta{J}\ \mta{id}\ x\ (\mta{sym}\ p))\ p \text{ by }{\mta{unrepr-J}\times 2 + \mta{reprr}} \\
-    &= x \text{ by }{\mta{uip}\times2} \,,
+    &= x \text{ by }{(\mta{uip} + \mta{J-elim})\times2} \,,
     \end{align*}
 	and similarly for the other side. After applying $\R$, we get $\lambda x.\
-	\mta{J}\ \mta{id}\ x\ p =_{\mta{uip}} \lambda x.\ x$ on both sides.
+	\mta{J}\ \mta{id}\ x\ p =_{\mta{uip}+\mta{J-elim}} \lambda x.\ x$ on both sides.
 	\end{proof}
 \end{theorem}
 

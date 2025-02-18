@@ -4,45 +4,45 @@ The top-level auxiliary file: .out/main.aux
 The style file: splncs04.bst
 Database file #1: bib.bib
 Warning--missing school in Kovacs2023-gq
-You've used 16 entries,
+You've used 24 entries,
             2850 wiz_defined-function locations,
-            733 strings with 8200 characters,
-and the built_in function-call counts, 9821 in all, are:
-= -- 867
-> -- 202
-< -- 17
-+ -- 88
-- -- 68
-* -- 669
-:= -- 1207
-add.period$ -- 29
-call.type$ -- 16
-change.case$ -- 94
+            791 strings with 9878 characters,
+and the built_in function-call counts, 14525 in all, are:
+= -- 1269
+> -- 308
+< -- 26
++ -- 133
+- -- 104
+* -- 988
+:= -- 1790
+add.period$ -- 41
+call.type$ -- 24
+change.case$ -- 142
 chr.to.int$ -- 0
-cite$ -- 17
-duplicate$ -- 921
-empty$ -- 952
-format.name$ -- 79
-if$ -- 2186
+cite$ -- 25
+duplicate$ -- 1369
+empty$ -- 1406
+format.name$ -- 120
+if$ -- 3227
 int.to.chr$ -- 0
-int.to.str$ -- 16
-missing$ -- 158
-newline$ -- 54
-num.names$ -- 32
-pop$ -- 277
+int.to.str$ -- 24
+missing$ -- 236
+newline$ -- 78
+num.names$ -- 48
+pop$ -- 413
 preamble$ -- 1
-purify$ -- 66
+purify$ -- 100
 quote$ -- 0
-skip$ -- 243
+skip$ -- 363
 stack$ -- 0
-substring$ -- 714
-swap$ -- 477
-text.length$ -- 17
+substring$ -- 1030
+swap$ -- 708
+text.length$ -- 26
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 62
+type$ -- 94
 warning$ -- 1
-while$ -- 84
-width$ -- 18
-write$ -- 189
+while$ -- 125
+width$ -- 26
+write$ -- 280
 (There was 1 warning)
