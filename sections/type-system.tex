@@ -21,7 +21,7 @@ languages defined.
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
 
-\subsection{Algebras, displayed algebras and inductive algebras} \label{sub:algebras}
+\subsection{Algebraic signatures}
 
 A representation of a data type must be able to emulate the behaviour of the
 original data type. In turn, the behaviour of the original data type is
@@ -43,21 +43,22 @@ be used as a syntax for defining inductive families in a type theory. Thus, we d
     &\Pi\iota : (p : \Tms\ \Gamma\ P) \to \mta{Op}\ \Gamma\ P \to \mta{Op}\ \Gamma\ P \\
     &\iota : (p : \Tms\ \Gamma\ P) \to \mta{Op}\ \Gamma\ P
 \end{align*}
-The $\mta{Theory}$ sort represents a simple class of algebraic signatures. We do
-not call it $\mta{Signature}$ to avoid a name clash with another kind of `signatures'
-that we will define later. Indeed, algebraic theories are a generalization of
-algebraic signatures. Each theory has an associated telescope of parameters $P$
-picked from some external type theory (not the metatheory), and contains a list of operations:
+The $\mta{Theory}$ sort represents a simple class of algebraic signatures with
+values in some type theory $(\mta{Con}, \mta{Ty}, \mta{Tm}, \ldots)$. We do not
+call it $\mta{Signature}$ to avoid a name clash with another kind of
+`signatures' that we will define later. Indeed, algebraic theories \cite are a
+generalization of algebraic signatures. Each theory is described by an associated telescope
+of indices $P$ as a telescope of indices,  a \emph{finite list} of operations:
 \begin{itemize}
     \item $\Pi\ A\ B$, a (dependent) abstraction over some type $A$ from the
     external type theory, of another operation $B$. \item $\Pi\iota\ p\ B$, an
     abstraction over a recursive occurence of
-    the object being defined, with parameters $p$, of another operation
+    the object being defined, with indices $p$, of another operation
     $B$.
-    \item $\iota\ p$, a constructor of the object being defined, with parameters $p$.
+    \item $\iota\ p$, a constructor of the object being defined, with indices $p$.
 \end{itemize}
 For example, the theory of natural numbers lives in the empty context has an
-empty telescope of parameters. It is defined by
+empty telescope of indices. It is defined by
 \begin{align*}
 	&\mta{NatTh} : \mta{Theory}\ \bullet\ \bullet \\
 	&\mta{NatTh} := \bullet \rhd \iota\ (\,) \rhd \Pi\iota\ (\,)\ (\iota\ (\,))
@@ -70,13 +71,15 @@ if they are empty, and use $\Rightarrow$ for simple arrows:
 Notice that this syntax only allows occurrences of $\iota$ in positive
 positions, which is a requirement for inductive types.
 We could also add other constructors for operations. For example, we allow
-external quantification in some other type theory, but we could also allow quantification
+external quantification in some type theory, but we could also allow quantification
 on the level of the \emph{metatheory} (ignoring size issues) by an operation
 \[
 \Pi_{\mta{meta}} : (A : \Set) \to (A \to \mta{Op}\ \Gamma\ P) \to \mta{Op}\ \Gamma\ P
 \]
 We do not require this kind of abstraction for this paper but different classes of
 theories and quantification are explored in detail by Kov\'acs \cite{Kovacs2023-gq}.
+
+\subsection{Algebras, displayed algebras and inductive algebras} \label{sub:algebras}
 
 In order to make use of our definition for theories, we would like to be able to interpret
 the structure into a semantic universe. An algebra $(X, a) : \mta{Alg}\ T$
@@ -122,7 +125,7 @@ A section is the output of induction: a proof of $M$ for all $X$.
 
 For the remainder of the paper we choose a fixed representation for algebras,
 displayed algebras and sections. We will omit the full definitions here for
-space, but they can be found in \cref{app:algebras} of the appendix.
+space, but where missing they can be found in \cref{app:algebras} of the appendix.
 
 We define these constructions in two ways: one that is fully internal to the
 type theory and the other that is partially external (using the metatheory).
@@ -132,35 +135,40 @@ they can be added into the syntax retroactively.
 
 First, we define an `external' version of algebras
 \begin{align*}
-    &\mta{Alg}\ T := (X : \Ty\ \Gamma) \times \mta{Algebra}\ T\ X \\
-    &\mta{Algebra}\ T\ X := (a : \mta{Args}\ T\ X) \to \Tm\ \Gamma\ X[\Msub{\mta{out}\ a}] \,.
+    &\mta{Algebra} : (T : \mta{Theory}\ \Gamma\ P) \to \Ty\ (\Gamma \rhd P) \\
+    &\mta{Algebra}\ T\ X := (a : \mta{In}\ T\ X) \to \Tm\ \Gamma\ X[\Msub{\mta{out}\ a}] \\[1em]
+    &\mta{Alg}\ T := (X : \Ty\ (\Gamma \rhd P)) \times \mta{Algebra}\ T\ X \,,
 \end{align*}
-which take some arguments $\mta{Args}$ and produce the output $X$
-evaluated at the appropriate index $\mta{out}\ a$ based on the arguments. The
-type $\mta{Args}$ is defined as $(v : \mta{Var}\ T) \times \Tms\ \Gamma\
-(\mta{argsFor}\ (T\ v)\ X)$ for the obvious type $\mta{Var}\ T$ which indexes
-operations in theories, where
+which take some arguments $\mta{In}$ and produce the output $X$
+evaluated at the appropriate index $\mta{out}\ a$ based on the arguments.
+This is the uncurried version of the presentation with $\Pi$ types.
+The type $\mta{In}$ is defined as $(v : \mta{Var}\ T) \times \Tms\ \Gamma\
+(\mta{in}\ (T\ v)\ X)$ for where $\mta{Var}\ T$ indexes
+operations in theories. The function
 \begin{align*}
-    &\mta{argsFor} : \mta{Op}\ \Gamma\ P \to \Ty\ \Gamma \to \Tel\ \Gamma \\
-    &\mta{argsFor}\ (\Pi\ A\ B)\ X := \bullet \rhd (a : A) \rhd \mta{argsFor}\ B[\Msub a]\ X \\
-    &\mta{argsFor}\ (\Pi\iota\ p\ B)\ X := \bullet \rhd X[\Msub p] \rhd \mta{argsFor}\ B\ X \\
-    &\mta{argsFor}\ (\iota\ p)\ X := \bullet
+    &\mta{in} : \mta{Op}\ \Gamma\ P \to (\Ty\ \Gamma \rhd P) \to \Tel\ \Gamma \\
+    &\mta{in}\ (\Pi\ A\ B)\ X := \bullet \rhd (a : A) \rhd \mta{in}\ B[\Msub a]\ X \\
+    &\mta{in}\ (\Pi\iota\ p\ B)\ X := \bullet \rhd X[\Msub p] \rhd \mta{in}\ B\ X \\
+    &\mta{in}\ (\iota\ p)\ X := \bullet \,,
 \end{align*}
-and $\mta{out}$ is defined as $\mta{outFor}\ \{T\ v\}\ a\ X$ where
+computes a telescope in the type theory, of the input arguments to the algebra
+element of the operation the induction is on. For the output, there is a function to compute
+the indices. It is defined as $\mta{out}\ \{T\ v\}\ a\ X$, where
 \begin{align*}
-    &\mta{outFor} : \{O : \Op\ \Gamma\ P\} \to \Tms\ \Gamma\ (\mta{argsFor}\ O\ X) \to \Ty\ \Gamma \to \Tms\ \Gamma\ P \\
-    &\mta{outFor}\ \{\Pi\ A\ B\}\ (a, t)\ X := \mta{outFor}\ \{B[\Msub a]\}\ t\ X \\
-    &\mta{outFor}\ \{\Pi\iota\ p\ B\}\ (r, t)\ X := \mta{outFor}\ \{B\}\ t\ X \\
-    &\mta{outFor}\ \{\iota\ p\}\ (\,)\ X := p \,.
+    &\mta{out} : \{O : \Op\ \Gamma\ P\} \to \Tms\ \Gamma\ (\mta{in}\ O\ X) \to \Ty\ \Gamma \to \Tms\ \Gamma\ P \\
+    &\mta{out}\ \{\Pi\ A\ B\}\ (a, t)\ X := \mta{out}\ \{B[\Msub a]\}\ t\ X \\
+    &\mta{out}\ \{\Pi\iota\ p\ B\}\ (r, t)\ X := \mta{out}\ \{B\}\ t\ X \\
+    &\mta{out}\ \{\iota\ p\}\ (\,)\ X := p \,.
 \end{align*}
-We can also define a fully-internal version of algebras $\mta{algebra}\ T\ X$ as $\mta{Var}\ T$-indexed telescopes of
+We can also define an internal version of algebras as telescopes
+$\mta{alg}\ T := \bullet \rhd (X : \Pi\ P\ \univ) \rhd \mta{algebra}\ T\ X$ where
 \begin{align*}
-    &\mta{algebraFor} : \mta{Op}\ \Gamma\ P \to \Ty\ \Gamma \to \Ty\ \Gamma \\
-    &\mta{algebraFor}\ (\Pi\ A\ B)\ X := \Pi\ (a : A)\ (\mta{algebraFor}\ B[\Msub a]\ X) \\
-    &\mta{algebraFor}\ (\Pi\iota\ p\ B)\ X := \Pi\ X[\Msub p]\ (\mta{algebraFor}\ B\ X) \\
-    &\mta{algebraFor}\ (\iota\ p)\ X := X[\Msub p] \,.
+    &\mta{algebra} : \mta{Theory}\ \Gamma\ P \to \Ty\ (\Gamma \rhd P) \to \Tel\ \Gamma \\
+    &\mta{algebra}\ \bullet\ X = \bullet \\
+    &\mta{algebra}\ (T \rhd O)\ X := \mta{algebra}\ T\ X \rhd \Pi\ (a : \mta{in}\ O\ X)\ X[\msub{\mta{out}\ O\ a\ X}] \,.
 \end{align*}
-which have evident `realisation' functions into the metatheory
+
+All internal constructions have `realisation' functions into the metatheory
 \begin{align*}
     &\emb{\_} : \Tms\ \Gamma\ (\mta{alg}\ T) \to \mta{Alg}\ T \\
     &\emb{\_} : \Tms\ \Gamma\ (\mta{algebra}\ T\ X) \to \mta{Algebra}\ T\ X \,.
@@ -190,31 +198,30 @@ algebras over internal algebras
     &\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
     &\mta{dispAlg} := a.\ \bullet \rhd (M : \Pi\ P\ (\Pi\ X\ \univ)) \rhd \mta{dispAlgebra}\ \emb{a}\ (\mta{El}\ M@@) \,.
 \end{align*}
-with evident realisation functions
+with realisation functions
 \begin{align*}
     &\emb{\_} : \Tms\ \Gamma\ (\mta{dispAlg}[\Msub{t}]) \to \mta{DispAlg}\ \emb t \\
     &\emb{\_} : \Tms\ \Gamma\ (\mta{dispAlgebra}\ t\ M) \to \mta{DispAlgebra}\ t\ M \,.
 \end{align*}
 
-Finally, we can get external sections over displayed algebras
+Finally, we construct external sections over displayed algebras
 \begin{align*}
+     &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f \\[1em]
      &\mta{Sec}\ M := \Tm\ (\Gamma \rhd P \rhd X)\ M \\
      &\mta{Coh}\ f := \forall a. f[\Msub{\mta{out}\ a; x\ a}] = \mta{apply}\ m\ f\ a \\
-     &\mta{IntCoh}\ f := \forall a. \Tm\ \Gamma\ (\mta{Id}\ f[\Msub{\mta{out}\ a; x\ a}]\ (\mta{apply}\ m\ f\ a)) \\
-     &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f
+     &\mta{IntCoh}\ f := \forall a. \Tm\ \Gamma\ (\mta{Id}\ f[\Msub{\mta{out}\ a; x\ a}]\ (\mta{apply}\ m\ f\ a))
 \end{align*}
 which have coherence rules using either the equality of the metatheory (\mta{Coh}) or
 the propositional equality of the type theory (\mta{IntCoh}).
 The $\mta{apply}$ function takes a displayed algebra, a section, and some
-arguments $\mta{Args}$, and evaluates the section at those arguments.
-
-These also have internal analogues
+arguments $\mta{In}$, and evaluates the section at those arguments.
+Sections also have internal analogues
 \begin{align*}
+&\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
+    &\mta{section} := X\ x\ M\ m.\ \mta{sec} \rhd \mta{coh} \\[1em]
     &\mta{sec} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
     &\mta{sec} := X\ x\ M\ m.\ \Pi\ P\ (\Pi\ X\ M) \\[1em]
-    &\mta{coh} : \Tel\ (\Gamma \rhd (X, x) : \mta{alg}\ T\rhd (M, m) : \mta{dispAlg} \rhd \Pi\ P\ (\Pi\ X\ M)) \\[1em]
-    &\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
-    &\mta{section} := X\ x\ M\ m.\ \mta{sec} \rhd \mta{coh}
+    &\mta{coh} : \Tel\ (\Gamma \rhd (X, x) : \mta{alg}\ T\rhd (M, m) : \mta{dispAlg} \rhd \Pi\ P\ (\Pi\ X\ M))
 \end{align*}
 which only use propositional equality.
 Once again, we can define realisation functions
@@ -224,19 +231,25 @@ Once again, we can define realisation functions
 \end{align*}
 which produce only internal coherence proofs.
 
-Finally we define a synonym for internal inductive algebras as a telescope
+Now we can define a synonym for internal inductive algebras as a telescope
 \[
     \mta{indAlg}\ T := \bullet \rhd \mta{alg}\ T \rhd \Pi\ \mta{dispAlg}\ \mta{section} \,.
 \]
+which has a realisation
+\begin{align*}
+    &\emb{\_}_0\ : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X]) \to \mta{DispAlg}\ X\ \to \mta{Sec}\ X \\
+    &\emb{\_}_1\ : (i : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X])) \to \mta{DispAlg}\ \emb{X}\ \to \mta{IntCoh}\ \emb{i}_0 \,.
+\end{align*}
+
 
 Next we will make use of the external versions of algebras, displayed algebras,
-and sections in order to `freely' add inductive algebras to the inductive syntax
-of a type theory in a strictly-positive but fully-applied manner. Later, we will
-make use of the internal versions in order to be able to package inductive
-algebras as a single syntactic entity that corresponds to data
+and sections in order to add inductive algebras as part of the well-typed
+syntactical definition of a type theory in a strictly-positive but fully-applied
+manner. Later, we will make use of the internal versions in order to be able to
+package inductive algebras as a single syntactic entity that corresponds to data
 representations.
 
-\subsection{The core language, $\lambdaind$}\label{sub:lambdaind}
+\subsection{A type theory with inductive families, $\lambdaind$}\label{sub:lambdaind}
 
 The languge $\lambdaind$, is a dependent type theory with $\Pi$, $\mta{Id}$, and
 a universe $\univ : \univ$. We will not concern ourselves with a universe
@@ -266,10 +279,10 @@ to define data types such as vectors
 	 & \quad\begin{aligned}
 		        \quad (\bullet & \rhd \univ \rhd \textit{Nat})\                                                                               \\
 		        \quad (\bullet & \rhd \textit{nil} : \Pi\ (T : \univ)\ (\iota\ (T, \textit{zero}))                                                          \\
-		        \quad          & \rhd \textit{cons} : \Pi\ (T : \univ)\ \Pi\ (n : \textit{Nat})\ \Pi\iota\ (T, n)\ \Pi\ T\ (\iota\ (T, \textit{succ}\ n))
+		        \quad          & \rhd \textit{cons} : \Pi\ (T : \univ)\ \Pi\ (n : \textit{Nat})\ \Pi\iota\ (T, n)\ \Pi\ T\ (\iota\ (T, \textit{succ}\ n)) \,.
 	        \end{aligned}
 \end{align*}
-We do not make a distinction between parameters and indices, though this might
+We do not make a distinction between parameters and indices for data types, though this might
 be desirable in an implementation because it generates elimination rules which
 are structurally uniform in the parameters. Nevertheless, our system is
 extensible to one with uniform parameters and we leave its formulation as an
@@ -309,10 +322,8 @@ eliminates each $d : (\mta{D}\ i)[\Msub p]$ into $M[\Msub{p;d}]$. This captures
 the induction principle of the data type. The coherence part of the section is
 captured by an equality constructor in the syntax
 \[
-	\mta{E-id} :\ \forall i.\ (m : \mta{DispAlg}\ \mta{C}_i) \to \mta{Coh}\ (\mta{E}_i\ m)
+	\mta{E-id} :\ \forall i.\ (m : \mta{DispAlg}\ \mta{C}_i) \to \mta{Coh}\ (\mta{E}_i\ m) \,.
 \]
-Once again, expanding all the definitions involved leads to positive occurrences for
-the syntactic categories of the type theory.
 \begin{lemma}
 	The constructor algebra $\mta{C}_i$ of a data type $i$ is inductive.
 	\begin{proof}
@@ -346,7 +357,8 @@ very direct definition of representations.
 	A representation of a data type $\mta{data}\ P\ T$ is an inductive algebra for $T$.
 \end{definition}
 
-We first modify the syntax for signatures $\Sig$ to introduce representations:
+Representations live alongside items in signatures, and each item only corresponds
+to at most one representation:
 \begin{align*}
 	 & \bullet : \Sig \\
 	 & \rhd : (\Sigma : \Sig) \to \Item\ \Sigma \to \Sig \\
@@ -358,13 +370,16 @@ Representations in turn are defined as
 & \mta{data-rep} : \Tms\ (\Sigma, \epsilon)\ (\mta{indAlg}\ T) \to \Rep\ \Sigma\ (\mta{data}\ P\ T) \\
 & \mta{def-rep} : (x : \Tm\ (\Sigma, P)\ A) \to \Tm\ (\Sigma, P)\ (\mta{Id}\ x\ t) \to \Rep\ \Sigma\ (\mta{def}\ P\ A\ t)
 \end{align*}
+A representation of an item is some data which can be used to \emph{replace}
+an item in a program, in a semantically equivalent way.
+
 We will write $\mta{data-rep}\ (R, r, Q)$ to unpack the telescope of an
 inductive algebra for a data representation with carrier $R : \Tm\ (\Sigma,
 \epsilon)\ (\Pi\ P\ \univ)$, algebra $r : \Tm\ (\Sigma, \epsilon)\
 (\mta{algebra}[\Msub R])$, and induction $Q : \Tm\ (\Sigma, \epsilon)\ (\Pi\
 \mta{dispAlg}\ \mta{section})[\Msub{R, r}]$.
 
-We also include representations for definitions, where a definition can be
+Representations for definitions are also included, where a definition can be
 represented by a term propositionally equal to original definition, but perhaps
 with better computational properties.
 We use a decidable relation $R \in_i \Sigma'$ to mean that $R :
@@ -374,6 +389,7 @@ This relation is a proposition, so it is proof-irrelevant. Furthermore, it is st
 weakening of contexts and signatures, because each item can only be represented once in a signature.
 
 
+\subsection{Reasoning about representations} \label{sub:lambdarep}
 
 To allow reasoning about representations internally to $\lambdarep$ we add a
 type former
@@ -382,11 +398,11 @@ type former
 \end{equation}
 along with two new terms in the syntax, forming an isomorphism
 \begin{equation}\label{eq:repr-iso}
-	\Mrepr{} : \Tm\ \Gamma\ T \simeq \Tm\ \Gamma\ (\MRepr\ T) : \Munrepr{} \,.
+	\Mrepr{} : \Tm\ \Gamma\ T \simeq \Tm\ \Gamma\ (\MRepr\ T) : \Munrepr{}
 \end{equation}
-which holds by equality constructors and preserves $\Pi$, $\mta{Id}$ and
-universes. The type $\MRepr\ T$ is the defined representation of the type $T$.
-The term $\Mrepr{}$ takes a term of type $T$ to its representation of type
+which preserves $\Pi$/$\mta{Id}$/$\univ$. The type $\MRepr\ T$ is the
+defined representation of the type $T$. The term $\Mrepr{}$ takes a term of type
+$T$ to its representation of type
 $\MRepr\ T$, and $\Munrepr{}$ undoes the effect of $\Mrepr{}$, treating a
 represented term as an inhabitant of its original type. These new constructs
 come with equality constructors in the syntax
@@ -419,7 +435,7 @@ shown in \cref{fig:lambdaind-repr-coherence-pi-univ}.
   \end{alignat*}
   \end{minipage}%
   \caption{Coherence of the representation operators with substitutions, $\Pi$, $\mta{Id}$,
-  universes and codes. The terms $\MRepr\ (\El{t})$, $\Mrepr\ (\pi_2 \sigma)$ and
+  and universes . The terms $\MRepr\ (\El{t})$, $\Mrepr\ (\pi_2 \sigma)$ and
   $\Munrepr\ (\pi_2 \sigma)$ do not reduce.}
   \label{fig:lambdaind-repr-coherence-pi-univ}
 \end{figure}
@@ -431,19 +447,18 @@ which are represented in the signature.
 In the following rules, $r : \mta{data-rep}\ (R, r, Q) \in_i \Sigma$.
 Firstly, we define the reduction that occurs when a type $\mta{D}\ i$ is represented,
 \begin{equation}
-  \mta{Repr-D} : \forall r.\ \MRepr\ (\mta{D}\ i) = \mta{El}\ R@ \,, \label{eq:lambdaind-Repr-D}
+  \mta{Repr-D}_i : \forall r.\ \MRepr\ (\mta{D}\ i) = \mta{El}\ R@ \,, \label{eq:lambdaind-Repr-D}
 \end{equation}
 yielding the carrier $R$ of the inductive algebra that represents it (after
 converting it from a function into the universe to a type family).
 
 Additionally, we can add a rule for representing constructors, albeit in propositional form, where
 \begin{align*}
-&\mta{repr-C} : \forall r.\ \Tm\ (\Sigma, \Delta)\ (\mta{Id}\ (\Mrepr\ (\mta{C}\ a))\ (\emb{r}\ a^\mta{Repr}))
+&\mta{repr-C}_i : \forall r.\ \Tm\ (\Sigma, \Delta)\ (\mta{Id}\ (\Mrepr\ (\mta{C}\ a))\ (\emb{r}\ a^\mta{Repr}))
 \end{align*}
 Here, the operation $\_^{\mta{Repr}}$ is used to apply the term former
-$\mta{repr}$ to the recursive part of the arguments $a$. This is definable
-because $\mta{Args}\ T\ X$ is natural in $X$ as it is a sum of products. The
-full construction can be found in \cref{app:reprs} of the appendix
+$\mta{repr}$ to the recursive part of the arguments $a$. The full construction
+can be found in \cref{app:reprs} of the appendix
 
 One might be tempted to make this equality definitional too. Unfortunately, this
 would render conversion checking undecidable, because if one applies
@@ -459,13 +474,13 @@ the decidability of conversion checking.
 We can also add a propositional equality rules for representing eliminators.
 First, representing an eliminator just applies $\mta{repr}$ to the motive and methods:
 \begin{align*}
-&\mta{repr-motive-E} : \forall r.\ \Tm\ (\Sigma, \Delta)\ (\mta{Id}\ (\Mrepr\ (\mta{E}\ m))\ (\mta{E}\ m^\mta{Repr})) \\
-&\mta{unrepr-motive-E} : \forall r.\ \Tm\ (\Sigma, \Delta)\ (\mta{Id}\ (\Munrepr\ (\mta{E}\ m))\ (\mta{E}\ m^\mta{Unrepr}))
+&\mta{repr-E}_i : \forall r.\ \Tm\ (\Sigma, \Delta)\ (\mta{Id}\ (\Mrepr\ (\mta{E}\ m))\ (\mta{E}\ m^\mta{Repr})) \\
+&\mta{unrepr-E}_i : \forall r.\ \Tm\ (\Sigma, \Delta)\ (\mta{Id}\ (\Munrepr\ (\mta{E}\ m))\ (\mta{E}\ m^\mta{Unrepr}))
 \end{align*}
 Additionally, eliminating something using $\mta{E}$ should be the same as
 eliminating the representation of that thing using the represented eliminator $Q$:
 \begin{align*}
-&\mta{repr-methods-E} : \forall r.\ \Tm\ (\Sigma, \Delta)\ (\mta{Id}\ (\mta{E}\ m)\ (s.\ (\emb{Q}_0\ m^{\mta{Repr*}})[\Msub{\mta{repr}\ s}])))
+&\mta{repr-equiv-E}_i : \forall r.\ \Tm\ (\Sigma, \Delta)\ (\mta{Id}\ (\mta{E}\ m)\ (s.\ (\emb{Q}_0\ m^{\mta{Repr*}})[\Msub{\mta{repr}\ s}])))
 \end{align*}
 Above we use more auxilliary definitions which `represent' the carriers of
 algebras, as well as displayed algebras:
@@ -476,29 +491,12 @@ algebras, as well as displayed algebras:
 \end{align*}
 These are defined straightforwardly; we represent outputs in a positive position
 using $\mta{repr}$ and unrepresent inputs in a negative position using
-$\mta{unrepr}$. The full definitions can be found in \cref{app:reprs} of the
-appendix.
+$\mta{unrepr}$ (appendix \cref{app:reprs}).
 
 We do not need an additional equality rule for representing function definitions
 as this is given by the equality proof $p$ in the definition of a
 representation $\mta{def-repr}\ t\ p$, when accounting for the definitional
 equality between a definition and its implementation.
-
-\subsection{Normalisation by evaluation for $\lambdarep$}
-
-To demonstrate that definitional equality is decidable in $\lambdarep$ with the addition
-of the representation operators, we can define a syntax of values, and then show that
-every term uniquely corresponds to a value.
-
-\begin{lemma}
-	The term formers $\Mrepr{}$ and $\Munrepr{}$ are injective, i.e.
-	$\Mrepr\ x = \Mrepr\ y \to x = y$ and $\Munrepr\ x = \Munrepr\ y \to x = y$.
-	\begin{proof}
-				By applying $\mta{unrepr}/\mta{repr}$ to both sides
-				followed by the rule $\mta{reprr}/\mta{reprl}$.
-	\end{proof}
-\end{lemma}
-
 
 \section{Translating from $\lambdarep$ to $\lambdaind$}
 
@@ -507,14 +505,11 @@ $\lambdaind^{\lang{ext}}$, meant to be applied during the compilation process.
 More specifically, the translation target is the extensional flavour of
 $\lambdaind$ by adding the equality reflection rule. Doing so results in undecidable
 type checking, but this is not a problem because type checking is decidable
-$\lambdarep$ and we only apply this transformation after typechecking (when we
-already know that everything is well-typed).
-
-
-This translation is defined over the syntax of $\lambdarep$
+$\lambdarep$ and we only apply this transformation after it on fully-typed terms.
+The translation is defined over the syntax of $\lambdarep$
 \cite{Boulier2017-cm} such that definitional equality is preserved. Overall,
 $\R$ preserves the structure of $\lambdarep$, but maps constructs to
-their terminal representations.
+their `terminal' representations.
 First, we define a translation of signatures $\R : \Sig_\rep \to \Sig_\ind^\lang{ext}$ as
 \[
 \R\ \bullet := \bullet \qquad \R\ (\Sigma \rhd I) := \R \Sigma \rhd \R I \qquad \R\ (\Sigma \unrhd I \ R) := \R \Sigma
@@ -530,9 +525,9 @@ Types are translated as
   \mta{D}\ \R i & \text{otherwise}
   \end{cases} \\
   & \R\ (\MRepr\ T) := \R T \\
-  & \text{(otherwise recurse on all subterms with $\R$)}
+  & \text{(otherwise recurse on all subterms with $\R$)} \,.
 \end{align*}
-This mirrors the definitional equality rules of $\mta{Repr}$, but $\R$ is applied
+The definitional equality rules of $\mta{Repr}$ and $\mta{D}$ are mirrored, but $\R$ is now applied
 to all subterms.
 Similarly, terms are translated as
 \begin{align*}
@@ -552,9 +547,9 @@ Similarly, terms are translated as
   & \R\ (\Mrepr\ t) := \R t \\
   & \R\ (\Munrepr\ t) := \R t \\
   & \R\ (\mta{repr-C}_i\ a) := \mta{refl} \\
-  & \R\ (\mta{repr-motive-E}_i\ m) := \mta{refl} \\
-  & \R\ (\mta{unrepr-motive-E}_i\ m) := \mta{refl} \\
-  & \R\ (\mta{repr-methods-E}_i\ m) := \mta{refl} \\
+  & \R\ (\mta{repr-E}_i\ m) := \mta{refl} \\
+  & \R\ (\mta{unrepr-E}_i\ m) := \mta{refl} \\
+  & \R\ (\mta{repr-equiv-E}_i\ m) := \mta{refl} \\
   & \text{(otherwise recurse on all subterms with $\R$)}
 \end{align*}
 Constructor, eliminator and definition translations mirror the equality rules in
@@ -584,7 +579,6 @@ defined representations:
         \end{cases} \\
 & \text{(otherwise recurse on all equality constructors with $\mta{ap}_\R$)}
 \end{align*}
-Thus, by construction, $\R$ is sound with respect to typing and definitional equality.
 
 \begin{theorem}
     $\R$ preserves typing and definitional equality.
@@ -600,10 +594,10 @@ Thus, by construction, $\R$ is sound with respect to typing and definitional equ
     \]
     \begin{proof}
         The inclusion produces signatures in $\lambdarep$ without the $\unrhd$ constructor. Thus no
-        items have defined representations. Furthermore, the action of $\R$ on
+        items have defined representations. Also, the action of $\R$ on
         the image of $i$ does not invoke the equality reflection rule. With that
         constraint, and by induction on the syntax, $\R \circ i$ is the identity
-        function.
+        function on $\lambdaind$.
     \end{proof}
 \end{theorem}
 
@@ -656,11 +650,11 @@ T_F \in \Sigma$ such that $G$ is represented by a refinement $f : \Tm\
 \[
     \mta{data-rep}\ (i.\ \{ x : \mta{D}\ F \mid \mta{Id}\ (\mta{app}\ f\ x)\ i \}, r, Q) \in_G \Sigma \,,
 \]
-then we can construct computationally irrelevant forgetful and recomputation functions
+we can create computationally irrelevant forgetful and recomputation functions
 \begin{align*}
 &\mta{forget}_i : \Tm\ \Gamma\ (\Pi\ (\mta{D}\ G)[i]\ (\mta{D}\ F)) \\
 &\mta{forget}_i = \lambda g.\ \pi_1\ (\mta{repr}\ g) \\[1em]
-&\mta{remember} : \Tm\ \Gamma\ (\Pi\ (x : \mta{D}\ F)\ (\mta{D}\ G[\mta{app}\ f\ x])) \\
-&\mta{remember} = \lambda x.\ (\mta{unrepr}\ x, \mta{refl})
+&\mta{remember} : \Tm\ \Gamma\ (\Pi\ (x : \mta{D}\ F)\ (\mta{D}\ G)[\mta{app}\ f\ x]) \\
+&\mta{remember} = \lambda x.\ \mta{unrepr}\ (x, \mta{refl})
 \end{align*}
 Clearly $|\R\ \mta{forget}_i| = |\R\ \mta{remember}| = \texttt{id}$.

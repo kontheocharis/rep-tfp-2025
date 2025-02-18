@@ -3,10 +3,11 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: .out/main.aux
 The style file: splncs04.bst
 Database file #1: bib.bib
+Warning--I didn't find a database entry for "a"
 Warning--missing school in Kovacs2023-gq
 You've used 14 entries,
             2850 wiz_defined-function locations,
-            706 strings with 7470 characters,
+            707 strings with 7471 characters,
 and the built_in function-call counts, 8385 in all, are:
 = -- 742
 > -- 168
@@ -45,4 +46,4 @@ warning$ -- 1
 while$ -- 75
 width$ -- 16
 write$ -- 166
-(There was 1 warning)
+(There were 2 warnings)
