@@ -99,8 +99,8 @@ occurrence $\iota$ is now replaced by $M$ applied to the corresponding value of
 the algebra. The displayed algebras for natural numbers are
 \begin{align*}
 	\mta{DispAlg}\ (X, \textit{zero}, \textit{succ}) & \simeq (M : \Ty\ (\Gamma \rhd X))                                                      \\
-	                               & \quad \times (\textit{zero'} : \Tm\ \Gamma\ M[\textit{zero}])                                            \\
-	                               & \quad \times (\textit{succ'} : \Tm\ \Gamma\ (\Pi\ (x : X)\ (\Pi\ M[x]\ M[\mta{app}\ \textit{succ}\ x])))
+	                               & \quad \times (\textit{zero'} : \Tm\ \Gamma\ M[\Msub{\textit{zero}}])                                            \\
+	                               & \quad \times (\textit{succ'} : \Tm\ \Gamma\ (\Pi\ (x : X)\ \Pi\ M[\Msub{x}]\ M[\Msub{\textit{succ}\ x}]))
 \end{align*}
 The type $M$ is often called the \emph{motive}, and $m$ the \emph{methods}.
 
@@ -111,9 +111,9 @@ A section is a dependent function from $X$ to $M$ which takes its values from
 the displayed algebra. For natural numebrs,
 \begin{align*}
 	\mta{Section}\  & \{(X, \textit{zero}, \textit{succ})\}\ (M, \textit{zero'}, \textit{succ'})                                                                                           \\
-	                & \simeq (f : \Tm\ \Gamma\ (\Pi\ (x : X)\ M[x]))                                                                                   \\
-	                & \quad \times (\mta{app}\ f\ \textit{zero} = \textit{zero'})                                                                                        \\
-	                & \quad \times ((x : \Tm\ \Gamma\ X) \to \mta{app}\ f\ (\mta{app}\ \textit{succ}\ x) = \mta{app}\ (\mta{app}\ \textit{succ'}\ x)\ (\mta{app}\ f\ x))
+	                & \simeq (f : \Tm\ \Gamma\ (\Pi\ (x : X)\ M[\Msub x]))                                                                                   \\
+	                & \quad \times (f\ \textit{zero} = \textit{zero'})                                                                                        \\
+	                & \quad \times ((x : \Tm\ \Gamma\ X) \to f\ (\textit{succ}\ x) = \textit{succ'}\ x\ (f\ x))
 \end{align*}
 A section is the output of induction: a proof of $M$ for all $X$.
 
@@ -160,14 +160,13 @@ We can also define an internal version of algebras as telescopes
 $\mta{alg}\ T := \bullet \rhd (X : \Pi\ P\ \univ) \rhd \mta{algebra}\ T\ X$ where
 \begin{align*}
     &\mta{algebra} : \mta{Theory}\ \Gamma\ P \to \Ty\ (\Gamma \rhd P) \to \Tel\ \Gamma \\
-    &\mta{algebra}\ \bullet\ X = \bullet \\
+    &\mta{algebra}\ \bullet\ X := \bullet \\
     &\mta{algebra}\ (T \rhd O)\ X := \mta{algebra}\ T\ X \rhd \Pi\ (a : \mta{in}\ O\ X)\ X[\msub{\mta{out}\ O\ a\ X}] \,.
 \end{align*}
 
 All internal constructions have `realisation' functions into the metatheory
 \begin{align*}
-    &\emb{\_} : \Tms\ \Gamma\ (\mta{alg}\ T) \to \mta{Alg}\ T \\
-    &\emb{\_} : \Tms\ \Gamma\ (\mta{algebra}\ T\ X) \to \mta{Algebra}\ T\ X \,.
+    \emb{\_} : \Tms\ \Gamma\ (\mta{alg}\ T) \to \mta{Alg}\ T \qquad \emb{\_} : \Tms\ \Gamma\ (\mta{algebra}\ T\ X) \to \mta{Algebra}\ T\ X \,.
 \end{align*}
 
 % We can similarly define internal displayed algebras over external algebras $(X,
@@ -241,11 +240,11 @@ representations.
 
 \subsection{A type theory with inductive families, $\lambdaind$}\label{sub:lambdaind}
 
-The languge $\lambdaind$, is a dependent type theory with $\Pi$, $\mta{Id}$, and
-a universe $\univ : \univ$. We will not concern ourselves with a universe
-hierarchy but our results should be readily extensible to such a type theory.
-This language also has inductive families and global definitions. We follow a
-similar approach
+The languge $\lambdaind$, is a dependent type theory with $\Pi$, $\mta{Id}$ with
+$\mta{uip}$, and a universe $\univ : \univ$. We will not concern ourselves with a
+universe hierarchy but our results should be readily extensible to such a type
+theory. This language also has inductive families and global definitions. We
+follow a similar approach
 to Cockx~and~Abel~\cite{Cockx2018-fk} by packaging named inductive constructions
 and function definitions into a signature $\Sigma : \Sig$, and indexing contexts
 by signatures. The contexts $\Con$ in the resulting theory are pairs $(\Sigma :
@@ -348,9 +347,7 @@ very direct definition of representations of data types.
 
 Representations live alongside items in signatures, and each item only corresponds
 to at most one representation. We achieve this by adding a constructor to signatures
-\begin{align*}
-	 & \unrhd : (\Sigma : \Sig) \to (I : \Item\ \Sigma) \to \Rep\ \Sigma\ I \to \Sig \,.
-\end{align*}
+$\unrhd : (\Sigma : \Sig) \to (I : \Item\ \Sigma) \to \Rep\ \Sigma\ I \to \Sig$.
 Representations are defined inductively as
 \begin{align*}
 & \Rep : (\Sigma : \Sig) \to \Item\ \Sigma \to \Set \\
@@ -600,17 +597,23 @@ will use the \texttt{monospace} font for terms in $\lambda$.
 \begin{theorem}
 	The type former $\MRepr{}$ is injective up to internal isomorphism, i.e.
 	\begin{equation}
-	\mta{Repr}\ T = \mta{Repr}\ T' \to \Tm\ \Gamma\ (\mta{Iso}\ T\ T')
+	\Tm\ \Gamma\ (\mta{Id}\ (\mta{Repr}\ T)\ (\mta{Repr}\ T')) \to \Tm\ \Gamma\ (\mta{Iso}\ T\ T')
 	\end{equation}
 	Moreover, this isomorphism is computationally irrelevant.
 	\begin{proof}
-	The forward direction is given by first applying $\mta{repr}$ to $t$,
-	transporting over the given equality and then applying $\mta{unrepr}$. The
-	backward direction is given by applying $\mta{repr}$ to $t'$, transporting
-	over the equality and then applying $\mta{unrepr}$. The coherence holds by
-	the rules $\mta{reprr}$ and $\mta{reprl}$. After applying $\R$, all
-	representation operators are erased and the isomorphism is the identity on both
-	sides (even before extraction).
+	For the input proof $p$, the forward direction is
+	$\lambda x.\ \Munrepr_{T'}\ (\mta{J}\ \mta{id}\ (\Mrepr\ x)\ p)$
+	and the backward direction is
+	$\lambda x.\ \Munrepr_{T}\ (\mta{J}\ \mta{id}\ (\Mrepr\ x)\ (\mta{sym}\
+	p))$. The coherence holds definitionally by
+    \begin{align*}
+	&\Munrepr_{T'}\ (\mta{J}\ \mta{id}\ (\Mrepr\ (\Munrepr_{T}\ (\mta{J}\ \mta{id}\ (\Mrepr\ x)\ (\mta{sym}\ p))))\ p) \\
+	&= \Munrepr_{T'}\ (\mta{J}\ \mta{id}\ (\mta{J}\ \mta{id}\ (\Mrepr\ x)\ (\mta{sym}\ p))\ p) \text{ by }{\mta{reprl}} \\
+    &= \mta{J}\ \mta{id}\ (\mta{J}\ \mta{id}\ x\ (\mta{sym}\ p))\ p \text{ by }{\mta{unrepr-J}\times 2 + \mta{reprr}} \\
+    &= x \text{ by }{\mta{uip}\times2} \,,
+    \end{align*}
+	and similarly for the other side. After applying $\R$, we get $\lambda x.\
+	\mta{J}\ \mta{id}\ x\ p =_{\mta{uip}} \lambda x.\ x$ on both sides.
 	\end{proof}
 \end{theorem}
 
@@ -619,7 +622,7 @@ subset $\Sigma$-types
 \[
 \{ \_ \mid \_ \} : (A : \Ty\ \Gamma) \to \Ty\ (\Gamma \rhd A) \to \Ty\ \Gamma
 \]
-in such a way that $\MRepr$ and $\R$ preserve them, but such that the extraction
+in such a way that $\MRepr$ and $\R$ preserve them, but the extraction
 step erases the right component, i.e. $|\{A \mid B\}| = |A|$, $|(x, y)| = |x|$ and $|\pi_1 x| =
 |x|$.\footnote{This can be implemented using quantitative type theory for example.}
 Suppose we have an inductive family $G : \mta{data}\ (\bullet \rhd I)\ T_G
@@ -627,7 +630,7 @@ Suppose we have an inductive family $G : \mta{data}\ (\bullet \rhd I)\ T_G
 T_F \in \Sigma$ such that $G$ is represented by a refinement $f : \Tm\
 (\Sigma,\bullet)\ (\Pi\ (\mta{D}\ F)\ I)$ of $F$,
 \[
-    \mta{datarep}\ (i.\ \{ x : \mta{D}\ F \mid \mta{Id}\ (\mta{app}\ f\ x)\ i \}, r, Q) \in_G \Sigma \,.
+    \mta{datarep}\ (i.\ \{ x : \mta{D}\ F \mid \mta{Id}\ (f\ x)\ i \}, r, Q) \in_G \Sigma \,.
 \]
 Then, we can construct computationally irrelevant functions
 \begin{align*}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  18 FEB 2025 02:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  18 FEB 2025 03:20
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1142,12 +1142,7 @@ Overfull \hbox (21.45534pt too wide) detected at line 152
 []
  []
 
-[5] [6] [7]) (./sections/type-system.tex [8] [9]
-Overfull \hbox (5.02663pt too wide) detected at line 117
-[]
- []
-
-[10]
+[5] [6] [7]) (./sections/type-system.tex [8] [9] [10]
 ! Undefined control sequence.
 <argument> ...Pi \ (a : \mta {in}\ O\ X)\ X[\msub 
                                                   {\mta {out}\ O\ a\ X}] \,. 
@@ -1171,31 +1166,35 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 [11]
-Overfull \hbox (7.40468pt too wide) detected at line 232
+Overfull \hbox (7.40468pt too wide) detected at line 231
 []
  []
 
 
 LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
-(Font)              using `U/stmry/m/n' instead on input line 242.
+(Font)              using `U/stmry/m/n' instead on input line 241.
 
 [12] [13] [14] [15pdfTeX warning (ext4): destination with the same identifier (
 name{figure.1.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.441 \end{align*}
+l.438 \end{align*}
                   ] [16] [17]
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 560.
+(Font)              using `T1/cmr/m/sc' instead on input line 557.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 570.
+(Font)              using `T1/cmr/m/sc' instead on input line 567.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 570.
+(Font)              using `T1/cmr/m/sc' instead on input line 567.
+
+
+LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
+(Font)              using `T1/cmr/m/sc' instead on input line 569.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
@@ -1203,11 +1202,7 @@ LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 575.
-
-
-LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 579.
+(Font)              using `T1/cmr/m/sc' instead on input line 576.
 
 [18]) (./sections/implementation.tex) (./sections/conclusion.tex [19])
 (.out/main.bbl
@@ -1281,7 +1276,7 @@ Here is how much of TeX's memory you used:
  44666 multiletter control sequences out of 15000+600000
  439924 words of font info for 112 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 133i,23n,133p,495b,521s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 133i,23n,133p,495b,523s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<
 /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
@@ -1295,34 +1290,36 @@ l/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/t
 exlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texl
 ive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive
 /2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/
-2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/20
-21/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2021
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021/
-texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2
-021/texmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/texlive/202
-1/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2021/
-texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2021/te
-xmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2021/texm
-f-dist/fonts/type1/public/cm-super/sfcc0700.pfb></usr/local/texlive/2021/texmf-
-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2021/texmf-di
-st/fonts/type1/public/cm-super/sfit1000.pfb></usr/local/texlive/2021/texmf-dist
-/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2021/texmf-dist/f
-onts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2021/texmf-dist/fon
-ts/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive/2021/texmf-dist/fonts
-/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/t
-ype1/public/cm-super/sfsi1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/typ
-e1/public/cm-super/sfss0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1
-/public/cm-super/sfss0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/p
-ublic/cm-super/sfss1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/pub
-lic/cm-super/sfti0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/publi
-c/cm-super/sfti1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/
-cm-super/sftt0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm
--super/sftt1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-s
-uper/sfxc0700.pfb>
-Output written on .out/main.pdf (21 pages, 544735 bytes).
+2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/20
+21/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2021
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2021/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021/te
+xmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/202
+1/texmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/texlive/2021/
+texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2021/te
+xmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2021/texm
+f-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2021/texmf-
+dist/fonts/type1/public/cm-super/sfcc0700.pfb></usr/local/texlive/2021/texmf-di
+st/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2021/texmf-dist
+/fonts/type1/public/cm-super/sfit1000.pfb></usr/local/texlive/2021/texmf-dist/f
+onts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2021/texmf-dist/fon
+ts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2021/texmf-dist/fonts
+/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/t
+ype1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/typ
+e1/public/cm-super/sfsi0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1
+/public/cm-super/sfsi1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/p
+ublic/cm-super/sfss0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/pub
+lic/cm-super/sfss0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/publi
+c/cm-super/sfss1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/
+cm-super/sfti0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm
+-super/sfti1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-s
+uper/sftt0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-sup
+er/sftt1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super
+/sfxc0700.pfb>
+Output written on .out/main.pdf (21 pages, 554339 bytes).
 PDF statistics:
- 442 PDF objects out of 1000 (max. 8388607)
- 344 compressed objects within 4 object streams
+ 450 PDF objects out of 1000 (max. 8388607)
+ 350 compressed objects within 4 object streams
  86 named destinations out of 1000 (max. 500000)
  117 words of extra memory for PDF output out of 10000 (max. 10000000)
 

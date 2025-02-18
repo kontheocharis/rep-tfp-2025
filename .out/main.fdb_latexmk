@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex .out/main"] 1739846368 ".out/main.aux" ".out/main.bbl" ".out/main" 1739846445
+["bibtex .out/main"] 1739848033 ".out/main.aux" ".out/main.bbl" ".out/main" 1739848854
   "./splncs04.bst" 1733698704 32146 aadf770ded437d161532035219ea6f45 ""
-  ".out/main.aux" 1739846417 8057 79a7b02c2099ceb87c4bee8810e034d6 "pdflatex"
+  ".out/main.aux" 1739848822 8057 3d5363726101bac54af6ee0ecce22b7f "pdflatex"
   "bib.bib" 1739844317 120497 9c909ce6a18e2ed52aa677f1b71dd826 ""
   (generated)
   ".out/main.blg"
   ".out/main.bbl"
-["pdflatex"] 1739846445 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739846445
-  ".out/main.aux" 1739846417 8057 79a7b02c2099ceb87c4bee8810e034d6 "pdflatex"
-  ".out/main.bbl" 1739846368 4492 ae715a9b74f88f993b98c1a685cce270 "bibtex .out/main"
-  ".out/main.out" 1739846417 275 e8697098164b610f8033512d50a9d933 "pdflatex"
+["pdflatex"] 1739848854 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739848854
+  ".out/main.aux" 1739848822 8057 3d5363726101bac54af6ee0ecce22b7f "pdflatex"
+  ".out/main.bbl" 1739848033 4492 ae715a9b74f88f993b98c1a685cce270 "bibtex .out/main"
+  ".out/main.out" 1739848822 275 e8697098164b610f8033512d50a9d933 "pdflatex"
   "/Users/constantine/git/rep-tfp-2025/main.tex" 1739834543 455 c9536a5b6d9db7bd806fd47214fc7c07 ""
-  "/dev/null" 1739846445 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "/dev/null" 1739848854 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -101,6 +101,7 @@
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1248133631 32762 224316ccc9ad3ca0423a14971cfa7fc1 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb" 1248133631 33993 9b89b85fd2d9df0482bd47194d1d3bf3 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
+  "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb" 1248133631 32915 7bf7720c61a5b3a7ff25b0964421c9b6 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1248133631 32716 08e384dc442464e7285e891af9f45947 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb" 1248133631 32442 c975af247b6702f7ca0c299af3616b80 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1248133631 37944 359e864bd06cde3b1cf57bb20757fb06 ""
@@ -116,6 +117,7 @@
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb" 1215737283 154599 ded6d7c21788a8930eadc7fef7518942 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb" 1215737283 149037 995a6f1e12c1d647b99b1cf55db78699 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb" 1215737283 138258 6525c253f16cededa14c7fd0da7f67b2 ""
+  "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfsi0700.pfb" 1215737283 103906 11f4b5ad7b911272ebfbbc1046608c7f ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfsi1000.pfb" 1215737283 103607 8dec125a771685406ae21998f7cfb6f2 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfss0700.pfb" 1215737283 96887 f9a08e9d1e1134ccba7d0f64b6e7d730 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfss0900.pfb" 1215737283 94648 b03e7f03878c9582819008e1f17e2327 ""
@@ -314,9 +316,9 @@
   "sections/implementation.tex" 1739641425 861 c594a497aac511939899dbf38fc922fc ""
   "sections/intro.tex" 1739807442 3812 1527e92d2e6befd42ff80330fb4fc825 ""
   "sections/tour.tex" 1739806986 16762 531039a2df291f6fcf2fae23645f8584 ""
-  "sections/type-system.tex" 1739846445 35282 2f846bd07400c0054a2f524a3755250b ""
+  "sections/type-system.tex" 1739848854 35586 b263b61abff1f39df200b4746a39dbcc ""
   (generated)
   ".out/main.aux"
-  ".out/main.log"
   ".out/main.pdf"
   ".out/main.out"
+  ".out/main.log"
