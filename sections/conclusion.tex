@@ -6,7 +6,6 @@ was developed by McBride and McKinna \cite{Mcbride2004-fd}, as part of the
 Epigram project. Our system differs from views in the computational content
 of the abstraction; even with deforestation \cite{Wadler1990-yo} views are not
 always zero-cost, but representations are.
-
 Atkey \cite{Atkey2011-ex} shows how to generically derive inductive types which
 are refinements of other inductive types. This work could be integrated in our
 system to automatically generate representations for refined data types.
@@ -18,19 +17,22 @@ Work by Allais \cite{Allais2023-pf,Allais2023-zq} uses a combination of views,
 erasure by quantitative type theory, and universes of flattened data types to
 achieve performance improvements when working with serialised data in Idris 2.
 Our approach differs because we have access to `native' data representations, so
-we do not need to rely on encodings. Additionally, they rely on heuristic compiler
-optimisations to erase their views.
-On the topic of memory layout optimisation, Baudon \cite{Baudon2023-cy} develops
-Ribbit, a DSL for the specification of the memory representation of algebraic
-data types, which can specify techniques like struct packing and bit-stealing.
-To our knowledge however, this does not provide control over the indirection
-introduced by \emph{inductive} types.
+we do not need to rely on encodings. Additionally, they rely on heuristic
+compiler optimisations to erase their views. On the topic of memory layout
+optimisation, Baudon \cite{Baudon2023-cy} develops Ribbit, a DSL for the
+specification of the memory representation of algebraic data types, which can
+specify techniques like struct packing and bit-stealing. To our knowledge
+however, this does not provide control over the indirection introduced by
+\emph{inductive} types.
 
-Dependently typed languages with extraction features have certain optimisation
-tricks such as the Nat-hack, and its generalisation to other types, which can
-emulate a part of our system automatically. Indeed, since the extended abstract
-version of this paper, an optimisation was merged into Idris 2 to erase the
-forgetful and recomputation functions for list/maybe/number-like types.
+Dependently typed languages with extraction features, notably Coq and Agda, have
+some overlapping features with our approach, but they do not provide any of the
+correctness guarantees. Optimisation tricks such as the Nat-hack, and its
+generalisation to other types, which can emulate a part of our system
+automatically. Indeed, since the extended abstract version of this paper, an
+optimisation was merged into Idris 2 to erase the forgetful and recomputation
+functions for list/maybe/number-like types.
+
 % We hope
 % that this work will inspire similar optimisations in other dependently typed
 % languages, for which there seems to be a demand.
@@ -77,8 +79,9 @@ category is discrete---substitutions only exist between local contexts. Kaposi,
 Kov\'acs and Altenkirch \cite{Kaposi2019-pj} showed that algebras for a theory
 form a CWF, whose initial objects are the inductive algebras. Thus we could have
 morphisms between signatures when one signature can be represented in terms of
-another. Then $\R$ could become a special case of the substitution calculus over
+another. Then $\R$ could become a special case of a substitution calculus over
 representations.
+
 % Constructing a CWF this way means that terms, types and local contexts
 % are presheaves with representable maps over the category of signatures.
 
@@ -86,12 +89,13 @@ representations.
 
 This paper addresses some of the inefficiencies of inductive families in
 dependently typed languages by introducing custom runtime representations that
-preserve logical guarantees while optimizing performance. Programmers can define
-tailored representations for inductive types, such as encoding natural numbers
-as GMP integers or vectors as length-annotated lists. These representations are
-formalized as inductive algebras, ensuring coherence with the original type
-through internal isomorphisms, enabling zero-cost conversions between indexed
-and unindexed views without runtime overhead.
+preserve logical guarantees and structural pattern matching while optimising
+performance. Programmers can define tailored representations for inductive
+types, such as encoding natural numbers as GMP integers or vectors as
+length-annotated lists. These representations are formalized as inductive
+algebras, ensuring coherence with the original type through internal
+isomorphisms, enabling zero-cost conversions between indexed and unindexed views
+without runtime overhead.
 
 The compilation process guarantees erasure of abstraction layers, translating
 high-level constructs to their defined implementations. Vectors can inherit the
@@ -99,7 +103,4 @@ memory layout of lists, and proofs of length correctness are erased, leaving
 only the underlying data. This approach aims to bridge the gap between the
 expressive power of dependent types, and practical performance needs. Our hope
 is that by decoupling logical structure from runtime representation, ergonomic
-type-driven correctness can be leveraged without sacrificing performance. Future
-work includes automating representation generation for common patterns,
-extending support to quotient-inductive and inductive-recursive types, and
-further internalising computational irrelevance.
+type-driven correctness can be leveraged without sacrificing performance.

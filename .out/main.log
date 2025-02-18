@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  18 FEB 2025 19:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  18 FEB 2025 20:40
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1194,7 +1194,7 @@ LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
 (Font)              using `T1/cmr/m/sc' instead on input line 556.
 
 [17]) (./sections/implementation.tex) [18] (./sections/conclusion.tex
-Overfull \hbox (2.9021pt too wide) in paragraph at lines 44--54
+Overfull \hbox (2.9021pt too wide) in paragraph at lines 46--56
 \T1/cmr/m/n/10 quotient-induction, induction-induction and induction-recursion.
  Rep-re-sen-ta-tions
  []
@@ -1235,10 +1235,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--11
 gebra ? format =
  []
 
-
-Underfull \vbox (badness 2726) has occurred while \output is active []
-
- [20]
+[20]
 Underfull \hbox (badness 10000) in paragraph at lines 74--77
 \T1/cmr/m/n/9 2017), []$\T1/cmtt/m/n/9 https : / / www . cambridge . org / core
  / services / aop-[]cambridge-[]core /
@@ -1323,10 +1320,10 @@ uper/sfti1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-sup
 er/sftt0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super
 /sftt1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/s
 fxc0700.pfb>
-Output written on .out/main.pdf (22 pages, 579690 bytes).
+Output written on .out/main.pdf (22 pages, 579924 bytes).
 PDF statistics:
- 506 PDF objects out of 1000 (max. 8388607)
- 393 compressed objects within 4 object streams
+ 508 PDF objects out of 1000 (max. 8388607)
+ 394 compressed objects within 4 object streams
  93 named destinations out of 1000 (max. 500000)
  117 words of extra memory for PDF output out of 10000 (max. 10000000)
 
