@@ -36,33 +36,37 @@ languages, for which there seems to be a demand.
 
 \section{Future work}
 
-There are elements of our formalisation which should be developed further. First,
-we did not formulate any results relating to the decidability of equality in
-$\lambdarep$, and properties such as confluence and strong normalization, needed
-for typechecking. We have developed an NbE algorithm which is used in the
-implementation of \superfluid, but have not formally shown that it has the
-desired properties (although we expect it to). We could also formalise the
-relationship between inductive families in $\lambdaind$ and the standard
-formulation in terms of $W$-types \cite{Abbott2004-va}.
+% We could also
+% formalise the relationship between inductive families in $\lambdaind$ and the
+% standard formulation in terms of $W$-types \cite{Abbott2004-va}.
 
 In the future we aim to expand the class of theories we consider, to include
-quotient-induction, induction-induction and induction-recursion. Due to our
-formulation in terms of algebras for theories, we expect that similar results
-can be obtained for these theories as well. Representations for
-quotient-inductive types in particular could give rise to ergonomic ways of
+quotient-induction, induction-induction and induction-recursion. Representations
+for quotient-inductive types in particular could give rise to ergonomic ways of
 computing with more `traditional' data structures such as hash maps or binary
-search trees. We could program inductively over these structures but extract
-programs without redundancy in data representation.
+search trees. We could also look into automating the discovery of inductive algebras for
+`known' classes of data types through metaprogramming \cite{Dagand2017-nj}. This
+could reproduce optimisation techniques by modern proof assistants [CITE] but as
+part of a standard library, with accompanying internal correctness proofs. It
+could also extend to identity function detection [CITE], by internalising the
+extraction step explored in \cref{sub:irr}.
 
-So far we require users to manually
-provide inductive algebras for their data types. This process could in theory be
-automated for `known' classes of data types. For example, if something looks
-like a list/number/refinement, we could automatically generate an inductive
-algebra for it if we have access to first-class datatypes \cite{Dagand2017-nj}.
-This could reproduce optimisation techniques by modern proof assistants [CITE]
-but as part of a standard library, with accompanying internal correctness
-proofs. This could extend to identity function detection [CITE], potentially by
-internalising the extraction step explored in \cref{sub:irr}.
+There are elements of our formalisation which should be developed further.
+First, we did not formulate decidability of equality and normalisation for
+$\lambdarep$, which is needed for typechecking. We have developed an NbE
+algorithm used in the implementation of \superfluid, but have not formally shown
+that it has the desired properties (although we expect it to).
+% We could program inductively over these structures but extract
+% programs without redundancy in data representation.
+
+% Due to our
+% formulation in terms of algebras for theories, we expect that similar results
+% can be obtained for these theories as well.
+
+% For example, if something
+% looks
+% like a list/number/refinement, we could automatically generate an inductive
+% algebra for it if we have access to first-class datatypes
 
 On a more theoretical note, we define contexts in $\lambdaind$ as pairs of a
 global signature and a local context. In the language of categories with
@@ -72,9 +76,10 @@ category is discrete---substitutions only exist between local contexts. Kaposi,
 Kov\'acs and Altenkirch \cite{Kaposi2019-pj} showed that algebras for a theory
 form a CWF, whose initial objects are the inductive algebras. Thus we could have
 morphisms between signatures when one signature can be represented in terms of
-another. Constructing a CWF this way means that terms, types and local contexts
-are presheaves with representable maps over the category of signatures. Then $\R$
-could become a special case of the substitution calculus over representations.
+another. Then $\R$ could become a special case of the substitution calculus over
+representations.
+% Constructing a CWF this way means that terms, types and local contexts
+% are presheaves with representable maps over the category of signatures.
 
 \section{Conclusion}
 

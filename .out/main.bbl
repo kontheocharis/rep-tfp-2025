@@ -3,12 +3,6 @@
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
 
-\bibitem{Abbott2004-va}
-Abbott, M., Altenkirch, T., Ghani, N.: Representing nested inductive types
-  using {W}-types. In: Automata, Languages and Programming, pp. 59--71. Lecture
-  notes in computer science, Springer Berlin Heidelberg, Berlin, Heidelberg
-  (2004), \url{https://link.springer.com/chapter/10.1007/978-3-540-27836-8_8}
-
 \bibitem{Adamek2010-ls}
 Adamek, J., Rosicky, J., Vitale, E.M.: Cambridge tracts in mathematics:
   Algebraic theories: A categorical introduction to general algebra series
@@ -109,6 +103,12 @@ Kov\'{a}cs, A.: Staged compilation with two-level type theory. arXiv [cs.PL]
 Kov\'{a}cs, A.: Type-theoretic signatures for algebraic theories and inductive
   types. Ph.D. thesis (2023),
   \url{https://andraskovacs.github.io/pdfs/phdthesis_compact.pdf}
+
+\bibitem{McBride2006-fp}
+McBride, C., Goguen, H., McKinna, J.: A few constructions on constructors. In:
+  Lecture Notes in Computer Science, pp. 186--200. Lecture notes in computer
+  science, Springer Berlin Heidelberg, Berlin, Heidelberg (2006),
+  \url{http://www.e-pig.org/downloads/concon.pdf}
 
 \bibitem{Mcbride2004-fd}
 Mcbride, C., Mckinna, J.: The view from the left. J. Funct. Programming

@@ -173,8 +173,9 @@ T\ n$, its form will be $(l, p)$ at runtime, where $l$ is the underlying list
 and $p$ is the proof that the length of $l$ is $n$. Under the assumption that
 the $\Sigma$-type's right component is irrelevant and erased at runtime, every
 vector is simply a list at runtime, where the length proof has been erased. In
-the full paper we will show how this erasure is achieved in practice in
-\superfluid using Quantitative Type Theory \cite{Atkey2018-pj}.
+practice, this erasure is achieved \superfluid using Quantitative Type Theory
+\cite{Atkey2018-pj}. In \cref{sub:irr} we show how to formally identify
+computationally irrelevant conversion functions.
 
 We can utilise this representation to convert between $\datalab{Vec}$ and
 $\datalab{List}$ at zero runtime cost, by using the $\repr{}$ and $\unrepr{}$
@@ -200,11 +201,8 @@ as some refinement of $\datalab{F}$ then we must be able to provide a way to
 compute $\datalab{G}$'s extra indices $X$ from $\datalab{F}$, like we computed
 $\datalab{Vec}$'s extra $\datalab{Nat}$ index from $\datalab{List}$ with
 $\lab{length}$ in the previous example. This means that we need to provide a
-function
-\[
-  \lab{comp} :_{\forall p} \datalab{F}\ p \to X\ p
-\]
-which can then be used to form the family
+function $\lab{comp} :_{\forall p} \datalab{F}\ p \to X\ p$ which can then be
+used to form the family
 \[
   \datalab{F}^{\lab{comp}}\ p\ x :=  \{ f : \datalab{F}\ p \mid \lab{comp}\ f = x \} .
 \]

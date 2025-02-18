@@ -6,24 +6,24 @@ Database file #1: bib.bib
 Warning--missing school in Kovacs2023-gq
 You've used 24 entries,
             2850 wiz_defined-function locations,
-            791 strings with 9878 characters,
-and the built_in function-call counts, 14525 in all, are:
-= -- 1269
+            791 strings with 9843 characters,
+and the built_in function-call counts, 14565 in all, are:
+= -- 1274
 > -- 308
 < -- 26
-+ -- 133
++ -- 134
 - -- 104
-* -- 988
-:= -- 1790
+* -- 990
+:= -- 1793
 add.period$ -- 41
 call.type$ -- 24
 change.case$ -- 142
 chr.to.int$ -- 0
 cite$ -- 25
-duplicate$ -- 1369
-empty$ -- 1406
+duplicate$ -- 1371
+empty$ -- 1409
 format.name$ -- 120
-if$ -- 3227
+if$ -- 3237
 int.to.chr$ -- 0
 int.to.str$ -- 24
 missing$ -- 236
@@ -33,10 +33,10 @@ pop$ -- 413
 preamble$ -- 1
 purify$ -- 100
 quote$ -- 0
-skip$ -- 363
+skip$ -- 366
 stack$ -- 0
-substring$ -- 1030
-swap$ -- 708
+substring$ -- 1039
+swap$ -- 710
 text.length$ -- 26
 text.prefix$ -- 0
 top$ -- 0

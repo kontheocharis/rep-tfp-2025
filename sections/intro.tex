@@ -31,10 +31,7 @@ been used in Epigram \cite{Mcbride2004-fd} that utilise the index refinement
 machinery of dependent pattern matching to avoid certain proof obligations with
 eliminator-like constructs. While views exhibit a nice way to transport across a
 bijection between the original data and the viewed data, they do not utilise
-this bijection to erase the view from the program. Despite deforestation
-handling this erasure to some extent, it is not guaranteed to erase all traces
-of the view from the program, and the optimisation might be difficult to
-predict.
+this bijection to erase the view from the program.
 
 In this paper, we propose an extension $\lambdarep$ to a core language with
 dependent types and inductive families $\lambdaind$, which allows programmers to
@@ -45,12 +42,14 @@ original data called a `representation'. Representations are defined internally
 to the language, and require coherence properties that ensure a representation
 is faithful to its the original inductive family. We contribute the following:
 \begin{itemize}
-  \item A dependent type system with inductive families $\lambdaind$
-    and its extension by representations $\lambdarep$, along with a translation
-    from $\lambdaind$ that erases all represented data types from the program.
-  \item A formulation of common optimisations such as the `Nat-hack', and
-      similarly for other inductive types, as well as zero-cost data reuse when
-      reindexing, using representations.
-    \item An prototype implementation of this system in \textsc{Superfluid}, a
-    programming language with inductive types and dependent pattern matching.
+    \item A formulation of common optimisations such as the `Nat-hack', and
+        similarly for other inductive types, as well as zero-cost data reuse when
+        reindexing, using representations (\cref{sec:examples}).
+    \item A dependent type system with inductive families $\lambdaind$ and its
+        extension by representations $\lambdarep$ formulated as inductive algebras
+        for theories, along with a translation from $\lambdaind$ that erases all
+        represented data types from the program (\cref{sec:type-system}).
+        \item An prototype implementation of this system in \textsc{Superfluid},
+        a programming language with inductive types and dependent pattern
+        matching (\cref{sec:implementation}).
 \end{itemize}
