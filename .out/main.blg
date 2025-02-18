@@ -3,47 +3,46 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: .out/main.aux
 The style file: splncs04.bst
 Database file #1: bib.bib
-Warning--I didn't find a database entry for "a"
 Warning--missing school in Kovacs2023-gq
-You've used 14 entries,
+You've used 16 entries,
             2850 wiz_defined-function locations,
-            707 strings with 7471 characters,
-and the built_in function-call counts, 8385 in all, are:
-= -- 742
-> -- 168
-< -- 16
-+ -- 74
-- -- 56
-* -- 561
-:= -- 1032
-add.period$ -- 26
-call.type$ -- 14
-change.case$ -- 81
+            733 strings with 8200 characters,
+and the built_in function-call counts, 9821 in all, are:
+= -- 867
+> -- 202
+< -- 17
++ -- 88
+- -- 68
+* -- 669
+:= -- 1207
+add.period$ -- 29
+call.type$ -- 16
+change.case$ -- 94
 chr.to.int$ -- 0
-cite$ -- 15
-duplicate$ -- 785
-empty$ -- 806
-format.name$ -- 65
-if$ -- 1866
+cite$ -- 17
+duplicate$ -- 921
+empty$ -- 952
+format.name$ -- 79
+if$ -- 2186
 int.to.chr$ -- 0
-int.to.str$ -- 14
-missing$ -- 137
-newline$ -- 48
-num.names$ -- 28
-pop$ -- 237
+int.to.str$ -- 16
+missing$ -- 158
+newline$ -- 54
+num.names$ -- 32
+pop$ -- 277
 preamble$ -- 1
-purify$ -- 56
+purify$ -- 66
 quote$ -- 0
-skip$ -- 214
+skip$ -- 243
 stack$ -- 0
-substring$ -- 588
-swap$ -- 425
-text.length$ -- 16
+substring$ -- 714
+swap$ -- 477
+text.length$ -- 17
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 56
+type$ -- 62
 warning$ -- 1
-while$ -- 75
-width$ -- 16
-write$ -- 166
-(There were 2 warnings)
+while$ -- 84
+width$ -- 18
+write$ -- 189
+(There was 1 warning)

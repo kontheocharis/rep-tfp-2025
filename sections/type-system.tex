@@ -8,16 +8,19 @@ of algebras for signatures. In \cref{sub:lambdaind}
 we define a core language with inductive families $\lambdaind$. In
 \cref{sub:lambdarep}, we extend this language with data representations to form
 $\lambdarep$. All of the examples in the paper are written in a surface language
-that elaborates to $\lambdarep$.
+that elaborates to $\lambdarep$. The dependent pattern matching can be
+elaborated to internal eliminators by standard techniques
+\cite{Goguen2006-sy,Cockx2018-fk}. The $\lambdaind/\lambdarep$ languages use eliminators instead
+of pattern matching.
 
 We work in an extensional metatheory with a small universe $\Set$, $(a : A)
 \times B$ for dependent pairs, $(a : A) \to B$ for dependent products, and $=$
 for equality. The metatheory also supports quotient-inductive-inductive
 definitions, which are used to define the syntaxes of the languages presented in
 this paper in the style of Kaposi and Altenkirch~\cite{Altenkirch2016-zc}.
-Weakening of terms is generally also left implicit to reduce syntactic noise,
-and sometimes higher-order abstract syntax notation is used for the
-languages defined.
+Weakening of terms in defined type theories is generally also left implicit to
+reduce syntactic noise, and often higher-order abstract syntax notation is used
+when de-Brujin indices are implied.
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
 
@@ -46,7 +49,7 @@ be used as a syntax for defining inductive families in a type theory. Thus, we d
 The $\mta{Theory}$ sort represents a simple class of algebraic signatures with
 values in some type theory $(\mta{Con}, \mta{Ty}, \mta{Tm}, \ldots)$. We do not
 call it $\mta{Signature}$ to avoid a name clash with another kind of
-`signatures' that we will define later. Indeed, algebraic theories \cite are a
+`signatures' that we will define later. Indeed, algebraic theories \cite{Adamek2010-ls} are a
 generalization of algebraic signatures. Each theory is described by an associated telescope
 of indices $P$ as a telescope of indices,  a \emph{finite list} of operations:
 \begin{itemize}
@@ -60,8 +63,7 @@ of indices $P$ as a telescope of indices,  a \emph{finite list} of operations:
 For example, the theory of natural numbers lives in the empty context has an
 empty telescope of indices. It is defined by
 \begin{align*}
-	&\mta{NatTh} : \mta{Theory}\ \bullet\ \bullet \\
-	&\mta{NatTh} := \bullet \rhd \iota\ (\,) \rhd \Pi\iota\ (\,)\ (\iota\ (\,))
+	&\mta{NatTh} : \mta{Theory}\ \bullet\ \bullet\ =\ \bullet \rhd \iota\ (\,) \rhd \Pi\iota\ (\,)\ (\iota\ (\,))
 \end{align*}
 We can add labels to aid readability, omitting parameters
 if they are empty, and use $\Rightarrow$ for simple arrows:
@@ -70,14 +72,8 @@ if they are empty, and use $\Rightarrow$ for simple arrows:
 \]
 Notice that this syntax only allows occurrences of $\iota$ in positive
 positions, which is a requirement for inductive types.
-We could also add other constructors for operations. For example, we allow
-external quantification in some type theory, but we could also allow quantification
-on the level of the \emph{metatheory} (ignoring size issues) by an operation
-\[
-\Pi_{\mta{meta}} : (A : \Set) \to (A \to \mta{Op}\ \Gamma\ P) \to \mta{Op}\ \Gamma\ P
-\]
-We do not require this kind of abstraction for this paper but different classes of
-theories and quantification are explored in detail by Kov\'acs \cite{Kovacs2023-gq}.
+Different classes of theories and quantification are explored in detail by
+Kov\'acs \cite{Kovacs2023-gq}.
 
 \subsection{Algebras, displayed algebras and inductive algebras} \label{sub:algebras}
 
@@ -206,8 +202,7 @@ with realisation functions
 
 Finally, we construct external sections over displayed algebras
 \begin{align*}
-     &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f \\[1em]
-     &\mta{Sec}\ M := \Tm\ (\Gamma \rhd P \rhd X)\ M \\
+     &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f  \qquad \mta{Sec}\ M := \Tm\ (\Gamma \rhd P \rhd X)\ M \\[1em]
      &\mta{Coh}\ f := \forall a. f[\Msub{\mta{out}\ a; x\ a}] = \mta{apply}\ m\ f\ a \\
      &\mta{IntCoh}\ f := \forall a. \Tm\ \Gamma\ (\mta{Id}\ f[\Msub{\mta{out}\ a; x\ a}]\ (\mta{apply}\ m\ f\ a))
 \end{align*}
@@ -217,10 +212,10 @@ The $\mta{apply}$ function takes a displayed algebra, a section, and some
 arguments $\mta{In}$, and evaluates the section at those arguments.
 Sections also have internal analogues
 \begin{align*}
-&\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
-    &\mta{section} := X\ x\ M\ m.\ \mta{sec} \rhd \mta{coh} \\[1em]
-    &\mta{sec} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
-    &\mta{sec} := X\ x\ M\ m.\ \Pi\ P\ (\Pi\ X\ M) \\[1em]
+    &\begin{alignedat}{2}
+    &\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \qquad&&\mta{sec} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg})  \\
+    &\mta{section} := X\ x\ M\ m.\ \mta{sec} \rhd \mta{coh} &&\mta{sec} := X\ x\ M\ m.\ \Pi\ P\ (\Pi\ X\ M)\\
+    \end{alignedat} \\[1em]
     &\mta{coh} : \Tel\ (\Gamma \rhd (X, x) : \mta{alg}\ T\rhd (M, m) : \mta{dispAlg} \rhd \Pi\ P\ (\Pi\ X\ M))
 \end{align*}
 which only use propositional equality.
@@ -230,10 +225,9 @@ Once again, we can define realisation functions
     &\emb{\_}_1 : (t : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}])) \to \mta{IntCoh}\ \emb{t}_0
 \end{align*}
 which produce only internal coherence proofs.
-
 Now we can define a synonym for internal inductive algebras as a telescope
 \[
-    \mta{indAlg}\ T := \bullet \rhd \mta{alg}\ T \rhd \Pi\ \mta{dispAlg}\ \mta{section} \,.
+    \mta{indAlg}\ T := \bullet \rhd \mta{alg}\ T \rhd \Pi\ \mta{dispAlg}\ \mta{section}
 \]
 which has a realisation
 \begin{align*}
@@ -341,52 +335,39 @@ along with an equality constructor for function definitions
 	\mta{F-id} : \forall i.\ \mta{F}\ i = t \,.
 \end{align*}
 
-The language we have defined thus far is sufficient to express a lot of the
-programs which can be written in a modern proof assistant. Next, we will explore
-how to extend this language to support data representations as explored earlier
-in the paper.
+The language we have defined thus far is comparable to the core language of a
+proof assistant. Next, we will explore how to extend this language to support
+data representations.
 
 \subsection{Extending $\lambdaind$ with representations} \label{sub:lambdarep}
 
 We extend the language $\lambdaind$ to form $\lambdarep$, which allows users to
 define custom representations for inductive types and global functions. The
 machinery of algebras that we have developed in \cref{sub:algebras} allows for a
-very direct definition of representations.
+very direct definition of representations of data types.
 
 \begin{definition}
 	A representation of a data type $\mta{data}\ P\ T$ is an inductive algebra for $T$.
 \end{definition}
 
 Representations live alongside items in signatures, and each item only corresponds
-to at most one representation:
+to at most one representation. We achieve this by adding a constructor to signatures
 \begin{align*}
-	 & \bullet : \Sig \\
-	 & \rhd : (\Sigma : \Sig) \to \Item\ \Sigma \to \Sig \\
 	 & \unrhd : (\Sigma : \Sig) \to (I : \Item\ \Sigma) \to \Rep\ \Sigma\ I \to \Sig \,.
 \end{align*}
-Representations in turn are defined as
+Representations are defined inductively as
 \begin{align*}
 & \Rep : (\Sigma : \Sig) \to \Item\ \Sigma \to \Set \\
-& \mta{data-rep} : \Tms\ (\Sigma, \epsilon)\ (\mta{indAlg}\ T) \to \Rep\ \Sigma\ (\mta{data}\ P\ T) \\
-& \mta{def-rep} : (x : \Tm\ (\Sigma, P)\ A) \to \Tm\ (\Sigma, P)\ (\mta{Id}\ x\ t) \to \Rep\ \Sigma\ (\mta{def}\ P\ A\ t)
+& \mta{datarep} : \Tms\ (\Sigma, \epsilon)\ (\mta{indAlg}\ T) \to \Rep\ \Sigma\ (\mta{data}\ P\ T) \\
+& \mta{defrep} : (x : \Tm\ (\Sigma, P)\ A) \to \Tm\ (\Sigma, P)\ (\mta{Id}\ x\ t) \to \Rep\ \Sigma\ (\mta{def}\ P\ A\ t)
 \end{align*}
-A representation of an item is some data which can be used to \emph{replace}
-an item in a program, in a semantically equivalent way.
-
-We will write $\mta{data-rep}\ (R, r, Q)$ to unpack the telescope of an
-inductive algebra for a data representation with carrier $R : \Tm\ (\Sigma,
-\epsilon)\ (\Pi\ P\ \univ)$, algebra $r : \Tm\ (\Sigma, \epsilon)\
-(\mta{algebra}[\Msub R])$, and induction $Q : \Tm\ (\Sigma, \epsilon)\ (\Pi\
-\mta{dispAlg}\ \mta{section})[\Msub{R, r}]$.
-
+A representation of an item is some data which can be used to \emph{replace} an
+item in a program, in a semantically equivalent way. We will write
+$\mta{datarep}\ (R, r, Q)$ to unpack the telescope of an inductive algebra for a
+data representation with carrier $R$, algebra $r$ and induction $Q$.
 Representations for definitions are also included, where a definition can be
 represented by a term propositionally equal to original definition, but perhaps
 with better computational properties.
-We use a decidable relation $R \in_i \Sigma'$ to mean that $R :
-\mta{Rep}\ \Sigma\ I$ is the representation of an item $I : \mta{Item}\ \Sigma$
-where $i : I \in \Sigma'$.
-This relation is a proposition, so it is proof-irrelevant. Furthermore, it is stable under
-weakening of contexts and signatures, because each item can only be represented once in a signature.
 
 
 \subsection{Reasoning about representations} \label{sub:lambdarep}
@@ -444,7 +425,13 @@ So far the representation operators do not really do much other than commute
 with almost everything in the syntax. In order to make
 them useful, we need to define how they compute when they encounter data types
 which are represented in the signature.
-In the following rules, $r : \mta{data-rep}\ (R, r, Q) \in_i \Sigma$.
+We use a decidable relation $R \in_i \Sigma'$ to mean that $R :
+\mta{Rep}\ \Sigma\ I$ is the representation of an item $I : \mta{Item}\ \Sigma$
+where $i : I \in \Sigma'$.
+This relation is a proposition, so it is proof-irrelevant. Furthermore, it is stable under
+weakening of contexts and signatures, because each item can only be represented once in a signature.
+In the following rules, $r : \mta{datarep}\ (R, r, Q) \in_i \Sigma$.
+
 Firstly, we define the reduction that occurs when a type $\mta{D}\ i$ is represented,
 \begin{equation}
   \mta{Repr-D}_i : \forall r.\ \MRepr\ (\mta{D}\ i) = \mta{El}\ R@ \,, \label{eq:lambdaind-Repr-D}
@@ -482,34 +469,31 @@ eliminating the representation of that thing using the represented eliminator $Q
 \begin{align*}
 &\mta{repr-equiv-E}_i : \forall r.\ \Tm\ (\Sigma, \Delta)\ (\mta{Id}\ (\mta{E}\ m)\ (s.\ (\emb{Q}_0\ m^{\mta{Repr*}})[\Msub{\mta{repr}\ s}])))
 \end{align*}
-Above we use more auxilliary definitions which `represent' the carriers of
-algebras, as well as displayed algebras:
+Above we use more auxilliary definitions which represent the carriers of
+algebras, as well as displayed algebras (appendix \cref{app:reprs}):
 \begin{align*}
 \_^{\mta{Repr}} &: \mta{Algebra}\ T\ X \to \mta{Algebra}\ T\ (\mta{Repr}\ X) \\
- \_^{\mta{Repr}} &: \mta{DispAlgebra}\ a\ M \to \mta{DispAlg}\ a\ (\MRepr\ M) \\
- \_^{\mta{Repr}*} &: \mta{DispAlgebra}\ a\ M \to \mta{DispAlg}\ a^{\mta{Repr}}\ (p\ x .\ M[\Msub{p;\mta{unrepr}\ x}])
+ \_^{\mta{Repr}} &: \mta{DispAlgebra}\ a\ M \to \mta{DispAlgebra}\ a\ (\MRepr\ M) \\
+ \_^{\mta{Repr}*} &: \mta{DispAlgebra}\ a\ M \to \mta{DispAlgebra}\ a^{\mta{Repr}}\ (p\ x .\ M[\Msub{p;\mta{unrepr}\ x}])
 \end{align*}
-These are defined straightforwardly; we represent outputs in a positive position
-using $\mta{repr}$ and unrepresent inputs in a negative position using
-$\mta{unrepr}$ (appendix \cref{app:reprs}).
 
 We do not need an additional equality rule for representing function definitions
 as this is given by the equality proof $p$ in the definition of a
-representation $\mta{def-repr}\ t\ p$, when accounting for the definitional
+representation $\mta{defrepr}\ t\ p$, when accounting for the definitional
 equality between a definition and its implementation.
 
-\section{Translating from $\lambdarep$ to $\lambdaind$}
+\subsection{Translating representations away}
 
-We can define a translation step $\R$ from $\lambdarep$ to
+We now define a translation step $\R$ from $\lambdarep$ to
 $\lambdaind^{\lang{ext}}$, meant to be applied during the compilation process.
 More specifically, the translation target is the extensional flavour of
-$\lambdaind$ by adding the equality reflection rule. Doing so results in undecidable
-type checking, but this is not a problem because type checking is decidable
-$\lambdarep$ and we only apply this transformation after it on fully-typed terms.
-The translation is defined over the syntax of $\lambdarep$
-\cite{Boulier2017-cm} such that definitional equality is preserved. Overall,
-$\R$ preserves the structure of $\lambdarep$, but maps constructs to
-their `terminal' representations.
+$\lambdaind$ by adding the equality reflection rule. General undecidability of
+conversion is not a problem because type checking is decidable for
+$\lambdarep$\footnote{Not formalised in this paper.} and we only need to apply this
+transformation after type checking, on fully-typed terms. The translation is
+defined over the syntax of $\lambdarep$ \cite{Boulier2017-cm} such that
+definitional equality is preserved. Overall, $\R$ preserves the structure of
+$\lambdarep$, but maps constructs to their `terminal' representations.
 First, we define a translation of signatures $\R : \Sig_\rep \to \Sig_\ind^\lang{ext}$ as
 \[
 \R\ \bullet := \bullet \qquad \R\ (\Sigma \rhd I) := \R \Sigma \rhd \R I \qquad \R\ (\Sigma \unrhd I \ R) := \R \Sigma
@@ -521,35 +505,29 @@ Types are translated as
 \begin{align*}
   & \R : \Ty_\rep\ (\Sigma, \Delta)\ \to \Ty_\ind^\lang{ext}\ (\R \Sigma, \R \Delta) \\
   & \R\ (\mta{D}\ i) := \begin{cases}
-  \R\ (\mta{El}\ R@) & \text{if $\mta{data-rep}\ (R, r, Q) \in_i \Sigma$} \\
+  \R\ (\mta{El}\ R@) & \text{if $\mta{datarep}\ (R, r, Q) \in_i \Sigma$} \\
   \mta{D}\ \R i & \text{otherwise}
-  \end{cases} \\
-  & \R\ (\MRepr\ T) := \R T \\
+  \end{cases}  \qquad \R\ (\MRepr\ T) := \R T \\
   & \text{(otherwise recurse on all subterms with $\R$)} \,.
 \end{align*}
 The definitional equality rules of $\mta{Repr}$ and $\mta{D}$ are mirrored, but $\R$ is now applied
 to all subterms.
 Similarly, terms are translated as
 \begin{align*}
-  & \R : \Tm_\rep\ (\Sigma, \Delta)\ T \to \Tm_\ind^\lang{ext}\ (\R \Sigma, \R \Delta)\ \R T \\
+  & \R : \Tm_\rep\ (\Sigma, \Delta)\ T \to \Tm_\ind^\lang{ext}\ (\R \Sigma, \R \Delta)\ \R T \\[1em]
   &\R\ (\mta{C}_i\ a) = \begin{cases}
-      \emb{\R r}\ \R a & \text{if}\ \mta{data-rep}\ (R, r, Q) \in_i \Sigma \\
+      \emb{\R r}\ \R a & \text{if}\ \mta{datarep}\ (R, r, Q) \in_i \Sigma \\
       \mta{C}_{\R i}\ \R a & \text{otherwise}
   \end{cases} \\
   &\R\ (\mta{E}_i\ m) = \begin{cases}
-      \emb{\R Q}_0\ \R m & \text{if}\ \mta{data-rep}\ (R, r, Q) \in_i \Sigma \\
+      \emb{\R Q}_0\ \R m & \text{if}\ \mta{datarep}\ (R, r, Q) \in_i \Sigma \\
       \mta{E}_{\R i}\ \R m & \text{otherwise}
   \end{cases} \\
   &\R\ (\mta{F}_i) = \begin{cases}
-        \R t & \text{if}\ \mta{def-rep}\ (t, p) \in_i \Sigma \\
+        \R t & \text{if}\ \mta{defrep}\ t\ p \in_i \Sigma \\
         \mta{F}_{\R i} & \text{otherwise}
-    \end{cases} \\
-  & \R\ (\Mrepr\ t) := \R t \\
-  & \R\ (\Munrepr\ t) := \R t \\
-  & \R\ (\mta{repr-C}_i\ a) := \mta{refl} \\
-  & \R\ (\mta{repr-E}_i\ m) := \mta{refl} \\
-  & \R\ (\mta{unrepr-E}_i\ m) := \mta{refl} \\
-  & \R\ (\mta{repr-equiv-E}_i\ m) := \mta{refl} \\
+    \end{cases}  \qquad \R\ (\Mrepr\ t) ,\ \R\ (\Munrepr\ t) := \R t \\[1em]
+  & \R\ (\mta{repr-C}_i\ a),\ \R\ (\mta{repr-E}_i\ m),\ \R\ (\mta{unrepr-E}_i\ m),\ \R\ (\mta{repr-equiv-E}_i\ m) \text{ := } \mta{refl} \\[1em]
   & \text{(otherwise recurse on all subterms with $\R$)}
 \end{align*}
 Constructor, eliminator and definition translations mirror the equality rules in
@@ -569,28 +547,33 @@ defined representations:
 \begin{align*}
 & \mta{ap}_\R\ (\mta{E-id}_i\ m) :=
 \begin{cases}
-    \mta{reflect}\ \emb{\R Q}_1\ \R m & \text{if}\ \mta{data-rep}\ (R, r)\ Q \in_i \Sigma \\
+    \mta{reflect}\ \emb{\R Q}_1\ \R m & \text{if}\ \mta{datarep}\ (R, r)\ Q \in_i \Sigma \\
     \mta{E-id}_{\R i}\ \R m & \text{otherwise}
     \end{cases} \\
     & \mta{ap}_\R\ (\mta{F-id}_i) :=
     \begin{cases}
-        \mta{reflect}\ \R p & \text{if}\ \mta{def-rep}\ (t, p) \in_i \Sigma \\
+        \mta{reflect}\ \R p & \text{if}\ \mta{defrep}\ t\ p \in_i \Sigma \\
         \mta{F-id}_{\R i} & \text{otherwise}
         \end{cases} \\
 & \text{(otherwise recurse on all equality constructors with $\mta{ap}_\R$)}
 \end{align*}
 
 \begin{theorem}
-    $\R$ preserves typing and definitional equality.
+    $\R$ preserves typing and definitional equality:
+    \[
+        (t_1, t_2 : \Tm_{\ind}\ \Gamma\ A) \to t_1 = t_2 \to \R t_1 = \R t_2
+    \]
     \begin{proof}
-        By construction, since it is defined on well-typed syntax quotiented by equality.
+        By $\mta{ap}_\R$.
     \end{proof}
 \end{theorem}
+$\R$ is not injective in general, because two distinct (by their location in the
+signature) data types might be defined to have the same representation.
 
 \begin{theorem}
-    $\R$ is a left-inverse of the evident inclusion $i : \lambdaind \hookrightarrow \lambdarep$.
+    $\R$ is a left-inverse of the evident inclusion $i : \lambdaind \hookrightarrow \lambdarep$:
     \[
-        (t : \Tm_{\ind}\ \Gamma\ A) \to \R(i t) = t
+        (t : \Tm_{\ind}\ \Gamma\ A) \to \R(i t) = t \,.
     \]
     \begin{proof}
         The inclusion produces signatures in $\lambdarep$ without the $\unrhd$ constructor. Thus no
@@ -648,13 +631,13 @@ Then if we have an inductive family $G : \mta{data}\ (\bullet \rhd I)\ T_G
 T_F \in \Sigma$ such that $G$ is represented by a refinement $f : \Tm\
 (\Sigma,\bullet)\ (\Pi\ (\mta{D}\ F)\ I)$ of $F$,
 \[
-    \mta{data-rep}\ (i.\ \{ x : \mta{D}\ F \mid \mta{Id}\ (\mta{app}\ f\ x)\ i \}, r, Q) \in_G \Sigma \,,
+    \mta{datarep}\ (i.\ \{ x : \mta{D}\ F \mid \mta{Id}\ (\mta{app}\ f\ x)\ i \}, r, Q) \in_G \Sigma \,,
 \]
 we can create computationally irrelevant forgetful and recomputation functions
 \begin{align*}
 &\mta{forget}_i : \Tm\ \Gamma\ (\Pi\ (\mta{D}\ G)[i]\ (\mta{D}\ F)) \\
 &\mta{forget}_i = \lambda g.\ \pi_1\ (\mta{repr}\ g) \\[1em]
 &\mta{remember} : \Tm\ \Gamma\ (\Pi\ (x : \mta{D}\ F)\ (\mta{D}\ G)[\mta{app}\ f\ x]) \\
-&\mta{remember} = \lambda x.\ \mta{unrepr}\ (x, \mta{refl})
+&\mta{remember} = \lambda x.\ \mta{unrepr}\ (x, \mta{refl}) \,.
 \end{align*}
 Clearly $|\R\ \mta{forget}_i| = |\R\ \mta{remember}| = \texttt{id}$.
