@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  18 FEB 2025 03:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  18 FEB 2025 03:30
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1174,37 +1174,44 @@ Overfull \hbox (7.40468pt too wide) detected at line 231
 LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
 (Font)              using `U/stmry/m/n' instead on input line 241.
 
-[12] [13] [14] [15pdfTeX warning (ext4): destination with the same identifier (
-name{figure.1.1}) has been already used, duplicate ignored
+[12] [13]
+Overfull \hbox (6.49869pt too wide) detected at line 323
+[]
+ []
+
+[14] [15pdfTeX warning (ext4): destination with the same identifier (name{figur
+e.1.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.438 \end{align*}
-                  ] [16] [17]
+l.432 O
+       ne might be tempted to make this equality definitional too. Unfortuna...
+] [16]
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 557.
+(Font)              using `T1/cmr/m/sc' instead on input line 546.
 
-
-LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 567.
-
+[17]
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 567.
+(Font)              using `T1/cmr/m/sc' instead on input line 556.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 569.
+(Font)              using `T1/cmr/m/sc' instead on input line 556.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 572.
+(Font)              using `T1/cmr/m/sc' instead on input line 558.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 576.
+(Font)              using `T1/cmr/m/sc' instead on input line 561.
 
-[18]) (./sections/implementation.tex) (./sections/conclusion.tex [19])
+
+LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
+(Font)              using `T1/cmr/m/sc' instead on input line 565.
+
+[18]) (./sections/implementation.tex) (./sections/conclusion.tex)
 (.out/main.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 7--11
 []\T1/cmr/m/n/9 Adamek, J., Rosicky, J., Vi-tale, E.M.: Cam-bridge tracts in ma
@@ -1241,7 +1248,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--11
 gebra ? format =
  []
 
-[20]
+[19]
 Underfull \hbox (badness 1824) in paragraph at lines 67--70
 []\T1/cmr/m/n/9 Kovács, A.: Type-theoretic sig-na-tures for al-ge-braic the-o-r
 ies and in-duc-tive
@@ -1259,7 +1266,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 72--75
 84BC585A2D /
  []
 
-) (./sections/appendix.tex) [21] (.out/main.aux)
+[20]) (./sections/appendix.tex) [21] (.out/main.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -1276,7 +1283,7 @@ Here is how much of TeX's memory you used:
  44666 multiletter control sequences out of 15000+600000
  439924 words of font info for 112 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 133i,23n,133p,495b,523s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 133i,23n,133p,495b,525s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<
 /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
@@ -1316,7 +1323,7 @@ cm-super/sfti0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm
 uper/sftt0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-sup
 er/sftt1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super
 /sfxc0700.pfb>
-Output written on .out/main.pdf (21 pages, 554339 bytes).
+Output written on .out/main.pdf (21 pages, 553870 bytes).
 PDF statistics:
  450 PDF objects out of 1000 (max. 8388607)
  350 compressed objects within 4 object streams

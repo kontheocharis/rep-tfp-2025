@@ -264,18 +264,15 @@ the same signature. Items in a signature $\Sigma$ can be either
 We reuse the \mta{Theory} type defined in the previous section. This allows us
 to define data types such as vectors
 \begin{align*}
-	 & \textit{Vect} : \mta{data}                                                                                                        \\
+	 & \textit{Vect} : \mta{data}\ (\bullet \rhd \univ \rhd \textit{Nat})               \\
 	 & \quad\begin{aligned}
-		        \quad (\bullet & \rhd \univ \rhd \textit{Nat})\                                                                               \\
 		        \quad (\bullet & \rhd \textit{nil} : \Pi\ (T : \univ)\ (\iota\ (T, \textit{zero}))                                                          \\
 		        \quad          & \rhd \textit{cons} : \Pi\ (T : \univ)\ \Pi\ (n : \textit{Nat})\ \Pi\iota\ (T, n)\ \Pi\ T\ (\iota\ (T, \textit{succ}\ n)) \,.
 	        \end{aligned}
 \end{align*}
-We do not make a distinction between parameters and indices for data types, though this might
-be desirable in an implementation because it generates elimination rules which
-are structurally uniform in the parameters. Nevertheless, our system is
-extensible to one with uniform parameters and we leave its formulation as an
-implementation detail.
+We do not make a distinction between parameters and indices for data types, but
+our system is extensible to one with additional uniform parameters and we leave its
+formulation as an implementation detail.
 
 In order to actually construct inductive types in $\lambdaind$, we need to
 extend the syntax with some term and type formers. First, we add a type former
@@ -320,31 +317,24 @@ captured by an equality constructor in the syntax
 	\end{proof}
 \end{lemma}
 
-Finally, we add terms to the language for global function definitions and postulates
+Finally, we add terms to the language for function definitions and postulates
 \begin{align*}
-	\mta{F} : \mta{def}\ P\ A\ t \in \Sigma \to \Tm\ (\Sigma, \Delta \rhd P)\ A \\
-	\mta{P} : \mta{post}\ P\ A \in \Sigma \to \Tm\ (\Sigma, \Delta \rhd P)\ A
+	\mta{F} : \mta{def}\ P\ A\ t \in \Sigma \to \Tm\ (\Sigma, \Delta \rhd P)\ A \qquad \mta{P} : \mta{post}\ P\ A \in \Sigma \to \Tm\ (\Sigma, \Delta \rhd P)\ A
 \end{align*}
-along with an equality constructor for function definitions
-\begin{align*}
-	\mta{F-id} : \forall i.\ \mta{F}\ i = t \,.
-\end{align*}
-
+along with an equality constructor for function definitions $\mta{F-id} : \forall i.\ \mta{F}\ i = t$.
 The language we have defined thus far is comparable to the core language of a
-proof assistant. Next, we will explore how to extend this language to support
-data representations.
+proof assistant.
 
 \subsection{Extending $\lambdaind$ with representations} \label{sub:lambdarep}
 
-We extend the language $\lambdaind$ to form $\lambdarep$, which allows users to
-define custom representations for inductive types and global functions. The
+We extend the language $\lambdaind$ to form $\lambdarep$, which allows the definition of
+custom representations for data types and global functions. The
 machinery of algebras that we have developed in \cref{sub:algebras} allows for a
 very direct definition of representations of data types.
 
 \begin{definition}
-	A representation of a data type $\mta{data}\ P\ T$ is an inductive algebra for $T$.
+	A representation for $\mta{data}\ P\ T$ is an inductive algebra for $T$.
 \end{definition}
-
 Representations live alongside items in signatures, and each item only corresponds
 to at most one representation. We achieve this by adding a constructor to signatures
 $\unrhd : (\Sigma : \Sig) \to (I : \Item\ \Sigma) \to \Rep\ \Sigma\ I \to \Sig$.
@@ -361,7 +351,6 @@ data representation with carrier $R$, algebra $r$ and induction $Q$.
 Representations for definitions are also included, where a definition can be
 represented by a term propositionally equal to original definition, but perhaps
 with better computational properties.
-
 
 \subsection{Reasoning about representations} \label{sub:lambdarep}
 
