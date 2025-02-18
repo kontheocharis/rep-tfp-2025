@@ -43,17 +43,14 @@ through user-defined translations of the constructors and eliminators of an
 inductive type to a concrete implementation, which form a bijective view of the
 original data called a `representation'. Representations are defined internally
 to the language, and require coherence properties that ensure a representation
-is faithful to its the original inductive family. In the final version of
-the paper, we plan to contribute the following:
+is faithful to its the original inductive family. We contribute the following:
 \begin{itemize}
-  \item A dependent type system with inductive families $\lambdaind$,
-    and its extension by representations $\lambdarep$.
+  \item A dependent type system with inductive families $\lambdaind$
+    and its extension by representations $\lambdarep$, along with a translation
+    from $\lambdaind$ that erases all represented data types from the program.
   \item A formulation of common optimisations such as the `Nat-hack', and
-      similarly for other inductive types, as representations.
-  \item A demonstration of zero-cost data reuse when reindexing by using representations.
-  \item A translation from $\lambdarep$ to $\lambdaind$ that erases all
-    inductive types with representations from the program.
-  \item An implementation of this system and accompanying examples in
-    \textsc{Superfluid}, a programming language with inductive types and
-    dependent pattern matching.
+      similarly for other inductive types, as well as zero-cost data reuse when
+      reindexing, using representations.
+    \item An prototype implementation of this system in \textsc{Superfluid}, a
+    programming language with inductive types and dependent pattern matching.
 \end{itemize}

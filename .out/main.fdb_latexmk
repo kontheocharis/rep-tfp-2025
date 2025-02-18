@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex .out/main"] 1739849436 ".out/main.aux" ".out/main.bbl" ".out/main" 1739849436
+["bibtex .out/main"] 1739849657 ".out/main.aux" ".out/main.bbl" ".out/main" 1739849904
   "./splncs04.bst" 1733698704 32146 aadf770ded437d161532035219ea6f45 ""
-  ".out/main.aux" 1739849427 8057 6d1b165413cb6a91a07bceb2898c09e1 "pdflatex"
+  ".out/main.aux" 1739849866 8057 5ef70a73a524d15afd9590b7fb1c157d "pdflatex"
   "bib.bib" 1739844317 120497 9c909ce6a18e2ed52aa677f1b71dd826 ""
   (generated)
   ".out/main.bbl"
   ".out/main.blg"
-["pdflatex"] 1739849437 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739849437
-  ".out/main.aux" 1739849427 8057 6d1b165413cb6a91a07bceb2898c09e1 "pdflatex"
-  ".out/main.bbl" 1739849437 4492 ae715a9b74f88f993b98c1a685cce270 "bibtex .out/main"
-  ".out/main.out" 1739849427 275 e8697098164b610f8033512d50a9d933 "pdflatex"
+["pdflatex"] 1739849904 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739849904
+  ".out/main.aux" 1739849866 8057 5ef70a73a524d15afd9590b7fb1c157d "pdflatex"
+  ".out/main.bbl" 1739849657 4492 ae715a9b74f88f993b98c1a685cce270 "bibtex .out/main"
+  ".out/main.out" 1739849866 275 e8697098164b610f8033512d50a9d933 "pdflatex"
   "/Users/constantine/git/rep-tfp-2025/main.tex" 1739834543 455 c9536a5b6d9db7bd806fd47214fc7c07 ""
-  "/dev/null" 1739849437 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "/dev/null" 1739849904 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -314,11 +314,11 @@
   "sections/appendix.tex" 1739820010 13979 ecd4eecd6a0a7cdc4dec4c73d40d2004 ""
   "sections/conclusion.tex" 1739835427 527 ce0abbe35d4d4aae5850c1d81595a6a1 ""
   "sections/implementation.tex" 1739641425 861 c594a497aac511939899dbf38fc922fc ""
-  "sections/intro.tex" 1739807442 3812 1527e92d2e6befd42ff80330fb4fc825 ""
+  "sections/intro.tex" 1739849904 3691 c889fa7c76f2f2ca262249c2ed1057e9 ""
   "sections/tour.tex" 1739806986 16762 531039a2df291f6fcf2fae23645f8584 ""
-  "sections/type-system.tex" 1739849436 35124 d910d81bc35f35d14e021d406976b40d ""
+  "sections/type-system.tex" 1739849669 35112 0cd71e5ce1815c1595f14b220ead99d9 ""
   (generated)
   ".out/main.pdf"
   ".out/main.aux"
-  ".out/main.log"
   ".out/main.out"
+  ".out/main.log"
