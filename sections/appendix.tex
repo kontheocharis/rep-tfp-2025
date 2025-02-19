@@ -1,9 +1,18 @@
 \section{Appendix}
 
+\allowdisplaybreaks
+
 \subsection{Utilities when working with algebras} \label{app:algebras}
+
+We define in an Agda-like syntax, the construction of displayed
+algebras, sections and inductive algebras as telescopes in the object theory. We
+also define realisation functions which convert an internal telescopic
+construction into one which is partly lifted to the metatheory. Some implicit
+arguments are omitted for brevity.
 
 \subsubsection{Realisation functions for algebras}
 
+\begin{fleqn}
 \begin{align*}
 &\emb{\_}^{\mta{alg}} : \Tms\ \Gamma\ (\mta{alg}\ T) \to \mta{Alg}\ T \\
 &\emb{(X, a)}^{\mta{alg}} := (\mta{El}\ X@, \emb{a}^{\mta{algebra}}) \,. \\[1em]
@@ -12,9 +21,11 @@
 &\emb{(a', f)}^{\mta{algebra}}\ \{T = T' \rhd O\}\ (\mta{here}, d) := (f@)[\Msub{d}] \\
 &\emb{(a', f)}^{\mta{algebra}}\ \{T = T' \rhd O\}\ (\mta{there}\ v, d) := \emb{a'}^{\mta{algebra}}\ (v, d) \,.
 \end{align*}
+\end{fleqn}
 
 \subsubsection{Displayed algebras}
 
+\begin{fleqn}
 \begin{align*}
 &\mta{dispIn} : (O : \mta{Op}\ \Gamma\ P) \to ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
 &\mta{dispIn}\ (\Pi\ A\ B)\ (X, x)\ M := \bullet \rhd (a : A) \rhd \mta{dispIn}\ B[\Msub a]\ (X, x)\ M \\
@@ -37,9 +48,11 @@
 &\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
 &\mta{dispAlg} := X\ x.\ \bullet \rhd (M : \Pi\ P\ \Pi\ X\ \univ) \rhd \mta{dispAlgebra}\ \emb{(X, x)}^{\mta{algebra}}\ M \,.
 \end{align*}
+\end{fleqn}
 
 \subsubsection{Realisation functions for displayed algebras}
 
+\begin{fleqn}
 \begin{align*}
 &\emb{\_}^{\mta{dispAlg}} : \Tms\ (\Gamma \ (\mta{dispAlg}\ (X, x)) \to \mta{DispAlg}\ (X, x) \\
 &\emb{(M, m)}^{\mta{dispAlg}} := (\mta{El}\ M@@, \emb{m}^{\mta{dispAlgebra}}) \,. \\[1em]
@@ -48,14 +61,20 @@
 &\emb{(m', u)}^{\mta{dispAlgebra}}\ \{T = T' \rhd O\}\ (\mta{here}, d) := (u@)[\Msub{d}] \\
 &\emb{(m', u)}^{\mta{dispAlgebra}}\ \{T = T' \rhd O\}\ (\mta{there}\ v, d) := \emb{m'}^{\mta{dispAlgebra}}\ (v, d) \,.
 \end{align*}
+\end{fleqn}
 
 \subsubsection{Sections}
 
+\begin{fleqn}
 \begin{align*}
 &\mta{sec} : \Ty\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg})  \\
 &\mta{sec}\ \{P\} := X\ x\ M\ m.\ \Pi\ P\ \Pi\ X\ M \,. \\[1em]
+&\mta{apply} : \mta{Tms}\ \Gamma\ (\mta{in}\ O\ X) \to \mta{Sec}\ M \to \Tms\ \Gamma\ (\mta{in}\ O\ (X, x)\ M) \\
+&\mta{apply}\ \{O = \Pi\ A\ B\}\ (a, t)\ f := (a, \mta{apply}\ \{O = B[\Msub a]\}\ t\ f) \\
+&\mta{apply}\ \{O = \Pi\iota\ p\ B\}\ (y, t)\ f := (y, f[\Msub y], \mta{apply}\ \{O = B\}\ t\ f) \\
+&\mta{apply}\ \{O = \iota\ p\}\ (\,)\ f := (\,) \,. \\[1em]
 &\mta{cohOpRet} : (v : \mta{Var}\ T) \to \Tms\ \Gamma\ (\mta{dispIn}\ (T v)\ (X, x)\ M) \\ &\qquad \to \mta{DispAlgebra}\ (X, x)\ M \to \mta{Sec}\ M \to \Ty\ \Gamma \\
-&\mta{cohOpRet}\ v\ i\ m\ f := \mta{Id}\ f[\Msub{\mta{dispOut}\ i\ (x\ (v,\mta{dispInIn}\ i))}]\ (m\ (v, i)) \\[1em]
+&\mta{cohOpRet}\ v\ i\ m\ f := \text{let $a$ = $\mta{dispInIn}\ i$ in } \\ & \qquad \mta{Id}\ f[\Msub{\mta{dispOut}\ i\ (x\ (v, a))}]\ (m\ (v, \mta{apply}\ a\ f)) \\[1em]
 &\mta{cohOp} : \mta{Var}\ T \to ((X, x) : \mta{Alg}\ T) \to ((M, m) : \mta{DispAlg}\ (X, x)) \to \mta{Sec}\ M \to \Ty\ \Gamma \\
 &\mta{cohOp}\ v\ (X, x)\ (M, m)\ f := \\ & \qquad \Pi\ (a : \mta{dispIn}\ (T\ v)\ (X, x)\ M)\ (\mta{cohOpRet}\ v\ a\ \emb{(M, m)}^{\mta{dispAlg}}\ f)\, . \\[1em]
 &\mta{coh} : ((X, x) : \mta{Alg}\ T) \to ((M, m) : \mta{DispAlg}\ (X, x)) \to \Tel\ (\Gamma \rhd \Pi\ P\ \Pi\ X\ M) \\
@@ -64,9 +83,11 @@
 &\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
 &\mta{section} := X\ x\ M\ m.\ \mta{sec}\ X\ x\ M\ m \rhd \mta{coh}\ \emb{(X, x)}^{\mta{alg}}\ \emb{(M, m)}^{\mta{dispAlg}} \,.
 \end{align*}
+\end{fleqn}
 
 \subsubsection{Realisation functions for sections and inductive algebras}
 
+\begin{fleqn}
 \begin{align*}
 &\emb{\_}^{\mta{coh}} : \Tms\ \Gamma \ (\mta{coh}\ (X, x)\ (M, m))[\Msub f] \to \mta{IntCoh}\ f@@ \\
 &\emb{\bullet}^{\mta{coh}}\ \{T = \bullet\}\ (v, \_)\text{ impossible by $v : \mta{Var}\ \bullet$} \\
@@ -77,313 +98,31 @@
 &\emb{\_}^\mta{indAlgebra} : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X]) \\ & \qquad \to (m : \mta{DispAlg}\ X) \to (f : \mta{Sec}\ m) \times  \mta{IntCoh}\ f \\
 &\emb{l}^\mta{indAlgebra}\ (M, m) := \emb{l@(\lambda\ \lambda\ M)@m}^\mta{section}
 \end{align*}
+\end{fleqn}
 
 \subsection{Utilities when working with representations} \label{app:reprs}
 
+We define the action of \mta{repr} and \mta{unrepr} on the algebra constructions above.
+We omit the definition of $\emb{\_}^{\mta{Unrepr}}$ as it mirrors $\emb{\_}^{\mta{Repr}}$.
+
+\begin{fleqn}
 \begin{align*}
 &\_^{\mta{Repr}} : \Tms\ \Gamma\ (\mta{in}\ O\ X) \to \Tms\ \Gamma\ (\mta{in}\ O\ (\mta{Repr}\ X)) \\
 &(a, t)^{\mta{Repr}}\ \{O = \Pi\ A\ B\} := (a, t^\mta{Repr}\ \{O = B[\Msub a]\}) \\
 &(x, t)^{\mta{Repr}}\ \{O = \Pi\iota\ p\ B\} := (\mta{repr}\ a, t^\mta{Repr}\ \{O = B\}) \\
-&(\,)^{\mta{Repr}}\ \{O = \iota\ p\} := (\,) \\[1em]
+&(\,)^{\mta{Repr}}\ \{O = \iota\ p\} := (\,) \,. \\[1em]
 &\_^{\mta{Repr}} : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M) \to \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ (\mta{Repr}\ M)) \\
 &(a, t)^{\mta{Repr}}\ \{O = \Pi\ A\ B\} := (a, t^\mta{Repr}\ \{O = B[\Msub a]\}) \\
-&(y, m, t)^{\mta{Repr}}\ \{O = \Pi\iota\ p\ B\} := (y, \mta{repr}\ m, t^\mta{Repr}\ \{O = B\}) \\
+&(y, m, t)^{\mta{Repr}}\ \{O = \Pi\iota\ p\ B\} := (y, \mta{repr}\ m, t^\mta{Repr}\ \{O = B\}) \,. \\[1em]
 &\_^{\mta{Repr}} : \mta{Algebra}\ T\ X \to \mta{Algebra}\ T\ (\mta{Repr}\ X) \\
-&f^{\mta{Repr}}\ (v, d) := \mta{repr}\ (f\ (v, d^{\mta{Unrepr}})) \\[1em]
-&\_^{\mta{Repr}*} : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M) \to \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)^{\mta{Repr}}\ (p\ x .\ M[\Msub{p;\mta{unrepr}\ x}])) \\
+&f^{\mta{Repr}}\ (v, d) := \mta{repr}\ (f\ (v, d^{\mta{Unrepr}})) \,. \\[1em]
+&\_^{\mta{Repr}*} : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M) \\ & \qquad \to \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)^{\mta{Repr}}\ (p\ x .\ M[\Msub{p;\mta{unrepr}\ x}])) \\
 &(a, t)^{\mta{Repr}*}\ \{O = \Pi\ A\ B\} := (a, t^{\mta{Repr}*}\ \{O = B[\Msub a]\}) \\
 &(y, m, t)^{\mta{Repr}*}\ \{O = \Pi\iota\ p\ B\} := (\mta{repr}\ y, m, t^{\mta{Repr}*}\ \{O = B\}) \\
-&(\,)^{\mta{Repr}*}\ \{O = \iota\ p\} := (\,) \\[1em]
+&(\,)^{\mta{Repr}*}\ \{O = \iota\ p\} := (\,) \,. \\[1em]
 &\_^{\mta{Repr}} : \mta{DispAlgebra}\ (X, x)\ M \to \mta{DispAlgebra}\ (X, x)\ (\mta{Repr}\ M) \\
-&f^{\mta{Repr}}\ (v, d) := \mta{repr}\ (f\ (v, d^{\mta{Unrepr}})) \\[1em]
+&f^{\mta{Repr}}\ (v, d) := \mta{repr}\ (f\ (v, d^{\mta{Unrepr}})) \,. \\[1em]
 &\_^{\mta{Repr}*} : \mta{DispAlgebra}\ (X, x)\ M \to \mta{DispAlgebra}\ (X, x)^{\mta{Repr}}\ (p\ x .\ M[\Msub{p;\mta{unrepr}\ x}]) \\
-&f^{\mta{Repr}}\ (v, d) := f\ (v, d^{\mta{Unrepr}}) \\[1em]
+&f^{\mta{Repr}}\ (v, d) := f\ (v, d^{\mta{Unrepr}}) \,.
 \end{align*}
-
-% \begin{align*}
-% \textdollar : T^D\
-% \end{align*}
-
-% \begin{align*}
-% \textdollar : T^D\
-% \end{align*}
-
-% \subsection{The language $\lambdaind$}
-
-% \begin{figure}[H]
-%   \begin{minipage}[t]{0.5\textwidth}
-%   \begin{align*}
-%   \Ty &: \Con \to \Set \\
-%   \_[\_] &: \Ty\ \Delta \to \Sub\ \Gamma\ \Delta \to \Ty\ \Gamma\\
-%   \univ &: \Ty\ \Gamma \\
-%   \Pi &: (A : \Ty\ \Gamma) \to \Ty\ (\Gamma \rhd A) \to \Ty\ \Gamma \\
-%   \El{} &: \Tm\ \Gamma\ \univ \to \Ty\ \Gamma
-%   \end{align*}%
-%   \end{minipage}
-%   \begin{minipage}[t]{0.5\textwidth}%
-%   \begin{align*}
-%   \Tm &: (\Gamma : \Con) \to \Ty\ \Gamma \to \Set \\
-%   \_[\_] &: \Tm\ \Delta\ A \to (\sigma : \Sub\ \Gamma\ \Delta) \to \Tm\ \Gamma\ A[\sigma] \\
-%   \pi_2 &: (\sigma : \Sub\ \Gamma\ (\Delta \rhd A)) \to \Tm\ \Gamma\ A[\pi_1 \sigma] \\
-%   \lambda &: \Tm\ (\Gamma \rhd A)\ B \to \Tm\ \Gamma\ (\Pi\ A\ B) \\
-%   \ap{} &: \Tm\ \Gamma\ (\Pi\ A\ B) \to \Tm\ (\Gamma \rhd A)\ B \\
-%   \Code{} &: \Ty\ \Gamma \to \Tm\ \Gamma\ \univ
-%   \end{align*}
-%   \end{minipage}
-%   \caption{The type and term formers of the base layer of $\lambdaind$.}
-%   \label{fig:lambdaind-base-formers}
-% \end{figure}
-
-% \begin{figure}[H]
-%   TODO
-%   \caption{Equations in the base type system.}
-% \end{figure}
-
-% \begin{figure}[H]
-%   \begin{minipage}[t]{0.5\textwidth}
-%   \begin{align*}
-%   \Sig &: \Set \\
-%   \epsilon &: \Sig \\
-%   \rhd &: (\Sigma : \Sig) \to (A : \Item\ \Sigma) \to \Sig \\[1em]
-%   \Item &: \Sig \to \Set \\
-%   \mta{ind} &: \Ind\ \Sigma \to \Item\ \Sigma \\
-%   \mta{def} &: (A : \Ty\ (\Sigma, \epsilon)) \to \Tm\ (\Sigma, \epsilon)\ A \to \Item\ \Sigma \\
-%   \mta{post} &: \Ty\ (\Sigma, \epsilon) \to \Item\ \Sigma \\
-%   \end{align*}
-%   \end{minipage}
-%   \begin{minipage}[t]{0.5\textwidth}
-%   \begin{align*}
-%   \Loc &: \Sig \to \Set \\
-%   \epsilon &: \Loc\ \Sigma \\
-%   \rhd &: (\Delta : \Loc\ \Sigma) \to \Ty\ (\Sigma,\Delta) \to \Loc\ \Sigma \\[1em]
-%   \Con &: \Set \\
-%   \Con &:= (\Sigma : \Sig) \times \Loc\ \Sigma
-%   \end{align*}
-%   \end{minipage}
-%   \caption{Signatures, items, local contexts and contexts in $\lambdaind$.}
-%   \label{fig:lambdaind-signatures-contexts}
-% \end{figure}
-
-% \begin{figure}[H]
-%   \begin{minipage}[t]{\textwidth}
-%   \begin{align*}
-%   \Sub &: \Con \to \Con \to \Set \\
-%   \mta{id} &: \Sub\ \Gamma\ \Gamma \\
-%   \epsilon &: \Sub\ (\Sigma, \Delta)\ (\Sigma, \epsilon) \\
-%   \rhd &: (\sigma : \Sub\ (\Sigma,\Delta_1)\ (\Sigma,\Delta_2)) \to \Tm\ (\Sigma, \Delta_1)\ A[\sigma] \to \Sub\ (\Sigma,\Delta_1)\ (\Sigma,\Delta_2 \rhd A) \\
-%   \circ &: \Sub\ \Gamma_1\ \Gamma_2 \to \Sub\ \Gamma_2\ \Gamma_3 \to \Sub\ \Gamma_1\ \Gamma_3 \\
-%   \pi_1 &: \Sub\ (\Sigma,\Delta_1)\ (\Sigma, \Delta_2 \rhd A) \to \Sub\ (\Sigma,\Delta_1)\ (\Sigma,\Delta_2)
-%   \end{align*}
-%   \end{minipage}
-%   \caption{Substitutions between contexts in $\lambdaind$.}
-%   \label{fig:lambdaind-substitutions}
-% \end{figure}
-
-% \begin{figure}[H]
-%   \begin{alignat*}{2}
-%   & \Ind &&: (\Sigma : \Sig) \to \Set \\
-%   & \Ind\ \Sigma &&:= (P : \Loc\ \Sigma) \times (\Xi : \Tel\ (\Sigma, P)) \times \Theory\ (\Sigma, P)\ \Xi \\[1em]
-%   & \Theory &&: (\Gamma : \Con) \to (\Xi : \Tel\ \Gamma) \to \Set \\
-%   & \Pi_{\mta{ext}} &&: (A : \Set) \to (A \to \Theory\ \Gamma\ \Xi) \to \Theory\ \Gamma\ \Xi \\
-%   & \Pi_{\mta{int}} &&: (A : \Ty\ \Gamma) \to \Theory\ (\Gamma \rhd A)\ \Xi^+ \to \Theory\ \Gamma\ \Xi \\
-%   & \Pi_{\mta{rec}} &&: \Tms\ \Gamma\ \Xi \to \Theory\ \Gamma\ \Xi \to \Theory\ \Gamma\ \Xi \\
-%   & \mta{ret} &&: \Tms\ \Gamma\ \Xi \to \Theory\ \Gamma\ \Xi
-%   \end{alignat*}
-%   \caption{Inductive types, theories and operations in $\lambdaind$.}
-%   \label{fig:lambdaind-inductive-theories}
-% \end{figure}
-
-% \begin{figure}[H]
-%   \begin{alignat*}{2}
-%   &\mta{In} &&: \Theory\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Tms\ \Gamma\ \Xi \to \Set \\
-%   &\mta{In}\ (\Pi_{\mta{ext}}\ A\ B)\ X\ p &&:= (x : X) \times \mta{In}\ (B\ x)\ X\ p \\
-%   &\mta{In}\ (\Pi_{\mta{int}}\ A\ B)\ X\ p &&:= (a : \Tm\ \Gamma\ A) \times \mta{In}\ B [\langle a \rangle]\ X\ p \\
-%   &\mta{In}\ (\Pi_{\mta{rec}}\ p'\ B)\ X\ p &&:= \Tm\ \Gamma\ (X [\langle p' \rangle]) \times \mta{In}\ B\ X\ p \\
-%   &\mta{In}\ (\mta{ret}\ p')\ X\ p &&:= p = p'
-%   \end{alignat*}
-%   \caption{Interpretation of operation inputs (i.e. constructor arguments) and outputs (constructor return indices).}
-%   \label{fig:lambdaind-operation-interp}
-% \end{figure}
-
-% \begin{figure}[H]
-%   \begin{alignat*}{2}
-%   &\mta{Alg} &&: \Theory\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Set \\
-%   &\mta{Alg}\ (\Pi_{\mta{ext}}\ A\ B)\ X &&:= (x : X) \to \mta{Alg}\ (B\ x)\ X \\
-%   &\mta{Alg}\ (\Pi_{\mta{int}}\ A\ B)\ X &&:= (a : \Tm\ \Gamma\ A) \to \mta{Alg}\ B [\langle a \rangle]\ X \\
-%   &\mta{Alg}\ (\Pi_{\mta{rec}}\ p'\ B)\ X &&:= \Tm\ \Gamma\ (X [\langle p' \rangle]) \to \mta{Alg}\ B\ X \\
-%   &\mta{Alg}\ (\mta{ret}\ p)\ X &&:= X\ p \\[1em]
-%   \end{alignat*}
-%   \caption{Interpretation of operation inputs (i.e. constructor arguments) and outputs (constructor return indices).}
-% \end{figure}
-
-% \begin{figure}[H]
-%   \begin{align*}
-%   &\mta{Motive} : \Theory\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Set \\
-%   &\mta{Motive}\ T\ X := \Ty\ (\Gamma \unrhd \Xi \rhd X) \\[1em]
-%   &\mta{Method} : \{T : \Theory\ \Gamma\ \Xi\} \to \mta{Motive}\ T\ X \to \mta{Alg}\ T\ X \to \Set \\
-%   &\begin{alignedat}{2}
-%   &\mta{Method}\ \{\Pi_{\mta{ext}}\ A\ B\}\ X\ M\ \alpha &&:= (x : A) \to \mta{Method}\ (B\ x)\ X\ M\ (\alpha\ x) \\
-%   &\mta{Method}\ \{\Pi_{\mta{int}}\ A\ B\}\ X\ M\ \alpha &&:= (a : \Tm\ \Gamma\ A) \to \mta{Method}\ B [\langle a \rangle]\ X\ M\ (\alpha\ a) \\
-%   &\mta{Method}\ \{\Pi_{\mta{rec}}\ p\ B\}\ X\ M\ \alpha &&:= (x : \Tm\ \Gamma\ X [\langle p \rangle]) \to \Tm\ \Gamma\ M [\langle p ; x \rangle] \to \mta{Method}\ B\ X\ M\ (\alpha\ x) \\
-%   &\mta{Method}\ \{\mta{ret}\ p\}\ X\ M\ \alpha &&:= \Tm\ \Gamma\ M [\langle p ; \alpha \rangle]
-%   \end{alignedat} \\[1em]
-%   &\mta{Section} : \{T : \Theory\ \Gamma\ \Xi\} \to \mta{Motive}\ T\ X \to \Set \\
-%   &\mta{Section}\ \{T\}\ \{X\} := (p : \Tms\ \Gamma\ \Xi) \to (x : \Tm\ \Gamma\ (X[\Msub p])) \to \Tm\ \Gamma\ M[\Msub {p; x}] \\[1em]
-%   \end{align*}
-%   \caption{Methods}
-%   \label{fig:lambdaind-motive-methods}
-% \end{figure}
-
-% \begin{figure}[H]
-%   \begin{alignat*}{2}
-%   & \mta{data} &&: (\mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \to (p : \Tms\ \Gamma\ \Xi[\langle p \rangle]) \to \Ty\ \Gamma \\
-%   & \mta{ctor} &&: (i : \mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\
-%   &            && \to (a : \mta{In}\ T\ (\mta{data}\ i\ p)\ p) \to \Tm\ \Gamma\ (\mta{data}\ i\ p\ xi) \\[0.5em]
-%   & \mta{elim} &&: (i : \mta{ind}\ (P, \Xi, T) \in \Gamma) \to (p : \Tms\ \Gamma\ P) \\
-%   &            && \to (M : \mta{Motive}\ T\ (\mta{data}\ i\ p)) \to (m : \mta{Methods}\ M) \to \mta{Section}\ M \\
-%   & \mta{match} &&: (\mta{elim}\ i\ p\ M\ m)[\langle p, \mta{ctor}\ i\ p\ n\ a \rangle] = (m\,!\,n)[\langle a , \mta{elim}\ i\ p\ M\ m \fmap a \rangle]
-%   \end{alignat*}
-%   \caption{Data type, constructor and eliminator terms in $\lambdaind$.}
-%   \label{fig:lambdaind-data-ctor}
-% \end{figure}
-
-% \subsection{The language $\lambdarep$}
-
-% \begin{figure}[H]
-%   \begin{minipage}[t]{\textwidth}%
-%   \begin{alignat*}{2}
-%   & \MRepr &&: \Ty\ \Gamma \to \Ty\ \Gamma \\
-%   & \Mrepr &&: \Tm\ \Gamma\ T \to \Tm\ \Gamma\ (\MRepr\ T) \\
-%   & \Munrepr &&: \Tm\ \Gamma\ (\MRepr\ T) \to \Tm\ \Gamma\ T
-%   \end{alignat*}
-%   \end{minipage}\\
-%   \begin{minipage}[t]{0.5\textwidth}%
-%   \begin{alignat*}{2}
-%   \end{alignat*}
-%   \end{minipage}%
-%   \begin{minipage}[t]{0.5\textwidth}%
-%   \begin{alignat*}{2}
-%   \end{alignat*}
-%   \end{minipage}%
-%   \caption{New term and type formers in $\lambdarep$.}
-%   \label{fig:lambdarep-new-formers}
-% \end{figure}
-
-% \begin{figure}[H]
-%   \begin{minipage}[t]{0.5\textwidth}%
-%   \begin{alignat*}{2}
-%   & \mta{reprr} &&: \Munrepr\ (\Mrepr\ t) \equiv t \\
-%   & \mta{reprl} &&: \Mrepr\ (\Munrepr\ t) \equiv t \\[1em]
-%   & \MRepr\text{-}\Pi &&: \MRepr\ {(\Pi\ T\ U)} \equiv \Pi\ T\ (\MRepr\ U) \\
-%   & \Mrepr\text{-}\lambda &&: \Mrepr\ {(\lambda\ u)} \equiv \lambda\ (\Mrepr\ u) \\
-%   & \Munrepr\text{-}\lambda &&: \Munrepr\ {(\lambda\ u)} \equiv \lambda\ (\Munrepr\ u) \\
-%   & \Mrepr\text{-}@ &&: \Mrepr\ (\ap f) \equiv \ap {(\Mrepr\ f)} \\
-%   & \Munrepr\text{-}@ &&: \Munrepr\ (\ap f) \equiv \ap {(\Munrepr\ f)}
-%   \end{alignat*}
-%   \end{minipage}%
-%   \begin{minipage}[t]{0.5\textwidth}%
-%   \begin{alignat*}{2}
-%   & \MRepr\text{-}\univ &&: \MRepr\ {\univ} \equiv \univ \\
-%   & \Mrepr\text{-}\Code{} &&: \Mrepr\ {(\Code T)} \equiv \Code T \\
-%   & \Munrepr\text{-}\Code{} &&: \Munrepr\ {(\Code T)} \equiv \Code T \\[1em]
-%   & \MRepr[] &&: \MRepr\ {(T[\sigma])} \equiv (\MRepr\ {T})[\sigma] \\
-%   & \Mrepr[] &&: \Mrepr\ {(t[\sigma])} \equiv (\Mrepr\ {t})[\sigma] \\
-%   & \Munrepr[] &&: \Munrepr\ {(t[\sigma])} \equiv (\Munrepr\ {t})[\sigma]
-%   \end{alignat*}
-%   \end{minipage}%
-%   \caption{Coherence of representation terms with substitutions, $\Pi$-types and
-%   universes. The terms $\MRepr\ (\El{t})$, $\Mrepr\ (\pi_2 \sigma)$ and
-%   $\Munrepr\ (\pi_2 \sigma)$ do not reduce, and there is no rule to collapse
-%   repeated invocations of $\MRepr{}$, $\Mrepr{}$ and $\Munrepr{}$.}
-%   \label{fig:lambdaind-repr-coherence-pi-univ-2}
-% \end{figure}
-
-% \begin{figure}[H]
-%   \begin{alignat*}{2}
-%   & \Rep &&: (\Sigma : \Sig) \to \Item\ \Sigma \to \Set \\
-%   & \mta{ind-rep} &&: \mta{IndRep}\ F \to \Rep\ \Sigma\ (\mta{ind}\ F) \\
-%   & \mta{def-rep} &&: (x : \Tm\ (\Sigma, \epsilon)\ A) \to \Tm\ (\Sigma, \epsilon)\ (x = t) \to \Rep\ \Sigma\ (\mta{def}\ A\ t) \\
-%   & \mta{post-rep} &&: \Tm\ (\Sigma, \epsilon)\ A \to \Rep\ \Sigma\ (\mta{post}\ A) \\[1em]
-%   \end{alignat*}
-%   \caption{Implementations of items and representations of signatures in $\lambdarep$.}
-%   \label{fig:lambdaind-impls-reprs}
-% \end{figure}
-
-% \subsection{The translation}
-
-% \begin{figure}[H]
-%   \begin{alignat*}{2}
-%   & \mta{Impl} &&: \Sig_\rep \to \Set \\
-%   & \mta{Impl}\ \Sigma &&:= (I \in \Sigma) \to \mta{Maybe}\ (\Rep\ I)
-%   \end{alignat*}
-% \end{figure}
-
-% \begin{figure}[H]
-%   \begin{alignat*}{2}
-%   & \R &&: (\Sigma : \Sig_\rep) \to \Impl\ \Sigma \to \Sig_\ind \\
-%   & \R\ (\epsilon)\ f &&:= \epsilon \\
-%   & \R\ (\Sigma \rhd I)\ f &&:= \kwd{if}\ f\ (\Sigma \rhd I)\ \mta{here} = \mta{just}\ r\ \kwd{then}\ \Sigma\ \kwd{else}\ (\Sigma \rhd I) \\
-%   \end{alignat*}
-% \end{figure}
-
-% \begin{figure}[H]
-%   \begin{alignat*}{2}
-%   & \R_{f : \Impl\ \Sigma} &&: \Ty_\rep\ (\Sigma, \Delta)\ \to \Ty_\ind\ (\R_f\ (\Sigma, \Delta)) \\
-%   & \R_f\ (T[\sigma]) &&:= (\R_f\ T)[\R_f\ \sigma] \\
-%   & \R_f\ (\univ) &&:= \univ \\
-%   & \R_f\ (\Pi\ A\ B) &&:= \Pi\ (\R_f\ A)\ (\R_f\ B) \\
-%   & \R_f\ (\El t) &&:= \El{(\R_f\ t)} \\
-%   & \R_f\ (\mta{data}\ i\ p) &&:= \kwd{if}\ f\ \Sigma\ i = \mta{just}\ (\mta{ind-rep}\ r)\ \kwd{then}\ \emb{r}\ \kwd{else}\ (\mta{data}\ i\ p) \\
-%   & \R_f\ (\MRepr\ T) &&:= \R_f\ T \\[1em]
-%   & \R_{f : \Impl\ \Sigma} &&: \Tm_\rep\ (\Sigma, \Delta)\ T \to \Tm_\ind\ (\R_f\ (\Sigma, \Delta))\ (\R_f\ T) \\
-%   & \R_f\ (t[\sigma]) &&:= (\R_f\ t)[\R_f\ \sigma] \\
-%   & \R_f\ (\pi_2\ \sigma) &&:= \pi_2\ (\R_f\ \sigma) \\
-%   & \R_f\ (\lambda\ t) &&:= \lambda\ (\R_f\ t) \\
-%   & \R_f\ (t\ @) &&:= (\R_f\ t)\ @ \\
-%   & \R_f\ (\code T) &&:= \code (\R_f\ T) \\
-%   & \R_f\ (\mta{ctor}\ i\ p\ n\ a) &&:= \kwd{if}\ f\ \Sigma\ i = \mta{just}\ (\mta{ind-rep}\ r)\ \kwd{then}\ \emb{r}\ \kwd{else}\ (\mta{ctor}\ i\ p\ n\ a) \\
-%   & \R_f\ (\mta{elim}\ i\ p\ M\ m) &&:= \kwd{if}\ f\ \Sigma\ i = \mta{just}\ (\mta{ind-rep}\ r)\ \kwd{then}\ \emb{r}\ \kwd{else}\ (\mta{elim}\ i\ p\ M\ m) \\
-%   & \R_f\ (\Mrepr\ t) &&:= \R_f\ t \\
-%   & \R_f\ (\Munrepr\ t) &&:= \R_f\ t
-%   \end{alignat*}
-% \end{figure}
-  % & \R\ (\epsilon) &&:= \epsilon \\
-  % & \R\ (\Sigma \rhd I) &&:= \R \Sigma \unrhd \R I \\[1em]
-  % & \R &&: \Item_\rep\ \Sigma \to \mta{Items}_\ind\ (\R \Sigma) \\
-  % & \R\ (\mta{ind}\ I) \mid \mta{ind}\ I &&:= \epsilon \\
-  % & \R\ (\Sigma \rhd I) &&:= \R \Sigma \unrhd \R I
-
-% \begin{figure}[h]
-%   \begin{mathpar}
-%   \inferrule[Repr-Ctor-Id]
-%   {
-%     \Sreprvar{\ctorlab c\ \Pi}{\kappa} \in \Sigma
-%   }
-%   {\Sigma \mid \Gamma \vdash \repr{(\ctorlab{c}\ \delta\ \pi)} \equiv \kappa [\delta, \pi] : A[\delta, p[\pi]]} \and
-%   \inferrule[Repr-Data-Id]
-%   {
-%     \Sreprvar{\datalab D\ \Delta\ \Xi}{A} \in \Sigma
-%   }
-%   {\Sigma \mid \Gamma \vdash \istype{\Repr{(\datalab{D}\ \delta\ \psi)} \equiv A [\delta,\psi]}}
-%   \end{mathpar}
-%   \caption{Definitional equalities for $\Repr{}$ and $\repr{}$ relating to data
-%   types and constructors with defined representations. Similar equalities hold
-%   for representations of global function definitions and eliminators, albeit
-%   propositionally.}
-% \end{figure}
-
-  % \begin{minipage}[t]{\textwidth}
-  % \begin{alignat*}{2}
-  % &\llbracket\_\rrbracket &&: \Op\ \Gamma\ \Xi \to \Ty\ (\Gamma \unrhd \Xi) \to \Ty\ (\Gamma \unrhd \Xi) \\
-  % &\llbracket \Pi_{\mta{ext}}\ A\ B \rrbracket\ X &&:= \Pi\ A\ (\llbracket B \rrbracket X) \\
-  % &\llbracket \Pi_{\mta{int}}\ p\ B \rrbracket\ X &&:= \Pi\ (X [\langle p \rangle])\ (\llbracket B \rrbracket X)^+ \\
-  % &\llbracket \mta{ret}\ p \rrbracket\ X &&:= X [\langle p \rangle]
-  % \end{alignat*}
-  % \end{minipage}
-
-  % & \Rep &&: \Sig \to \Sig \to \Set \\
-  % & \mta{id} &&: \Rep\ \Sigma\ \Sigma \\
-  % & \epsilon &&: \Rep\ \Sigma\ \epsilon \\
-  % & \rhd &&: (\rho : \Rep\ \Sigma_1\ \Sigma_2) \to \Rep\ \Sigma_1\ I[\rho] \to \Rep\ \Sigma_1\ (\Sigma_2\rhd I) \\
-  % & \circ &&: \Rep\ \Sigma_1\ \Sigma_2 \to \Rep\ \Sigma_2\ \Sigma_3 \to \Rep\ \Sigma_1\ \Sigma_3 \\
-  % & \pi_1 &&: \Rep\ \Sigma_1\ (\Sigma_2 \rhd I) \to \Rep\ \Sigma_1\ \Sigma_2
+\end{fleqn}

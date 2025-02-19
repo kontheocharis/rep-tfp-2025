@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  19 FEB 2025 16:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  19 FEB 2025 18:13
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -782,6 +782,10 @@ LaTeX Info: Redefining \addtolength on input line 81.
 (/usr/local/texlive/2021/texmf-dist/tex/latex/tools/xspace.sty
 Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 )
+(/usr/local/texlive/2021/texmf-dist/tex/latex/ncctools/nccmath.sty
+Package: nccmath 2006/01/20 v1.3 Additional Math Commands (NCC)
+\NCC@fracrulewidth=\dimen284
+)
 (/usr/local/texlive/2021/texmf-dist/tex/generic/tikz-cd/tikzlibrarycd.code.tex
 (/usr/local/texlive/2021/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibrarymatrix.code.tex
@@ -794,10 +798,10 @@ File: tikzlibraryquotes.code.tex 2020/12/27 v3.1.8b (3.1.8b)
 (/usr/local/texlive/2021/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.
 meta.code.tex
 File: pgflibraryarrows.meta.code.tex 2020/12/27 v3.1.8b (3.1.8b)
-\pgfarrowinset=\dimen284
-\pgfarrowlength=\dimen285
-\pgfarrowwidth=\dimen286
-\pgfarrowlinewidth=\dimen287
+\pgfarrowinset=\dimen285
+\pgfarrowlength=\dimen286
+\pgfarrowwidth=\dimen287
+\pgfarrowlinewidth=\dimen288
 ))
 (/usr/local/texlive/2021/texmf-dist/tex/latex/ifmtarg/ifmtarg.sty
 Package: ifmtarg 2018/04/16 v1.2b check for an empty argument
@@ -823,12 +827,12 @@ File: pdftex.cnt 2004/11/18 v2.14 Print contoured text (HH, MH)
 \UL@hyphenbox=\box112
 \UL@skip=\skip60
 \UL@hook=\toks41
-\UL@height=\dimen288
+\UL@height=\dimen289
 \UL@pe=\count332
-\UL@pixel=\dimen289
+\UL@pixel=\dimen290
 \ULC@box=\box113
 Package: ulem 2019/11/18
-\ULdepth=\dimen290
+\ULdepth=\dimen291
 )
 (/usr/local/texlive/2021/texmf-dist/tex/latex/minted/minted.sty
 Package: minted 2017/07/19 v2.5 Yet another Pygments shim for LaTeX
@@ -861,16 +865,16 @@ Package: lineno 2005/11/02 line numbers on paragraphs v4.41
 \linenopenalty=\count337
 \output=\toks42
 \linenoprevgraf=\count338
-\linenumbersep=\dimen291
-\linenumberwidth=\dimen292
+\linenumbersep=\dimen292
+\linenumberwidth=\dimen293
 \c@linenumber=\count339
 \c@pagewiselinenumber=\count340
 \c@LN@truepage=\count341
 \c@internallinenumber=\count342
 \c@internallinenumbers=\count343
-\quotelinenumbersep=\dimen293
-\bframerule=\dimen294
-\bframesep=\dimen295
+\quotelinenumbersep=\dimen294
+\bframerule=\dimen295
+\bframesep=\dimen296
 \bframebox=\box115
 LaTeX Info: Redefining \\ on input line 3056.
 )
@@ -882,20 +886,20 @@ LaTeX Info: Redefining \\ on input line 3056.
 \c@FV@HighlightLinesStop=\count347
 \FV@LoopCount=\count348
 \FV@NCharsBox=\box117
-\FV@BreakIndent=\dimen296
+\FV@BreakIndent=\dimen297
 \FV@BreakIndentNChars=\count349
-\FV@BreakSymbolSepLeft=\dimen297
+\FV@BreakSymbolSepLeft=\dimen298
 \FV@BreakSymbolSepLeftNChars=\count350
-\FV@BreakSymbolSepRight=\dimen298
+\FV@BreakSymbolSepRight=\dimen299
 \FV@BreakSymbolSepRightNChars=\count351
-\FV@BreakSymbolIndentLeft=\dimen299
+\FV@BreakSymbolIndentLeft=\dimen300
 \FV@BreakSymbolIndentLeftNChars=\count352
-\FV@BreakSymbolIndentRight=\dimen300
+\FV@BreakSymbolIndentRight=\dimen301
 \FV@BreakSymbolIndentRightNChars=\count353
 \c@FancyVerbLineBreakLast=\count354
 \FV@LineBox=\box118
 \FV@LineIndentBox=\box119
-\FV@LineWidth=\dimen301
+\FV@LineWidth=\dimen302
 )
 (/usr/local/texlive/2021/texmf-dist/tex/latex/tools/shellesc.sty
 Package: shellesc 2019/11/08 v1.0c unified shell escape interface for LaTeX
@@ -925,10 +929,10 @@ Package: xstring 2019/02/06 v1.83 String manipulations (CT)
 (/usr/local/texlive/2021/texmf-dist/tex/latex/framed/framed.sty
 Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
 \OuterFrameSep=\skip62
-\fb@frw=\dimen302
-\fb@frh=\dimen303
-\FrameRule=\dimen304
-\FrameSep=\dimen305
+\fb@frw=\dimen303
+\fb@frh=\dimen304
+\FrameRule=\dimen305
+\FrameSep=\dimen306
 )
 (/usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
@@ -963,23 +967,23 @@ Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
 Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
 \collectedbox=\box123
 )
-\tc@llx=\dimen306
-\tc@lly=\dimen307
-\tc@urx=\dimen308
-\tc@ury=\dimen309
+\tc@llx=\dimen307
+\tc@lly=\dimen308
+\tc@urx=\dimen309
+\tc@ury=\dimen310
 Package trimclip Info: Using driver 'tc-pdftex.def'.
 
 (/usr/local/texlive/2021/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
 File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
 ))
-\adjbox@Width=\dimen310
-\adjbox@Height=\dimen311
-\adjbox@Depth=\dimen312
-\adjbox@Totalheight=\dimen313
-\adjbox@pwidth=\dimen314
-\adjbox@pheight=\dimen315
-\adjbox@pdepth=\dimen316
-\adjbox@ptotalheight=\dimen317
+\adjbox@Width=\dimen311
+\adjbox@Height=\dimen312
+\adjbox@Depth=\dimen313
+\adjbox@Totalheight=\dimen314
+\adjbox@pwidth=\dimen315
+\adjbox@pheight=\dimen316
+\adjbox@pdepth=\dimen317
+\adjbox@ptotalheight=\dimen318
 
 (/usr/local/texlive/2021/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
 Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
@@ -989,20 +993,20 @@ Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \@vwid@box=\box124
 \sift@deathcycles=\count362
-\@vwid@loff=\dimen318
-\@vwid@roff=\dimen319
+\@vwid@loff=\dimen319
+\@vwid@roff=\dimen320
 ))
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 37.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 38.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 39.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 40.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 41.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 42.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 43.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 44.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 45.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 46.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 47.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 38.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 39.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 40.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 41.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 42.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 43.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 44.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 45.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 46.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 47.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 48.
 )
 (./misc/macros.tex) (./misc/rights.tex)
 runsystem(which pygmentize && touch main.aex)...executed.
@@ -1063,13 +1067,13 @@ LaTeX Info: Redefining \Ref on input line 9.
 (/usr/local/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count365
-\scratchdimen=\dimen320
+\scratchdimen=\dimen321
 \scratchbox=\box126
 \nofMPsegments=\count366
 \nofMParguments=\count367
 \everyMPshowfont=\toks46
 \MPscratchCnt=\count368
-\MPscratchDim=\dimen321
+\MPscratchDim=\dimen322
 \MPnumerator=\count369
 \makeMPintoPDFobject=\count370
 \everyMPtoPDFconversion=\toks47
@@ -1137,27 +1141,26 @@ Overfull \hbox (21.45534pt too wide) detected at line 152
  []
 
 [5] [6] [7]) (./sections/type-system.tex
-Overfull \hbox (3.5502pt too wide) detected at line 48
+Overfull \hbox (3.5502pt too wide) detected at line 52
 []
  []
 
 
-Overfull \hbox (3.55019pt too wide) in paragraph at lines 38--61
-[][]
+Overfull \hbox (11.20975pt too wide) in paragraph at lines 42--65
+[][] \T1/cmr/m/n/10 The
  []
 
-[8] [9] [10]
-Overfull \hbox (41.07596pt too wide) detected at line 228
+[8] [9] [10] [11]
+Overfull \hbox (31.07593pt too wide) detected at line 230
 []
  []
 
-[11]
 
 LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
-(Font)              using `U/stmry/m/n' instead on input line 236.
+(Font)              using `U/stmry/m/n' instead on input line 238.
 
 [12]
-Overfull \hbox (6.49869pt too wide) detected at line 317
+Overfull \hbox (6.49869pt too wide) detected at line 319
 []
  []
 
@@ -1165,14 +1168,14 @@ Overfull \hbox (6.49869pt too wide) detected at line 317
 e.1.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.413 \end{align*}
-                  ] [15] [16]
+l.404 
+      ] [15] [16]
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 530.
+(Font)              using `T1/cmr/m/sc' instead on input line 532.
 
 
-Overfull \hbox (1.04193pt too wide) in paragraph at lines 530--532
+Overfull \hbox (1.04193pt too wide) in paragraph at lines 532--534
 []$\OMS/cmsy/m/n/10 R$ \T1/cmr/m/it/10 pre-serves typ-ing and def-i-ni-tional e
 qual-ity: $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; t[] \OT1/cmr/m/n/10 : [][] ^^
 @ \OML/cmm/m/it/10 A\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 !
@@ -1180,11 +1183,7 @@ qual-ity: $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; t[] \OT1/cmr/m/n/10 : [][] ^^
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 539.
-
-
-LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 539.
+(Font)              using `T1/cmr/m/sc' instead on input line 541.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
@@ -1192,13 +1191,17 @@ LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 544.
+(Font)              using `T1/cmr/m/sc' instead on input line 543.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 548.
+(Font)              using `T1/cmr/m/sc' instead on input line 546.
 
-[17]) (./sections/implementation.tex) (./sections/conclusion.tex [18]
+
+LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
+(Font)              using `T1/cmr/m/sc' instead on input line 550.
+
+[17]) (./sections/implementation.tex) [18] (./sections/conclusion.tex
 Overfull \hbox (2.9021pt too wide) in paragraph at lines 46--52
 \T1/cmr/m/n/10 quotient-induction, induction-induction and induction-recursion.
  Rep-re-sen-ta-tions
@@ -1240,7 +1243,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--11
 gebra ? format =
  []
 
-[20]
+
+Underfull \vbox (badness 2181) has occurred while \output is active []
+
+ [20]
 Underfull \hbox (badness 10000) in paragraph at lines 22--25
 []$\T1/cmtt/m/n/9 https : / / drops . dagstuhl . de / storage / 00lipics / lipi
 cs-[]vol175-[]types2019 /
@@ -1276,29 +1282,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 119--122
 84BC585A2D /
  []
 
-) (./sections/appendix.tex
-Overfull \hbox (28.1105pt too wide) detected at line 39
+) (./sections/appendix.tex [22]
+Overfull \hbox (28.1105pt too wide) detected at line 50
 []
  []
 
-[22]
-Overfull \hbox (1.15874pt too wide) detected at line 66
+[23]
+Overfull \hbox (1.15874pt too wide) detected at line 85
 []
  []
 
-
-Underfull \vbox (badness 4391) has occurred while \output is active []
-
- [23]
-Overfull \hbox (43.56927pt too wide) detected at line 101
-[]
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [24])
-[25] (.out/main.aux)
+[24]) [25] (.out/main.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -1306,10 +1300,10 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: E8697098164B610F8033512D50A9D933;275.
  ) 
 Here is how much of TeX's memory you used:
- 27911 strings out of 478994
- 529244 string characters out of 5858183
- 870611 words of memory out of 5000000
- 44677 multiletter control sequences out of 15000+600000
+ 28010 strings out of 478994
+ 530414 string characters out of 5858183
+ 869355 words of memory out of 5000000
+ 44772 multiletter control sequences out of 15000+600000
  439924 words of font info for 112 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  133i,23n,133p,495b,525s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1352,10 +1346,10 @@ cm-super/sfti0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm
 uper/sftt0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-sup
 er/sftt1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super
 /sfxc0700.pfb>
-Output written on .out/main.pdf (25 pages, 580405 bytes).
+Output written on .out/main.pdf (25 pages, 580819 bytes).
 PDF statistics:
- 531 PDF objects out of 1000 (max. 8388607)
- 412 compressed objects within 5 object streams
+ 534 PDF objects out of 1000 (max. 8388607)
+ 415 compressed objects within 5 object streams
  102 named destinations out of 1000 (max. 500000)
  117 words of extra memory for PDF output out of 10000 (max. 10000000)
 

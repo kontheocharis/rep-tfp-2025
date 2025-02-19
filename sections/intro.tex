@@ -16,13 +16,13 @@ Despite advances in the erasure of irrelevant indices in inductive families
 \cite{Brady2004-ay} and the use of theories with irrelevant fragments
 \cite{Atkey2018-pj,Moon2021-eb}, there is still a need to convert
 between different indexed views of the same data. For example, the function to
-convert from $\datalab{List}\ T$ to $\datalab{Vec}\ T\ n$ by forgetting the
-length index $n$ is \emph{not} erased by any current language with dependent
-types, unless vectors are defined as a refinement of lists with an erased length
-field (which hinders dependent pattern matching due to the presence of
-non-structural witnesses), or a Church encoding is used in a Curry-style context
-\cite{Diehl2018-ba} (which restricts the flexibility of data representation).
-This is the second problem we aim to address in this paper.
+convert from $\datalab{BinTree}\ T$ to $\datalab{BinTreeOfHeight}\ T\ n$ by forgetting the
+size index $n$ is \emph{not} erased by any current language with dependent
+types, unless sized binary trees are defined as a refinement of binary trees
+with an erased height field (which hinders dependent pattern matching due to the
+presence of non-structural witnesses), or a Church encoding is used in a
+Curry-style context \cite{Diehl2018-ba} (which restricts the flexibility of data
+representation). This is the second problem we aim to address in this paper.
 
 Wadler's views \cite{Wadler1987-zp} provide a way to abstract over inductive
 interfaces, so that different views of the same data can be defined and
@@ -49,7 +49,7 @@ is faithful to its the original inductive family. We contribute the following:
         extension by representations $\lambdarep$ formulated as inductive algebras
         for theories, along with a translation from $\lambdaind$ that erases all
         represented data types from the program (\cref{sec:type-system}).
-        \item An prototype implementation of this system in \textsc{Superfluid},
+        \item A prototype implementation of this system in \textsc{Superfluid},
         a programming language with inductive types and dependent pattern
         matching (\cref{sec:implementation}).
 \end{itemize}

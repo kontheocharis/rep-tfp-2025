@@ -15,14 +15,18 @@ of pattern matching.
 
 We work in an extensional metatheory with a small universe $\Set$, $(a : A)
 \times B$ for dependent pairs, $(a : A) \to B$ for dependent products, and $=$
-for equality. The metatheory also supports quotient-inductive-inductive
-definitions, which are used to define the syntaxes of the languages presented in
-this paper in the style of Kaposi and Altenkirch~\cite{Altenkirch2016-zc}.
-Weakening of terms in defined object theories is generally also left implicit to
-reduce syntactic noise, and often higher-order abstract syntax notation is used
-when de-Brujin indices are implied. We use $@$ for `partial' object applications
-as the inverse of $\lambda$: applying $f$ to $x$ is $(f @)[\Msub{x}]$.
-
+for equality, and an Agda-like syntax. The metatheory also supports
+quotient-inductive-inductive definitions, which are used to define the syntaxes
+of the languages presented in this paper in the style of Kaposi and
+Altenkirch~\cite{Altenkirch2016-zc}. Weakening of terms in defined object
+theories is generally also left implicit to reduce syntactic noise, and often
+higher-order abstract syntax notation is used when de-Brujin indices are
+implied. We use $@$ for `partial' object applications as the inverse of
+$\lambda$: applying $f$ to $x$ is $(f @)[\Msub{x}]$. We use $\Gamma : \mta{Con}$ for
+contexts, $A : \mta{Ty}\ \Gamma$ for types, $a : \mta{Tm}\ \Gamma\ A$ for terms,
+$\Delta : \mta{Tel}\ \Gamma$ for telescopes and $(a, b, \ldots) : \mta{Tms}\
+\Gamma\ \Delta$ for lists of terms. Empty contexts and telescopes are $\bullet$,
+and extension is $\rhd$.
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
 
@@ -116,9 +120,9 @@ the displayed algebra. For natural numebrs,
 
 \begin{definition}
 An algebra is \emph{inductive} if every displayed algebra over it has a section.
-A displayed algebra is the input of induction: a proof of $M$ for each structural case in $X$.
-A section is the output: a proof of $M$ for all $X$.
 \end{definition}
+A displayed algebra $(M, m)$ is the input of induction: a proof of $M$ for each structural case in $X$ by $m$.
+A section $f$ is the output: a proof of $M$ for all $X$ constructed from $m$.
 
 \subsection{Internal and external constructions}
 
@@ -134,7 +138,7 @@ they can be added into the syntax retroactively.
 
 First, we define an `external' version of algebras
 \begin{align*}
-    &\mta{Algebra} : (T : \mta{Sig}\ \Gamma\ P) \to \Ty\ (\Gamma \rhd P) \\
+    &\mta{Algebra} : (T : \mta{Sig}\ \Gamma\ P) \to \Ty\ (\Gamma \rhd P) \to \Set \\
     &\mta{Algebra}\ T\ X := (a : \mta{In}\ T\ X) \to \Tm\ \Gamma\ X[\Msub{\mta{out}\ a}] \\[1em]
     &\mta{Alg}\ T := (X : \Ty\ (\Gamma \rhd P)) \times \mta{Algebra}\ T\ X \,,
 \end{align*}
@@ -148,10 +152,10 @@ operations in theories. The function
     &\mta{in} : \mta{Op}\ \Gamma\ P \to \Ty\ (\Gamma \rhd P) \to \Tel\ \Gamma \\
     &\mta{in}\ (\Pi\ A\ B)\ X := \bullet \rhd (a : A) \rhd \mta{in}\ B[\Msub a]\ X \\
     &\mta{in}\ (\Pi\iota\ p\ B)\ X := \bullet \rhd X[\Msub p] \rhd \mta{in}\ B\ X \\
-    &\mta{in}\ (\iota\ p)\ X := \bullet \,,
+    &\mta{in}\ (\iota\ p)\ X := \bullet \,
 \end{align*}
 computes a telescope in the object theory, of the input arguments to the algebra
-element of the operation the induction is on. For the output, there is a function to compute
+element of a given operation. For the output, there is a function to compute
 the indices. It is defined as $\mta{out}\ \{T\ v\}\ a\ X$, where
 \begin{align*}
     &\mta{out} : \{O : \Op\ \Gamma\ P\} \to \Tms\ \Gamma\ (\mta{in}\ O\ X) \to \Ty\ \Gamma \to \Tms\ \Gamma\ P \\
@@ -159,12 +163,12 @@ the indices. It is defined as $\mta{out}\ \{T\ v\}\ a\ X$, where
     &\mta{out}\ \{\Pi\iota\ p\ B\}\ (r, t)\ X := \mta{out}\ \{B\}\ t\ X \\
     &\mta{out}\ \{\iota\ p\}\ (\,)\ X := p \,.
 \end{align*}
-We can also define an internal version of algebras as telescopes
-$\mta{alg}\ T := \bullet \rhd (X : \Pi\ P\ \univ) \rhd \mta{algebra}\ T\ (\mta{El}\ X@)$ where
+We can also define an internal version of algebras as telescopes of $\Pi$ types
 \begin{align*}
     &\mta{algebra} : \mta{Sig}\ \Gamma\ P \to \Ty\ (\Gamma \rhd P) \to \Tel\ \Gamma \\
     &\mta{algebra}\ \bullet\ X := \bullet \\
-    &\mta{algebra}\ (T \rhd O)\ X := \mta{algebra}\ T\ X \rhd \Pi\ (a : \mta{in}\ O\ X)\ X[\Msub{\mta{out}\ O\ a\ X}] \,.
+    &\mta{algebra}\ (T \rhd O)\ X := \mta{algebra}\ T\ X \rhd \Pi\ (a : \mta{in}\ O\ X)\ X[\Msub{\mta{out}\ O\ a\ X}] \\[1em]
+    &\mta{alg}\ T := \bullet \rhd (X : \Pi\ P\ \univ) \rhd \mta{algebra}\ T\ (\mta{El}\ X@)  \,.
 \end{align*}
 
 All internal constructions have `realisation' functions into the metatheory
@@ -190,41 +194,39 @@ A similar construction can be performed for displayed algebras over algebras
 &\mta{dispAlgebra} : ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
 &\mta{DispAlg}\ (X, x) := (M : \mta{Ty}\ (\Gamma \rhd P \rhd X)) \times \mta{Tms}\ \Gamma\ (\mta{dispAlgebra}\ (X, x)\ M)
 \end{align*}
-and we can use the realisation function for the internal equivalent of
-$\mta{DispAlg}$, $\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T)$. %
+as well as the telescopic internal equivalents $\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T)$. %
 % \begin{align*}
 %     &\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
 %     &\mta{dispAlg} := a.\ \bullet \rhd (M : \Pi\ P\ (\Pi\ X\ \univ)) \rhd \mta{dispAlgebra}\ \emb{a}\ (\mta{El}\ M@@) \,.
 % \end{align*}
-These come with realisation functions $\emb{\_}$ too.
+Internal displayed algebras come with realisation functions $\emb{\_}$ too.
 % : \Tms\ \Gamma\ (\mta{dispAlg}[\Msub{t}]) \to \mta{DispAlg}\ \emb t$ and
 % $\emb{\_} : \Tms\ \Gamma\ (\mta{dispAlgebra}\ t\ M) \to \mta{DispAlgebra}\ t\ M$.
 Finally, we construct sections over displayed algebras
 \begin{align*}
      &\mta{Sec}\ M := \Tm\ (\Gamma \rhd P \rhd X)\ M \\
-     &\mta{Coh}\ f := \forall a.\ f[\Msub{\mta{out}\ a; x\ a}] = \mta{apply}\ m\ f\ a \\
-     &\mta{IntCoh}\ f := \forall a.\ \Tm\ \Gamma\ (\mta{Id}\ f[\Msub{\mta{out}\ a; x\ a}]\ (\mta{apply}\ m\ f\ a)) \\
+     &\mta{Coh}\ f := \forall v\ a.\ f[\Msub{\mta{dispOut}\ a}] = m\ (v, \mta{apply}\ f\ a) \\
+     &\mta{IntCoh}\ f := \forall v\ a.\ \Tm\ \Gamma\ (\mta{Id}\ f[\Msub{\mta{dispOut}\ a}])\ (m\ (v, \mta{apply}\ f\ a)) \\
      &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f  \,.
 \end{align*}
 which have coherence rules using either the equality of the metatheory (\mta{Coh}) or
 the propositional equality of the object theory (\mta{IntCoh}).
-The $\mta{apply}$ function takes a displayed algebra, a section, and some
-arguments $\mta{In}$, and evaluates the section at those arguments.
+The $\mta{apply}$ function takes the inputs for the algebra and a section,
+and produces the inputs for the displayed algebra by evaluating the section.
 Sections also have internal analogues
 \[
     \mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg})
 \]
 which only use propositional equality.
-As a result, the realisation functions for sections
-$\emb{\_}_0 : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}]) \to \mta{Sec}\ \emb{m}$ and
-$\emb{\_}_1 : (t : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}])) \to \mta{IntCoh}\ \emb{t}_0$
-produce only internal coherence proofs.
+As a result, the realisation functions for sections $\emb{f}_0 : \mta{Sec}\
+\emb{m}$ and $\emb{f}_1 : \mta{IntCoh}\ \emb{f}_0$ produce only internal
+coherence proofs.
 
 Now we can define a synonym for internal inductive algebras as a telescope $\mta{indAlg}\ T := \bullet \rhd \mta{alg}\ T \rhd \Pi\ \mta{dispAlg}\ \mta{section}$
 with realisations
 \begin{align*}
     &\emb{\_}_0\ : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X]) \to (m : \mta{DispAlg}\ X) \to \mta{Sec}\ m \\
-    &\emb{\_}_1\ : (i : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X])) \to (m : \mta{DispAlg}\ \emb{X}) \to \mta{IntCoh}\ \emb{i}_0\ m \,.
+    &\emb{\_}_1\ : (i : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X])) \to (m : \mta{DispAlg}\ X) \to \mta{IntCoh}\ \emb{i}_0\ m \,.
 \end{align*}
 Next we will make use of the external versions of algebras, displayed algebras,
 and sections in order to add inductive algebras as part of the well-typed
@@ -256,8 +258,7 @@ Items in a signature $\Sigma$ can be either
 		      \Loc\ \Sigma$ and signature $T : \Sig\ (\Sigma, \bullet)\ P$.
 \end{itemize}
 
-We reuse the \mta{Sig} type defined in the previous section. This allows us
-to define data types such as vectors
+This allows us to define data types such as vectors
 \begin{align*}
 	 & \textit{Vect} : \mta{data}\ (\bullet \rhd \univ \rhd \textit{Nat})               \\
 	 & \quad\begin{aligned}
@@ -276,9 +277,9 @@ extend the syntax with some term and type formers. First, we add a type former
 \]
 which, given a data definition $i$ in $\Sigma$, and terms for its
 indices $p$, constructs the data type $(\mta{D}\ i)[p]$. The relation $I \in
-\Sigma$ finds items in a global context, to be thought of in a similar way to how
+\Sigma$ finds items in a global context, analogously to how
 $\mta{Var}\ \Gamma\ A$ defines variables for type $A$ in a local context
-$\Gamma$. It is evidently a decidable relation.
+$\Gamma$. It is a decidable relation and stable under substitutions and global weakening.
 
 Additionally, we add a constructor term
 \[
@@ -304,6 +305,7 @@ captured by an equality constructor in the syntax
 \[
 	\mta{E-id} :\ \forall i.\ (m : \mta{DispAlg}\ \mta{C}_i) \to \mta{Coh}\ (\mta{E}_i\ m) \,.
 \]
+\vspace{-2em}
 \begin{lemma}
 	The constructor algebra $\mta{C}_i$ of a data type $i$ is inductive.
 	\begin{proof}
@@ -324,7 +326,7 @@ proof assistant.
 We extend the language $\lambdaind$ to form $\lambdarep$, which allows the
 definition of custom representations for data types and global functions. The
 machinery of algebras that we have developed in \cref{sub:algebras} allows for a
-very direct definition of representations of data types: A representation for
+very direct definition of representations of data types: A representation for a
 $\mta{data}\ P\ T$ is an inductive algebra for $T$.
 Representations live alongside items in a global context, and each item only corresponds
 to at most one representation. We achieve this by adding a constructor to global contexts
@@ -397,7 +399,7 @@ We use a decidable relation $R \in_i \Sigma'$ to mean that $R :
 \mta{Rep}\ \Sigma\ I$ is the representation of an item $I : \mta{Item}\ \Sigma$
 where $i : I \in \Sigma'$.
 This relation is a proposition, so it is proof-irrelevant. Furthermore, it is stable under
-weakening of global and local contexts, because each item can only be represented once in a global context.
+substitutions and global weakening, because each item can only be represented once in a global context.
 In the following rules, $r : \mta{datarep}\ (R, r, Q) \in_i \Sigma$.
 
 Firstly, we define the reduction that occurs when a type $\mta{D}\ i$ is represented,

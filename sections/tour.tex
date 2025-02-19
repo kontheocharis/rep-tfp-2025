@@ -173,7 +173,7 @@ T\ n$, its form will be $(l, p)$ at runtime, where $l$ is the underlying list
 and $p$ is the proof that the length of $l$ is $n$. Under the assumption that
 the $\Sigma$-type's right component is irrelevant and erased at runtime, every
 vector is simply a list at runtime, where the length proof has been erased. In
-practice, this erasure is achieved \superfluid using quantitative type theory
+practice, this erasure is achieved in \superfluid using quantitative type theory
 \cite{Atkey2018-pj}. In \cref{sub:irr} we show how to formally identify
 computationally irrelevant conversion functions.
 
@@ -187,7 +187,8 @@ can define the functions
   &\lab{recall-length} : (l : \datalab{List}\ T) \to \datalab{Vec}\ T\ (\lab{length}\ l) \\
   &\lab{recall-length}\ l = \unrepr{(l, \ctorlab{refl})}
 \end{align*}
-and it holds by reflexivity that $\lab{forget-length}$ is a left inverse of $\lab{recall-length}$.
+and in \cref{sub:irr} we will show that it holds by reflexivity that
+such functions are inverses of one another.
 
 \subsection{General reindexing}
 
@@ -224,7 +225,7 @@ record for a player in a game:
     \ctorlab{player} : &\ (\fieldlab{position} : \datalab{Position}) \\
     \to &\ (\fieldlab{direction} : \datalab{Direction}) \\
     \to &\ (\fieldlab{items} : \datalab{Fin}\ \lab{MAX\_INVENTORY}) \\
-    \to &\ (\fieldlab{inventory} : \datalab{Inventory}\ \fieldlab{items}) \to \datalab{Player}
+    \to &\ (\fieldlab{inventory} : \datalab{Inventory}\ (\lab{fin-to-nat}\ \fieldlab{items})) \to \datalab{Player}
   }
 \]
 We can use the $\datalab{Fin}$ type to maintain the invariant that the inventory
@@ -248,12 +249,14 @@ We can define a representation for $\datalab{Player}$
 as a pair of a byte buffer and a proof that the byte buffer contents correspond to
 a player record. Similarly, we can define a representation for $\datalab{Inventory}$
 as a pair of a byte buffer and a proof that the byte buffer contents correspond to
-an inventory record of a certain size. The projection
-$\fieldlab{inventory} : (p : \datalab{Player}) \to \datalab{Inventory}\ p.\fieldlab{items}$
-is compiled into some code to slice into the inventory part of the player's byte
-buffer. We assume that the standard library already represents $\datalab{Fin}$ in the
-same way as $\datalab{Nat}$, so that reading the $\fieldlab{items}$ field is a constant-time
-operation (we do not need to build a unary numeral). We can thus define the representation
+an inventory record of a certain size. By the implementation of the eliminator
+in the representation, the projection $\fieldlab{inventory} : (p :
+\datalab{Player}) \to \datalab{Inventory}\ p.\fieldlab{items}$ is compiled into
+some code to slice into the inventory part of the player's byte buffer. We
+assume that the standard library already represents $\datalab{Fin}$ in the same
+way as $\datalab{Nat}$, so that reading the $\fieldlab{items}$ field is a
+constant-time operation (we do not need to build a unary numeral). We can thus
+define the representation
 of $\datalab{Player}$ as
 \[
   \Sreprvar{\datalab{Player}}{\{ \datalab{Buf} \mid \datalab{IsPlayer} \}} \Sbody{
@@ -262,8 +265,11 @@ of $\datalab{Player}$ as
                       \by&\ \lab{elim-buf-is-player-id}
   }
 \]
-with an appropriate definition of $\datalab{IsPlayer}$ which refines a byte buffer.
-Allais \cite{Allais2023-zq} explores how such a predicate could be defined.
+with an appropriate definition of $\datalab{IsPlayer}$ which refines a byte
+buffer. The refinement would have to match the expected structure of the byte
+buffer, so that all the required fields can be extracted. Allais
+\cite{Allais2023-zq} explores how data descriptions that index into a flat
+buffer could be defined.
 
 
 \subsection{Transitivity}
@@ -288,15 +294,13 @@ represented as a \datalab{Buf}:
 \]
 Every such type comes with a projection function to the \datalab{Buf} type
 \begin{align*}
-  &\lab{as-buf} :_{\forall T . \datalab{ReprBuf}\ T} T \to \datalab{Buf} \\
-  &\lab{as-buf}\ \ctorlab{buf}\ x = x \\
-  &\lab{as-buf}\ (\ctorlab{from}\ t)\ x = \lab{as-buf}\ t\ (\repr{x}) \\
-  &\lab{as-buf}\ (\ctorlab{refined}\ t)\ (x, \wildp) = \lab{as-buf}\ t\ x
+  &\lab{as-buf} :\{r : \datalab{ReprBuf}\ T\} \to T \to \datalab{Buf} \\
+  &\lab{as-buf}\ \{r = \ctorlab{buf}\}\ x = x \\
+  &\lab{as-buf}\ \{r = \ctorlab{from}\ t\}\ x = \lab{as-buf}\ t\ (\repr{x}) \\
+  &\lab{as-buf}\ \{r = \ctorlab{refined}\ t\}\ (x, \wildp) = \lab{as-buf}\ t\ x
 \end{align*}
 which eventually computes to the identity function after applying $\repr{}$ the
 appropriate amount of times. Upon compilation, every type is converted to its
 terminal representation, and all $\repr{}$ calls are erased, so the
 $\lab{as-buf}$ function is effectively the identity function at
-runtime.\footnote{We do not guarrantee that an invocation of $\lab{as-buf}$ will
-be entirely erased, but rather that any invocation will eventually produce the
-identity function without having to perform a case analysis on its $T$ subject.}
+runtime.\footnote{Given that the $r$ argument is known at compile-time and monomorphised.}
