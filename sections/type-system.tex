@@ -20,7 +20,9 @@ definitions, which are used to define the syntaxes of the languages presented in
 this paper in the style of Kaposi and Altenkirch~\cite{Altenkirch2016-zc}.
 Weakening of terms in defined object theories is generally also left implicit to
 reduce syntactic noise, and often higher-order abstract syntax notation is used
-when de-Brujin indices are implied.
+when de-Brujin indices are implied. We use $@$ for `partial' object applications
+as the inverse of $\lambda$: applying $f$ to $x$ is $(f @)[\Msub{x}]$.
+
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
 
@@ -36,9 +38,9 @@ algebras and displayed algebras of algebraic signatures.
 Algebraic signatures \cite{Adamek2010-ls,Kovacs2023-gq} consist of a list of operations, each with a specified
 arity. There are many flavours of algebraic signatures with varying degrees of
 expressiveness. For this paper, we are interested in algebraic signatures which can
-be used as a syntax for defining inductive families in a object theory. Thus, we define
-{\small%
-\begin{minipage}[t]{0.4\textwidth}
+be used as a syntax for defining inductive families in a object theory. Thus, we define%
+\\[0em]
+\begin{minipage}[t]{0.4\linewidth}
 \begin{align*}
 &\Sig : (\Gamma : \Con) \to \mta{Tel}\ \Gamma \to \Set \\
 &\bullet : \Sig\ \Gamma\ P \\
@@ -49,10 +51,10 @@ be used as a syntax for defining inductive families in a object theory. Thus, we
 \begin{align*}
 &\mta{Op} : (\Gamma : \Con) \to \mta{Tel}\ \Gamma \to \Set \\
 &\Pi : (A : \Ty\ \Gamma) \to \mta{Op}\ (\Gamma \rhd A)\ P \to \mta{Op}\ \Gamma\ P \\
-&\Pi\iota : (p : \Tms\ \Gamma\ P) \to \mta{Op}\ \Gamma\ P \to \mta{Op}\ \Gamma\ P \\
-&\iota : (p : \Tms\ \Gamma\ P) \to \mta{Op}\ \Gamma\ P
+&\Pi\iota : \Tms\ \Gamma\ P \to \mta{Op}\ \Gamma\ P \to \mta{Op}\ \Gamma\ P \\
+&\iota : \Tms\ \Gamma\ P \to \mta{Op}\ \Gamma\ P
 \end{align*}
-\end{minipage}}
+\end{minipage}
 The $\Sig$ sort represents a simple class of algebraic signatures with
 values in some object theory $(\mta{Con}, \mta{Ty}, \mta{Tm}, \ldots)$. Each
 signature is described by an associated telescope of indices $P$ as a telescope
@@ -143,7 +145,7 @@ The type $\mta{In}$ is defined as $(v : \mta{Var}\ T) \times \Tms\ \Gamma\
 (\mta{in}\ (T\ v)\ X)$ for where $\mta{Var}\ T$ indexes
 operations in theories. The function
 \begin{align*}
-    &\mta{in} : \mta{Op}\ \Gamma\ P \to (\Ty\ \Gamma \rhd P) \to \Tel\ \Gamma \\
+    &\mta{in} : \mta{Op}\ \Gamma\ P \to \Ty\ (\Gamma \rhd P) \to \Tel\ \Gamma \\
     &\mta{in}\ (\Pi\ A\ B)\ X := \bullet \rhd (a : A) \rhd \mta{in}\ B[\Msub a]\ X \\
     &\mta{in}\ (\Pi\iota\ p\ B)\ X := \bullet \rhd X[\Msub p] \rhd \mta{in}\ B\ X \\
     &\mta{in}\ (\iota\ p)\ X := \bullet \,,
@@ -158,7 +160,7 @@ the indices. It is defined as $\mta{out}\ \{T\ v\}\ a\ X$, where
     &\mta{out}\ \{\iota\ p\}\ (\,)\ X := p \,.
 \end{align*}
 We can also define an internal version of algebras as telescopes
-$\mta{alg}\ T := \bullet \rhd (X : \Pi\ P\ \univ) \rhd \mta{algebra}\ T\ X$ where
+$\mta{alg}\ T := \bullet \rhd (X : \Pi\ P\ \univ) \rhd \mta{algebra}\ T\ (\mta{El}\ X@)$ where
 \begin{align*}
     &\mta{algebra} : \mta{Sig}\ \Gamma\ P \to \Ty\ (\Gamma \rhd P) \to \Tel\ \Gamma \\
     &\mta{algebra}\ \bullet\ X := \bullet \\
@@ -183,13 +185,13 @@ All internal constructions have `realisation' functions into the metatheory
 %     &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f
 % \end{align*}
 
-A similar construction can be performed for displayed algebras over external algebras
+A similar construction can be performed for displayed algebras over algebras
 \begin{align*}
-&\mta{dispAlgebra}\ (X, x)\ M : \Tel\ \Gamma \\
+&\mta{dispAlgebra} : ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
 &\mta{DispAlg}\ (X, x) := (M : \mta{Ty}\ (\Gamma \rhd P \rhd X)) \times \mta{Tms}\ \Gamma\ (\mta{dispAlgebra}\ (X, x)\ M)
 \end{align*}
-and we can use the realisation function for algebras to get internal displayed
-algebras over internal algebras $\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T)$.
+and we can use the realisation function for the internal equivalent of
+$\mta{DispAlg}$, $\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T)$. %
 % \begin{align*}
 %     &\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
 %     &\mta{dispAlg} := a.\ \bullet \rhd (M : \Pi\ P\ (\Pi\ X\ \univ)) \rhd \mta{dispAlgebra}\ \emb{a}\ (\mta{El}\ M@@) \,.
@@ -197,38 +199,33 @@ algebras over internal algebras $\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T
 These come with realisation functions $\emb{\_}$ too.
 % : \Tms\ \Gamma\ (\mta{dispAlg}[\Msub{t}]) \to \mta{DispAlg}\ \emb t$ and
 % $\emb{\_} : \Tms\ \Gamma\ (\mta{dispAlgebra}\ t\ M) \to \mta{DispAlgebra}\ t\ M$.
-Finally, we construct external sections over displayed algebras
+Finally, we construct sections over displayed algebras
 \begin{align*}
-     &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f  \qquad \mta{Sec}\ M := \Tm\ (\Gamma \rhd P \rhd X)\ M \\[1em]
+     &\mta{Sec}\ M := \Tm\ (\Gamma \rhd P \rhd X)\ M \\
      &\mta{Coh}\ f := \forall a.\ f[\Msub{\mta{out}\ a; x\ a}] = \mta{apply}\ m\ f\ a \\
-     &\mta{IntCoh}\ f := \forall a.\ \Tm\ \Gamma\ (\mta{Id}\ f[\Msub{\mta{out}\ a; x\ a}]\ (\mta{apply}\ m\ f\ a))
+     &\mta{IntCoh}\ f := \forall a.\ \Tm\ \Gamma\ (\mta{Id}\ f[\Msub{\mta{out}\ a; x\ a}]\ (\mta{apply}\ m\ f\ a)) \\
+     &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f  \,.
 \end{align*}
 which have coherence rules using either the equality of the metatheory (\mta{Coh}) or
 the propositional equality of the object theory (\mta{IntCoh}).
 The $\mta{apply}$ function takes a displayed algebra, a section, and some
 arguments $\mta{In}$, and evaluates the section at those arguments.
 Sections also have internal analogues
-\begin{align*}
-    &\begin{alignedat}{2}
-    &\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \qquad&&\mta{sec} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg})  \\
-    % &\mta{section} := X\ x\ M\ m.\ \mta{sec} \rhd \mta{coh} &&\mta{sec} := X\ x\ M\ m.\ \Pi\ P\ (\Pi\ X\ M)\\
-    \end{alignedat} \\
-    &\mta{coh} : \Tel\ (\Gamma \rhd (X, x) : \mta{alg}\ T\rhd (M, m) : \mta{dispAlg} \rhd \Pi\ P\ (\Pi\ X\ M))
-\end{align*}
+\[
+    \mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg})
+\]
 which only use propositional equality.
-
-The realisation functions for sections
+As a result, the realisation functions for sections
 $\emb{\_}_0 : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}]) \to \mta{Sec}\ \emb{m}$ and
 $\emb{\_}_1 : (t : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}])) \to \mta{IntCoh}\ \emb{t}_0$
-only produce internal coherence proofs.
+produce only internal coherence proofs.
+
 Now we can define a synonym for internal inductive algebras as a telescope $\mta{indAlg}\ T := \bullet \rhd \mta{alg}\ T \rhd \Pi\ \mta{dispAlg}\ \mta{section}$
 with realisations
 \begin{align*}
-    &\emb{\_}_0\ : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X]) \to \mta{DispAlg}\ X\ \to \mta{Sec}\ X \\
-    &\emb{\_}_1\ : (i : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X])) \to \mta{DispAlg}\ \emb{X}\ \to \mta{IntCoh}\ \emb{i}_0 \,.
+    &\emb{\_}_0\ : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X]) \to \mta{DispAlg}\ X \to \mta{Sec}\ X \\
+    &\emb{\_}_1\ : (i : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X])) \to \mta{DispAlg}\ \emb{X} \to \mta{IntCoh}\ \emb{i}_0 \,.
 \end{align*}
-
-
 Next we will make use of the external versions of algebras, displayed algebras,
 and sections in order to add inductive algebras as part of the well-typed
 syntactical definition of an object theory in a strictly-positive, fully-applied
@@ -281,8 +278,7 @@ which, given a data definition $i$ in $\Sigma$, and terms for its
 indices $p$, constructs the data type $(\mta{D}\ i)[p]$. The relation $I \in
 \Sigma$ finds items in a global context, to be thought of in a similar way to how
 $\mta{Var}\ \Gamma\ A$ defines variables for type $A$ in a local context
-$\Gamma$. It is evidently a decidable relation, and is a proposition for a fixed
-$I$ and $\Sigma$.
+$\Gamma$. It is evidently a decidable relation.
 
 Additionally, we add a constructor term
 \[

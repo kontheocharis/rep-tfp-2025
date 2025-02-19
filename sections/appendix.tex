@@ -1,117 +1,72 @@
 \section{Appendix}
 
-\subsection{Utilities when working with algebras}
-
-\begin{align*}
-&\mta{realisation} : \Tms\ \Gamma\ (\mta{alg}\ T) \to \mta{Alg}\ T \\
-&\mta{realisation}\ (X, a) = (X, a)
-\end{align*}
-
-\begin{align*}
-&\mta{dispAlgebra} : (X, x : \mta{Alg}\ T) \to \Ty\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
-&\mta{dispAlgebra}\ (X, x)\ M := \bullet \rhd \mta{dispMethod}\ (X, x)\ M
-\end{align*}
-
-Where $\mta{dispMethod}$ computes a telescope of the methods of the displayed algebra:
-\begin{align*}
-&\mta{dispMethod} : (X, x : \mta{Alg}\ T) \to \Ty\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
-&\mta{dispMethod}\ (X, x)\ M\ \bullet = \bullet \\
-&\mta{dispMethod}\ (X, x)\ M\ (T \rhd O) = \mta{dispMethod}\ (X, x)\ M\ T \rhd \\
-&\qquad \Pi\ (a : \mta{in}\ O\ X) \to M\ [\Msub{\mta{out}\ O\ a; x\ a}]
-\end{align*}
-
-\begin{align*}
-&\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
-&\mta{dispAlg} := (X, x) \mapsto \bullet \rhd (M : \Pi\ P\ (\Pi\ X\ \univ)) \rhd \mta{dispAlgebra}\ (X, x)\ (\mta{El}\ M[\Msub{@}]) \\[1em]
-&\llbracket\_\rrbracket_{dispAlg} : \Tms\ \Gamma\ (\mta{dispAlg}[\Msub{t}]) \to \mta{DispAlg}\ \llbracket t \rrbracket \\
-&\llbracket (M, m) \rrbracket_{dispAlg} = (M[\Msub{@}], m)
-\end{align*}
-
-\begin{align*}
-&\mta{sec} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
-&\mta{sec} := (X, x, M, m) \mapsto \Pi (p : P) \to \Pi (v : X\ p) \to M\ p\ v \\[1em]
-&\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
-&\mta{section} := (X, x, M, m) \mapsto \mta{sec}\ (X, x, M, m) \rhd \mta{coh}\ (X, x, M, m) \\[1em]
-&\mta{coh} : \Tel\ (\Gamma \rhd (X, x) : \mta{alg}\ T \rhd (M, m) : \mta{dispAlg} \rhd f : \mta{sec}\ (X, x, M, m)) \\
-&\mta{coh}\ (X, x, M, m, f) := \Pi\ (v : \mta{Var}\ T) \to \Pi\ (a : \mta{in}\ (T\ v)\ X) \\
-&\qquad \to \Id\ (f\ (\mta{out}\ a)\ (x\ a))\ (\mta{apply}\ m\ f\ (v, a))
-\end{align*}
-
-Where $\mta{apply}$ computes the result of a displayed algebra applied to a section:
-\begin{align*}
-&\mta{apply} : (m : \mta{dispAlgebra}\ (X, x)\ M) \to (f : \Pi\ P \to \Pi\ X \to M) \to (a : \mta{In}\ T\ X) \to M[\Msub{\mta{out}\ a; x\ a}] \\
-&\mta{apply}\ m\ f\ (v, a) = \mta{applyOp}\ v\ a\ m\ f \\[1em]
-&\mta{applyOp} : (v : \mta{Var}\ T) \to (a : \mta{in}\ (T\ v)\ X) \to (m : \mta{dispAlgebra}\ (X, x)\ M) \\
-&\qquad \to (f : \Pi\ P \to \Pi\ X \to M) \to M[\Msub{\mta{out}\ a; x\ a}]
-\end{align*}
-
-Realisations for sections:
-\begin{align*}
-&\llbracket\_\rrbracket_0 : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}]) \to \mta{Sec}\ \llbracket m \rrbracket \\
-&\llbracket (f, c) \rrbracket_0 = f \\[1em]
-&\llbracket\_\rrbracket_1 : (t : \Tms\ \Gamma\ (\mta{section}[\Msub{t},\Msub{m}])) \to \mta{IntCoh}\ \llbracket t \rrbracket_0 \\
-&\llbracket (f, c) \rrbracket_1 = c
-\end{align*}
-
-\begin{align*}
-&\mta{indAlg}\ T := \bullet \rhd \mta{alg}\ T \rhd \Pi\ \mta{dispAlg}\ \mta{section} \\[1em]
-&\llbracket\_\rrbracket_{indAlg} : \Tms\ \Gamma\ (\mta{indAlg}\ T) \to \mta{IndAlg}\ T \\
-&\llbracket (X, x, i) \rrbracket_{indAlg} = (X, x, (m \mapsto \llbracket i\ m \rrbracket_0, m \mapsto \llbracket i\ m \rrbracket_1))
-\end{align*}
-
-\subsection{Utilities when working with representations}
-
-\begin{align*}
-&\_^{\mta{Repr}} : \mta{In}\ T\ X \to \mta{In}\ T\ (\mta{Repr}\ X) \\
-&(v, a)^{\mta{Repr}} = (v, a^{\mta{Repr}}_v) \\[1em]
-&\_^{\mta{Repr}}_v : (v : \mta{Var}\ T) \to \Tms\ \Gamma\ (\mta{in}\ (T\ v)\ X) \to \Tms\ \Gamma\ (\mta{in}\ (T\ v)\ (\mta{Repr}\ X))
-\end{align*}
-
-The operation $\_^{\mta{Repr}}_v$ recursively applies $\mta{repr}$ to all recursive occurrences in the arguments:
-\begin{align*}
-&\_^{\mta{Repr}}_v : (v : \mta{Var}\ T) \to \Tms\ \Gamma\ (\mta{in}\ (T\ v)\ X) \to \Tms\ \Gamma\ (\mta{in}\ (T\ v)\ (\mta{Repr}\ X)) \\
-&a^{\mta{Repr}}_v = \mta{inRepr}\ (T\ v)\ a \\[1em]
-&\mta{inRepr} : (O : \mta{Op}\ \Gamma\ P) \to \Tms\ \Gamma\ (\mta{in}\ O\ X) \to \Tms\ \Gamma\ (\mta{in}\ O\ (\mta{Repr}\ X)) \\
-&\mta{inRepr}\ (\Pi\ A\ B)\ (a, t) = (a, \mta{inRepr}\ B[\Msub{a}]\ t) \\
-&\mta{inRepr}\ (\Pi\iota\ p\ B)\ (r, t) = (\mta{repr}\ r, \mta{inRepr}\ B\ t) \\
-&\mta{inRepr}\ (\iota\ p)\ (\,) = (\,)
-\end{align*}
-
-\begin{align*}
-&\_^{\mta{Repr}} : \mta{Algebra}\ T\ X \to \mta{Algebra}\ T\ (\mta{Repr}\ X) \\
-&a^{\mta{Repr}}\ (v, args) = \mta{repr}\ (a\ (v, \mta{unreprArgs}\ args)) \\[1em]
-&\mta{unreprArgs} : (v : \mta{Var}\ T) \to \Tms\ \Gamma\ (\mta{in}\ (T\ v)\ (\mta{Repr}\ X)) \to \Tms\ \Gamma\ (\mta{in}\ (T\ v)\ X) \\
-&\mta{unreprArgs} = \mta{inverseOf}\ \_^{\mta{Repr}}_v
-\end{align*}
-
-\begin{align*}
-&\_^{\mta{Repr}} : \mta{DispAlgebra}\ a\ M \to \mta{DispAlgebra}\ a\ (\mta{Repr}\ M) \\
-&m^{\mta{Repr}}\ (v, args) = \mta{repr}\ (m\ (v, \mta{unreprArgs}\ args)) \\[1em]
-&\_^{\mta{Repr}*} : \mta{DispAlgebra}\ a\ M \to \mta{DispAlgebra}\ a^{\mta{Repr}}\ (p\ x .\ M[\Msub{p;\mta{unrepr}\ x}]) \\
-&m^{\mta{Repr}*}\ (v, args) = \mta{substUnrepr}\ (m\ (v, \mta{unreprArgs}\ args))
-\end{align*}
-
-Where $\mta{substUnrepr}$ substitutes through the isomorphism between $M$ and $M[\Msub{p;\mta{unrepr}\ x}]$ when evaluated at $\mta{repr}\ x$:
-\begin{align*}
-&\mta{substUnrepr} : M[\Msub{p; x}] \to M[\Msub{p; \mta{unrepr}\ (\mta{repr}\ x)}] \\
-&\mta{substUnrepr}\ t = \mta{subst}\ M\ (\mta{reprr})\ t
-\end{align*}
-
 \subsection{Utilities when working with algebras} \label{app:algebras}
 
-realisation for algebras
+\subsubsection{Realisation functions for algebras}
 
-$\mta{dispAlgebra}$
+\begin{align*}
+&\emb{\_}^{\mta{alg}} : \Tms\ \Gamma\ (\mta{alg}\ T) \to \mta{Alg}\ T \\
+&\emb{(X, a)}^{\mta{alg}} := (\mta{El}\ X@, \emb{a}^{\mta{algebra}}) \,. \\[1em]
+&\emb{\_}^{\mta{algebra}} : \Tms\ \Gamma\ (\mta{algebra}\ T\ X) \to \mta{Algebra}\ T\ X \\
+&\emb{\bullet}^{\mta{algebra}}\ \{T = \bullet\}\ (v, \_)\text{ impossible by $v : \mta{Var}\ \bullet$} \\
+&\emb{(a', f)}^{\mta{algebra}}\ \{T = T' \rhd O\}\ (\mta{here}, d) := (f@)[\Msub{d}] \\
+&\emb{(a', f)}^{\mta{algebra}}\ \{T = T' \rhd O\}\ (\mta{there}\ v, d) := \emb{a'}^{\mta{algebra}}\ (v, d) \,.
+\end{align*}
 
-$\mta{dispAlg}$
+\subsubsection{Displayed algebras}
 
-realisation for displayed algebras
+\begin{align*}
+&\mta{dispIn} : (O : \mta{Op}\ \Gamma\ P) \to ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
+&\mta{dispIn}\ (\Pi\ A\ B)\ (X, x)\ M := \bullet \rhd (a : A) \rhd \mta{dispIn}\ B[\Msub a]\ (X, x)\ M \\
+&\mta{dispIn}\ (\Pi\iota\ p\ B)\ (X, x)\ M := \bullet \rhd (y : X[\Msub p]) \rhd (m : M[\Msub{p, y}]) \rhd \mta{dispIn}\ B\ (X, x)\ M \\
+&\mta{dispIn}\ (\iota\ p)\ (X, x)\ M := \bullet \,. \\[1em]
+&\mta{dispInIn} : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M) \to \Tms\ \Gamma\ (\mta{in}\ O\ X) \\
+&\mta{dispInIn}\ \{\Pi\ A\ B\}\ (a, t)\ M := (a, \mta{dispInIn}\ \{B[\Msub a]\}\ t\ M) \\
+&\mta{dispInIn}\ \{\Pi\iota\ p\ B\}\ (y, m, t)\ M := (y,\mta{dispInIn}\ \{B\}\ t\ M) \\
+&\mta{dispInIn}\ \{\iota\ p\}\ (\,)\ M := (\,) \,. \\[1em]
+&\mta{dispOut} : \{O : \Op\ \Gamma\ P\} \to (i : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M)) \\
+&\quad\to \Tms\ \Gamma\ X[\Msub{\mta{out}\ (\mta{dispInIn}\ i)\ X}]) \to \Ty\ (\Gamma \rhd P \rhd X) \to \Tms\ \Gamma\ (P \rhd X) \\
+&\mta{dispOut}\ \{\Pi\ A\ B\}\ (a, t)\ u\ M := \mta{dispOut}\ \{B[\Msub a]\}\ t\ u\ M \\
+&\mta{dispOut}\ \{\Pi\iota\ p\ B\}\ (y, m, t)\ u\ M := \mta{dispOut}\ \{B\}\ t\ u\ M \\
+&\mta{dispOut}\ \{\iota\ p\}\ x\ M := (p, x) \,. \\[1em]
+&\mta{dispOp} : \mta{Var}\ T \to ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Ty\ \Gamma \\
+&\mta{dispOp}\ v\ (X, x)\ M := \Pi\ (a : \mta{dispIn}\ (T\ v)\ (X, x)\ M)\ M[\Msub{\mta{dispOut}\ a\ (x\ (i, \mta{dispInIn}\ a))\ M}]\, . \\[1em]
+&\mta{dispAlgebra} : ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
+&\mta{dispAlgebra}\ \bullet\ X\ M := \bullet \\
+&\mta{dispAlgebra}\ (T \rhd O)\ (X, x, y)\ M := \mta{dispAlgebra}\ T\ (X, x)\ M \rhd \mta{dispOp}\ (X, y)\ \mta{here}\ M \,. \\[1em]
+&\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
+&\mta{dispAlg} := X\ x.\ \bullet \rhd (M : \Pi\ P\ \Pi\ X\ \univ) \rhd \mta{dispAlgebra}\ \emb{(X, x)}^{\mta{algebra}}\ M \,.
+\end{align*}
 
-internal sections $\mta{sec}$, $\mta{section}$, $\mta{coh}$
+\subsubsection{Realisation functions for displayed algebras}
 
-realisation for sections
+\begin{align*}
+&\emb{\_}^{\mta{dispAlg}} : \Tms\ (\Gamma \ (\mta{dispAlg}\ (X, x)) \to \mta{DispAlg}\ (X, x) \\
+&\emb{(M, m)}^{\mta{dispAlg}} := (\mta{El}\ M@@, \emb{m}^{\mta{dispAlgebra}}) \,. \\[1em]
+&\emb{\_}^{\mta{dispAlgebra}} : \Tms\ \Gamma \ (\mta{dispAlgebra}\ (X, x)\ M) \to \mta{DispAlgebra}\ (X, x)\ M \\
+&\emb{\bullet}^{\mta{dispAlgebra}}\ \{T = \bullet\}\ (v, \_)\text{ impossible by $v : \mta{Var}\ \bullet$} \\
+&\emb{(m', u)}^{\mta{dispAlgebra}}\ \{T = T' \rhd O\}\ (\mta{here}, d) := (u@)[\Msub{d}] \\
+&\emb{(m', u)}^{\mta{dispAlgebra}}\ \{T = T' \rhd O\}\ (\mta{there}\ v, d) := \emb{m'}^{\mta{dispAlgebra}}\ (v, d) \,.
+\end{align*}
 
-realisation for inductive algebras
+\subsubsection{Internal sections}
+
+\begin{align*}
+&\mta{sec} : \Ty\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg})  \\
+&\mta{sec}\ \{P\} := X\ x\ M\ m.\ \Pi\ P\ \Pi\ X\ M \,. \\[1em]
+&\mta{cohOpRet} : (v : \mta{Var}\ T) \to \Tms\ \Gamma\ (\mta{dispIn}\ (T v)\ (X, x)\ M) \\ &\qquad \to \mta{DispAlgebra}\ (X, x)\ M \to \mta{Sec}\ M \to \Ty\ \Gamma \\
+&\mta{cohOpRet}\ v\ i\ m\ f := \mta{Id}\ f[\Msub{\mta{out}\ (\mta{dispInIn}\ i), \mta{dispInIn}\ i}]\ (m\ (v, i)) \\[1em]
+&\mta{cohOp} : \mta{Var}\ T \to ((X, x) : \mta{Alg}\ T) \to ((M, m) : \mta{DispAlg}\ (X, x)) \to \mta{Sec}\ M \to \Ty\ \Gamma \\
+&\mta{cohOp}\ v\ (X, x)\ (M, m)\ f := \\ & \qquad \Pi\ (a : \mta{dispIn}\ (T\ v)\ (X, x)\ M)\ (\mta{cohOpRet}\ v\ a\ \emb{(M, m)}^{\mta{dispAlg}}\ f)\, . \\[1em]
+&\mta{coh} : ((X, x) : \mta{Alg}\ T) \to ((M, m) : \mta{DispAlg}\ (X, x)) \to \Tel\ (\Gamma \rhd \Pi\ P\ \Pi\ X\ M) \\
+&\mta{coh}\ \{T = \bullet\}\ (X, x)\ (M, m) := \bullet \\
+&\mta{coh}\ \{T = T' \rhd O\}\ (X, x, y)\ (M, m, n) := \\ & \qquad f.\ (\mta{coh}\ \{T'\}\ (X, x)\ (M, m))[\Msub{f}] \rhd \mta{cohOp}\ \mta{here}\ (X, y)\ (M, n)\ f \,. \\[1em]
+&\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
+&\mta{section} := X\ x\ M\ m.\ \mta{sec}\ X\ x\ M\ m \rhd \mta{coh}\ \emb{(X, x)}^{\mta{alg}}\ \emb{(M, m)}^{\mta{dispAlg}} \,.
+\end{align*}
+
+\subsubsection{Realisation functions for sections and inductive algebras}
+
 
 \subsection{Utilities when working with representations} \label{app:reprs}
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  18 FEB 2025 23:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  19 FEB 2025 03:16
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1137,22 +1137,27 @@ Overfull \hbox (21.45534pt too wide) detected at line 152
  []
 
 [5] [6] [7]) (./sections/type-system.tex
-Overfull \hbox (17.77342pt too wide) in paragraph at lines 36--59
-\T1/cmr/m/n/10 fine [][]
+Overfull \hbox (3.5502pt too wide) detected at line 48
+[]
+ []
+
+
+Overfull \hbox (3.55019pt too wide) in paragraph at lines 38--61
+[][]
  []
 
 [8] [9] [10]
-Overfull \hbox (7.40468pt too wide) detected at line 229
+Overfull \hbox (4.07216pt too wide) detected at line 228
 []
  []
 
 [11]
 
 LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
-(Font)              using `U/stmry/m/n' instead on input line 239.
+(Font)              using `U/stmry/m/n' instead on input line 236.
 
 [12]
-Overfull \hbox (6.49869pt too wide) detected at line 321
+Overfull \hbox (6.49869pt too wide) detected at line 317
 []
  []
 
@@ -1160,14 +1165,14 @@ Overfull \hbox (6.49869pt too wide) detected at line 321
 e.1.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.406 
-      ] [15] [16]
+l.413 \end{align*}
+                  ] [15] [16]
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 534.
+(Font)              using `T1/cmr/m/sc' instead on input line 530.
 
 
-Overfull \hbox (1.04193pt too wide) in paragraph at lines 534--536
+Overfull \hbox (1.04193pt too wide) in paragraph at lines 530--532
 []$\OMS/cmsy/m/n/10 R$ \T1/cmr/m/it/10 pre-serves typ-ing and def-i-ni-tional e
 qual-ity: $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; t[] \OT1/cmr/m/n/10 : [][] ^^
 @ \OML/cmm/m/it/10 A\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 !
@@ -1175,25 +1180,25 @@ qual-ity: $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; t[] \OT1/cmr/m/n/10 : [][] ^^
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 543.
+(Font)              using `T1/cmr/m/sc' instead on input line 539.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 543.
+(Font)              using `T1/cmr/m/sc' instead on input line 539.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 545.
+(Font)              using `T1/cmr/m/sc' instead on input line 541.
+
+
+LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
+(Font)              using `T1/cmr/m/sc' instead on input line 544.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
 (Font)              using `T1/cmr/m/sc' instead on input line 548.
 
-
-LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 552.
-
-[17]) (./sections/implementation.tex) [18] (./sections/conclusion.tex
+[17]) (./sections/implementation.tex) (./sections/conclusion.tex [18]
 Overfull \hbox (2.9021pt too wide) in paragraph at lines 46--52
 \T1/cmr/m/n/10 quotient-induction, induction-induction and induction-recursion.
  Rep-re-sen-ta-tions
@@ -1271,12 +1276,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 119--122
 84BC585A2D /
  []
 
-) (./sections/appendix.tex [22]
-Overfull \hbox (67.09535pt too wide) detected at line 46
+) (./sections/appendix.tex
+Overfull \hbox (42.23468pt too wide) detected at line 39
 []
  []
 
-[23] [24]) [25] (.out/main.aux)
+[22]
+Overfull \hbox (1.15874pt too wide) detected at line 66
+[]
+ []
+
+
+Underfull \vbox (badness 4391) has occurred while \output is active []
+
+ [23])
+[24] (.out/main.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -1284,9 +1298,9 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: E8697098164B610F8033512D50A9D933;275.
  ) 
 Here is how much of TeX's memory you used:
- 27908 strings out of 478994
- 529226 string characters out of 5858183
- 865611 words of memory out of 5000000
+ 27910 strings out of 478994
+ 529237 string characters out of 5858183
+ 870610 words of memory out of 5000000
  44677 multiletter control sequences out of 15000+600000
  439924 words of font info for 112 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1294,48 +1308,46 @@ Here is how much of TeX's memory you used:
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<
 /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
-usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></us
-r/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr
-/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/
-local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/lo
-cal/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/loca
-l/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/loca
-l/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/
-texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/tex
-live/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texliv
-e/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2
-021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
-21/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2021
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2021/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2021/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021/texm
-f-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2021/
-texmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/texlive/2021/te
-xmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2021/texm
-f-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2021/texmf-
-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2021/texmf-di
-st/fonts/type1/public/cm-super/sfcc0700.pfb></usr/local/texlive/2021/texmf-dist
-/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2021/texmf-dist/f
-onts/type1/public/cm-super/sfit1000.pfb></usr/local/texlive/2021/texmf-dist/fon
-ts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2021/texmf-dist/fonts
-/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/t
-ype1/public/cm-super/sfrm0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/typ
-e1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1
-/public/cm-super/sfsi0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/p
-ublic/cm-super/sfsi1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/pub
-lic/cm-super/sfss0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/publi
-c/cm-super/sfss0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/
-cm-super/sfss1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm
--super/sfti0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-s
-uper/sfti1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-sup
-er/sftt0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super
-/sftt1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/s
-fxc0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/stmaryrd/stm
-ary10.pfb>
-Output written on .out/main.pdf (25 pages, 590748 bytes).
+usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
+sr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
+r/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
+local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/lo
+cal/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/lo
+cal/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loca
+l/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/t
+exlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texl
+ive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive
+/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/
+2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/20
+21/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2021
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2021/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021/te
+xmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/202
+1/texmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/texlive/2021/
+texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2021/te
+xmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2021/texm
+f-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2021/texmf-
+dist/fonts/type1/public/cm-super/sfcc0700.pfb></usr/local/texlive/2021/texmf-di
+st/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2021/texmf-dist
+/fonts/type1/public/cm-super/sfit1000.pfb></usr/local/texlive/2021/texmf-dist/f
+onts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2021/texmf-dist/fon
+ts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2021/texmf-dist/fonts
+/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/t
+ype1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/typ
+e1/public/cm-super/sfsi0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1
+/public/cm-super/sfsi1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/p
+ublic/cm-super/sfss0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/pub
+lic/cm-super/sfss0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/publi
+c/cm-super/sfss1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/
+cm-super/sfti0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm
+-super/sfti1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-s
+uper/sftt0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-sup
+er/sftt1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super
+/sfxc0700.pfb>
+Output written on .out/main.pdf (24 pages, 577672 bytes).
 PDF statistics:
- 538 PDF objects out of 1000 (max. 8388607)
- 417 compressed objects within 5 object streams
- 99 named destinations out of 1000 (max. 500000)
+ 526 PDF objects out of 1000 (max. 8388607)
+ 408 compressed objects within 5 object streams
+ 101 named destinations out of 1000 (max. 500000)
  117 words of extra memory for PDF output out of 10000 (max. 10000000)
 
