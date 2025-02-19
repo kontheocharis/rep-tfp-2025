@@ -64,7 +64,7 @@ There are elements of our formalisation which should be developed further. We
 did not formulate decidability of equality and normalisation for $\lambdarep$,
 which is needed for typechecking. We have developed a
 normalisation-by-evaluation \cite{Altenkirch2020-rm} algorithm used in the
-implementation of \superfluid, but have not formally shown that it has the
+implementation of \superfluid, but have only sketched that it has the
 desired properties (although we expect it to). We are also working on a
 mechanisation of the developments of this paper in Agda.
 
@@ -96,9 +96,9 @@ calculus over representations.
 This paper addresses some of the inefficiencies of inductive families in
 dependently typed languages by introducing custom runtime representations that
 preserve logical guarantees and simplicity of the surface language while
-optimising performance. These representations are formalised as inductive
+optimising performance and usability. These representations are formalised as inductive
 algebras, and come with a framework for reasoning about them: provably zero-cost
-conversions between indexed and unindexed views without runtime overhead.
+conversions between original and represented data.
 
 The compilation process guarantees erasure of abstraction layers, translating
 high-level constructs to their defined implementations. Our hope is that by

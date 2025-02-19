@@ -44,7 +44,7 @@ arity. There are many flavours of algebraic signatures with varying degrees of
 expressiveness. For this paper, we are interested in algebraic signatures which can
 be used as a syntax for defining inductive families in a object theory. Thus, we define%
 \\[0em]
-\begin{minipage}[t]{0.4\linewidth}
+\begin{minipage}[t]{0.4\textwidth}
 \begin{align*}
 &\Sig : (\Gamma : \Con) \to \mta{Tel}\ \Gamma \to \Set \\
 &\bullet : \Sig\ \Gamma\ P \\
@@ -58,11 +58,12 @@ be used as a syntax for defining inductive families in a object theory. Thus, we
 &\Pi\iota : \Tms\ \Gamma\ P \to \mta{Op}\ \Gamma\ P \to \mta{Op}\ \Gamma\ P \\
 &\iota : \Tms\ \Gamma\ P \to \mta{Op}\ \Gamma\ P
 \end{align*}
-\end{minipage}
+\end{minipage}\\
 The $\Sig$ sort represents a simple class of algebraic signatures with
 values in some object theory $(\mta{Con}, \mta{Ty}, \mta{Tm}, \ldots)$. Each
-signature is described by an associated telescope of indices $P$ as a telescope
-of indices, a \emph{finite list} of operations: \begin{itemize}
+signature is described by an associated telescope of indices $P$, and a
+\emph{finite list} of operations:
+\begin{itemize}
     \item $\Pi\ A\ B$, a (dependent) abstraction over some type $A$ from the
     object theory, of another operation $B$. \item $\Pi\iota\ p\ B$, an
     abstraction over a recursive occurence of

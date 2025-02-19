@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  19 FEB 2025 18:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  19 FEB 2025 19:09
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1145,18 +1145,13 @@ Overfull \hbox (3.5502pt too wide) detected at line 52
 []
  []
 
-
-Overfull \hbox (11.20975pt too wide) in paragraph at lines 42--65
-[][] \T1/cmr/m/n/10 The
- []
-
 [8] [9] [10] [11]
 
 LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
-(Font)              using `U/stmry/m/n' instead on input line 238.
+(Font)              using `U/stmry/m/n' instead on input line 239.
 
 [12]
-Overfull \hbox (6.49869pt too wide) detected at line 319
+Overfull \hbox (6.49869pt too wide) detected at line 320
 []
  []
 
@@ -1164,14 +1159,14 @@ Overfull \hbox (6.49869pt too wide) detected at line 319
 e.1.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.404 
+l.405 
       ] [15] [16]
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 532.
+(Font)              using `T1/cmr/m/sc' instead on input line 533.
 
 
-Overfull \hbox (1.04193pt too wide) in paragraph at lines 532--534
+Overfull \hbox (1.04193pt too wide) in paragraph at lines 533--535
 []$\OMS/cmsy/m/n/10 R$ \T1/cmr/m/it/10 pre-serves typ-ing and def-i-ni-tional e
 qual-ity: $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; t[] \OT1/cmr/m/n/10 : [][] ^^
 @ \OML/cmm/m/it/10 A\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 !
@@ -1179,23 +1174,23 @@ qual-ity: $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; t[] \OT1/cmr/m/n/10 : [][] ^^
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 541.
+(Font)              using `T1/cmr/m/sc' instead on input line 542.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 541.
+(Font)              using `T1/cmr/m/sc' instead on input line 542.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 543.
+(Font)              using `T1/cmr/m/sc' instead on input line 544.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 546.
+(Font)              using `T1/cmr/m/sc' instead on input line 547.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 550.
+(Font)              using `T1/cmr/m/sc' instead on input line 551.
 
 [17]) (./sections/implementation.tex [18]) (./sections/conclusion.tex [19]
 Overfull \hbox (2.9021pt too wide) in paragraph at lines 49--55
@@ -1339,7 +1334,7 @@ cm-super/sfti0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm
 uper/sftt0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-sup
 er/sftt1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super
 /sfxc0700.pfb>
-Output written on .out/main.pdf (26 pages, 585860 bytes).
+Output written on .out/main.pdf (26 pages, 585919 bytes).
 PDF statistics:
  565 PDF objects out of 1000 (max. 8388607)
  441 compressed objects within 5 object streams
