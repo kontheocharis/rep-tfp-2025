@@ -25,12 +25,12 @@
 &\mta{dispInIn}\ \{\Pi\iota\ p\ B\}\ (y, m, t)\ M := (y,\mta{dispInIn}\ \{B\}\ t\ M) \\
 &\mta{dispInIn}\ \{\iota\ p\}\ (\,)\ M := (\,) \,. \\[1em]
 &\mta{dispOut} : \{O : \Op\ \Gamma\ P\} \to (i : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M)) \\
-&\quad\to \Tms\ \Gamma\ X[\Msub{\mta{out}\ (\mta{dispInIn}\ i)\ X}]) \to \Ty\ (\Gamma \rhd P \rhd X) \to \Tms\ \Gamma\ (P \rhd X) \\
-&\mta{dispOut}\ \{\Pi\ A\ B\}\ (a, t)\ u\ M := \mta{dispOut}\ \{B[\Msub a]\}\ t\ u\ M \\
-&\mta{dispOut}\ \{\Pi\iota\ p\ B\}\ (y, m, t)\ u\ M := \mta{dispOut}\ \{B\}\ t\ u\ M \\
-&\mta{dispOut}\ \{\iota\ p\}\ x\ M := (p, x) \,. \\[1em]
+&\quad\to \Tms\ \Gamma\ X[\Msub{\mta{out}\ (\mta{dispInIn}\ i)\ X}]) \to \Tms\ \Gamma\ (P \rhd X) \\
+&\mta{dispOut}\ \{\Pi\ A\ B\}\ (a, t)\ u := \mta{dispOut}\ \{B[\Msub a]\}\ t\ u \\
+&\mta{dispOut}\ \{\Pi\iota\ p\ B\}\ (y, m, t)\ u := \mta{dispOut}\ \{B\}\ t\ u \\
+&\mta{dispOut}\ \{\iota\ p\}\ x := (p, x) \,. \\[1em]
 &\mta{dispOp} : \mta{Var}\ T \to ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Ty\ \Gamma \\
-&\mta{dispOp}\ v\ (X, x)\ M := \Pi\ (a : \mta{dispIn}\ (T\ v)\ (X, x)\ M)\ M[\Msub{\mta{dispOut}\ a\ (x\ (i, \mta{dispInIn}\ a))\ M}]\, . \\[1em]
+&\mta{dispOp}\ v\ (X, x)\ M := \Pi\ (a : \mta{dispIn}\ (T\ v)\ (X, x)\ M)\ M[\Msub{\mta{dispOut}\ a\ (x\ (i, \mta{dispInIn}\ a))}]\, . \\[1em]
 &\mta{dispAlgebra} : ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
 &\mta{dispAlgebra}\ \bullet\ X\ M := \bullet \\
 &\mta{dispAlgebra}\ (T \rhd O)\ (X, x, y)\ M := \mta{dispAlgebra}\ T\ (X, x)\ M \rhd \mta{dispOp}\ (X, y)\ \mta{here}\ M \,. \\[1em]
@@ -49,17 +49,17 @@
 &\emb{(m', u)}^{\mta{dispAlgebra}}\ \{T = T' \rhd O\}\ (\mta{there}\ v, d) := \emb{m'}^{\mta{dispAlgebra}}\ (v, d) \,.
 \end{align*}
 
-\subsubsection{Internal sections}
+\subsubsection{Sections}
 
 \begin{align*}
 &\mta{sec} : \Ty\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg})  \\
 &\mta{sec}\ \{P\} := X\ x\ M\ m.\ \Pi\ P\ \Pi\ X\ M \,. \\[1em]
 &\mta{cohOpRet} : (v : \mta{Var}\ T) \to \Tms\ \Gamma\ (\mta{dispIn}\ (T v)\ (X, x)\ M) \\ &\qquad \to \mta{DispAlgebra}\ (X, x)\ M \to \mta{Sec}\ M \to \Ty\ \Gamma \\
-&\mta{cohOpRet}\ v\ i\ m\ f := \mta{Id}\ f[\Msub{\mta{out}\ (\mta{dispInIn}\ i), \mta{dispInIn}\ i}]\ (m\ (v, i)) \\[1em]
+&\mta{cohOpRet}\ v\ i\ m\ f := \mta{Id}\ f[\Msub{\mta{dispOut}\ i\ (x\ (v,\mta{dispInIn}\ i))}]\ (m\ (v, i)) \\[1em]
 &\mta{cohOp} : \mta{Var}\ T \to ((X, x) : \mta{Alg}\ T) \to ((M, m) : \mta{DispAlg}\ (X, x)) \to \mta{Sec}\ M \to \Ty\ \Gamma \\
 &\mta{cohOp}\ v\ (X, x)\ (M, m)\ f := \\ & \qquad \Pi\ (a : \mta{dispIn}\ (T\ v)\ (X, x)\ M)\ (\mta{cohOpRet}\ v\ a\ \emb{(M, m)}^{\mta{dispAlg}}\ f)\, . \\[1em]
 &\mta{coh} : ((X, x) : \mta{Alg}\ T) \to ((M, m) : \mta{DispAlg}\ (X, x)) \to \Tel\ (\Gamma \rhd \Pi\ P\ \Pi\ X\ M) \\
-&\mta{coh}\ \{T = \bullet\}\ (X, x)\ (M, m) := \bullet \\
+&\mta{coh}\ \{T = \bullet\}\ X\ M := \bullet \\
 &\mta{coh}\ \{T = T' \rhd O\}\ (X, x, y)\ (M, m, n) := \\ & \qquad f.\ (\mta{coh}\ \{T'\}\ (X, x)\ (M, m))[\Msub{f}] \rhd \mta{cohOp}\ \mta{here}\ (X, y)\ (M, n)\ f \,. \\[1em]
 &\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
 &\mta{section} := X\ x\ M\ m.\ \mta{sec}\ X\ x\ M\ m \rhd \mta{coh}\ \emb{(X, x)}^{\mta{alg}}\ \emb{(M, m)}^{\mta{dispAlg}} \,.
@@ -67,6 +67,16 @@
 
 \subsubsection{Realisation functions for sections and inductive algebras}
 
+\begin{align*}
+&\emb{\_}^{\mta{coh}} : \Tms\ \Gamma \ (\mta{coh}\ (X, x)\ (M, m))[\Msub f] \to \mta{IntCoh}\ f@@ \\
+&\emb{\bullet}^{\mta{coh}}\ \{T = \bullet\}\ (v, \_)\text{ impossible by $v : \mta{Var}\ \bullet$} \\
+&\emb{(c, u)}^{\mta{coh}}\ \{T = T' \rhd O\}\ (\mta{here}, d) := (u@)[\Msub{d}] \\
+&\emb{(c, u)}^{\mta{coh}}\ \{T = T' \rhd O\}\ (\mta{there}\ v, d) := \emb{c}^{\mta{coh}}\ (v, d) \,. \\[1em]
+&\emb{\_}^{\mta{section}} : \Tms\ \Gamma \ \mta{section}[\Msub{X, x, M, m}] \to (f : \mta{Sec}\ \emb{(M, m)}^{\mta{dispAlg}}) \times \mta{IntCoh}\ f \\
+&\emb{(X, x, M, m, f, c)}^{\mta{dispAlg}} := (f@@, \emb{m}^{\mta{coh}}) \,. \\[1em]
+&\emb{\_}^\mta{indAlgebra} : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X]) \\ & \qquad \to (m : \mta{DispAlg}\ X) \to (f : \mta{Sec}\ m) \times  \mta{IntCoh}\ f \\
+&\emb{l}^\mta{indAlgebra}\ (M, m) := \emb{l@(\lambda\ \lambda\ M)@m}^\mta{section}
+\end{align*}
 
 \subsection{Utilities when working with representations} \label{app:reprs}
 

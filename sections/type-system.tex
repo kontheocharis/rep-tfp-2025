@@ -223,8 +223,8 @@ produce only internal coherence proofs.
 Now we can define a synonym for internal inductive algebras as a telescope $\mta{indAlg}\ T := \bullet \rhd \mta{alg}\ T \rhd \Pi\ \mta{dispAlg}\ \mta{section}$
 with realisations
 \begin{align*}
-    &\emb{\_}_0\ : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X]) \to \mta{DispAlg}\ X \to \mta{Sec}\ X \\
-    &\emb{\_}_1\ : (i : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X])) \to \mta{DispAlg}\ \emb{X} \to \mta{IntCoh}\ \emb{i}_0 \,.
+    &\emb{\_}_0\ : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X]) \to (m : \mta{DispAlg}\ X) \to \mta{Sec}\ m \\
+    &\emb{\_}_1\ : (i : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X])) \to (m : \mta{DispAlg}\ \emb{X}) \to \mta{IntCoh}\ \emb{i}_0\ m \,.
 \end{align*}
 Next we will make use of the external versions of algebras, displayed algebras,
 and sections in order to add inductive algebras as part of the well-typed
