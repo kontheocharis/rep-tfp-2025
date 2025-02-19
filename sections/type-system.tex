@@ -194,12 +194,12 @@ A similar construction can be performed for displayed algebras over algebras
 &\mta{dispAlgebra} : ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
 &\mta{DispAlg}\ (X, x) := (M : \mta{Ty}\ (\Gamma \rhd P \rhd X)) \times \mta{Tms}\ \Gamma\ (\mta{dispAlgebra}\ (X, x)\ M)
 \end{align*}
-as well as the telescopic internal equivalents $\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T)$. %
+as well as the telescopic internal equivalent $\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T)$. %
 % \begin{align*}
 %     &\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
 %     &\mta{dispAlg} := a.\ \bullet \rhd (M : \Pi\ P\ (\Pi\ X\ \univ)) \rhd \mta{dispAlgebra}\ \emb{a}\ (\mta{El}\ M@@) \,.
 % \end{align*}
-Internal displayed algebras come with realisation functions $\emb{\_}$ too.
+Internal displayed algebras come with a realisation function $\emb{\_}$ too.
 % : \Tms\ \Gamma\ (\mta{dispAlg}[\Msub{t}]) \to \mta{DispAlg}\ \emb t$ and
 % $\emb{\_} : \Tms\ \Gamma\ (\mta{dispAlgebra}\ t\ M) \to \mta{DispAlgebra}\ t\ M$.
 Finally, we construct sections over displayed algebras
@@ -225,12 +225,12 @@ coherence proofs.
 Now we can define a synonym for internal inductive algebras as a telescope $\mta{indAlg}\ T := \bullet \rhd \mta{alg}\ T \rhd \Pi\ \mta{dispAlg}\ \mta{section}$
 with realisations
 \begin{align*}
-    &\emb{\_}_0\ : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X]) \to (m : \mta{DispAlg}\ X) \to \mta{Sec}\ m \\
-    &\emb{\_}_1\ : (i : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X])) \to (m : \mta{DispAlg}\ X) \to \mta{IntCoh}\ \emb{i}_0\ m \,.
+    &\emb{\_}_0\ : \mta{Tms}\ \Gamma\ \mta{indAlg}[\Msub X] \to (m : \mta{DispAlg}\ X) \to \mta{Sec}\ m \\
+    &\emb{\_}_1\ : (i : \mta{Tms}\ \Gamma\ \mta{indAlg}[\Msub X] \to (m : \mta{DispAlg}\ X) \to \mta{IntCoh}\ \emb{i}_0\ m \,.
 \end{align*}
 Next we will make use of the external versions of algebras, displayed algebras,
 and sections in order to add inductive algebras as part of the well-typed
-syntactical definition of an object theory in a strictly-positive, fully-applied
+syntactical definition of a type theory in a strictly-positive, fully-applied
 manner. Later, we will make use of the internal versions in order to be able to
 package inductive algebras as a single syntactic entity that corresponds to data
 representations.

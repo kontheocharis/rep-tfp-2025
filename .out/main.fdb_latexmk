@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex .out/main"] 1739988737 ".out/main.aux" ".out/main.bbl" ".out/main" 1739988824
+["bibtex .out/main"] 1739988737 ".out/main.aux" ".out/main.bbl" ".out/main" 1739989036
   "./splncs04.bst" 1733698704 32146 aadf770ded437d161532035219ea6f45 ""
-  ".out/main.aux" 1739988824 9265 c0bdc99e79d35bcedba547a6e393f6b5 "pdflatex"
+  ".out/main.aux" 1739989036 9265 c0bdc99e79d35bcedba547a6e393f6b5 "pdflatex"
   "bib.bib" 1739899243 121661 6eef577b6ba39334dc615c48aac035a8 ""
   (generated)
-  ".out/main.blg"
   ".out/main.bbl"
-["pdflatex"] 1739988823 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739988824
-  ".out/main.aux" 1739988824 9265 c0bdc99e79d35bcedba547a6e393f6b5 "pdflatex"
+  ".out/main.blg"
+["pdflatex"] 1739989035 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1739989036
+  ".out/main.aux" 1739989036 9265 c0bdc99e79d35bcedba547a6e393f6b5 "pdflatex"
   ".out/main.bbl" 1739988738 6768 367442e4b017df7fd0f5878239671b04 "bibtex .out/main"
-  ".out/main.out" 1739988824 275 e8697098164b610f8033512d50a9d933 "pdflatex"
+  ".out/main.out" 1739989036 275 e8697098164b610f8033512d50a9d933 "pdflatex"
   "/Users/constantine/git/rep-tfp-2025/main.tex" 1739834543 455 c9536a5b6d9db7bd806fd47214fc7c07 ""
-  "/dev/null" 1739988823 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "/dev/null" 1739989035 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -317,9 +317,9 @@
   "sections/implementation.tex" 1739906569 1319 cb714b8be9e3c529a74b9d684a9c7ad5 ""
   "sections/intro.tex" 1739984469 3699 46b7c006b64dd12e0984f0fb20e438de ""
   "sections/tour.tex" 1739985474 16943 b2bf0d8f96859da9491b3e9712b3e1f3 ""
-  "sections/type-system.tex" 1739986995 34772 bbc273973f4ad41f63db484e43119b4a ""
+  "sections/type-system.tex" 1739989035 34704 1d7006f0a8049f2cf3a392fe89daa3d5 ""
   (generated)
-  ".out/main.aux"
-  ".out/main.pdf"
   ".out/main.out"
+  ".out/main.pdf"
+  ".out/main.aux"
   ".out/main.log"
