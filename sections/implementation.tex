@@ -7,15 +7,20 @@ $\R$ transformation is applied to the elaborated core program, which erases all
 inductive constructs with defined representations. Then, a JavaScript program is
 extracted, erasing all irrelevant data by usage analysis similarly to Idris 2.
 As a result, with appropriate postulates in the prelude, we are able to
-represent $\datalab{Nat}$ as JavaScript's \texttt{BigInt}, and
-$\datalab{List}\ T$/$\datalab{SnocList}\ T$/$\datalab{Vec}\ T\ n$ as
-JavaScript's arrays with the appropriate index refinement, such that we can
-convert between them without any runtime overhead. We have formulated many of
-the examples in this paper in \superfluid, which can be found in the
-\texttt{examples} directory.
+represent $\datalab{Nat}$ as JavaScript's \texttt{BigInt}, and $\datalab{List}\
+T$/$\datalab{SnocList}\ T$/$\datalab{Vec}\ T\ n$ as JavaScript's arrays with the
+appropriate index refinement, such that we can convert between them without any
+runtime overhead. The syntax of \superfluid very closely mirrors the syntax
+given in the first half of this paper. It supports global definitions, inductive
+families, as well as postulates. Users are able to define custom representations
+for data types using \texttt{repr} blocks as defined earlier.
 
-The syntax of Superfluid very closely mirrors the syntax given in the first half
-of this paper. We are working on adding dependent pattern matching to
-\superfluid that is elaborated to internal eliminators, so that we can take
-advantage of the structural unification rules for data types
-\cite{McBride2006-fp} to reduce proof overhead.
+Currently we do not require proofs of eliminator coherence, but they are
+straightforward to add. We also treat the rule $\mta{Repr-C}_i$
+(\eqref{eq:repr-ci}) rule as definitional in the implementation, at the cost of
+breaking confluence, but with the benefit of fewer manual transports. We are
+currently working on adding dependent pattern matching that is elaborated to
+internal eliminators, so that we can take advantage of the structural
+unification rules for data types \cite{McBride2006-fp}.
+We have written some of the examples in this paper in \superfluid, which can be
+found in the \texttt{examples} directory.

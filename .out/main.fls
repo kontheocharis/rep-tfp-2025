@@ -1396,6 +1396,7 @@ INPUT .out/main.bbl
 INPUT .out/main.bbl
 INPUT .out/main.bbl
 INPUT .out/main.bbl
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/tcrm0900.tfm
 INPUT ./sections/appendix.tex
 INPUT sections/appendix.tex
 INPUT ./sections/appendix.tex
@@ -1403,8 +1404,8 @@ INPUT sections/appendix.tex
 INPUT .out/main.aux
 INPUT .out/main.out
 INPUT .out/main.out
-INPUT /usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb

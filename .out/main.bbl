@@ -3,6 +3,25 @@
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
 
+\bibitem{agda-extraction}
+{agda2hs} documentation — {agda2hs} documentation.
+  \url{https://agda.github.io/agda2hs/}, accessed: 2025-2-19
+
+\bibitem{idris-pr}
+Make `cons`, `nil`, `just` and `nothing` constructors have uniform names by
+  {Z}-snails · pull request \#3486 · idris-lang/{Idris2}.
+  \url{https://github.com/idris-lang/Idris2/pull/3486}, accessed: 2025-2-19
+
+\bibitem{coq-extraction}
+Program extraction — coq 8.13.2 documentation.
+  \url{https://coq.inria.fr/doc/v8.13/refman/addendum/extraction.html},
+  accessed: 2025-2-19
+
+\bibitem{agda-issue}
+Should agda optimise away the erasure from vec to list? · issue \#7701 ·
+  agda/agda. \url{https://github.com/idris-lang/Idris2/pull/3486}, accessed:
+  2025-2-19
+
 \bibitem{Adamek2010-ls}
 Adamek, J., Rosicky, J., Vitale, E.M.: Cambridge tracts in mathematics:
   Algebraic theories: A categorical introduction to general algebra series
