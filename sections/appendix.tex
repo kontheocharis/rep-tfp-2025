@@ -80,13 +80,25 @@
 
 \subsection{Utilities when working with representations} \label{app:reprs}
 
-repr for args
-
-repr for algebras
-
-repr for displayed algebras
-
-repr star for displayed algebras
+\begin{align*}
+&\_^{\mta{Repr}} : \Tms\ \Gamma\ (\mta{in}\ O\ X) \to \Tms\ \Gamma\ (\mta{in}\ O\ (\mta{Repr}\ X)) \\
+&(a, t)^{\mta{Repr}}\ \{O = \Pi\ A\ B\} := (a, t^\mta{Repr}\ \{O = B[\Msub a]\}) \\
+&(x, t)^{\mta{Repr}}\ \{O = \Pi\iota\ p\ B\} := (\mta{repr}\ a, t^\mta{Repr}\ \{O = B\}) \\
+&(\,)^{\mta{Repr}}\ \{O = \iota\ p\} := (\,) \\[1em]
+&\_^{\mta{Repr}} : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M) \to \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ (\mta{Repr}\ M)) \\
+&(a, t)^{\mta{Repr}}\ \{O = \Pi\ A\ B\} := (a, t^\mta{Repr}\ \{O = B[\Msub a]\}) \\
+&(y, m, t)^{\mta{Repr}}\ \{O = \Pi\iota\ p\ B\} := (y, \mta{repr}\ m, t^\mta{Repr}\ \{O = B\}) \\
+&\_^{\mta{Repr}} : \mta{Algebra}\ T\ X \to \mta{Algebra}\ T\ (\mta{Repr}\ X) \\
+&f^{\mta{Repr}}\ (v, d) := \mta{repr}\ (f\ (v, d^{\mta{Unrepr}})) \\[1em]
+&\_^{\mta{Repr}*} : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M) \to \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)^{\mta{Repr}}\ (p\ x .\ M[\Msub{p;\mta{unrepr}\ x}])) \\
+&(a, t)^{\mta{Repr}*}\ \{O = \Pi\ A\ B\} := (a, t^{\mta{Repr}*}\ \{O = B[\Msub a]\}) \\
+&(y, m, t)^{\mta{Repr}*}\ \{O = \Pi\iota\ p\ B\} := (\mta{repr}\ y, m, t^{\mta{Repr}*}\ \{O = B\}) \\
+&(\,)^{\mta{Repr}*}\ \{O = \iota\ p\} := (\,) \\[1em]
+&\_^{\mta{Repr}} : \mta{DispAlgebra}\ (X, x)\ M \to \mta{DispAlgebra}\ (X, x)\ (\mta{Repr}\ M) \\
+&f^{\mta{Repr}}\ (v, d) := \mta{repr}\ (f\ (v, d^{\mta{Unrepr}})) \\[1em]
+&\_^{\mta{Repr}*} : \mta{DispAlgebra}\ (X, x)\ M \to \mta{DispAlgebra}\ (X, x)^{\mta{Repr}}\ (p\ x .\ M[\Msub{p;\mta{unrepr}\ x}]) \\
+&f^{\mta{Repr}}\ (v, d) := f\ (v, d^{\mta{Unrepr}}) \\[1em]
+\end{align*}
 
 % \begin{align*}
 % \textdollar : T^D\
