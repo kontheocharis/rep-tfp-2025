@@ -11,22 +11,44 @@ $\lambdarep$. All of the examples in the paper are written in a surface language
 that elaborates to $\lambdarep$. The dependent pattern matching can be
 elaborated to internal eliminators by standard techniques
 \cite{Goguen2006-sy,Cockx2018-fk}. The $\lambdaind/\lambdarep$ languages use eliminators instead
-of pattern matching.
+of pattern matching. \todo{This should be expanded upon and not be here. It is a pretty central part of the paper.}
 
-We work in an extensional metatheory with a small universe $\Set$, $(a : A)
-\times B$ for dependent pairs, $(a : A) \to B$ for dependent products, and $=$
-for equality, and an Agda-like syntax. The metatheory also supports
-quotient-inductive-inductive definitions, which are used to define the syntaxes
-of the languages presented in this paper in the style of Kaposi and
-Altenkirch~\cite{Altenkirch2016-zc}. Weakening of terms in defined object
-theories is generally also left implicit to reduce syntactic noise, and often
-higher-order abstract syntax notation is used when de-Brujin indices are
-implied. We use $@$ for `partial' object applications as the inverse of
-$\lambda$: applying $f$ to $x$ is $(f @)[\Msub{x}]$. We use $\Gamma : \mta{Con}$ for
-contexts, $A : \mta{Ty}\ \Gamma$ for types, $a : \mta{Tm}\ \Gamma\ A$ for terms,
-$\Delta : \mta{Tel}\ \Gamma$ for telescopes and $(a, b, \ldots) : \mta{Tms}\
-\Gamma\ \Delta$ for lists of terms. Empty contexts and telescopes are $\bullet$,
-and extension is $\rhd$.
+% We work in an extensional metatheory with a small universe $\Set$, $(a : A)
+% \times B$ for dependent pairs, $(a : A) \to B$ for dependent products, and $=$
+% for equality, and an Agda-like syntax.
+Syntaxes for languages are defined in an intrinsically well-formed manner
+quotiented by definitional equality \cite{Altenkirch2016-zc}, and with de-Bruijn
+indices for variables. Weakening of terms is generally left implicit to reduce
+syntactic noise, and often higher-order abstract syntax notation is used when
+de-Brujin indices are implied. We will make use of the standard judgement forms
+of type theory, extended to telescopes:
+
+\begin{alignat*}{2}
+&\Gamma \vdash \Delta \tel                && \qquad \text{$\Delta$ is a telescope in $\Gamma$.} \\
+&\Gamma \vdash \delta :: \Delta           && \qquad \text{$\delta$ is a spine (list of terms) matching telescope $\Delta$.} \\
+&\Gamma \vdash \Delta = \Delta'           && \qquad \text{$\Delta$ and $\Delta'$ are equal telescopes in $\Gamma$.} \\
+&\Gamma \vdash \delta = \delta' :: \Delta && \qquad \text{$\delta$ and $\delta'$ are equal spines matching telescope $\Delta$.}
+\end{alignat*}
+
+Below are the formation rules for telescopes and term lists.
+Since everything is intrinsically well-formed, all required pre-conditions are
+implied for every inference rule.
+
+\begin{figure}[H]
+  \begin{mathpar}
+  \inferrule[Tel-Empty]{ }{\Gamma \vdash \bullet \tel}
+  \and
+  \inferrule[Tel-Cons]{\Gamma \vdash \Delta \tel \\ \Gamma, \Delta \vdash A \type}{\Gamma \vdash (\Delta, A) \tel}
+  \\
+  \inferrule[Spine-Empty]{ }{\Gamma \vdash (\,) :: \bullet} \and
+  \inferrule[Spine-Cons]{\Gamma \vdash \delta :: \Delta \\ \Gamma \vdash a : A[\delta]}{\Gamma \vdash (\delta, a) :: (\Delta, A)}
+  \end{mathpar}
+  \caption{Rules for forming telescopes and spines. Extending contexts by
+  telescopes (such as $\Gamma, \Delta$) is defined mutually with these rules.}
+\end{figure}
+
+
+
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
 
@@ -42,41 +64,46 @@ algebras and displayed algebras of algebraic signatures.
 Algebraic signatures \cite{Adamek2010-ls,Kovacs2023-gq} consist of a list of operations, each with a specified
 arity. There are many flavours of algebraic signatures with varying degrees of
 expressiveness. For this paper, we are interested in algebraic signatures which can
-be used as a syntax for defining inductive families in a object theory. Thus, we define%
-\\[0em]
-\begin{minipage}[t]{0.4\textwidth}
-\begin{align*}
-&\Sig : (\Gamma : \Con) \to \mta{Tel}\ \Gamma \to \Set \\
-&\bullet : \Sig\ \Gamma\ P \\
-&\rhd : (T : \Sig\ P) \to \mta{Op}\ P \to \Sig\ P \\[1em]
-\end{align*}
-\end{minipage}%
-\begin{minipage}[t]{0.6\textwidth}
-\begin{align*}
-&\mta{Op} : (\Gamma : \Con) \to \mta{Tel}\ \Gamma \to \Set \\
-&\Pi : (A : \Ty\ \Gamma) \to \mta{Op}\ (\Gamma \rhd A)\ P \to \mta{Op}\ \Gamma\ P \\
-&\Pi\iota : \Tms\ \Gamma\ P \to \mta{Op}\ \Gamma\ P \to \mta{Op}\ \Gamma\ P \\
-&\iota : \Tms\ \Gamma\ P \to \mta{Op}\ \Gamma\ P
-\end{align*}
-\end{minipage}\\
-The $\Sig$ sort represents a simple class of algebraic signatures with
-values in some object theory $(\mta{Con}, \mta{Ty}, \mta{Tm}, \ldots)$. Each
-signature is described by an associated telescope of indices $P$, and a
+be used as a syntax for defining inductive families in a type theory. Thus, we define
+two new judgement forms:
+\begin{alignat*}{2}
+&\Gamma \vdash S \sig \Delta  && \qquad \text{$S$ is a signature with indices $\Delta$ in context $\Gamma$.} \\
+&\Gamma \vdash O \op \Delta   && \qquad \text{$O$ is an operation for a signature with indices $\Delta$ in context $\Gamma$.}
+\end{alignat*}
+Signatures are lists of operations, and operations build up constructor types.
+
+\begin{figure}[H]
+  \begin{mathpar}
+  \inferrule[Sig-Empty]{\Gamma \vdash \Delta \tel}{\Gamma \vdash \epsilon \sig \Delta}
+  \and
+  \inferrule[Sig-Cons]{\Gamma \vdash \Delta \tel \\ \Gamma \vdash O \op \Delta}{\Gamma \vdash (S \rhd O) \sig \Delta}
+  \\
+  \inferrule[Op-Ext]{\Gamma \vdash A \type \\ \Gamma, A \vdash O \op \Delta}
+  {\Gamma \vdash (A\ \to\external O) \op \Delta} \and
+  \inferrule[Op-Int]{\Gamma \vdash \delta :: \Delta \\ \Gamma \vdash O \op \Delta}
+  {\Gamma \vdash (\iota\ \delta \to\internal O) \op \Delta} \and
+  \inferrule[Op-Ret]{\Gamma \vdash \delta :: \Delta}
+  {\Gamma \vdash (\iota\ \delta) \op \Delta}
+  \end{mathpar}
+  \caption{Rules for forming signatures and operations.}
+\end{figure}
+
+Each signature is described by an associated telescope of indices $\Delta$, and a
 \emph{finite list} of operations:
 \begin{itemize}
-    \item $\Pi\ A\ B$, a (dependent) abstraction over some type $A$ from the
-    object theory, of another operation $B$. \item $\Pi\iota\ p\ B$, an
-    abstraction over a recursive occurence of
-    the object being defined, with indices $p$, of another operation
-    $B$.
-    \item $\iota\ p$, a constructor of the object being defined, with indices $p$.
+    \item $A \to\external O$, a (dependent) abstraction over some type $A$ from the
+      type theory, of another operation $O$.
+    \item $\iota\ \delta \to\internal \ O$, an
+      abstraction over a recursive occurence of
+      the object being defined, with indices $\delta$, of another operation
+      $O$.
+    \item $\iota\ \delta$, a constructor of the object being defined, with indices $\delta$.
 \end{itemize}
-For example, the signature of natural numbers lives in the empty context has an
-empty telescope of indices. It is defined by $\mta{NatTh} : \mta{Sig}\
-\bullet\ \bullet\ =\ \bullet \rhd \iota\ (\,) \rhd \Pi\iota\ (\,)\ (\iota\
-(\,))$. We can add labels to aid readability, omitting parameters if they are empty:
+For example, the signature of natural numbers has an empty telescope of indices. It is defined as
+$\Gamma \vdash (\epsilon \rhd \iota\ (\,) \rhd \iota\ (\,) \to\internal \iota\ (\,)) \sig \bullet$.
+We can add labels to aid readability, and omit index spines if they are empty:
 \[
-\mta{NatTh} := \bullet \rhd \textit{zero} : \iota \rhd \textit{succ} : \Pi\iota\ \iota \,.
+\Gamma \vdash (\epsilon \rhd \textit{zero} : \iota \rhd \textit{succ} : \iota\ \to\internal \iota) \sig \bullet
 \]
 Notice that this syntax only allows occurrences of $\iota$ in positive
 positions, which is a requirement for inductive types.
@@ -85,15 +112,18 @@ Kov\'acs \cite{Kovacs2023-gq}.
 
 \subsection{Algebras, displayed algebras and inductive algebras} \label{sub:algebras}
 
-In order to make use of our definition for theories, we would like to be able to interpret
-the structure into a semantic universe. An algebra $(X, a) : \mta{Alg}\ T$
-for a signature $T$ and carrier $X$ defines a way to interpret the structure of $T$
-in terms of an object type $X : \mta{Ty}\ \Gamma$. This produces a type which
-matches the structure of $T$ but replaces each occurrence of $\iota$ with $X$.
-The function arrows in $T$ are interpreted as function arrows in the target universe.
-Algebras for the signature of natural numbers might look like
+In order to make use of our definition for theories, we would like to be able to
+interpret the structure into a semantic universe. An algebra for a signature
+$\Gamma \vdash S \sig \Delta$ and carrier type $\Gamma, \Delta \vdash X \type$
+defines a way to interpret the structure of $S$ in terms of the type $X$. This
+produces a telescope which matches the structure of $S$ but replaces each
+occurrence of $\iota$ with $X$. The function arrows $\to\internal$ and
+$\to\external$ in $S$ are interpreted as the function arrow $\to$
+of the type theory.
+An algebra over the signature of natural numbers over $\Gamma \vdash X \type$ is a spine which
+matches the telescope
 \[
-	\mta{Alg}\ \mta{NatTh}\simeq (X : \Ty\ \Gamma) \times (\textit{zero} : \Tm\ \Gamma\ X) \times (\textit{succ} : \Tm\ \Gamma\ (\Pi\ X\ X))
+  \bullet,\ \textit{zero}: X,\ \textit{succ}: X \to X.
 \]
 We have a choice in terms of how much we want to interpret $T$ in the object theory,
 and how much we want to interpret it in the \emph{metatheory}. Here we have chosen to interpret
@@ -180,7 +210,7 @@ All internal constructions have `realisation' functions into the metatheory
 % We can similarly define internal displayed algebras over external algebras $(X,
 % x) : \mta{Alg}\ T$ as
 % \begin{align*}
-%     &\mta{dispAlgebra}\ (X, x) : \Tel\ (\Gamma \rhd M : \Ty\ (\Gamma \rhd P \rhd X)) \\
+%     &\mta{dispAlgebra}\statement that is true in a model (X, x) : \Tel\ (\Gamma \rhd M : \Ty\ (\Gamma \rhd P \rhd X)) \\
 %     &\mta{dispAlg}\ (X, x) := \bullet \rhd M : \Ty\ (\Gamma \rhd P \rhd X) \rhd \mta{dispAlgebra}\ (X, x)
 % \end{align*}
 % and finally sections as
