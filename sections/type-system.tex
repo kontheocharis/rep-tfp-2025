@@ -47,7 +47,9 @@ implied for every inference rule.
   telescopes (such as $\Gamma, \Delta$) is defined mutually with these rules.}
 \end{figure}
 
-
+We will often use the notation $\delta.y$ to extract a certain index $y$ from a spine $\delta$.
+This is used when we define telescopes using named notation. For example, if $\delta :: (\textit{X} : A \to \univ, \textit{y} : (a : A) \to X\ a)$,
+then $\delta.X : A \to \univ$ and $\delta.y : (a : A) \to \delta.X\ a$.
 
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
@@ -113,49 +115,86 @@ Kov\'acs \cite{Kovacs2023-gq}.
 \subsection{Algebras, displayed algebras and inductive algebras} \label{sub:algebras}
 
 In order to make use of our definition for theories, we would like to be able to
-interpret the structure into a semantic universe. An algebra for a signature
+interpret their structure as types in the type theory. An \emph{algebra} for a signature
 $\Gamma \vdash S \sig \Delta$ and carrier type $\Gamma, \Delta \vdash X \type$
-defines a way to interpret the structure of $S$ in terms of the type $X$. This
-produces a telescope which matches the structure of $S$ but replaces each
-occurrence of $\iota$ with $X$. The function arrows $\to\internal$ and
+interprets the structure of $S$ in terms of the type $X$. Concretely,
+this produces a telescope which matches the structure of $S$ but replaces each
+occurrence of $\iota\ \delta$ with $X[\delta]$. The function arrows $\to\internal$ and
 $\to\external$ in $S$ are interpreted as the function arrow $\to$
 of the type theory.
-An algebra over the signature of natural numbers over $\Gamma \vdash X \type$ is a spine which
-matches the telescope
-\[
-  \bullet,\ \textit{zero}: X,\ \textit{succ}: X \to X.
-\]
-We have a choice in terms of how much we want to interpret $T$ in the object theory,
-and how much we want to interpret it in the \emph{metatheory}. Here we have chosen to interpret
-a theory as a metatheoretical iterated pair type, but an operation as a term in the object theory.
+An algebra over the signature of natural numbers over $\Gamma \vdash X \type$ is a spine matching
+the telescope $(\textit{zero}: X,\ \textit{succ}: X \to X)$.
 
-Very special classes of algebras support \emph{induction}.
-To formulate induction, we first need to define displayed algebras.
-A displayed algebra $(M, m)$ over an algebra $(X, a)$ for a signature $T$ with
-carrier $M$ mirrors the shape of $T$ like an algebra does, but each recursive
-occurrence $\iota$ is now replaced by $M$ applied to the corresponding value of
-the algebra. The displayed algebras for natural numbers are
-\begin{align*}
-	\mta{DispAlg}\ (X, \textit{zero}, \textit{succ}) & \simeq (M : \Ty\ (\Gamma \rhd X))                                                      \\
-	                               & \quad \times (\textit{zero'} : \Tm\ \Gamma\ M[\Msub{\textit{zero}}])                                            \\
-	                               & \quad \times (\textit{succ'} : \Tm\ \Gamma\ (\Pi\ (x : X)\ \Pi\ M[\Msub{x}]\ M[\Msub{\textit{succ}\ x}]))
-\end{align*}
-The type $M$ is often called the \emph{motive}, and $m$ the \emph{methods}.
-A section is a dependent function from $X$ to $M$ which takes its values from
-the displayed algebra. For natural numebrs,
-\begin{align*}
-	\mta{Section}\  & \{(X, \textit{zero}, \textit{succ})\}\ (M, \textit{zero'}, \textit{succ'})                                                                                           \\
-	                & \simeq (f : \Tm\ \Gamma\ (\Pi\ (x : X)\ M[\Msub x]))                                                                                   \\
-	                & \quad \times (f\ \textit{zero} = \textit{zero'}) \times ((x : \Tm\ \Gamma\ X) \to f\ (\textit{succ}\ x) = \textit{succ'}\ x\ (f\ x))
-\end{align*}
+The \emph{actual} natural numbers $\Gamma \vdash \mathbb{N} \type$
+are just an algebra over the signature of natural numbers. In particular, they
+are the `best' such algebra; one whose operations do not forget any information.
+In the language of category theory, these are the initial algebras in the
+category of algebras over the signature of natural numbers. An equivalent
+formulation of initial algebras is algebras which support induction, which is
+more suitable for our (syntactic) purposes.
+
+Induction over an algebra $\alpha :: (\textit{zero}: X,\ \textit{succ}: X \to X)$
+means:
+\begin{quote}
+For any type family $Y : X \to \univ$,
+if we can construct a $\textit{zero}_Y : Y\ \alpha.\textit{zero}$ and a $\textit{succ}_Y : (x : X) \to Y\ x \to Y\ (\alpha.\textit{succ}\ x)$,
+then we can construct a $\sigma\ x : Y\ x$ for all $x : X$.
+\end{quote}
+The type family $Y$ is commonly called the \emph{motive}, and $(\textit{zero}_Y,
+\textit{succ}_Y)$ are the \emph{methods}.
+The produced function $\sigma : (x : X) \to Y\ x$ is a \emph{section} of the type family $Y$.
+Induction also requires that the section acquires its values from the provided methods.
+This means that $\sigma\ \alpha.\textit{zero} = \textit{zero}_Y$ and $\sigma\
+(\alpha.\textit{succ}\ x) = \textit{succ}_Y\ x\ (\sigma\ x)$. We call this the \emph{coherence condition}.
+
+Notice that the methods $(\textit{zero}_Y, \textit{succ}_Y)$ look like an
+algebra for the signature of natural numbers too, but their carrier is now a
+type family over another algebra. These are \emph{displayed algebras}. In
+general, a displayed algebra for a signature $\Gamma \vdash S \sig \Delta$,
+algebra $\alpha$ for $S$ over carrier $\Gamma, \Delta \vdash X \type$, and
+carrier family $\Gamma, \Delta, X \vdash Y \type$, interprets the structure of
+$S$ in terms of both $X$ and $Y$. This produces a telescope which matches the
+structure of $S$ but replaces each recursive occurrence $\iota\ \delta$ with an
+argument $x : X$ as well as an argument $y : Y\ x$. Again, the function arrows
+in $S$ are interpreted as function types in the type theory.
+
+Finally, we come to the central definition that classifies the algebras which
+support induction:
 
 \begin{definition}
-An algebra is \emph{inductive} if every displayed algebra over it has a section.
+An algebra is \emph{inductive} if every displayed algebra over it has a coherent section.
 \end{definition}
-A displayed algebra $(M, m)$ is the input of induction: a proof of $M$ for each structural case in $X$ by $m$.
-A section $f$ is the output: a proof of $M$ for all $X$ constructed from $m$.
 
-\subsection{Internal and external constructions}
+The elimination rule for inductive data types in programming languages is
+exactly this: given any motive and methods (a displayed algebra), we get a
+dependent function from the type of the scrutinee to the type of the motive (a
+section). Furthermore this function satisfies an appropriate computation rule
+when we plug in a constructor (the coherence condition).
+
+\subsection{Defining algebras and friends}
+
+In order to utilise these constructions for our type system, we define explicitly
+the following objects:
+
+\begin{itemize}
+\item For a signature $\Gamma \vdash S \sig \Delta$, the algebras over a carrier $\Gamma, \Delta \vdash X \type$:
+      \[
+      \Gamma \vdash S\A\ X \tel
+      \]
+\item For an algebra $\Gamma \vdash \alpha :: S\A\ X$, the displayed algebras over a carrier family $\Gamma, \Delta, X \vdash Y \type$:
+        \[
+        \Gamma \vdash \alpha\D\ Y \tel
+        \]
+\item For a displayed algebra $\Gamma \vdash \beta :: \alpha\D\ Y$, and section $\Gamma \vdash \sigma : (x : X) \to Y\ x$, the coherence conditions:
+        \[
+        \Gamma \vdash \beta\COH\ \sigma \tel
+        \]
+\end{itemize}
+
+All constructions labelled with superscripts are not part of the syntax of the
+type system, but rather functions in the metatheory which compute syntactic
+objects such as telescopes.
+
 
 For the remainder of the paper we choose a fixed representation for algebras,
 displayed algebras and sections. We will omit the full definitions here for
