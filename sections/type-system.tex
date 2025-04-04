@@ -361,7 +361,7 @@ theory indeed has W-types, then we can implement the signature using W-types.
 {\Gamma,\ \delta :: \Delta,\ \Mdata_\Delta\ S\ \gamma\ \delta \vdash M \type \\
 \Gamma \vdash \beta :: \Mctor_S\D\ M \\
 \Gamma \vdash \delta :: \Delta \\
-\Gamma \vdash x :: \Mdata_\Delta\ S\ \gamma\ \delta}
+\Gamma \vdash x : \Mdata_\Delta\ S\ \gamma\ \delta}
 {\Gamma \vdash \Melim_S\ M\ \beta\ \delta\ x : M[\delta, x]} \and
 \inferrule[Data-Comp]
 {O \in S \\ \Gamma \vdash \nu :: O\IN\ (\Mdata_\Delta\ S\ \gamma) \\
@@ -408,58 +408,69 @@ Constructors form an algebra for the signature $S$ over $\Mdata_\Delta\ S\ \gamm
 % our system is extensible to one with additional uniform parameters and we leave its
 % formulation as an implementation detail.
 
-In order to actually construct inductive types in $\lambdaind$, we need to
-extend the syntax with some term and type formers. First, we add a type former
-\[
-	\mta{D} : \mta{data}\ P\ T \in \Sigma \to \Ty\ (\Sigma, \Delta \rhd P)
-\]
-which, given a data definition $i$ in $\Sigma$, and terms for its
-indices $p$, constructs the data type $(\mta{D}\ i)[p]$. The relation $I \in
-\Sigma$ finds items in a global context, analogously to how
-$\mta{Var}\ \Gamma\ A$ defines variables for type $A$ in a local context
-$\Gamma$. It is a decidable relation and stable under substitutions and global weakening.
+% In order to actually construct inductive types in $\lambdaind$, we need to
+% extend the syntax with some term and type formers. First, we add a type former
+% \[
+% 	\mta{D} : \mta{data}\ P\ T \in \Sigma \to \Ty\ (\Sigma, \Delta \rhd P)
+% \]
+% which, given a data definition $i$ in $\Sigma$, and terms for its
+% indices $p$, constructs the data type $(\mta{D}\ i)[p]$. The relation $I \in
+% \Sigma$ finds items in a global context, analogously to how
+% $\mta{Var}\ \Gamma\ A$ defines variables for type $A$ in a local context
+% $\Gamma$. It is a decidable relation and stable under substitutions and global weakening.
 
-Additionally, we add a constructor term
-\[
-	\mta{C} :\ \forall i.\ \mta{Algebra}\ T\ (\mta{D}\ i)
-\]
-which fully applied, defines the data constructor $\mta{C}\ a$ of type
-$(\mta{D}\ i)[\Msub p]$ for arguments $a$, by `freely' extending the syntax with
-an algebra for the type family $\mta{D}\ i$. The (strictly positive) occurrences
-of $\mta{Tm}$ in $\mta{Algebra}$ are part of the inductive syntax of the type
-theory. We can now construct, for example, natural numbers as
-\[
-    \mta{C}_{\textit{Nat}}\ (\textit{succ}, (\mta{C}_{\textit{Nat}}\ (\textit{zero}, (\,))) : \mta{Tm}\ \Gamma\ (\mta{D}\ \textit{Nat}) \,.
-\]
+% Additionally, we add a constructor term
+% \[
+% 	\mta{C} :\ \forall i.\ \mta{Algebra}\ T\ (\mta{D}\ i)
+% \]
+% which fully applied, defines the data constructor $\mta{C}\ a$ of type
+% $(\mta{D}\ i)[\Msub p]$ for arguments $a$, by `freely' extending the syntax with
+% an algebra for the type family $\mta{D}\ i$. The (strictly positive) occurrences
+% of $\mta{Tm}$ in $\mta{Algebra}$ are part of the inductive syntax of the type
+% theory. We can now construct, for example, natural numbers as
+% \[
+%     \mta{C}_{\textit{Nat}}\ (\textit{succ}, (\mta{C}_{\textit{Nat}}\ (\textit{zero}, (\,))) : \mta{Tm}\ \Gamma\ (\mta{D}\ \textit{Nat}) \,.
+% \]
 
-Next, we add an eliminator term
-\[
-	\mta{E} :\ \forall i.\ (m : \mta{DispAlg}\ \mta{C}_i) \to \mta{Sec}\ m
-\]
-which given a data definition $i$ in $\Sigma$, a motive and methods for $i$,
-eliminates each $d : (\mta{D}\ i)[\Msub p]$ into $M[\Msub{p;d}]$. This captures
-the induction principle of the data type. The coherence part of the section is
-captured by an equality constructor in the syntax
-\[
-	\mta{E-id} :\ \forall i.\ (m : \mta{DispAlg}\ \mta{C}_i) \to \mta{Coh}\ (\mta{E}_i\ m) \,.
-\]
-\vspace{-2em}
-\begin{lemma}
-	The constructor algebra $\mta{C}_i$ of a data type $i$ is inductive.
-	\begin{proof}
-		For every displayed algebra $m$ over $\mta{C}$ we get a section $(\mta{E}\ m, \mta{E-id}\ m)$.
-	\end{proof}
-\end{lemma}
+% Next, we add an eliminator term
+% \[
+% 	\mta{E} :\ \forall i.\ (m : \mta{DispAlg}\ \mta{C}_i) \to \mta{Sec}\ m
+% \]
+% which given a data definition $i$ in $\Sigma$, a motive and methods for $i$,
+% eliminates each $d : (\mta{D}\ i)[\Msub p]$ into $M[\Msub{p;d}]$. This captures
+% the induction principle of the data type. The coherence part of the section is
+% captured by an equality constructor in the syntax
+% \[
+% 	\mta{E-id} :\ \forall i.\ (m : \mta{DispAlg}\ \mta{C}_i) \to \mta{Coh}\ (\mta{E}_i\ m) \,.
+% \]
+% \vspace{-2em}
+% \begin{lemma}
+% 	The constructor algebra $\mta{C}_i$ of a data type $i$ is inductive.
+% 	\begin{proof}
+% 		For every displayed algebra $m$ over $\mta{C}$ we get a section $(\mta{E}\ m, \mta{E-id}\ m)$.
+% 	\end{proof}
+% \end{lemma}
 
-Finally, we add terms to the language for function definitions and postulates
-\begin{align*}
-	\mta{F} : \mta{def}\ P\ A\ t \in \Sigma \to \Tm\ (\Sigma, \Delta \rhd P)\ A \qquad \mta{P} : \mta{post}\ P\ A \in \Sigma \to \Tm\ (\Sigma, \Delta \rhd P)\ A
-\end{align*}
-along with an equality constructor for function definitions $\mta{F-id} : \forall i.\ \mta{F}\ i = t$.
-The language we have defined thus far is comparable to the core language of a
-proof assistant.
+% Finally, we add terms to the language for function definitions and postulates
+% \begin{align*}
+% 	\mta{F} : \mta{def}\ P\ A\ t \in \Sigma \to \Tm\ (\Sigma, \Delta \rhd P)\ A \qquad \mta{P} : \mta{post}\ P\ A \in \Sigma \to \Tm\ (\Sigma, \Delta \rhd P)\ A
+% \end{align*}
+% along with an equality constructor for function definitions $\mta{F-id} : \forall i.\ \mta{F}\ i = t$.
+% The language we have defined thus far is comparable to the core language of a
+% proof assistant.
 
 \subsection{Extending $\lambdaind$ with representations} \label{sub:lambdarep}
+
+So far we are able to construct data types using the $\Mdata_\Delta\ S\ \gamma$ type
+constructor. These data types are themselves implemented in terms of inductive algebras.
+However, the rules for data types do not utilise the inductive algebras yet. To make use
+of these, we add a modality to the theory
+$$
+\MRepr : \univ \to \univ_C
+$$
+which takes types in $\univ$ to types in a subuniverse $\univ_C < \univ$. This is the
+subuniverse of "concrete" types.
+
 
 We extend the language $\lambdaind$ to form $\lambdarep$, which allows the
 definition of custom representations for data types and global functions. The
