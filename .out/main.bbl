@@ -108,12 +108,6 @@ Diehl, L., Firsov, D., Stump, A.: Generic zero-cost reuse for dependent types.
   Proc. ACM Program. Lang.  \textbf{2}(ICFP),  1--30 (30~Jul 2018),
   \url{https://doi.org/10.1145/3236799}
 
-\bibitem{Goguen2006-sy}
-Goguen, H., McBride, C., McKinna, J.: Eliminating dependent pattern matching.
-  In: Algebra, Meaning, and Computation, pp. 521--540. Lecture notes in
-  computer science, Springer Berlin Heidelberg, Berlin, Heidelberg (2006),
-  \url{https://research.google.com/pubs/archive/99.pdf}
-
 \bibitem{Kaposi2019-pj}
 Kaposi, A., Kov\'{a}cs, A., Altenkirch, T.: Constructing quotient
   inductive-inductive types. Proc. ACM Program. Lang.  \textbf{3}(POPL),  1--24

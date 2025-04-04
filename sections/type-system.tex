@@ -1,17 +1,18 @@
 \section{A type system for data representations}\label{sec:type-system}
 
-
 In this section, we will develop an extension of dependent type theory with
 inductive families and custom data representations. We start in
 \cref{sub:algebras} by exploring the semantics of data representations in terms
-of algebras for signatures. In \cref{sub:lambdaind}
-we define a core language with inductive families $\lambdaind$. In
-\cref{sub:lambdarep}, we extend this language with data representations to form
-$\lambdarep$. All of the examples in the paper are written in a surface language
-that elaborates to $\lambdarep$. The dependent pattern matching can be
-elaborated to internal eliminators by standard techniques
-\cite{Goguen2006-sy,Cockx2018-fk}. The $\lambdaind/\lambdarep$ languages use eliminators instead
-of pattern matching. \todo{This should be expanded upon and not be here. It is a pretty central part of the paper.}
+of algebras for signatures. In \cref{sub:lambdaind} we define a core language
+with inductive families $\lambdaind$ with data representations. The base type
+theory is intensional Martin-L\"of type theory (MLTT) \cite{Martin-Lof1984-pz}
+with a single universe $\univ : \univ$. We omit considerations of consistency
+and universe hierarchy, though these can be added if needed. All of the examples
+in the paper so far are written in a surface language that elaborates to
+$\lambdaind$. In \cref{sub:lambdarep}, we define a modality $\MRepr$ that allows us
+to convert between inductive types and their representations. We also define a
+translation from $\lambdaind$ to \emph{extensional} MLTT, which `elaborates
+away' all inductive families to their representations.
 
 % We work in an extensional metatheory with a small universe $\Set$, $(a : A)
 % \times B$ for dependent pairs, $(a : A) \to B$ for dependent products, and $=$
@@ -19,10 +20,12 @@ of pattern matching. \todo{This should be expanded upon and not be here. It is a
 Syntaxes for languages are defined in an intrinsically well-formed manner
 quotiented by definitional equality \cite{Altenkirch2016-zc}, and with de-Bruijn
 indices for variables. Weakening of terms is generally left implicit to reduce
-syntactic noise, and often higher-order abstract syntax notation is used when
-de-Brujin indices are implied. We will make use of the standard judgement forms
-of Martin-L\"of type theory \cite{Martin-Lof1984-pz}, extended to telescopes:
-
+syntactic noise, and often named notation is used when de-Brujin indices are
+implied. We use $(a : A) \to B$ for function types, $a \equiv_A a'$ for
+propositional equality, and $a = a' : A$ for definitional equality. Substitution
+is denoted with square brackets: if $\Gamma, A \vdash B$ and $\Gamma
+\vdash a : A$ then $\Gamma \vdash B[a]$. Besides the
+usual judgement forms of MLTT, we also have telescopic judgement forms:
 \begin{definitions}
 $\Gamma \vdash \Delta \tel$                & $\Delta$ is a telescope in $\Gamma$. \\
 $\Gamma \vdash \delta :: \Delta$           & $\delta$ is a spine (list of terms) matching telescope $\Delta$. \\
@@ -47,11 +50,12 @@ implied for every inference rule.
   telescopes (such as $\Gamma, \Delta$) is defined mutually with these rules.}
 \end{figure}
 
-We will often use the notation $\delta.y$ to extract a certain index $y$ from a spine $\delta$.
-This is used when we define telescopes using named notation. For example, if $\delta :: (\textit{X} : A \to \univ, \textit{y} : (a : A) \to X\ a)$,
-then $\delta.X : A \to \univ$ and $\delta.y : (a : A) \to \delta.X\ a$.
-We will use square brackets for substitution: if $\Gamma, A \vdash B$
-and $\Gamma \vdash a : A$ then $\Gamma \vdash B[a]$.
+We write $\Delta \to X$ for an iterated function type with codomain $\Gamma, \Delta \vdash X$,
+and $(\delta :: \Delta) \to X[\delta]$ when names are highlighted.
+We will often use the notation $\delta.y$ to extract a certain index $y$ from a
+spine $\delta$. This is used when we define telescopes using named notation. For
+example, if $\delta :: (\textit{X} : A \to \univ, \textit{y} : (a : A) \to X\
+a)$, then $\delta.X : A \to \univ$ and $\delta.y : (a : A) \to \delta.X\ a$.
 
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
@@ -185,10 +189,14 @@ We call these \emph{coherence conditions}.
 A section that satisfies these conditions is called a \emph{coherent section}.
 These equations might or might not hold definitionally. In the former case, we have the
 definitional equalities
-\[\Gamma \vdash \sigma[\alpha.\textit{zero}] = \textit{zero}_Y : Y[\alpha.\textit{zero}] \qquad \Gamma \vdash \sigma[\alpha.\textit{succ}\ x] = \textit{succ}_Y\ x\ \sigma[x] : Y[\alpha.\textit{succ}\ x].\]
-In the latter case, we have a telescope of propositional equality witnesses
 \begin{align*}
-\Gamma \vdash (&\n{zero}_{\text{coh}} :  \sigma[\alpha.\textit{zero}] \equiv \textit{zero}_Y,\ \n{succ}_{\text{coh}} : \sigma[\alpha.\textit{succ}\ x] \equiv \textit{succ}_Y\ x\ \sigma[x]) \tel.
+\Gamma &\vdash \sigma[\alpha.\textit{zero}] = \textit{zero}_Y : Y[\alpha.\textit{zero}] \\
+\Gamma, x : X &\vdash \sigma[\alpha.\textit{succ}\ x] = \textit{succ}_Y\ x\ \sigma[x] : Y[\alpha.\textit{succ}\ x].
+\end{align*}
+In the latter case, we have a spine of propositional equality witnesses
+\begin{align*}
+\Gamma \vdash \sigma_{\text{coh}} :: (&\n{zero}_{\text{coh}} :  \sigma[\alpha.\textit{zero}] \equiv \textit{zero}_Y, \\
+&\n{succ}_{\text{coh}} : (x : X) \to \sigma[\alpha.\textit{succ}\ x] \equiv \textit{succ}_Y\ x\ \sigma[x]).
 \end{align*}
 
 \subsubsection{Displayed algebras}
@@ -201,10 +209,10 @@ algebra $\alpha$ for $S$ over carrier $\Gamma, \Delta \vdash X \type$, and
 carrier family $\Gamma, \Delta, X \vdash Y \type$, interprets the structure of
 $S$ in terms of both $X$ and $Y$. This produces a telescope which matches the
 structure of $S$ but replaces each recursive occurrence $\iota\ \delta$ with an
-argument $x : X$ as well as an argument $y : Y[x]$. Again, the function arrows
-in $S$ are interpreted as function types in the type theory.
-
-Finally, we come to the central definition that classifies the algebras which
+argument $x : X$ as well as an argument $y : Y[x]$. Each operation returns a $Y[r]$ with $r$
+computed from $\alpha$. Again, the function arrows in $S$ are interpreted as
+function types in the type theory. Finally, we come to the central definition
+that classifies the algebras which
 support induction:
 
 \begin{definition}
@@ -214,8 +222,10 @@ An algebra is \emph{inductive} if every displayed algebra over it has a coherent
 The elimination rule for inductive data types in programming languages is
 exactly this: given any motive and methods (a displayed algebra), we get a
 dependent function from the type of the scrutinee to the type of the motive (a
-section). Furthermore this function satisfies an appropriate computation rule:
+section). Furthermore this function satisfies some appropriate computation rules:
 when we plug in a constructor, we get the result of the method corresponding to it (the coherence conditions).
+Usually in programming languages, these conditions hold definitionally, as they are the primary means
+of computation with data.
 
 \subsection{Defining algebras and friends}
 
@@ -224,7 +234,7 @@ the objects:
 \begin{definitions}
 $\Gamma \vdash S\A\ X \tel$ & Algebras for a signature $\Gamma \vdash S \sig \Delta$ over a carrier $\Gamma, \Delta \vdash X \type$. \\
 $\Gamma \vdash \alpha\D\ Y \tel$ & Displayed algebras for an algebra $\Gamma \vdash \alpha :: S\A\ X$ over a motive $\Gamma, \Delta, X \vdash Y \type$. \\
-$\Gamma \vdash \beta\COH\ \sigma \tel$ & Coherence conditions for a section $\Gamma, \Delta, X \vdash \sigma : Y$ of a displayed algebra $\Gamma \vdash \beta :: \alpha\D\ Y$.
+$\Gamma \vdash \beta\COH\ \sigma \tel$ & Propositional coherences for a section $\Gamma, \Delta, X \vdash \sigma : Y$ of a displayed algebra $\Gamma \vdash \beta :: \alpha\D\ Y$.
 \end{definitions}
 
 All constructions labelled with superscripts are not part of the syntax of the
