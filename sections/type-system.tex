@@ -21,14 +21,14 @@ quotiented by definitional equality \cite{Altenkirch2016-zc}, and with de-Bruijn
 indices for variables. Weakening of terms is generally left implicit to reduce
 syntactic noise, and often higher-order abstract syntax notation is used when
 de-Brujin indices are implied. We will make use of the standard judgement forms
-of type theory, extended to telescopes:
+of Martin-L\"of type theory \cite{Martin-Lof1984-pz}, extended to telescopes:
 
-\begin{alignat*}{2}
-&\Gamma \vdash \Delta \tel                && \qquad \text{$\Delta$ is a telescope in $\Gamma$.} \\
-&\Gamma \vdash \delta :: \Delta           && \qquad \text{$\delta$ is a spine (list of terms) matching telescope $\Delta$.} \\
-&\Gamma \vdash \Delta = \Delta'           && \qquad \text{$\Delta$ and $\Delta'$ are equal telescopes in $\Gamma$.} \\
-&\Gamma \vdash \delta = \delta' :: \Delta && \qquad \text{$\delta$ and $\delta'$ are equal spines matching telescope $\Delta$.}
-\end{alignat*}
+\begin{definitions}
+$\Gamma \vdash \Delta \tel$                & $\Delta$ is a telescope in $\Gamma$. \\
+$\Gamma \vdash \delta :: \Delta$           & $\delta$ is a spine (list of terms) matching telescope $\Delta$. \\
+$\Gamma \vdash \Delta = \Delta'$           & $\Delta$ and $\Delta'$ are equal telescopes in $\Gamma$. \\
+$\Gamma \vdash \delta = \delta' :: \Delta$ & $\delta$ and $\delta'$ are equal spines matching telescope $\Delta$.
+\end{definitions}
 
 Below are the formation rules for telescopes and term lists.
 Since everything is intrinsically well-formed, all required pre-conditions are
@@ -38,10 +38,10 @@ implied for every inference rule.
   \begin{mathpar}
   \inferrule[Tel-Empty]{ }{\Gamma \vdash \bullet \tel}
   \and
-  \inferrule[Tel-Cons]{\Gamma \vdash \Delta \tel \\ \Gamma, \Delta \vdash A \type}{\Gamma \vdash (\Delta, A) \tel}
+  \inferrule[Tel-Extend]{\Gamma \vdash \Delta \tel \\ \Gamma, \Delta \vdash A \type}{\Gamma \vdash (\Delta, A) \tel}
   \\
   \inferrule[Spine-Empty]{ }{\Gamma \vdash (\,) :: \bullet} \and
-  \inferrule[Spine-Cons]{\Gamma \vdash \delta :: \Delta \\ \Gamma \vdash a : A[\delta]}{\Gamma \vdash (\delta, a) :: (\Delta, A)}
+  \inferrule[Spine-Extend]{\Gamma \vdash \delta :: \Delta \\ \Gamma \vdash a : A[\delta]}{\Gamma \vdash (\delta, a) :: (\Delta, A)}
   \end{mathpar}
   \caption{Rules for forming telescopes and spines. Extending contexts by
   telescopes (such as $\Gamma, \Delta$) is defined mutually with these rules.}
@@ -50,6 +50,8 @@ implied for every inference rule.
 We will often use the notation $\delta.y$ to extract a certain index $y$ from a spine $\delta$.
 This is used when we define telescopes using named notation. For example, if $\delta :: (\textit{X} : A \to \univ, \textit{y} : (a : A) \to X\ a)$,
 then $\delta.X : A \to \univ$ and $\delta.y : (a : A) \to \delta.X\ a$.
+We will use square brackets for substitution: if $\Gamma, A \vdash B$
+and $\Gamma \vdash a : A$ then $\Gamma \vdash B[a]$.
 
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
@@ -68,17 +70,18 @@ arity. There are many flavours of algebraic signatures with varying degrees of
 expressiveness. For this paper, we are interested in algebraic signatures which can
 be used as a syntax for defining inductive families in a type theory. Thus, we define
 two new judgement forms:
-\begin{alignat*}{2}
-&\Gamma \vdash S \sig \Delta  && \qquad \text{$S$ is a signature with indices $\Delta$ in context $\Gamma$.} \\
-&\Gamma \vdash O \op \Delta   && \qquad \text{$O$ is an operation for a signature with indices $\Delta$ in context $\Gamma$.}
-\end{alignat*}
+\begin{definitions}
+$\Gamma \vdash S \sig \Delta$    & $S$ is a signature with indices $\Delta$ in context $\Gamma$ \\
+$\Gamma \vdash O \op \Delta$     & $O$ is an operation with indices $\Delta$ in context $\Gamma$
+\end{definitions}
+
 Signatures are lists of operations, and operations build up constructor types.
 
 \begin{figure}[H]
   \begin{mathpar}
   \inferrule[Sig-Empty]{\Gamma \vdash \Delta \tel}{\Gamma \vdash \epsilon \sig \Delta}
   \and
-  \inferrule[Sig-Cons]{\Gamma \vdash \Delta \tel \\ \Gamma \vdash O \op \Delta}{\Gamma \vdash (S \rhd O) \sig \Delta}
+  \inferrule[Sig-Extend]{\Gamma \vdash \Delta \tel \\ \Gamma \vdash O \op \Delta}{\Gamma \vdash (S \rhd O) \sig \Delta}
   \\
   \inferrule[Op-Ext]{\Gamma \vdash A \type \\ \Gamma, A \vdash O \op \Delta}
   {\Gamma \vdash (A\ \to\external O) \op \Delta} \and
@@ -101,61 +104,104 @@ Each signature is described by an associated telescope of indices $\Delta$, and 
       $O$.
     \item $\iota\ \delta$, a constructor of the object being defined, with indices $\delta$.
 \end{itemize}
-For example, the signature of natural numbers has an empty telescope of indices. It is defined as
+
+\begin{example}[Natural numbers]\label{ex:nat-sig}
+The signature for natural numbers is indexed by the empty telescope $\bullet$. It is defined as
 $\Gamma \vdash (\epsilon \rhd \iota\ (\,) \rhd \iota\ (\,) \to\internal \iota\ (\,)) \sig \bullet$.
 We can add labels to aid readability, and omit index spines if they are empty:
 \[
-\Gamma \vdash (\epsilon \rhd \textit{zero} : \iota \rhd \textit{succ} : \iota\ \to\internal \iota) \sig \bullet
+\Gamma \vdash (\epsilon \rhd \textit{zero} : \iota \rhd \textit{succ} : \iota\ \to\internal \iota) \sig \bullet \,.
 \]
+\end{example}
+
+\begin{example}[Vectors]\label{ex:vec-sig}
+The signature for vectors of elements of type $T$ and length $n$ is indexed by the telescope $(T : \univ, n : \mathbb{N})$,
+defined as
+\begin{align*}
+\Gamma \vdash (\epsilon &\rhd \n{nil} : (T : \univ) \to\external \iota\ T\ \n{zero} \\
+&\rhd \n{cons} : (T : \univ) \to\external (n' : \mathbb{N}) \to\external (t : T) \to\external \iota\ T\ n' \to\internal \iota\ T\ (\n{succ}\ n')) \\
+&\sig (T : \univ, n : \mathbb{N}) \,.
+\end{align*}
+Later we will see how we can use the signature in \cref{ex:nat-sig} to define the type of natural numbers $\Gamma \vdash \mathbb{N} \type$.
+\end{example}
+
 Notice that this syntax only allows occurrences of $\iota$ in positive
 positions, which is a requirement for inductive types.
-Different classes of theories and quantification are explored in detail by
+Different classes of algebraic signatures, theories and quantification are explored in detail by
 Kov\'acs \cite{Kovacs2023-gq}.
+We make no distinction between parameters and indices, though it is possible to add parameters by
+augmenting the syntax for signatures with an extra telescope that must be uniform across operations.
 
-\subsection{Algebras, displayed algebras and inductive algebras} \label{sub:algebras}
+\subsection{Interpreting signatures in the type theory} \label{sub:algebras}
 
-In order to make use of our definition for theories, we would like to be able to
-interpret their structure as types in the type theory. An \emph{algebra} for a signature
+In order to make use of our definition for algebraic signatures, we would like to be able to
+interpret their structure as types in the type theory.
+
+\subsubsection{Algebras}
+An \emph{algebra} for a signature
 $\Gamma \vdash S \sig \Delta$ and carrier type $\Gamma, \Delta \vdash X \type$
 interprets the structure of $S$ in terms of the type $X$. Concretely,
 this produces a telescope which matches the structure of $S$ but replaces each
 occurrence of $\iota\ \delta$ with $X[\delta]$. The function arrows $\to\internal$ and
 $\to\external$ in $S$ are interpreted as the function arrow $\to$
 of the type theory.
-An algebra over the signature of natural numbers over $\Gamma \vdash X \type$ is a spine matching
-the telescope $(\textit{zero}: X,\ \textit{succ}: X \to X)$.
 
-The \emph{actual} natural numbers $\Gamma \vdash \mathbb{N} \type$
-are just an algebra over the signature of natural numbers. In particular, they
-are the `best' such algebra; one whose operations do not forget any information.
-In the language of category theory, these are the initial algebras in the
+\begin{example}[Natural numbers]\label{ex:nat-alg}
+An algebra for the signature of natural numbers (\cref{ex:nat-sig}) over a carrier $\Gamma \vdash N \type$ is a spine matching
+the telescope \[\Gamma \vdash (\n{zero}: N,\ \n{succ}: N \to N) \tel.\]
+\end{example}
+
+\begin{example}[Vectors]\label{ex:vec-alg}
+An algebra for the signature of vectors (\cref{ex:vec-alg}) over a carrier $\Gamma, T : \univ, n : \mathbb{N} \vdash V \type$ is a spine matching
+the telescope
+\begin{align*}
+ \Gamma \vdash (&\n{nil} : (T : \univ) \to V[T, \n{zero}], \\
+&\n{cons} : (T : \univ) \to (n' : \mathbb{N}) \to (t : T) \to (ts : V[T,n']) \to V[T, \n{succ}\ n']) \tel.
+\end{align*}
+\end{example}
+
+\subsubsection{Induction} The actual natural number type $\Gamma \vdash \mathbb{N} \type$
+is just the carrier of an algebra over the signature of natural numbers. In particular,
+the `best' such algebra: one whose operations do not forget any information.
+In the language of category theory, this is the initial algebra in the
 category of algebras over the signature of natural numbers. An equivalent
-formulation of initial algebras is algebras which support induction, which is
+formulation of initial algebras is algebras which support \emph{induction}, which is
 more suitable for our (syntactic) purposes.
+An algebra $\alpha :: (\textit{zero}: X,\ \textit{succ}: X \to X)$ for natural numbers supports induction if:
 
-Induction over an algebra $\alpha :: (\textit{zero}: X,\ \textit{succ}: X \to X)$
-means:
 \begin{quote}
-For any type family $Y : X \to \univ$,
-if we can construct a $\textit{zero}_Y : Y\ \alpha.\textit{zero}$ and a $\textit{succ}_Y : (x : X) \to Y\ x \to Y\ (\alpha.\textit{succ}\ x)$,
-then we can construct a $\sigma\ x : Y\ x$ for all $x : X$.
+For any type family $X \vdash Y \type$,
+if we can construct a $\textit{zero}_Y : Y[\alpha.\textit{zero}]$ and a $\textit{succ}_Y : (x : X) \to Y[x] \to Y[\alpha.\textit{succ}\ x]$,
+then we can construct a $\sigma[x] : Y[x]$ for all $x : X$.
 \end{quote}
+
 The type family $Y$ is commonly called the \emph{motive}, and $(\textit{zero}_Y,
 \textit{succ}_Y)$ are the \emph{methods}.
-The produced function $\sigma : (x : X) \to Y\ x$ is a \emph{section} of the type family $Y$.
+The produced term family $x : X \vdash \sigma : Y[x]$ is a \emph{section} of the type family $Y$.
 Induction also requires that the section acquires its values from the provided methods.
-This means that $\sigma\ \alpha.\textit{zero} = \textit{zero}_Y$ and $\sigma\
-(\alpha.\textit{succ}\ x) = \textit{succ}_Y\ x\ (\sigma\ x)$. We call this the \emph{coherence condition}.
+This means that
+\[\sigma[\alpha.\textit{zero}] = \textit{zero}_Y \qquad \sigma [\alpha.\textit{succ}\ x] = \textit{succ}_Y\ x\ \sigma[x].\]
+We call these \emph{coherence conditions}.
+A section that satisfies these conditions is called a \emph{coherent section}.
+These equations might or might not hold definitionally. In the former case, we have the
+definitional equalities
+\[\Gamma \vdash \sigma[\alpha.\textit{zero}] = \textit{zero}_Y : Y[\alpha.\textit{zero}] \qquad \Gamma \vdash \sigma[\alpha.\textit{succ}\ x] = \textit{succ}_Y\ x\ \sigma[x] : Y[\alpha.\textit{succ}\ x].\]
+In the latter case, we have a telescope of propositional equality witnesses
+\begin{align*}
+\Gamma \vdash (&\n{zero}_{\text{coh}} :  \sigma[\alpha.\textit{zero}] \equiv \textit{zero}_Y,\ \n{succ}_{\text{coh}} : \sigma[\alpha.\textit{succ}\ x] \equiv \textit{succ}_Y\ x\ \sigma[x]) \tel.
+\end{align*}
 
+\subsubsection{Displayed algebras}
 Notice that the methods $(\textit{zero}_Y, \textit{succ}_Y)$ look like an
 algebra for the signature of natural numbers too, but their carrier is now a
-type family over another algebra. These are \emph{displayed algebras}. In
+type family over another algebra carrier $X$, and the types of the operations mention both
+$X$ and $Y$, using $\alpha$ to go from $\Delta$ to $X$. These are \emph{displayed algebras}. In
 general, a displayed algebra for a signature $\Gamma \vdash S \sig \Delta$,
 algebra $\alpha$ for $S$ over carrier $\Gamma, \Delta \vdash X \type$, and
 carrier family $\Gamma, \Delta, X \vdash Y \type$, interprets the structure of
 $S$ in terms of both $X$ and $Y$. This produces a telescope which matches the
 structure of $S$ but replaces each recursive occurrence $\iota\ \delta$ with an
-argument $x : X$ as well as an argument $y : Y\ x$. Again, the function arrows
+argument $x : X$ as well as an argument $y : Y[x]$. Again, the function arrows
 in $S$ are interpreted as function types in the type theory.
 
 Finally, we come to the central definition that classifies the algebras which
@@ -168,28 +214,18 @@ An algebra is \emph{inductive} if every displayed algebra over it has a coherent
 The elimination rule for inductive data types in programming languages is
 exactly this: given any motive and methods (a displayed algebra), we get a
 dependent function from the type of the scrutinee to the type of the motive (a
-section). Furthermore this function satisfies an appropriate computation rule
-when we plug in a constructor (the coherence condition).
+section). Furthermore this function satisfies an appropriate computation rule:
+when we plug in a constructor, we get the result of the method corresponding to it (the coherence conditions).
 
 \subsection{Defining algebras and friends}
 
-In order to utilise these constructions for our type system, we define explicitly
-the following objects:
-
-\begin{itemize}
-\item For a signature $\Gamma \vdash S \sig \Delta$, the algebras over a carrier $\Gamma, \Delta \vdash X \type$:
-      \[
-      \Gamma \vdash S\A\ X \tel
-      \]
-\item For an algebra $\Gamma \vdash \alpha :: S\A\ X$, the displayed algebras over a carrier family $\Gamma, \Delta, X \vdash Y \type$:
-        \[
-        \Gamma \vdash \alpha\D\ Y \tel
-        \]
-\item For a displayed algebra $\Gamma \vdash \beta :: \alpha\D\ Y$, and section $\Gamma \vdash \sigma : (x : X) \to Y\ x$, the coherence conditions:
-        \[
-        \Gamma \vdash \beta\COH\ \sigma \tel
-        \]
-\end{itemize}
+In order to utilise these constructions for our type system, we can explicitly define
+the objects:
+\begin{definitions}
+$\Gamma \vdash S\A\ X \tel$ & Algebras for a signature $\Gamma \vdash S \sig \Delta$ over a carrier $\Gamma, \Delta \vdash X \type$. \\
+$\Gamma \vdash \alpha\D\ Y \tel$ & Displayed algebras for an algebra $\Gamma \vdash \alpha :: S\A\ X$ over a motive $\Gamma, \Delta, X \vdash Y \type$. \\
+$\Gamma \vdash \beta\COH\ \sigma \tel$ & Coherence conditions for a section $\Gamma, \Delta, X \vdash \sigma : Y$ of a displayed algebra $\Gamma \vdash \beta :: \alpha\D\ Y$.
+\end{definitions}
 
 All constructions labelled with superscripts are not part of the syntax of the
 type system, but rather functions in the metatheory which compute syntactic

@@ -127,103 +127,18 @@
 \newcommand{\fmap}{\;\langle\$\rangle\;}
 \newcommand{\Msub}[1]{\langle#1\rangle}
 
-%%%%%%%% OLD
-
-% \newcommand{\Trepr}[1]{\mta{repr}\, {#1}}
-% \newcommand{\TRepr}[1]{\mta{Repr}\, {#1}}
-
-% \newcommand{\infname}[1]{\textsc{#1}}
-% \newcommand{\infrule}[3][]{{\infname{#1}}\,\frac{#2}{#3}}
-
-% \newcommand{\datawhere}[2][]{\inte{data}\ \defin{#2}{#1}\ \inte{where}}
-% \newcommand{\recordwhere}[2][]{\inte{record}\ \defin{#2}{#1}\ \inte{where}}
-
-% \newcommand{\data}{\inte{data}}
-% \newcommand{\ctor}{\inte{record}}
-
-% \newcommand{\caseof}[1]{\inte{case}\; {#1}\; \inte{of}}
-% \newcommand{\branch}[2]{{#1} \mapsto {#2}}
-% \newcommand{\isrepr}[2]{{#1} \ \mta{repr}\;{#2}}
-% \newcommand{\isind}[1]{{#1} \ \mta{ind}}
-% \newcommand{\lbl}{\textsf}
-
-% \newcommand{\mM}{\mta{Meta}}
-% \newcommand{\mR}{\mta{Repr}}
-% \newcommand{\mV}{\mta{Val}}
-% \newcommand{\mO}{\mta{Obj}}
-% \newcommand{\mI}{\mta{Ind}}
-% \newcommand{\mS}{\mta{Syn}}
-
-% \newcommand{\Um}{{\univ{\mM}}}
-% \newcommand{\Ur}{{\univ{\mR}}}
-% \newcommand{\Uo}{{\univ{\mO}}}
-% \newcommand{\Ui}{{\univ{\mI}}}
-
-% \newcommand{\catG}{{\cat{G}}}
-% \newcommand{\catL}{{\cat{L}}}
-% \newcommand{\Gm}{{\G_{\mM}}}
-% \newcommand{\Gr}{{\G_{\mR}}}
-% \newcommand{\Gv}{{\G_{\mV}}}
-% \newcommand{\Gi}{{\G_{\mI}}}
-
-% \def\fun{\mathrm}
-% \def\funArrow{\longrightarrow}
-% \def\Ob{\mathrm{Ob}}
-% \def\Hom{\mathrm{Hom}}
-% \def\Cat{\mathbf{Cat}}
-% \def\usr{\mathrm}
-% \def\implies{\Longrightarrow}
-% \def\Repr{\mathrm{Repr}}
-
-% Theorems
-% \newtheorem{theorem}{Theorem}[section]
-% \newtheorem{corollary}{Corollary}[theorem]
-% \newtheorem{lemma}[theorem]{Lemma}
-% \theoremstyle{definition}
-% \newtheorem{definition}{Definition}[section]
-
-% \AtBeginDocument{\colorlet{defaultcolor}{.}}
-
-% \newcommand\val[1]{\text{#1}}
-% \newcommand\funct[1]{\rv{\text{#1}}}
-% \newcommand\catt[1]{\mathbb{#1}}
-% \newcommand\repr[2]{\cat{Repr}_{\catt{#2}}^{\catt{#1}}}
-
-% \newcommand{\hv}{\textcolor{Violet}}
-% \newcommand{\lv}{\textcolor{RedViolet}}
-% \newcommand{\iv}{\textcolor{PineGreen}}
-% \newcommand{\rv}{\textcolor{defaultcolor}}
-
-% \newcommand{\cattH}{{\hv{\catt{H}}}}
-% \newcommand{\cattL}{{\lv{\catt{L}}}}
-% \newcommand{\cattI}{{\iv{\catt{I}}}}
-% \newcommand{\repalg}{{\hv{\textbf{rep-alg}}}}
-% \newcommand{\repcoalg}{{\hv{\textbf{rep-coalg}}}}
-% \newcommand{\spec}[1]{{\lv{\textbf{spec}_{\hv{#1}}}}}
-% \newcommand{\isspec}{{{\textbf{is-\lv{spec}}}}}
-% \newcommand{\Rep}[1]{{\lv{\textbf{Rep}_{\hv{#1}}}}}
-% \newcommand{\Int}[1]{{\hv{\textbf{Int}_{\hv{#1}}}}}
-% \newcommand{\native}[1]{{{\textsf{\textbf{#1}}}}}
-
-% \newcommand{\lam}{\lambda}
-% \newcommand{\ap}{{\textbf{\textsf{ap}}}}
-% % \newcommand{\case}{{\textbf{\textsf{case}}}}
-% \newcommand{\inl}{{\textsf{inl}}}
-% \newcommand{\inr}{{\textsf{inr}}}
-% \newcommand{\inn}{{\textbf{\textsf{in}}}}
-% \newcommand{\Q}{{\hv{\textbf{\textsf{Q}}}}}
-% \newcommand{\C}{\lv{\textbf{\textsf{C}}}}
-
-% \newcommand{\Nat}{\hv{\mathbb{N}}}
-% \newcommand{\z}{{\hv{\textsf{z}}}}
-% \newcommand{\s}{{\hv{\textsf{s}}}}
-% \newcommand{\NatF}{{\hv{\mathbb{N}\text{F}}}}
-% \newcommand{\Word}{\lv{\mathcal{W}}}
-% \newcommand{\ifthen}[3]{\textbf{\lv{\textsf{if}}} \; #1 \; \lv{\textbf{\textsf{then}}} \; #2 \; \lv{\textbf{\textsf{else}}} \; #3}
-% \newcommand{\sif}{\textbf{\lv{\textsf{if}}}}
-% \newcommand{\sthen}{\textbf{\lv{\textsf{then}}}}
-% \newcommand{\selse}{\textbf{\lv{\textsf{else}}}}
-
-% \newcommand{\Srepr}[4]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ \lab{#2}\, {#3}\ \kwd{as}\ {#4}}
-% \newcommand{\Sreprconst}[3]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ \lab{#2}\ \kwd{as}\ {#3}}
-% \newcommand{\Sreprvar}[4]{\kwd{repr} \ \lab{#1} \ \kwd{for}\ {#2}\, {#3}\ \kwd{as}\ {#4}}
+% Definitions
+\newenvironment{definitions}{%
+  \par
+  \vspace{\abovedisplayskip}
+  \centering
+  \begingroup
+  \setlength{\tabcolsep}{10pt}% Default value: 6pt
+  \renewcommand{\arraystretch}{1.5}% Default value: 1
+  \tabulary{\textwidth}{lL}
+}{%
+  \endtabulary
+  \endgroup
+  \vspace{\belowdisplayskip}
+  \par
+}
