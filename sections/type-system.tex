@@ -164,7 +164,7 @@ the telescope
 \end{align*}
 \end{example}
 
-\subsubsection{Induction} The actual natural number type $\Gamma \vdash \mathbb{N} \type$
+\subsubsection{Induction} The actual type of natural numbers $\Gamma \vdash \mathbb{N} \type$
 is just the carrier of an algebra over the signature of natural numbers. In particular,
 the `best' such algebra: one whose operations do not forget any information.
 In the language of category theory, this is the initial algebra in the
@@ -211,14 +211,32 @@ $S$ in terms of both $X$ and $Y$. This produces a telescope which matches the
 structure of $S$ but replaces each recursive occurrence $\iota\ \delta$ with an
 argument $x : X$ as well as an argument $y : Y[x]$. Each operation returns a $Y[r]$ with $r$
 computed from $\alpha$. Again, the function arrows in $S$ are interpreted as
-function types in the type theory. Finally, we come to the central definition
+function types in the type theory.
+
+\begin{example}[Vectors]\label{ex:vec-disp-alg}
+A displayed algebra for an algebra $(\n{nil}, \n{cons})$ for vectors
+(\cref{ex:vec-alg}) over a carrier family $\Gamma, T : \univ, n : \mathbb{N}, v
+: V[T, n] \vdash W \type$ is a spine matching
+the telescope
+\begin{align*}
+ \Gamma \vdash (&\n{nil}_W : (T : \univ) \to W[T, \n{zero}, \n{nil}\ T], \\
+&\n{cons}_W : (T : \univ) \to (n' : \mathbb{N}) \to (t : T) \to (ts : V[T,n']) \\
+&\qquad \to (ts_W : W[T, n', ts]) \to W[T, \n{succ}\ n', \n{cons}\ T\ n'\ t\ ts]) \tel.
+\end{align*}
+\end{example}
+
+In practice, in a call-by-value setting, it is desirable for the inductive
+hypotheses of a displayed algebra ($\n{ts}_W$ above) to be
+\emph{lazy} values. This improves performance when the inductive hypotheses are
+not needed. Lazy values of $T$ can be implemented as functions out of the unit
+type: $1 \to T$. We leave this as an implementation detail.
+
+Finally, we come to the central definition
 that classifies the algebras which
 support induction:
-
 \begin{definition}
 An algebra is \emph{inductive} if every displayed algebra over it has a coherent section.
 \end{definition}
-
 The elimination rule for inductive data types in programming languages is
 exactly this: given any motive and methods (a displayed algebra), we get a
 dependent function from the type of the scrutinee to the type of the motive (a
@@ -229,8 +247,8 @@ of computation with data.
 
 \subsection{Defining algebras and friends}
 
-In order to utilise these constructions for our type system, we can explicitly define
-the objects:
+In order to utilise these constructions for our type system, we now explicitly define
+the follwing objects:
 \begin{definitions}
 $\Gamma \vdash S\A\ X \tel$ & Algebras for a signature $\Gamma \vdash S \sig \Delta$ over a carrier $\Gamma, \Delta \vdash X \type$. \\
 $\Gamma \vdash \alpha\D\ Y \tel$ & Displayed algebras for an algebra $\Gamma \vdash \alpha :: S\A\ X$ over a motive $\Gamma, \Delta, X \vdash Y \type$. \\
@@ -295,7 +313,7 @@ Displayed algebras are defined by case analysis on $S$, which is an implicit par
 We provide the definitions of $-\DI$ and $-\DO$ in the appendix (\cref{app:algebras}), but they are similar to
 the definitions of $-\IN$ and $-\OUT$.
 
-Finally, we define the coherence conditions for a displayed algebra.
+Next we define the coherence conditions for a displayed algebra as a telescope
 \begin{align*}
 &\boxed{\Gamma \vdash \{S\}\ \{\alpha\}\ \beta\COH\ \sigma \tel} \\
 & \{S = \epsilon\}\ \{\alpha = (\,)\}\ (\,)\COH\ \sigma = \bullet \\
@@ -314,41 +332,81 @@ Now we can define induction for an algebra $\alpha$ as a type
 \end{align*}
 where $Y$ is the motive, $\beta$ are the methods, and $\sigma$ is the output section which must
 satisfy the propositional coherence conditions.
+Finally, we can package an inductive algebra over a signature as a telescope
+\begin{align*}
+&\boxed{\Gamma \vdash S\INDA \tel} \\
+&S\INDA = (X : \Delta \to \univ,\ \alpha :: S\A\ (\delta.\ X\ \delta),\ \kappa : \alpha\IND),
+\end{align*}
+by collecting the carrier $X$, algebra $\alpha$ and induction $\kappa$ all together.
 
 \subsection{A type theory with inductive families, $\lambdaind$}\label{sub:lambdaind}
 
-The languge $\lambdaind$, is a dependent type theory with $\Pi$, $\mta{Id}$ with
-$\mta{uip}$, and a universe $\univ : \univ$. We will not concern ourselves with a
-universe hierarchy but our results should be readily extensible to such a type
-theory. This language also has inductive families and global definitions. We
-follow a similar approach
-to Cockx~and~Abel~\cite{Cockx2018-fk} by packaging named inductive constructions
-and function definitions into a global context $\Sigma : \Glob$, and indexing local contexts
-by global contexts. The contexts $\Con$ in the resulting theory are pairs $(\Sigma :
-\Glob) \times \Loc\ \Sigma$ where $\Loc\ \Sigma$ are local contexts given by a
-closed telescope of types as usual. Substitutions only occur between local contexts.
-Items in a signature $\Sigma$ can be either
+We now extend intensional MLTT with a type for \emph{represented} inductive families $\Mdata_\Delta\ S\ \gamma$.
+This type defines an inductive family matching a signature $S$ with indices $\Delta$, together
+with an inductive algebra $\gamma$ which `implements' the signature $S$. Notice that this is different
+to the usual way that inductive families are defined in type theory (for example W-types \cite{Abbott2004-va}), where all we need to
+provide is essentially a signature. Here, we must also implement the signature and prove the induction principle,
+rather than it being provided by the type theory. For example, if our type
+theory indeed has W-types, then we can implement the signature using W-types.
 
-\begin{itemize}
-	\item function definitions $\mta{def}\ P\ A\ t$ for some parameters $P : \Loc\
-		      \Sigma$, return type $A : \Ty\ (\Sigma, P)$ and implementation $t : \Tm\ A\ (\Sigma, P)$,
-	\item postulates $\mta{post}\ P\ A$ for some parameters $P : \Loc\
-		      \Sigma$ and return type $A : \Ty\ (\Sigma, P)$, or
-	\item inductive type definitions $\mta{data}\ P\ T$ for some indices $P :
-		      \Loc\ \Sigma$ and signature $T : \Sig\ (\Sigma, \bullet)\ P$.
-\end{itemize}
+\begin{figure}[H]
+\begin{mathpar}
+\inferrule[Data-Form]
+{\Gamma \vdash S \sig \Delta \\ \Gamma \vdash \gamma :: S\INDA \\ \Gamma \vdash \delta :: \Delta}
+{\Gamma \vdash \Mdata_\Delta\ S\ \gamma\ \delta \type} \and
+\inferrule[Data-Intro]
+{O \in S \\ \Gamma \vdash \nu :: O\IN\ (\Mdata_\Delta\ S\ \gamma)}
+{\Gamma \vdash \Mctor_{S.O}\ \nu : \Mdata_\Delta\ S\ \gamma\ \nu\OUT} \and
+\inferrule[Data-Elim]
+{\Gamma,\ \delta :: \Delta,\ \Mdata_\Delta\ S\ \gamma\ \delta \vdash M \type \\
+\Gamma \vdash \beta :: \Mctor_S\D\ M \\
+\Gamma \vdash \delta :: \Delta \\
+\Gamma \vdash x :: \Mdata_\Delta\ S\ \gamma\ \delta}
+{\Gamma \vdash \Melim_S\ M\ \beta\ \delta\ x : M[\delta, x]} \and
+\inferrule[Data-Comp]
+{O \in S \\ \Gamma \vdash \nu :: O\IN\ (\Mdata_\Delta\ S\ \gamma) \\
+\Gamma,\ \delta :: \Delta,\ \Mdata_\Delta\ S\ \gamma\ \delta \vdash M \type \\
+\Gamma \vdash \beta :: \Mctor_S\D\ M}
+{\Gamma \vdash \Melim_S\ M\ \beta\ \nu\OUT\ (\Mctor_{S.O}\ \nu) = \beta_O\ (\Melim_S\ M\ \beta \ \$\ \nu) : M[\nu\OUT, \Mctor_{S.O}\ \nu]}
+\end{mathpar}
+\caption{Rules for data types, constructors and eliminators. We write $O \in S$ to indicate that $O$ is an operation in the signature $S$.
+We write $\alpha_O$ to extract the telescope element corresponding to operation $O$ from the algebra $\alpha$ for $S$.
+Constructors form an algebra for the signature $S$ over $\Mdata_\Delta\ S\ \gamma$, denoted by $\Mctor_S = (\Mctor_{S.O})_{O \in S}$.}
+\end{figure}
 
-This allows us to define data types such as vectors
-\begin{align*}
-	 & \textit{Vect} : \mta{data}\ (\bullet \rhd \univ \rhd \textit{Nat})               \\
-	 & \quad\begin{aligned}
-		        \quad (\bullet & \rhd \textit{nil} : \Pi\ (T : \univ)\ (\iota\ (T, \textit{zero}))                                                          \\
-		        \quad          & \rhd \textit{cons} : \Pi\ (T : \univ)\ \Pi\ (n : \textit{Nat})\ \Pi\iota\ (T, n)\ \Pi\ T\ (\iota\ (T, \textit{succ}\ n)) \,.
-	        \end{aligned}
-\end{align*}
-We do not make a distinction between parameters and indices for data types, but
-our system is extensible to one with additional uniform parameters and we leave its
-formulation as an implementation detail.
+
+% This allows us to define data types such as vectors
+% \begin{align*}
+% 	 & \textit{Vect} : \mta{data}\ (\bullet \rhd \univ \rhd \textit{Nat})               \\
+% 	 & \quad\begin{aligned}
+% 		        \quad (\bullet & \rhd \textit{nil} : \Pi\ (T : \univ)\ (\iota\ (T, \textit{zero}))                                                          \\
+% 		        \quad          & \rhd \textit{cons} : \Pi\ (T : \univ)\ \Pi\ (n : \textit{Nat})\ \Pi\iota\ (T, n)\ \Pi\ T\ (\iota\ (T, \textit{succ}\ n)) \,.
+% 	        \end{aligned}
+% \end{align*}
+
+% The languge $\lambdaind$, is a dependent type theory with $\Pi$, $\mta{Id}$ with
+% $\mta{uip}$, and a universe $\univ : \univ$. We will not concern ourselves with a
+% universe hierarchy but our results should be readily extensible to such a type
+% theory. This language also has inductive families and global definitions. We
+% follow a similar approach
+% to Cockx~and~Abel~\cite{Cockx2018-fk} by packaging named inductive constructions
+% and function definitions into a global context $\Sigma : \Glob$, and indexing local contexts
+% by global contexts. The contexts $\Con$ in the resulting theory are pairs $(\Sigma :
+% \Glob) \times \Loc\ \Sigma$ where $\Loc\ \Sigma$ are local contexts given by a
+% closed telescope of types as usual. Substitutions only occur between local contexts.
+% Items in a signature $\Sigma$ can be either
+
+% \begin{itemize}
+% 	\item function definitions $\mta{def}\ P\ A\ t$ for some parameters $P : \Loc\
+% 		      \Sigma$, return type $A : \Ty\ (\Sigma, P)$ and implementation $t : \Tm\ A\ (\Sigma, P)$,
+% 	\item postulates $\mta{post}\ P\ A$ for some parameters $P : \Loc\
+% 		      \Sigma$ and return type $A : \Ty\ (\Sigma, P)$, or
+% 	\item inductive type definitions $\mta{data}\ P\ T$ for some indices $P :
+% 		      \Loc\ \Sigma$ and signature $T : \Sig\ (\Sigma, \bullet)\ P$.
+% \end{itemize}
+% We do not make a distinction between parameters and indices for data types, but
+% our system is extensible to one with additional uniform parameters and we leave its
+% formulation as an implementation detail.
 
 In order to actually construct inductive types in $\lambdaind$, we need to
 extend the syntax with some term and type formers. First, we add a type former

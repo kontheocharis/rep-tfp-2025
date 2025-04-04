@@ -11,43 +11,43 @@ Warning--missing school in Kovacs2023-gq
 Warning--empty journal in Martin-Lof1984-pz
 You've used 29 entries,
             2850 wiz_defined-function locations,
-            812 strings with 10650 characters,
-and the built_in function-call counts, 15758 in all, are:
-= -- 1355
-> -- 314
-< -- 27
-+ -- 139
-- -- 104
-* -- 1042
-:= -- 1897
-add.period$ -- 43
+            814 strings with 10757 characters,
+and the built_in function-call counts, 15784 in all, are:
+= -- 1357
+> -- 319
+< -- 26
++ -- 141
+- -- 106
+* -- 1038
+:= -- 1901
+add.period$ -- 44
 call.type$ -- 29
-change.case$ -- 159
+change.case$ -- 162
 chr.to.int$ -- 0
 cite$ -- 35
-duplicate$ -- 1496
-empty$ -- 1573
-format.name$ -- 120
-if$ -- 3512
+duplicate$ -- 1494
+empty$ -- 1577
+format.name$ -- 122
+if$ -- 3523
 int.to.chr$ -- 0
 int.to.str$ -- 29
-missing$ -- 260
+missing$ -- 261
 newline$ -- 93
 num.names$ -- 50
-pop$ -- 502
+pop$ -- 508
 preamble$ -- 1
-purify$ -- 110
+purify$ -- 111
 quote$ -- 0
-skip$ -- 403
+skip$ -- 408
 stack$ -- 0
-substring$ -- 1083
-swap$ -- 760
-text.length$ -- 27
+substring$ -- 1072
+swap$ -- 754
+text.length$ -- 26
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 114
 warning$ -- 6
 while$ -- 128
 width$ -- 31
-write$ -- 316
+write$ -- 318
 (There were 6 warnings)

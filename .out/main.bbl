@@ -22,6 +22,12 @@ Should agda optimise away the erasure from vec to list? · issue \#7701 ·
   agda/agda. \url{https://github.com/idris-lang/Idris2/pull/3486}, accessed:
   2025-2-19
 
+\bibitem{Abbott2004-va}
+Abbott, M., Altenkirch, T., Ghani, N.: Representing nested inductive types
+  using {W}-types. In: Automata, Languages and Programming, pp. 59--71. Lecture
+  notes in computer science, Springer Berlin Heidelberg, Berlin, Heidelberg
+  (2004), \url{https://link.springer.com/chapter/10.1007/978-3-540-27836-8_8}
+
 \bibitem{Adamek2010-ls}
 Adamek, J., Rosicky, J., Vitale, E.M.: Cambridge tracts in mathematics:
   Algebraic theories: A categorical introduction to general algebra series
@@ -83,11 +89,6 @@ Brady, E., McBride, C., McKinna, J.: Inductive families need not store their
 Castellan, S., Clairambault, P., Dybjer, P.: Categories with families:
   Unityped, simply typed, and dependently typed. arXiv [cs.LO]  (1~Apr 2019),
   \url{http://arxiv.org/abs/1904.00827}
-
-\bibitem{Cockx2018-fk}
-Cockx, J., Abel, A.: Elaborating dependent (co)pattern matching. Proc. ACM
-  Program. Lang.  \textbf{2}(ICFP),  1--30 (30~Jul 2018),
-  \url{https://doi.org/10.1145/3236770}
 
 \bibitem{Cockx2021-pw}
 Cockx, J., Tabareau, N., Winterhalter, T.: The taming of the rew: a type theory
