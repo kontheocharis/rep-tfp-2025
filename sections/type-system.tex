@@ -302,10 +302,13 @@ Finally, we define the coherence conditions for a displayed algebra.
 & \{S = S' \rhd O\}\ \{\alpha = (\alpha', \alpha_O)\}\ (\beta', \beta_O)\COH\ \sigma \\
 &\qquad = ({\beta'}\COH\ \sigma,\ (\nu :: O\IN\ X) \to \sigma[\alpha_O\ \nu] \equiv \beta_O\ (\sigma \, \$ \, \nu))
 \end{align*}
+The notation $\sigma \, \$\, \nu$ applies the section $\sigma$ to the input $\nu$,
+yielding a displayed input by sampling the section to get the inductive
+hypotheses (defined in \cref{app:algebras})
 
 Now we can define induction for an algebra $\alpha$ as a type
 \begin{align*}
-&\boxed{\Gamma \vdash \{S\} \alpha\IND\ \type} \\
+&\boxed{\Gamma \vdash \{S\}\ \alpha\IND \type} \\
 &\{S\}\ \alpha\IND = (Y : (\delta :: \Delta) \to X[\delta] \to \univ) \to (\beta :: \alpha\D\ (\delta.\ x.\ Y\ \delta\ x)) \\
 &\qquad\to (\sigma : (\delta :: \Delta) \to (x : X[\delta]) \to Y\ \delta\ x)) \times \beta\COH\ (\delta.\ x.\ \sigma\ \delta\ x).
 \end{align*}
