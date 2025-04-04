@@ -128,6 +128,18 @@
 \newcommand{\Msub}[1]{\langle#1\rangle}
 
 % Definitions
+\newenvironment{block}{%
+  \par
+  \vspace{\abovedisplayskip}
+  \centering
+  \begingroup
+}{%
+  \endgroup
+  \vspace{\belowdisplayskip}
+  \par
+}
+
+% Definitions
 \newenvironment{definitions}{%
   \par
   \vspace{\abovedisplayskip}

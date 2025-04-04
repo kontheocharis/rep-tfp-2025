@@ -241,56 +241,36 @@ All constructions labelled with superscripts are not part of the syntax of the
 type system, but rather functions in the metatheory which compute syntactic
 objects such as telescopes.
 
+The algebras for a signature are defined
+by case analysis on $S$:
+\begin{align*}
+&\boxed{\Gamma \vdash S\A\ X \tel} \\
+&\epsilon\A\ X = \bullet \qquad (S' \rhd O)\A\ X = ({S'}\A\ X,\ (\nu :: O\IN\ X) \to X[\nu\OUT])
+\end{align*}
+An empty signature $\epsilon$ produces an empty telescope, while an extended
+signature $S' \rhd O$ produces a telescope extended with a function
+corresponding to $O$. This function goes from the inputs of $O$ interpreted in
+$X$, to $X$ evaluated at the output indices.
+The inputs and outputs of each operation $O$ in an algebra are defined by case
+analysis on $O$:
+\begin{block}
+\setlength{\tabcolsep}{10pt}
+\begin{tabular}{ll}
+$\boxed{\Gamma \vdash O\IN\ X \tel}$ & \boxed{\Gamma \vdash \{O\}\ \nu\OUT :: \Delta} \\[1em]
+{$\begin{aligned}
+&(A\to\external O')\IN\ X = (a : A,\ O'[a]\IN\ X) \\
+&(\iota\ \delta \to\internal O')\IN\ X = (x : X[\delta],\ {O'}\IN\ X) \\
+&(\iota\ \delta)\IN\ X = \bullet
+\end{aligned}$}
+&
+{$\begin{aligned}
+&\{O = A \to\external O'\}\ (a, \nu')\OUT = {\nu'}\OUT \\
+&\{O = \iota\ \delta \to\internal O'\}\ (x,\ \nu')\OUT = {\nu'}\OUT  \\
+&\{O = \iota\ \delta\}\ (\,)\OUT = \delta
+\end{aligned}$}
+\end{tabular}
+\end{block}
 
-For the remainder of the paper we choose a fixed representation for algebras,
-displayed algebras and sections. We will omit the full definitions here for
-space, but where missing they can be found in \cref{app:algebras} of the appendix.
-
-We define these constructions in two ways: one that is fully internal to the
-object theory and the other that is partially external (using the metatheory).
-In particular, all the external constructions are \emph{positive} in the
-syntax of the object theory (\mta{Ty}, \mta{Tm}, \mta{Tel}, etc) so that
-they can be added into the syntax retroactively.
-
-First, we define an `external' version of algebras
-\begin{align*}
-    &\mta{Algebra} : (T : \mta{Sig}\ \Gamma\ P) \to \Ty\ (\Gamma \rhd P) \to \Set \\
-    &\mta{Algebra}\ T\ X := (a : \mta{In}\ T\ X) \to \Tm\ \Gamma\ X[\Msub{\mta{out}\ a}] \\[1em]
-    &\mta{Alg}\ T := (X : \Ty\ (\Gamma \rhd P)) \times \mta{Algebra}\ T\ X \,,
-\end{align*}
-which take some arguments $\mta{In}$ and produce the output $X$
-evaluated at the appropriate index $\mta{out}\ a$ based on the arguments.
-This is the uncurried version of the presentation with $\Pi$ types.
-The type $\mta{In}$ is defined as $(v : \mta{Var}\ T) \times \Tms\ \Gamma\
-(\mta{in}\ (T\ v)\ X)$ for where $\mta{Var}\ T$ indexes
-operations in theories. The function
-\begin{align*}
-    &\mta{in} : \mta{Op}\ \Gamma\ P \to \Ty\ (\Gamma \rhd P) \to \Tel\ \Gamma \\
-    &\mta{in}\ (\Pi\ A\ B)\ X := \bullet \rhd (a : A) \rhd \mta{in}\ B[\Msub a]\ X \\
-    &\mta{in}\ (\Pi\iota\ p\ B)\ X := \bullet \rhd X[\Msub p] \rhd \mta{in}\ B\ X \\
-    &\mta{in}\ (\iota\ p)\ X := \bullet \,
-\end{align*}
-computes a telescope in the object theory, of the input arguments to the algebra
-element of a given operation. For the output, there is a function to compute
-the indices. It is defined as $\mta{out}\ \{T\ v\}\ a\ X$, where
-\begin{align*}
-    &\mta{out} : \{O : \Op\ \Gamma\ P\} \to \Tms\ \Gamma\ (\mta{in}\ O\ X) \to \Ty\ \Gamma \to \Tms\ \Gamma\ P \\
-    &\mta{out}\ \{\Pi\ A\ B\}\ (a, t)\ X := \mta{out}\ \{B[\Msub a]\}\ t\ X \\
-    &\mta{out}\ \{\Pi\iota\ p\ B\}\ (r, t)\ X := \mta{out}\ \{B\}\ t\ X \\
-    &\mta{out}\ \{\iota\ p\}\ (\,)\ X := p \,.
-\end{align*}
-We can also define an internal version of algebras as telescopes of $\Pi$ types
-\begin{align*}
-    &\mta{algebra} : \mta{Sig}\ \Gamma\ P \to \Ty\ (\Gamma \rhd P) \to \Tel\ \Gamma \\
-    &\mta{algebra}\ \bullet\ X := \bullet \\
-    &\mta{algebra}\ (T \rhd O)\ X := \mta{algebra}\ T\ X \rhd \Pi\ (a : \mta{in}\ O\ X)\ X[\Msub{\mta{out}\ O\ a\ X}] \\[1em]
-    &\mta{alg}\ T := \bullet \rhd (X : \Pi\ P\ \univ) \rhd \mta{algebra}\ T\ (\mta{El}\ X@)  \,.
-\end{align*}
-
-All internal constructions have `realisation' functions into the metatheory
-\begin{align*}
-    \emb{\_} : \Tms\ \Gamma\ (\mta{alg}\ T) \to \mta{Alg}\ T \qquad \emb{\_} : \Tms\ \Gamma\ (\mta{algebra}\ T\ X) \to \mta{Algebra}\ T\ X \,.
-\end{align*}
 
 % We can similarly define internal displayed algebras over external algebras $(X,
 % x) : \mta{Alg}\ T$ as
@@ -305,51 +285,32 @@ All internal constructions have `realisation' functions into the metatheory
 %     &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f
 % \end{align*}
 
-A similar construction can be performed for displayed algebras over algebras
+A similar construction can be performed for displayed algebras over algebras.
+Displayed algebras are defined by case analysis on $S$, which is an implicit parameter of $-\D$.
 \begin{align*}
-&\mta{dispAlgebra} : ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
-&\mta{DispAlg}\ (X, x) := (M : \mta{Ty}\ (\Gamma \rhd P \rhd X)) \times \mta{Tms}\ \Gamma\ (\mta{dispAlgebra}\ (X, x)\ M)
+&\boxed{\Gamma \vdash \{S\}\ \alpha\D\ Y \tel} \\
+& \{S = \epsilon\}\ (\,)\D\ Y = \bullet \\
+&\{S = S' \rhd O\}\ (\alpha', \alpha_O)\D\ Y = ({\alpha'}\D\ Y,\ (\mu :: \alpha_O\DI\ Y) \to Y[\mu\DO])
 \end{align*}
-as well as the telescopic internal equivalent $\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T)$. %
-% \begin{align*}
-%     &\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
-%     &\mta{dispAlg} := a.\ \bullet \rhd (M : \Pi\ P\ (\Pi\ X\ \univ)) \rhd \mta{dispAlgebra}\ \emb{a}\ (\mta{El}\ M@@) \,.
-% \end{align*}
-Internal displayed algebras come with a realisation function $\emb{\_}$ too.
-% : \Tms\ \Gamma\ (\mta{dispAlg}[\Msub{t}]) \to \mta{DispAlg}\ \emb t$ and
-% $\emb{\_} : \Tms\ \Gamma\ (\mta{dispAlgebra}\ t\ M) \to \mta{DispAlgebra}\ t\ M$.
-Finally, we construct sections over displayed algebras
-\begin{align*}
-     &\mta{Sec}\ M := \Tm\ (\Gamma \rhd P \rhd X)\ M \\
-     &\mta{Coh}\ f := \forall v\ a.\ f[\Msub{\mta{dispOut}\ a}] = m\ (v, \mta{apply}\ f\ a) \\
-     &\mta{IntCoh}\ f := \forall v\ a.\ \Tm\ \Gamma\ (\mta{Id}\ f[\Msub{\mta{dispOut}\ a}])\ (m\ (v, \mta{apply}\ f\ a)) \\
-     &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f  \,.
-\end{align*}
-which have coherence rules using either the equality of the metatheory (\mta{Coh}) or
-the propositional equality of the object theory (\mta{IntCoh}).
-The $\mta{apply}$ function takes the inputs for the algebra and a section,
-and produces the inputs for the displayed algebra by evaluating the section.
-Sections also have internal analogues
-\[
-    \mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg})
-\]
-which only use propositional equality.
-As a result, the realisation functions for sections $\emb{f}_0 : \mta{Sec}\
-\emb{m}$ and $\emb{f}_1 : \mta{IntCoh}\ \emb{f}_0$ produce only internal
-coherence proofs.
+We provide the definitions of $-\DI$ and $-\DO$ in the appendix (\cref{app:algebras}), but they are similar to
+the definitions of $-\IN$ and $-\OUT$.
 
-Now we can define a synonym for internal inductive algebras as a telescope $\mta{indAlg}\ T := \bullet \rhd \mta{alg}\ T \rhd \Pi\ \mta{dispAlg}\ \mta{section}$
-with realisations
+Finally, we define the coherence conditions for a displayed algebra.
 \begin{align*}
-    &\emb{\_}_0\ : \mta{Tms}\ \Gamma\ \mta{indAlg}[\Msub X] \to (m : \mta{DispAlg}\ X) \to \mta{Sec}\ m \\
-    &\emb{\_}_1\ : (i : \mta{Tms}\ \Gamma\ \mta{indAlg}[\Msub X] \to (m : \mta{DispAlg}\ X) \to \mta{IntCoh}\ \emb{i}_0\ m \,.
+&\boxed{\Gamma \vdash \{S\}\ \{\alpha\}\ \beta\COH\ \sigma \tel} \\
+& \{S = \epsilon\}\ \{\alpha = (\,)\}\ (\,)\COH\ \sigma = \bullet \\
+& \{S = S' \rhd O\}\ \{\alpha = (\alpha', \alpha_O)\}\ (\beta', \beta_O)\COH\ \sigma \\
+&\qquad = ({\beta'}\COH\ \sigma,\ (\nu :: O\IN\ X) \to \sigma[\alpha_O\ \nu] \equiv \beta_O\ (\sigma \, \$ \, \nu))
 \end{align*}
-Next we will make use of the external versions of algebras, displayed algebras,
-and sections in order to add inductive algebras as part of the well-typed
-syntactical definition of a type theory in a strictly-positive, fully-applied
-manner. Later, we will make use of the internal versions in order to be able to
-package inductive algebras as a single syntactic entity that corresponds to data
-representations.
+
+Now we can define induction for an algebra $\alpha$ as a type
+\begin{align*}
+&\boxed{\Gamma \vdash \{S\} \alpha\IND\ \type} \\
+&\{S\}\ \alpha\IND = (Y : (\delta :: \Delta) \to X[\delta] \to \univ) \to (\beta :: \alpha\D\ (\delta.\ x.\ Y\ \delta\ x)) \\
+&\qquad\to (\sigma : (\delta :: \Delta) \to (x : X[\delta]) \to Y\ \delta\ x)) \times \beta\COH\ (\delta.\ x.\ \sigma\ \delta\ x).
+\end{align*}
+where $Y$ is the motive, $\beta$ are the methods, and $\sigma$ is the output section which must
+satisfy the propositional coherence conditions.
 
 \subsection{A type theory with inductive families, $\lambdaind$}\label{sub:lambdaind}
 
