@@ -21,10 +21,14 @@ Syntaxes for languages are defined in an intrinsically well-formed manner
 quotiented by definitional equality \cite{Altenkirch2016-zc}, and with de-Bruijn
 indices for variables. Weakening of terms is generally left implicit to reduce
 syntactic noise, and often named notation is used when de-Brujin indices are
-implied. We use $(a : A) \to B$ for function types, $a \equiv_A a'$ for
-propositional equality, and $a = a' : A$ for definitional equality. Substitution
-is denoted with square brackets: if $\Gamma, A \vdash B$ and $\Gamma
-\vdash a : A$ then $\Gamma \vdash B[a]$. Besides the
+implied. We use $(a : A) \to B$ for dependent functions, $(a : A) \times B$ for
+dependent pairs, $a \equiv_A a'$ for propositional equality, and $a = a' : A$
+for definitional equality. Substitution is denoted with square brackets: if
+$\Gamma, A \vdash B$ and $\Gamma \vdash a : A$ then $\Gamma \vdash B[a]$. We
+also notationally identify elements of the universe $A : \univ$ with types $A
+\type$, though explicit coercions $\mta{El}$ and $\mta{code}$ between them are
+implied.
+Besides the
 usual judgement forms of MLTT, we also have telescopic judgement forms:
 \begin{definitions}
 $\Gamma \vdash \Delta \tel$                & $\Delta$ is a telescope in $\Gamma$. \\
@@ -209,7 +213,7 @@ algebra $\alpha$ for $S$ over carrier $\Gamma, \Delta \vdash X \type$, and
 carrier family $\Gamma, \Delta, X \vdash Y \type$, interprets the structure of
 $S$ in terms of both $X$ and $Y$. This produces a telescope which matches the
 structure of $S$ but replaces each recursive occurrence $\iota\ \delta$ with an
-argument $x : X$ as well as an argument $y : Y[x]$. Each operation returns a $Y[r]$ with $r$
+argument $x : X$ as well as an argument $y : Y[x]$. Each operation returns a $Y$ with indices
 computed from $\alpha$. Again, the function arrows in $S$ are interpreted as
 function types in the type theory.
 
@@ -362,7 +366,10 @@ matching a signature $S$ with indices $\Delta$, together with an inductive
 algebra $\gamma$ which `implements' the signature $S$. Notice that this is
 different to the usual way that inductive families are defined in type theory,
 for example W-types \cite{Abbott2004-va}, where all we need to provide is
-a signature. Here, we must also implement the signature and prove
+a signature.\footnote{
+Notice that the data defining a W-type $(A : \univ, B : A \to \univ)$ can be viewed as a kind of signature, where $A$ describes the
+operations and their non-recursive parameters, while $B$ describes the recursive parameters.}
+Here, we must also implement the signature and prove
 the induction principle by providing $\gamma$, rather than it being `provided' by
 the type theory. For example, if our type theory W-types, then we can
 implement the signature using W-types. In effect, this will later allow us to
@@ -394,11 +401,11 @@ introduction, elimination, and computation rules.
 \Gamma \vdash \beta :: \Mctor_S\D\ M}
 {\Gamma \vdash \Melim_S\ M\ \beta\ \nu\OUT\ (\Mctor_{S.O}\ \nu) = \beta_O\ (\Melim_S\ M\ \beta \ \$\ \nu) : M[\nu\OUT, \Mctor_{S.O}\ \nu]}
 \end{mathpar}
-\label{fig:data-rules}
 \caption{Rules for data types, constructors and eliminators. We write $O \in S$
 to indicate that $O$ is an operation in the signature $S$. We write $\alpha_O$
 to extract the telescope element corresponding to operation $O$ from the algebra
 $\alpha$ for $S$.}
+\label{fig:data-rules}
 \end{figure}
 
 Constructors form an algebra for the signature $S$ over
@@ -406,14 +413,15 @@ $\Mdata_\Delta\ S\ \gamma$, denoted by $\Mctor_S = (\Mctor_{S.O})_{O \in S}$.
 Similarly, the eliminator forms a coherent section over the constructor algebra,
 which holds definitionally.
 
-One might think, what do we gain by adding $\Mdata$ to the theory? If we can provide
-an inductive algebra $\gamma$ for a signature $S$ ourselves, then why not just use
-$\gamma$ directly? The reason is that by having a primitive for inductive types,
-we can take advantage of their properties in an extensional way. For example, an induction
-principle suggests that the constructors corresponding to each method are disjoint.
-Since constructors $\Mctor$ are a primitive term in the theory, we can make use of this
-when formulating a unification algorithm. Aside from disjointness, we can also rely on
-other properties such as injectivity, acyclicity, and `no-confusion.' McBride
+One might think, what do we gain by adding $\Mdata$ to the theory? If we can
+provide an inductive algebra $\gamma$ for a signature $S$ ourselves, then why
+not just use $\gamma$ directly? The reason is that by having a primitive for
+inductive types, we can take advantage of their properties in an extensional
+way. For example, an induction principle suggests that the constructors
+corresponding to each method are disjoint. Since constructors $\Mctor$ are a
+primitive term in the theory, we can make use of this when formulating a
+unification algorithm. Aside from disjointness, we can also rely on other
+properties such as injectivity, acyclicity, and `no-confusion'. McBride
 \cite{McBride2006-fp} originally explored the properties which arise from the
 existence of induction principles, or equivalently, initiality.
 
@@ -425,46 +433,97 @@ However, the typechecker does not know this fact; it is not derivable as a
 definitional equality contradiction. However, it \emph{is} derivable
 definitionally that for all $x : \mathbb{N}$, $\Mctor_{\n{zero}} \neq
 \Mctor_{\n{succ}}\ x$, where $\mathbb{N} = \Mdata\ {\n{NatSig}}\ (\n{N},
-\n{zero}_{\n{N}}, \n{succ}_{\n{N}}, \mta{elim}_{\n{N}})$ by the
-metatheoretic quotient-inductive definition of the syntax not equating $\Mctor_i$
-and $\Mctor_j$ unless $i = j$.
+\n{zero}_{\n{N}}, \n{succ}_{\n{N}}, \n{elim}_{\n{N}})$ because the
+metatheoretic quotient-inductive syntax does not equate $\Mctor_i$ and
+$\Mctor_j$ unless $i = j$.
 
 Another way to state this is that the existence of $\Mdata$ enables the use of
 \emph{dependent pattern matching} on its inhabitants. Nested pattern matching on
 $\mathbb{N}$, for example, can be elaborated to invocations of
-$\Melim_{\mta{NatSig}}$, which has the expected computation rules as shown in
-\cref{fig:data-rules}. Converting dependent pattern matching to
-eliminators has been explored in-depth by Goguen, McBride and McKinna
-\cite{Goguen2006-sy}, as well as by Cockx and Abel \cite{Cockx2018-bv} in
-absence of Axiom K. These results can be used for pattern matching on $\Mdata$
-without significant modification.
+$\Melim_{\n{NatSig}}$, which has the expected computation rules as shown in
+\cref{fig:data-rules}. Converting dependent pattern matching to eliminators has
+been explored in depth by Goguen, McBride and McKinna \cite{Goguen2006-sy}, as
+well as by Cockx and Devriese \cite{Cockx2018-bv} in absence of Axiom K. These
+methods can be used to implement pattern matching on $\Mdata$.
 
-\subsection{Extending $\lambdaind$ with representations} \label{sub:lambdarep}
+\subsection{Reasoning about representations} \label{sub:lambdarep}
 
 So far we are able to construct data types using the $\Mdata_\Delta\ S\ \gamma$
 type constructor. These data types are themselves implemented in terms of
 inductive algebras. However, the rules for data types do not utilise them. We
 would like to be able to relate data types to their underlying inductive
 algebras. One reason is to avoid unnecessary
-computation. If we have a type $X$ which has inductive algebras $(X, \alpha, \kappa)$ and
-$(X, \alpha', \kappa')$ for two signatures $S$ and $S'$ respectively, then we can form the
-data types $D = \Mdata_\Delta\ S\ (X, \alpha, \kappa)$ and $D' = \Mdata_\Delta\
-{S'}\ (X, \alpha', \kappa')$ and make use of the structural properties of
-initiality. However, we would also like to be able to freely convert between
-$X$, $D$ and $D'$ without incurring any runtime cost. After all, $D$ and $D'$
-are meant to be translated away to their underlying representation, $X$.
-This argument can also be made in the context of theorem proving. Sometimes it is easier
-to prove a property about $D$ or $D'$, due to their structure, but
-we should be able to `transport' the property to $X$.
+computation. If we have a type $X$ that is the carrier of two inductive algebras
+$(X, \alpha, \kappa)$ and $(X, \alpha', \kappa')$ for signatures $S$ and
+$S'$ respectively, then we can form the data types $D = \Mdata_\Delta\ S\ (X,
+\alpha, \kappa)$ and $D' = \Mdata_\Delta\ {S'}\ (X, \alpha', \kappa')$ and make
+use of the structural properties of initiality. However, we would also like to
+be able to freely convert between $X$, $D$ and $D'$ without incurring any
+runtime cost. After all, $D$ and $D'$ are meant to be translated away to their
+underlying representation, $X$. This argument can also be made in the context of
+theorem proving: sometimes it is easier to prove a property about $D$ or $D'$,
+due to their structure, but we should be able to `transport' the property to
+$X$.
 
 To make use of these conversions in a computationally-irrelevant manner,
 while still retaining the fact that $D$, $D'$ and $X$ are distinct types,
 we introduce a modality
 $$
-\MRepr : \univ \to \univ \,.
+\MRepr : \univ \to \univ ,
 $$
-which takes types to their representations. This modality respects definitionally all the
-type formers of the theory, other than $\Mdata$.
+which takes types to their representations. This modality definitionally
+preserves all the type formers of the theory, other than $\Mdata$. It comes with
+two term formers $\Mrepr$ and $\Munrepr$, which are definitional inverses of each other.
+We highlight the main rules of $\MRepr$ in \cref{fig:repr-rules}. The full definition
+is given in \cref{app:algebras}.
+
+\begin{figure}[H]
+\begin{mathpar}
+\inferrule[Repr-Form]{\Gamma \vdash A \type}{\Gamma \vdash \MRepr\ A \type} \and
+\inferrule[Repr-Intro]{\Gamma \vdash a : A}{\Gamma \vdash \Mrepr\ a : \MRepr\ A} \and
+\inferrule[Repr-Elim]{\Gamma \vdash a : \MRepr\ A}{\Gamma \vdash \Munrepr\ a : A} \and
+\inferrule[Repr-Beta]{\Gamma \vdash a : \MRepr\ A}
+{\Gamma \vdash \Mrepr\ (\Munrepr\ a) = a : \MRepr\ A} \and
+\inferrule[Repr-Eta]{\Gamma \vdash a : A}
+{\Gamma \vdash \Munrepr\ (\Mrepr\ a) = a : A} \and
+\inferrule[Repr-Data]{\Gamma \vdash S \sig \Delta \\ \Gamma \vdash \gamma :: S\INDA}
+{\Gamma \vdash \MRepr\ (\Mdata_\Delta\ S\ \gamma\ \delta) = \gamma.X\ \delta} \and
+\end{mathpar}
+\caption{Introduction and elimination forms, as well as computation rules
+for the $\MRepr$ modality. It also commutes with the rest of the syntax
+definitionally.}
+\label{fig:repr-rules}
+\end{figure}
+
+These rules allow us to go between a data type $D = \Mdata_\Delta\ S\ \gamma\
+\delta$ and its representation $\gamma.X\ \delta$. In the translation to
+extensional MLTT that we are yet to define, this modality is also translated
+away. The computation rules for the $\MRepr$ modality will be
+justified by computation rules in extensional MLTT. Since $\Mdata$ does not
+already have any associated computation rules, these rules also preserve the
+decidability of conversion checking, though we do not show this here.
+
+One might hope for additional computation rules. For example, representing a constructor
+should be equal to the underlying algebra element of the constructor type's
+representation:\footnote{When we write $\Mrepr\ \nu$ we
+mean to apply $\Mrepr$ to all recursive occurences (all places that $\iota$ appears in the domain of $O$).}
+\[\Mrepr\ (\Mctor_{S.O}\ \nu) = \gamma.\alpha_O\ (\Mrepr \  \nu) \,.\]
+Unfortunately, having this as a computation rule
+would render conversion checking undecidable, because if one applies
+$\mta{unrepr}$ to a term $\Mrepr\ (\Mctor_{S.O}\ \nu)$ which has already been reduced
+to its representation, $\mta{unrepr}\ (\gamma.\alpha_O\ (\Mrepr\ \nu))$, there is no
+clear way to decide that this is convertible to $\Mctor_{S.O}\ \nu$ even though the
+definitional equality rules would imply that it is (due to \textsc{Repr-Eta}).
+Nevertheless, we can still postulate this equality propositionally, and it is justified
+by the translation step. Similar postulates can also be made available for
+eliminators, which are listed in \cref{app:reprs}.
+% \begin{mathpar}
+% \inferrule[Repr-Ctor]{O \in S \\ \Gamma \vdash \nu :: O\IN\ (\Mdata_\Delta\ S\ \gamma)}
+% {\Gamma \vdash \mta{repr-ctor}_{S.O}\ \nu : \Mrepr\ (\Mctor_{S.O}\ \nu) \equiv \gamma.\alpha_O\ (\Mrepr \  \nu)} \and
+% \inferrule[Repr-Elim]{O \in S \\ \Gamma \vdash \nu :: O\IN\ (\Mdata_\Delta\ S\ \gamma)}
+% {\Gamma \vdash \mta{repr-elim}_{S}\ M\ \beta\ \delta\ x : \Melim_{S}\ M\ \beta\ \delta\ x
+% \equiv (\gamma.\kappa\ (\lambda\delta.\ \lambda x.\ M[\delta, \Munrepr\ x])\ (\Mrepr^*\ \beta)).\sigma\ \delta\ (\Mrepr\ x)}
+% \end{mathpar}
 
 \subsubsection{Subuniverse of concrete types}
 
@@ -495,6 +554,8 @@ algebra with carrier $R$, algebra $r$ and induction
 $Q$. Representations for definitions are also included, where a definition can
 be represented by a term propositionally equal to original definition, but
 perhaps with better computational properties.
+
+\subsubsection{Translating to extensional MLTT}
 
 \subsection{Reasoning about representations} \label{sub:reasoningrep}
 
