@@ -90,6 +90,12 @@ Castellan, S., Clairambault, P., Dybjer, P.: Categories with families:
   Unityped, simply typed, and dependently typed. arXiv [cs.LO]  (1~Apr 2019),
   \url{http://arxiv.org/abs/1904.00827}
 
+\bibitem{Cockx2018-bv}
+Cockx, J., Devriese, D.: Proof-relevant unification: Dependent pattern matching
+  with only the axioms of your type theory. J. Funct. Prog.  \textbf{28}(e12),
+  ~e12 (Jan 2018),
+  \url{https://www.cambridge.org/core/services/aop-cambridge-core/content/view/E54D56DC3F5D5361CCDECA824030C38E/S095679681800014Xa.pdf/div-class-title-proof-relevant-unification-dependent-pattern-matching-with-only-the-axioms-of-your-type-theory-div.pdf}
+
 \bibitem{Cockx2021-pw}
 Cockx, J., Tabareau, N., Winterhalter, T.: The taming of the rew: a type theory
   with computational assumptions. Proc. ACM Program. Lang.  \textbf{5}(POPL),
@@ -108,6 +114,12 @@ Dagand, P.E., McBride, C.: A categorical treatment of ornaments. arXiv [cs.PL]
 Diehl, L., Firsov, D., Stump, A.: Generic zero-cost reuse for dependent types.
   Proc. ACM Program. Lang.  \textbf{2}(ICFP),  1--30 (30~Jul 2018),
   \url{https://doi.org/10.1145/3236799}
+
+\bibitem{Goguen2006-sy}
+Goguen, H., McBride, C., McKinna, J.: Eliminating dependent pattern matching.
+  In: Algebra, Meaning, and Computation, pp. 521--540. Lecture notes in
+  computer science, Springer Berlin Heidelberg, Berlin, Heidelberg (2006),
+  \url{https://research.google.com/pubs/archive/99.pdf}
 
 \bibitem{Kaposi2019-pj}
 Kaposi, A., Kov\'{a}cs, A., Altenkirch, T.: Constructing quotient

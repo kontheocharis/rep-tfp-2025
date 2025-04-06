@@ -245,6 +245,21 @@ when we plug in a constructor, we get the result of the method corresponding to 
 Usually in programming languages, these conditions hold definitionally, as they are the primary means
 of computation with data.
 
+\subsubsection{Uniqueness of inductive algebras}
+
+As mentioned earlier, inductive algebras are equivalent to initial algebras.
+Since initial objects are unique up to isomorphism, this suggests the following result:
+
+\begin{theorem}\label{thm:unique-inductive-algebras}
+For any given signature $S$, if we can construct two inductive algebras for $S$,
+over carriers $X$ and $X'$, then there exists an isomorphism of types $X \simeq X'$. Moreover,
+this isomorphism extends to the category of $S$-algebras, meaning it respects the structure of $S$.
+\begin{proof}
+See \cref{app:algebras}.
+\end{proof}
+\end{theorem}
+
+
 \subsection{Defining algebras and friends}
 
 In order to utilise these constructions for our type system, we now explicitly define
@@ -339,15 +354,25 @@ Finally, we can package an inductive algebra over a signature as a telescope
 \end{align*}
 by collecting the carrier $X$, algebra $\alpha$ and induction $\kappa$ all together.
 
-\subsection{A type theory with inductive families, $\lambdaind$}\label{sub:lambdaind}
+\subsection{Constructing inductive families}\label{sub:lambdaind}
 
-We now extend intensional MLTT with a type for \emph{represented} inductive families $\Mdata_\Delta\ S\ \gamma$.
-This type defines an inductive family matching a signature $S$ with indices $\Delta$, together
-with an inductive algebra $\gamma$ which `implements' the signature $S$. Notice that this is different
-to the usual way that inductive families are defined in type theory (for example W-types \cite{Abbott2004-va}), where all we need to
-provide is essentially a signature. Here, we must also implement the signature and prove the induction principle,
-rather than it being provided by the type theory. For example, if our type
-theory indeed has W-types, then we can implement the signature using W-types.
+We now extend intensional MLTT with a type for inductive families, which we
+denote $\Mdata_\Delta\ S\ \gamma$. This type defines an inductive family
+matching a signature $S$ with indices $\Delta$, together with an inductive
+algebra $\gamma$ which `implements' the signature $S$. Notice that this is
+different to the usual way that inductive families are defined in type theory,
+for example W-types \cite{Abbott2004-va}, where all we need to provide is
+a signature. Here, we must also implement the signature and prove
+the induction principle by providing $\gamma$, rather than it being `provided' by
+the type theory. For example, if our type theory W-types, then we can
+implement the signature using W-types. In effect, this will later allow us to
+`elaborate away' inductive definitions to their defined representations.
+This leads us to the formal definition of a representation:
+\begin{definition}
+A \emph{representation} of a signature $S$ is an inductive algebra for $S$.
+\end{definition}
+In \cref{fig:data-rules} we define the $\Mdata$ type, and its corresponding
+introduction, elimination, and computation rules.
 
 \begin{figure}[H]
 \begin{mathpar}
@@ -369,107 +394,86 @@ theory indeed has W-types, then we can implement the signature using W-types.
 \Gamma \vdash \beta :: \Mctor_S\D\ M}
 {\Gamma \vdash \Melim_S\ M\ \beta\ \nu\OUT\ (\Mctor_{S.O}\ \nu) = \beta_O\ (\Melim_S\ M\ \beta \ \$\ \nu) : M[\nu\OUT, \Mctor_{S.O}\ \nu]}
 \end{mathpar}
-\caption{Rules for data types, constructors and eliminators. We write $O \in S$ to indicate that $O$ is an operation in the signature $S$.
-We write $\alpha_O$ to extract the telescope element corresponding to operation $O$ from the algebra $\alpha$ for $S$.
-Constructors form an algebra for the signature $S$ over $\Mdata_\Delta\ S\ \gamma$, denoted by $\Mctor_S = (\Mctor_{S.O})_{O \in S}$.}
+\label{fig:data-rules}
+\caption{Rules for data types, constructors and eliminators. We write $O \in S$
+to indicate that $O$ is an operation in the signature $S$. We write $\alpha_O$
+to extract the telescope element corresponding to operation $O$ from the algebra
+$\alpha$ for $S$.}
 \end{figure}
 
+Constructors form an algebra for the signature $S$ over
+$\Mdata_\Delta\ S\ \gamma$, denoted by $\Mctor_S = (\Mctor_{S.O})_{O \in S}$.
+Similarly, the eliminator forms a coherent section over the constructor algebra,
+which holds definitionally.
 
-% This allows us to define data types such as vectors
-% \begin{align*}
-% 	 & \textit{Vect} : \mta{data}\ (\bullet \rhd \univ \rhd \textit{Nat})               \\
-% 	 & \quad\begin{aligned}
-% 		        \quad (\bullet & \rhd \textit{nil} : \Pi\ (T : \univ)\ (\iota\ (T, \textit{zero}))                                                          \\
-% 		        \quad          & \rhd \textit{cons} : \Pi\ (T : \univ)\ \Pi\ (n : \textit{Nat})\ \Pi\iota\ (T, n)\ \Pi\ T\ (\iota\ (T, \textit{succ}\ n)) \,.
-% 	        \end{aligned}
-% \end{align*}
+One might think, what do we gain by adding $\Mdata$ to the theory? If we can provide
+an inductive algebra $\gamma$ for a signature $S$ ourselves, then why not just use
+$\gamma$ directly? The reason is that by having a primitive for inductive types,
+we can take advantage of their properties in an extensional way. For example, an induction
+principle suggests that the constructors corresponding to each method are disjoint.
+Since constructors $\Mctor$ are a primitive term in the theory, we can make use of this
+when formulating a unification algorithm. Aside from disjointness, we can also rely on
+other properties such as injectivity, acyclicity, and `no-confusion.' McBride
+\cite{McBride2006-fp} originally explored the properties which arise from the
+existence of induction principles, or equivalently, initiality.
 
-% The languge $\lambdaind$, is a dependent type theory with $\Pi$, $\mta{Id}$ with
-% $\mta{uip}$, and a universe $\univ : \univ$. We will not concern ourselves with a
-% universe hierarchy but our results should be readily extensible to such a type
-% theory. This language also has inductive families and global definitions. We
-% follow a similar approach
-% to Cockx~and~Abel~\cite{Cockx2018-fk} by packaging named inductive constructions
-% and function definitions into a global context $\Sigma : \Glob$, and indexing local contexts
-% by global contexts. The contexts $\Con$ in the resulting theory are pairs $(\Sigma :
-% \Glob) \times \Loc\ \Sigma$ where $\Loc\ \Sigma$ are local contexts given by a
-% closed telescope of types as usual. Substitutions only occur between local contexts.
-% Items in a signature $\Sigma$ can be either
+For example, if we have an inductive algebra $(\n{N}, \n{zero}_{\n{N}},
+\n{succ}_{\n{N}}, \n{elim}_{\n{N}})$ for the natural numbers signature
+$\n{NatSig}$, we can prove propositionally that for all $x : \n{N}$,
+$\n{zero}_{\n{N}} \neq \n{succ}_{\n{N}}\ x$, by invoking $\n{elim}_{\n{N}}$.
+However, the typechecker does not know this fact; it is not derivable as a
+definitional equality contradiction. However, it \emph{is} derivable
+definitionally that for all $x : \mathbb{N}$, $\Mctor_{\n{zero}} \neq
+\Mctor_{\n{succ}}\ x$, where $\mathbb{N} = \Mdata\ {\n{NatSig}}\ (\n{N},
+\n{zero}_{\n{N}}, \n{succ}_{\n{N}}, \mta{elim}_{\n{N}})$ by the
+metatheoretic quotient-inductive definition of the syntax not equating $\Mctor_i$
+and $\Mctor_j$ unless $i = j$.
 
-% \begin{itemize}
-% 	\item function definitions $\mta{def}\ P\ A\ t$ for some parameters $P : \Loc\
-% 		      \Sigma$, return type $A : \Ty\ (\Sigma, P)$ and implementation $t : \Tm\ A\ (\Sigma, P)$,
-% 	\item postulates $\mta{post}\ P\ A$ for some parameters $P : \Loc\
-% 		      \Sigma$ and return type $A : \Ty\ (\Sigma, P)$, or
-% 	\item inductive type definitions $\mta{data}\ P\ T$ for some indices $P :
-% 		      \Loc\ \Sigma$ and signature $T : \Sig\ (\Sigma, \bullet)\ P$.
-% \end{itemize}
-% We do not make a distinction between parameters and indices for data types, but
-% our system is extensible to one with additional uniform parameters and we leave its
-% formulation as an implementation detail.
-
-% In order to actually construct inductive types in $\lambdaind$, we need to
-% extend the syntax with some term and type formers. First, we add a type former
-% \[
-% 	\mta{D} : \mta{data}\ P\ T \in \Sigma \to \Ty\ (\Sigma, \Delta \rhd P)
-% \]
-% which, given a data definition $i$ in $\Sigma$, and terms for its
-% indices $p$, constructs the data type $(\mta{D}\ i)[p]$. The relation $I \in
-% \Sigma$ finds items in a global context, analogously to how
-% $\mta{Var}\ \Gamma\ A$ defines variables for type $A$ in a local context
-% $\Gamma$. It is a decidable relation and stable under substitutions and global weakening.
-
-% Additionally, we add a constructor term
-% \[
-% 	\mta{C} :\ \forall i.\ \mta{Algebra}\ T\ (\mta{D}\ i)
-% \]
-% which fully applied, defines the data constructor $\mta{C}\ a$ of type
-% $(\mta{D}\ i)[\Msub p]$ for arguments $a$, by `freely' extending the syntax with
-% an algebra for the type family $\mta{D}\ i$. The (strictly positive) occurrences
-% of $\mta{Tm}$ in $\mta{Algebra}$ are part of the inductive syntax of the type
-% theory. We can now construct, for example, natural numbers as
-% \[
-%     \mta{C}_{\textit{Nat}}\ (\textit{succ}, (\mta{C}_{\textit{Nat}}\ (\textit{zero}, (\,))) : \mta{Tm}\ \Gamma\ (\mta{D}\ \textit{Nat}) \,.
-% \]
-
-% Next, we add an eliminator term
-% \[
-% 	\mta{E} :\ \forall i.\ (m : \mta{DispAlg}\ \mta{C}_i) \to \mta{Sec}\ m
-% \]
-% which given a data definition $i$ in $\Sigma$, a motive and methods for $i$,
-% eliminates each $d : (\mta{D}\ i)[\Msub p]$ into $M[\Msub{p;d}]$. This captures
-% the induction principle of the data type. The coherence part of the section is
-% captured by an equality constructor in the syntax
-% \[
-% 	\mta{E-id} :\ \forall i.\ (m : \mta{DispAlg}\ \mta{C}_i) \to \mta{Coh}\ (\mta{E}_i\ m) \,.
-% \]
-% \vspace{-2em}
-% \begin{lemma}
-% 	The constructor algebra $\mta{C}_i$ of a data type $i$ is inductive.
-% 	\begin{proof}
-% 		For every displayed algebra $m$ over $\mta{C}$ we get a section $(\mta{E}\ m, \mta{E-id}\ m)$.
-% 	\end{proof}
-% \end{lemma}
-
-% Finally, we add terms to the language for function definitions and postulates
-% \begin{align*}
-% 	\mta{F} : \mta{def}\ P\ A\ t \in \Sigma \to \Tm\ (\Sigma, \Delta \rhd P)\ A \qquad \mta{P} : \mta{post}\ P\ A \in \Sigma \to \Tm\ (\Sigma, \Delta \rhd P)\ A
-% \end{align*}
-% along with an equality constructor for function definitions $\mta{F-id} : \forall i.\ \mta{F}\ i = t$.
-% The language we have defined thus far is comparable to the core language of a
-% proof assistant.
+Another way to state this is that the existence of $\Mdata$ enables the use of
+\emph{dependent pattern matching} on its inhabitants. Nested pattern matching on
+$\mathbb{N}$, for example, can be elaborated to invocations of
+$\Melim_{\mta{NatSig}}$, which has the expected computation rules as shown in
+\cref{fig:data-rules}. Converting dependent pattern matching to
+eliminators has been explored in-depth by Goguen, McBride and McKinna
+\cite{Goguen2006-sy}, as well as by Cockx and Abel \cite{Cockx2018-bv} in
+absence of Axiom K. These results can be used for pattern matching on $\Mdata$
+without significant modification.
 
 \subsection{Extending $\lambdaind$ with representations} \label{sub:lambdarep}
 
-So far we are able to construct data types using the $\Mdata_\Delta\ S\ \gamma$ type
-constructor. These data types are themselves implemented in terms of inductive algebras.
-However, the rules for data types do not utilise the inductive algebras yet. To make use
-of these, we add a modality to the theory
+So far we are able to construct data types using the $\Mdata_\Delta\ S\ \gamma$
+type constructor. These data types are themselves implemented in terms of
+inductive algebras. However, the rules for data types do not utilise them. We
+would like to be able to relate data types to their underlying inductive
+algebras. One reason is to avoid unnecessary
+computation. If we have a type $X$ which has inductive algebras $(X, \alpha, \kappa)$ and
+$(X, \alpha', \kappa')$ for two signatures $S$ and $S'$ respectively, then we can form the
+data types $D = \Mdata_\Delta\ S\ (X, \alpha, \kappa)$ and $D' = \Mdata_\Delta\
+{S'}\ (X, \alpha', \kappa')$ and make use of the structural properties of
+initiality. However, we would also like to be able to freely convert between
+$X$, $D$ and $D'$ without incurring any runtime cost. After all, $D$ and $D'$
+are meant to be translated away to their underlying representation, $X$.
+This argument can also be made in the context of theorem proving. Sometimes it is easier
+to prove a property about $D$ or $D'$, due to their structure, but
+we should be able to `transport' the property to $X$.
+
+To make use of these conversions in a computationally-irrelevant manner,
+while still retaining the fact that $D$, $D'$ and $X$ are distinct types,
+we introduce a modality
 $$
-\MRepr : \univ \to \univ_C
+\MRepr : \univ \to \univ \,.
 $$
-which takes types in $\univ$ to types in a subuniverse $\univ_C < \univ$. This is the
-subuniverse of "concrete" types.
+which takes types to their representations. This modality respects definitionally all the
+type formers of the theory, other than $\Mdata$.
+
+\subsubsection{Subuniverse of concrete types}
+
+We can view the image of $\MRepr$ as a subuniverse of $\univ$. The restriction to
+its image
+$$
+\MRepr : \univ \to \univ_C \,.
+$$
+targets a universe of types which do not contain any $\Mdata$ types.
 
 
 We extend the language $\lambdaind$ to form $\lambdarep$, which allows the
