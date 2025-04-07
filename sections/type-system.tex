@@ -643,15 +643,15 @@ $\R$ is not injective in general, because two data types with distinct
 signatures might have the same representation.
 
 \begin{theorem}
-    $\R$ is a left-inverse of the evident inclusion $i : \lambdadata \hookrightarrow \lambdamltt$:
+    $\R$ is a left-inverse of the evident inclusion $i : \lambdamltt \hookrightarrow \lambdadata$:
     \[
-    \inferrule{\Gamma \vdash a : A}{\Gamma \vdash \R(i\ a) = a : A} \quad \text{(in \lambdamltt)}.
+    \inferrule{\Gamma \vdash a : A}{\Gamma \vdash \R(i(a)) = a : A} \quad \text{(in \lambdamltt)}.
     \]
     \begin{proof}
         The inclusion produces types without $\Mdata$ or $\MRepr$. Thus, the action of $\R$ on
         the image of $i$ does not invoke the equality reflection rule. With that
         constraint, and by induction on the syntax, $\R \circ i$ is the identity
-        function on $\lambdadata$.
+        function on $\lambdamltt$.
     \end{proof}
 \end{theorem}
 
