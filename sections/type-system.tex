@@ -688,16 +688,16 @@ will use the \texttt{monospace} font for terms in \lambdaprog.
     $|\R A| = |\R B|$ and $|\R f| = \texttt{id}$.
 \end{definition}
 
-\begin{theorem}
+\begin{theorem}\label{thm:repr-inj}
 	The type former $\MRepr{}$ is injective up to internal isomorphism, i.e.
 	\begin{equation}
-	\inferrule{\Gamma \vdash p : \MRepr\ T =_{\univ} \MRepr\ T'}{\Gamma\ \vdash i_p : T \simeq T'},
+	\inferrule{\Gamma \vdash p : \MRepr\ T =_{\univ} \MRepr\ T'}{\Gamma\ \vdash \text{conv}_p : T \simeq T'},
 	\end{equation}
 	Moreover, this isomorphism is computationally irrelevant.
 	\begin{proof}
-	For the input proof $p$, the forward direction $i$ is
+	For the input proof $p$, the forward direction $\text{conv}_p$ is
 	$\lambda x.\ \Munrepr_{T'}\ (\mta{J}\ \mta{id}\ (\Mrepr\ x)\ p)$
-	and the backward direction $i^{-1}$ is
+	and the backward direction $\text{conv}_p^{-1}$ is
 	$\lambda x.\ \Munrepr_{T}\ (\mta{J}\ \mta{id}\ (\Mrepr\ x)\ (\mta{sym}\
 	p))$. The coherences hold definitionally. Applying $\R$, we get $\lambda x.\
 	\mta{J}\ \mta{id}\ x\ p$, which is the identity function after $|-|$.
@@ -729,4 +729,4 @@ Then, we can construct computationally irrelevant functions
 &\mta{remember} = \lambda x.\ \mta{unrepr}\ (x, \mta{refl}) \,.
 \end{aligned}
 \end{align*}
-Clearly $|\R\ \mta{forget}_i| = |\R\ \mta{remember}| = \texttt{id}$.
+By reasoning similar to \cref{thm:repr-inj}, $|\R\ \mta{forget}_i| = |\R\ \mta{remember}| = \texttt{id}$.
