@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  6 APR 2025 21:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  7 APR 2025 03:54
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1190,41 +1190,45 @@ gure.1.4}) has been already used, duplicate ignored
                                                   
 l.505 
       ] [17]
-
-LaTeX Warning: Reference `fig:lambdaind-repr-coherence-pi-univ' on page 1 undef
-ined on input line 602.
-
-[18]
-
-LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 622.
-
-
-Overfull \hbox (1.04193pt too wide) in paragraph at lines 622--624
-[]$\OMS/cmsy/m/n/10 R$ \T1/cmr/m/it/10 pre-serves typ-ing and def-i-ni-tional e
-qual-ity: $\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 t[]; t[] \OT1/cmr/m/n/10 : [][] ^^
-@ \OML/cmm/m/it/10 A\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 !
+Overfull \hbox (8.95137pt too wide) detected at line 626
+[]
  []
 
+[18pdfTeX warning (ext4): destination with the same identifier (name{figure.1.5
+}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.638     B
+           y the setoid homomorphism $(\R, \R_\approx)$.pdfTeX warning (ext4): 
+destination with the same identifier (name{figure.1.6}) has been already used, 
+duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.638     B
+           y the setoid homomorphism $(\R, \R_\approx)$.]
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 631.
+(Font)              using `T1/cmr/m/sc' instead on input line 646.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 631.
+(Font)              using `T1/cmr/m/sc' instead on input line 646.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 633.
+(Font)              using `T1/cmr/m/sc' instead on input line 648.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 636.
+(Font)              using `T1/cmr/m/sc' instead on input line 654.
 
 
-LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 640.
+Overfull \hbox (4.20413pt too wide) in paragraph at lines 698--704
+[]\T1/cmr/m/it/10 For the in-put proof $\OML/cmm/m/it/10 p$\T1/cmr/m/it/10 , th
+e for-ward di-rec-tion $\OML/cmm/m/it/10 i$ \T1/cmr/m/it/10 is $\OML/cmm/m/it/1
+0 ^^Ux: [][] \OT1/cmr/m/n/10 ([] [] ([] \OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ) \OM
+L/cmm/m/it/10 p\OT1/cmr/m/n/10 )$
+ []
 
 [19]) (./sections/implementation.tex
 
@@ -1278,7 +1282,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 47--50
 cs-[]vol175-[]types2019 /
  []
 
-
+[23]
 Underfull \hbox (badness 10000) in paragraph at lines 94--98
 \T1/cmtt/m/n/9 content / view / E54D56DC3F5D5361CCDECA824030C38E / S09567968180
 0014Xa . pdf /
@@ -1291,7 +1295,7 @@ Overfull \hbox (221.43536pt too wide) in paragraph at lines 94--98
 []div .
  []
 
-[23]
+
 Underfull \hbox (badness 10000) in paragraph at lines 105--108
 \T1/cmr/m/n/9 2017), []$\T1/cmtt/m/n/9 https : / / www . cambridge . org / core
  / services / aop-[]cambridge-[]core /
@@ -1304,31 +1308,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 105--108
  []
 
 
-Underfull \hbox (badness 1824) in paragraph at lines 134--137
+Underfull \hbox (badness 1824) in paragraph at lines 130--133
 []\T1/cmr/m/n/9 Kovács, A.: Type-theoretic sig-na-tures for al-ge-braic the-o-r
 ies and in-duc-tive
  []
 
 
-Underfull \hbox (badness 1668) in paragraph at lines 139--141
+Underfull \hbox (badness 1668) in paragraph at lines 135--137
 []\T1/cmr/m/n/9 Martin-Löf, P.: In-tu-ition-is-tic type the-ory \T1/cmr/bx/n/9 
 1\T1/cmr/m/n/9 , 1--91 (1984), []$\T1/cmtt/m/n/9 http : / / people .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 139--141
+Underfull \hbox (badness 10000) in paragraph at lines 135--137
 \T1/cmtt/m/n/9 csail . mit . edu / jgross / personal-[]website / papers / acade
 mic-[]papers-[]local /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 149--152
+Underfull \hbox (badness 10000) in paragraph at lines 145--148
 \T1/cmr/bx/n/9 14\T1/cmr/m/n/9 (1), 69--111 (Jan 2004), []$\T1/cmtt/m/n/9 https
  : / / www . cambridge . org / core / services /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 149--152
+Underfull \hbox (badness 10000) in paragraph at lines 145--148
 \T1/cmtt/m/n/9 aop-[]cambridge-[]core / content / view / F8A44CAC27CCA178AF69DD
 84BC585A2D /
  []
@@ -1351,57 +1355,59 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: E8697098164B610F8033512D50A9D933;275.
  ) 
 Here is how much of TeX's memory you used:
- 28183 strings out of 478994
- 532547 string characters out of 5858183
- 875221 words of memory out of 5000000
- 44919 multiletter control sequences out of 15000+600000
- 436422 words of font info for 105 fonts, out of 8000000 for 9000
+ 28198 strings out of 478994
+ 532769 string characters out of 5858183
+ 875819 words of memory out of 5000000
+ 44929 multiletter control sequences out of 15000+600000
+ 437787 words of font info for 107 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 133i,23n,133p,495b,525s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 133i,23n,133p,519b,525s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}<
 /usr/local/texlive/2021/texmf-dist/fonts/type1/public/bbold-type1/bbold10.pfb><
-/usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
-usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></u
-sr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr
-/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/l
-ocal/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/loc
-al/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local
-/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/te
-xlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texli
-ve/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/
-2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2
-021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/202
-1/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2021/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2021/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021/tex
-mf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2021
-/texmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/texlive/2021/t
-exmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2021/tex
-mf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2021/texmf
--dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2021/texmf-d
-ist/fonts/type1/public/cm-super/sfcc0700.pfb></usr/local/texlive/2021/texmf-dis
-t/fonts/type1/public/cm-super/sfcc0900.pfb></usr/local/texlive/2021/texmf-dist/
-fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2021/texmf-dist/fo
-nts/type1/public/cm-super/sfit1000.pfb></usr/local/texlive/2021/texmf-dist/font
-s/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2021/texmf-dist/fonts/
-type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/ty
-pe1/public/cm-super/sfrm0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type
-1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/
-public/cm-super/sfsi0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/pu
-blic/cm-super/sfsi1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/publ
-ic/cm-super/sfss0600.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public
-/cm-super/sfss0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/c
-m-super/sfss0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-
-super/sfss1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-su
-per/sfti0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-supe
-r/sfti1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/
-sftt0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sf
-tt1000.pfb>
-Output written on .out/main.pdf (28 pages, 631021 bytes).
+/usr/local/texlive/2021/texmf-dist/fonts/type1/public/bbold-type1/bbold7.pfb></
+usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
+sr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
+r/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/
+local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/lo
+cal/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/loca
+l/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/
+texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/tex
+live/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texliv
+e/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2
+021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
+21/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2021
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2021/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2021/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2021/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021/texmf-
+dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2021/te
+xmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/texlive/2021/texm
+f-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2021/texmf-
+dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2021/texmf-di
+st/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2021/texmf-dist
+/fonts/type1/public/cm-super/sfcc0600.pfb></usr/local/texlive/2021/texmf-dist/f
+onts/type1/public/cm-super/sfcc0900.pfb></usr/local/texlive/2021/texmf-dist/fon
+ts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2021/texmf-dist/fonts
+/type1/public/cm-super/sfit1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/t
+ype1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2021/texmf-dist/fonts/typ
+e1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1
+/public/cm-super/sfrm0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/p
+ublic/cm-super/sfrm1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/pub
+lic/cm-super/sfsi1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/publi
+c/cm-super/sfss0600.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/
+cm-super/sfss0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm
+-super/sfss0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-s
+uper/sfss1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-sup
+er/sfti0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super
+/sfti1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/s
+ftt0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sft
+t1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfxc1
+000.pfb>
+Output written on .out/main.pdf (28 pages, 642750 bytes).
 PDF statistics:
- 611 PDF objects out of 1000 (max. 8388607)
- 482 compressed objects within 5 object streams
- 125 named destinations out of 1000 (max. 500000)
+ 626 PDF objects out of 1000 (max. 8388607)
+ 496 compressed objects within 5 object streams
+ 128 named destinations out of 1000 (max. 500000)
  117 words of extra memory for PDF output out of 10000 (max. 10000000)
 

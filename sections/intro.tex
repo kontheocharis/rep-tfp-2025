@@ -33,21 +33,21 @@ eliminator-like constructs. While views exhibit a nice way to transport across a
 bijection between the original data and the viewed data, they do not utilise
 this bijection to erase the view from the program.
 
-In this paper, we propose an extension $\lambdarep$ to a core language with
-dependent types and inductive families $\lambdaind$, which allows programmers to
-define custom, correct-by-construction data representations. This is done
-through user-defined translations of the constructors and eliminators of an
-inductive type to a concrete implementation, which form a bijective view of the
-original data called a `representation'. Representations are defined internally
-to the language, and require coherence properties that ensure a representation
-is faithful to its the original inductive family. We contribute the following:
+In this paper, we propose an extension $\lambdadata$ to Martin-L\"of type theory with
+which allows programmers to define inductive types with custom,
+correct-by-construction data representations. This is done through user-defined
+translations of the constructors and eliminators of an inductive type to a
+concrete implementation, which form a bijective view of the original data called
+a `representation'. Representations are defined internally to the language, and
+require coherence properties that ensure a representation is faithful to its the
+original inductive family. We contribute the following:
 \begin{itemize}
     \item A formulation of common optimisations such as the `Nat-hack', and
         similarly for other inductive types, as well as zero-cost data reuse when
         reindexing, using representations (\cref{sec:examples}).
-    \item A dependent type system with inductive families $\lambdaind$ and its
-        extension by representations $\lambdarep$ formulated as inductive algebras
-        for theories, along with a translation to $\lambdaind$ that erases all
+    \item A dependent type system with inductive families $\lambdadata$ and its
+        extension by representations $\lambdadata$ formulated as inductive algebras
+        for theories, along with a translation to $\lambdadata$ that erases all
         represented data types from the program (\cref{sec:type-system}).
         \item A prototype implementation of this system in \textsc{Superfluid},
         a programming language with inductive types and dependent pattern

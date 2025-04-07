@@ -90,7 +90,7 @@ $\primlab{UBig}$ primitives.
   \qquad \Sreprvar{\datalab{mul}}{\primlab{$\times$}\ \by\ \primlab{$\times$-id}}
 \end{align*}
  These will be replaced during a translation process
-back to $\lambdaind$, like rewriting rules \cite{Cockx2021-pw}, given
+back to $\lambdadata$, like rewriting rules \cite{Cockx2021-pw}, given
 that we have the appropriate lemmas to justify them in the context.
 
 This will effectively erase the \datalab{Nat} type from the compiled program,
@@ -272,7 +272,7 @@ buffer, so that all the required fields can be extracted. Allais
 buffer can be defined.
 
 
-\subsection{Transitivity}
+\subsection{Transitivity}\label{sub:transitivity}
 
 Representations are transitive, so in the previous example, the `terminal'
 representation of $\datalab{Vec}$ also depends on the representation of

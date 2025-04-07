@@ -126,10 +126,6 @@ Kaposi, A., Kov\'{a}cs, A., Altenkirch, T.: Constructing quotient
   inductive-inductive types. Proc. ACM Program. Lang.  \textbf{3}(POPL),  1--24
   (2~Jan 2019), \url{http://dx.doi.org/10.1145/3290315}
 
-\bibitem{Kovacs2022-vb}
-Kov\'{a}cs, A.: Staged compilation with two-level type theory. arXiv [cs.PL]
-  (20~Sep 2022), \url{http://arxiv.org/abs/2209.09729}
-
 \bibitem{Kovacs2023-gq}
 Kov\'{a}cs, A.: Type-theoretic signatures for algebraic theories and inductive
   types. Ph.D. thesis (2023),

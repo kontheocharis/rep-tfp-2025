@@ -61,7 +61,7 @@ could also extend to identity function detection, by internalising the
 extraction step explored in \cref{sub:irr}.
 
 There are elements of our formalisation which should be developed further. We
-did not formulate decidability of equality and normalisation for $\lambdarep$,
+did not formulate decidability of equality and normalisation for $\lambdadata$,
 which is needed for typechecking. We have developed a
 normalisation-by-evaluation \cite{Altenkirch2020-rm} algorithm used in the
 implementation of \superfluid, but have only sketched that it has the
@@ -77,7 +77,7 @@ mechanisation of the developments of this paper in Agda.
 % like a list/number/refinement, we could automatically generate an inductive
 % algebra for it if we have access to first-class datatypes
 
-On a more theoretical note, we define contexts in $\lambdaind$ as pairs of a
+On a more theoretical note, we define contexts in $\lambdadata$ as pairs of a
 global context and a local context. In the language of categories with
 families (CWF) \cite{Castellan2019-qo}, our contexts are the Grothendieck
 construction $\int _{\Sigma : \Glob} \mta{Loc}\ \Sigma$. However, the base

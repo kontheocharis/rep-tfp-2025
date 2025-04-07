@@ -25,6 +25,7 @@
 \newcommand\cat{\mathbb}
 \newcommand\Set{\mathbf{Set}}
 \newcommand{\mta}[1]{\textsf{#1}}
+\newcommand{\axiom}[1]{\textsc{#1}}
 
 % Type theory
 
@@ -123,11 +124,13 @@
 % Languages
 \newcommand{\emb}[1]{\ulcorner #1 \urcorner}
 \newcommand{\lang}{\textsc}
-\newcommand{\ind}{{\lang{ind}}}
-\newcommand{\rep}{{\lang{rep}}}
-\newcommand{\lambdaind}{\lambda_{\lang{ind}}}
-\newcommand{\lambdarep}{\lambda_{\lang{rep}}}
+\newcommand{\langdata}{{\lang{data}}}
+\newcommand{\langmltt}{{\lang{mltt}}}
+\newcommand{\lambdadata}{\ensuremath{{\lang{data}}}\xspace}
+\newcommand{\lambdaprog}{\ensuremath{{\lang{prog}}}\xspace}
+\newcommand{\lambdamltt}{\ensuremath{{\lang{mltt}}}\xspace}
 \newcommand{\R}{\mathcal{R}}
+\newcommand{\apR}{\R_{\approx}}
 \newcommand{\fmap}{\;\langle\$\rangle\;}
 \newcommand{\Msub}[1]{\langle#1\rangle}
 

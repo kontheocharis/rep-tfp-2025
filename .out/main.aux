@@ -46,6 +46,8 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Zero-copy deserialisation}{6}{subsection.1.2.4}\protected@file@percent }
 \citation{Allais2023-zq}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Transitivity}{7}{subsection.1.2.5}\protected@file@percent }
+\newlabel{sub:transitivity}{{2.5}{7}{Transitivity}{subsection.1.2.5}{}}
+\newlabel{sub:transitivity@cref}{{[subsection][5][2]2.5}{[1][7][]7}}
 \citation{Martin-Lof1984-pz}
 \citation{Altenkirch2016-zc}
 \@writefile{toc}{\contentsline {section}{\numberline {3}A type system for data representations}{8}{section.1.3}\protected@file@percent }
@@ -78,8 +80,8 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Defining algebras and friends}{13}{subsection.1.3.3}\protected@file@percent }
 \citation{Abbott2004-va}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Constructing inductive families}{14}{subsection.1.3.4}\protected@file@percent }
-\newlabel{sub:lambdaind}{{3.4}{14}{Constructing inductive families}{subsection.1.3.4}{}}
-\newlabel{sub:lambdaind@cref}{{[subsection][4][3]3.4}{[1][14][]14}}
+\newlabel{sub:constructing-inductive-families}{{3.4}{14}{Constructing inductive families}{subsection.1.3.4}{}}
+\newlabel{sub:constructing-inductive-families@cref}{{[subsection][4][3]3.4}{[1][14][]14}}
 \citation{McBride2006-fp}
 \citation{Goguen2006-sy}
 \citation{Cockx2018-bv}
@@ -87,19 +89,26 @@
 \newlabel{fig:data-rules}{{3}{15}{Rules for data types, constructors and eliminators. We write $O \in S$ to indicate that $O$ is an operation in the signature $S$. We write $\alpha _O$ to extract the telescope element corresponding to operation $O$ from the algebra $\alpha $ for $S$}{figure.1.3}{}}
 \newlabel{fig:data-rules@cref}{{[figure][3][]3}{[1][14][]15}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Reasoning about representations}{16}{subsection.1.3.5}\protected@file@percent }
-\newlabel{sub:lambdarep}{{3.5}{16}{Reasoning about representations}{subsection.1.3.5}{}}
-\newlabel{sub:lambdarep@cref}{{[subsection][5][3]3.5}{[1][16][]16}}
+\newlabel{sub:lambdadata}{{3.5}{16}{Reasoning about representations}{subsection.1.3.5}{}}
+\newlabel{sub:lambdadata@cref}{{[subsection][5][3]3.5}{[1][16][]16}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Introduction and elimination forms, as well as computation rules for the $\textsf  {Repr}$ modality. It also commutes with the rest of the syntax definitionally.}}{16}{figure.1.4}\protected@file@percent }
 \newlabel{fig:repr-rules}{{4}{16}{Introduction and elimination forms, as well as computation rules for the $\MRepr $ modality. It also commutes with the rest of the syntax definitionally}{figure.1.4}{}}
 \newlabel{fig:repr-rules@cref}{{[figure][4][]4}{[1][16][]16}}
 \citation{Boulier2017-cm}
 \@writefile{toc}{\contentsline {subsubsection}{Subuniverse of concrete types}{17}{section*.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Translating to extensional MLTT}{17}{subsection.1.3.6}\protected@file@percent }
-\citation{Kovacs2022-vb}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Translating to extensional {\textsc  {mltt}}}{17}{subsection.1.3.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Translation of $\ensuremath  {{\textsc  {data}}}\xspace  $ to $\ensuremath  {{\textsc  {mltt}}}\xspace  $. It replaces data types with their underlying inductive algebras, and eliminators by the induction principle provided by representations.}}{18}{figure.1.5}\protected@file@percent }
+\newlabel{fig:translation}{{5}{18}{Translation of $\lambdadata $ to $\lambdamltt $. It replaces data types with their underlying inductive algebras, and eliminators by the induction principle provided by representations}{figure.1.5}{}}
+\newlabel{fig:translation@cref}{{[figure][5][]5}{[1][18][]18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Equality translation of $\ensuremath  {{\textsc  {data}}}\xspace  $ to $\ensuremath  {{\textsc  {mltt}}}\xspace  $. This amounts to an inductive proof that $\mathcal  {R}$ preserves equality. The computation rule for eliminators is translated by reflecting the coherence of sections produced by applying the induction on representations.}}{18}{figure.1.6}\protected@file@percent }
+\newlabel{fig:translation-eq}{{6}{18}{Equality translation of $\lambdadata $ to $\lambdamltt $. This amounts to an inductive proof that $\R $ preserves equality. The computation rule for eliminators is translated by reflecting the coherence of sections produced by applying the induction on representations}{figure.1.6}{}}
+\newlabel{fig:translation-eq@cref}{{[figure][6][]6}{[1][18][]18}}
+\@writefile{toc}{\contentsline {subsubsection}{Inductive types in an empty context}{19}{section*.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.7}Computational irrelevance}{19}{subsection.1.3.7}\protected@file@percent }
 \newlabel{sub:irr}{{3.7}{19}{Computational irrelevance}{subsection.1.3.7}{}}
 \newlabel{sub:irr@cref}{{[subsection][7][3]3.7}{[1][19][]19}}
 \citation{McBride2006-fp}
+\@writefile{toc}{\contentsline {subsubsection}{Zero-cost refinements}{20}{section*.8}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}Implementation}{20}{section.1.4}\protected@file@percent }
 \newlabel{sec:implementation}{{4}{20}{Implementation}{section.1.4}{}}
 \newlabel{sec:implementation@cref}{{[section][4][]4}{[1][20][]20}}
@@ -115,7 +124,6 @@
 \citation{idris-pr}
 \citation{agda-issue}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Related work}{21}{section.1.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6}Future work}{21}{section.1.6}\protected@file@percent }
 \citation{Dagand2017-nj}
 \citation{Altenkirch2020-rm}
 \citation{Castellan2019-qo}
@@ -124,8 +132,9 @@
 \bibdata{bib}
 \bibcite{agda-extraction}{1}
 \bibcite{idris-pr}{2}
-\bibcite{coq-extraction}{3}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Future work}{22}{section.1.6}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{22}{section.1.7}\protected@file@percent }
+\bibcite{coq-extraction}{3}
 \bibcite{agda-issue}{4}
 \bibcite{Abbott2004-va}{5}
 \bibcite{Adamek2010-ls}{6}
@@ -146,24 +155,23 @@
 \bibcite{Diehl2018-ba}{21}
 \bibcite{Goguen2006-sy}{22}
 \bibcite{Kaposi2019-pj}{23}
-\bibcite{Kovacs2022-vb}{24}
-\bibcite{Kovacs2023-gq}{25}
-\bibcite{Martin-Lof1984-pz}{26}
-\bibcite{McBride2006-fp}{27}
-\bibcite{Mcbride2004-fd}{28}
-\bibcite{Moon2021-eb}{29}
-\bibcite{Wadler1987-zp}{30}
-\bibcite{Wadler1990-yo}{31}
+\bibcite{Kovacs2023-gq}{24}
+\bibcite{Martin-Lof1984-pz}{25}
+\bibcite{McBride2006-fp}{26}
+\bibcite{Mcbride2004-fd}{27}
+\bibcite{Moon2021-eb}{28}
+\bibcite{Wadler1987-zp}{29}
+\bibcite{Wadler1990-yo}{30}
 \@writefile{toc}{\contentsline {section}{\numberline {8}Appendix}{25}{section.1.8}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Implementation}{25}{subsection.1.8.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Utilities when working with algebras}{25}{subsection.1.8.2}\protected@file@percent }
 \newlabel{app:algebras}{{8.2}{25}{Utilities when working with algebras}{subsection.1.8.2}{}}
 \newlabel{app:algebras@cref}{{[subsection][2][8]8.2}{[1][25][]25}}
-\@writefile{toc}{\contentsline {subsubsection}{Realisation functions for algebras}{25}{section*.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Displayed algebras}{25}{section*.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Realisation functions for displayed algebras}{26}{section*.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Sections}{26}{section*.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Realisation functions for sections and inductive algebras}{27}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Realisation functions for algebras}{25}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Displayed algebras}{25}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Realisation functions for displayed algebras}{26}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Sections}{26}{section*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Realisation functions for sections and inductive algebras}{27}{section*.14}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Utilities when working with representations}{27}{subsection.1.8.3}\protected@file@percent }
 \newlabel{app:reprs}{{8.3}{27}{Utilities when working with representations}{subsection.1.8.3}{}}
 \newlabel{app:reprs@cref}{{[subsection][3][8]8.3}{[1][27][]27}}
