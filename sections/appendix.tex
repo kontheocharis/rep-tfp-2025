@@ -6,127 +6,342 @@
 
 The implementation of \superfluid can be found at \url{https://github.com/kontheocharis/superfluid}.
 
+\subsection{Basic \lambdamltt}
+
+We define the basic formulation of Martin-Löf Type Theory with $\univ :
+\univ$, $\Pi$, $\Sigma$, propositional equality and unit. We omit the
+definition of the substitution calculus and equality coercions
+(see \cite[5.1.2]{Castellan2019-qo}). We use de-Brujin indices, keeping weakening
+implicit, and abuse notation for substitutions of terms: $A[t]$ for $A[\mta{id},
+t]$.
+
+\newcommand{\refl}{\mta{refl}}
+\newcommand{\fst}{\mta{fst}}
+\newcommand{\snd}{\mta{snd}}
+\newcommand{\pair}{\mta{pair}}
+\newcommand{\app}{\mta{app}}
+\newcommand{\lam}{\mta{lam}}
+\newcommand{\J}{\mta{J}}
+
+
+\begin{figure}[H]
+\begin{mathpar}
+% Universe formation
+\inferrule[Univ-Form]
+  { }
+  {\Gamma \vdash \univ \type}
+
+% Element formation
+\inferrule[El-Form]
+  {\Gamma \vdash a : \univ}
+  {\Gamma \vdash \El a \type}
+
+% Element formation
+\inferrule[Univ-Intro]
+  {\Gamma \vdash A \type}
+  {\Gamma \vdash \code A : \univ}
+
+% Pi type formation
+\inferrule[Pi-Form]
+  {\Gamma \vdash A \type \\ \Gamma, A \vdash B \type}
+  {\Gamma \vdash A \to B \type}
+
+% Lambda abstraction (introduction)
+\inferrule[Pi-Intro]
+  {\Gamma, A \vdash b : B}
+  {\Gamma \vdash \lambda\ b : A \to B}
+
+% Function application (elimination)
+\inferrule[Pi-Elim]
+  {\Gamma \vdash f : A \to B \\ \Gamma \vdash a : A}
+  {\Gamma \vdash f\ a : B[a]}
+
+% Equality formation
+\inferrule[Eq-Form]
+  {\Gamma \vdash A \type \\ \Gamma \vdash a : A \\ \Gamma \vdash b : A}
+  {\Gamma \vdash a \equiv_A b \type}
+
+% Reflexivity (introduction)
+\inferrule[Eq-Intro]
+  {\Gamma \vdash a : A}
+  {\Gamma \vdash \refl\ a : a \equiv_A a}
+
+% J (equality elimination)
+\inferrule[Eq-Elim]
+  {\Gamma \vdash A \type \\
+   \Gamma, a : A, b : A, a \equiv_A b \vdash P \type \\
+   \Gamma, a : A \vdash r : P[a, a, \refl\ a] \\
+   \Gamma \vdash a : A \\ \Gamma \vdash b : A \\ \Gamma \vdash p : a \equiv_A b}
+  {\Gamma \vdash \J\ P\ d\ p : P[a, b, p]}
+
+% Unit type formation
+\inferrule[Unit-Form]
+  { }
+  {\Gamma \vdash \top \type}
+
+% Unit introduction
+\inferrule[Unit-Intro]
+  { }
+  {\Gamma \vdash \mta{tt} : \top}
+
+% Sigma type formation
+\inferrule[Sigma-Form]
+  {\Gamma \vdash A \type \\ \Gamma, A \vdash B \type}
+  {\Gamma \vdash A \times B \type}
+
+% Pair introduction
+\inferrule[Sigma-Intro]
+  {\Gamma \vdash a : A \\ \Gamma \vdash b : B[a]}
+  {\Gamma \vdash (a, b) : A \times B}
+
+% First projection (elimination)
+\inferrule[Sigma-Elim-Fst]
+  {\Gamma \vdash p : A \times B}
+  {\Gamma \vdash \fst\ p : A}
+
+% Second projection (elimination)
+\inferrule[Sigma-Elim-Snd]
+  {\Gamma \vdash p : A \times B}
+  {\Gamma \vdash \snd\ p : B[\fst\ p]}
+\end{mathpar}
+\caption{Typing rules for \lambdamltt.}
+\end{figure}
+
+\begin{figure}[H]
+\begin{minipage}[t]{0.5\textwidth}
+\begin{align*}
+  & {\El (\code A) = A} \\
+  & {\code (\El t) = t} \\
+  & { (\lambda\ b)\ a = b[a]} \\
+  & { \lambda\ x.\ (f\ x) = f } \\
+  & { \J\ P\ r\ (\refl\ a) = r\ a }
+\end{align*}
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+\begin{align*}
+& { x = \mta{tt}} \\
+& { \fst\ (a, b) = a} \\
+& { \snd\ (a, b) = b} \\
+& { (\fst\ p, \snd\ p) = p }
+\end{align*}
+\end{minipage}
+\caption{Homogenous equality rules for \lambdamltt, omitting substitution rules
+such as $(\El a) [\sigma] = \El (a[\sigma])$.}
+\end{figure}
+
+\subsection{Extension to \lambdadata}
+
+The language \lambdadata is the extension of \lambdamltt as presented above,
+by the rules in \cref{fig:data-rules,fig:repr-rules}. All constructions of signatures
+and operations are parametric over contexts, and thus stable under substitution.
+Below we present the definitional equality rules of $\MRepr$.
+
+\begin{mathpar}
+% Representation coherence
+\inferrule[Repr-R]
+  { }
+  {\Gamma \vdash \Munrepr\ (\Mrepr\ t) = t}
+
+\inferrule[Repr-L]
+  { }
+  {\Gamma \vdash \Mrepr\ (\Munrepr\ t) = t}
+
+% Pi coherence
+\inferrule[Repr-Pi]
+  { }
+  {\Gamma \vdash \MRepr\ {(\Pi\ T\ U)} = \Pi\ T\ (\MRepr\ U)}
+
+\inferrule[Repr-Lam]
+  { }
+  {\Gamma \vdash \Mrepr\ {(\lambda\ u)} = \lambda\ (\Mrepr\ u)}
+
+\inferrule[Unrepr-Lam]
+  { }
+  {\Gamma \vdash \Munrepr\ {(\lambda\ u)} = \lambda\ (\Munrepr\ u)}
+
+\inferrule[Repr-App]
+  { }
+  {\Gamma \vdash \Mrepr\ (\ap f) = \ap {(\Mrepr\ f)}}
+
+\inferrule[Unrepr-App]
+  { }
+  {\Gamma \vdash \Munrepr\ (\ap f) = \ap {(\Munrepr\ f)}}
+
+% Substitution coherence
+\inferrule[Repr-Sub]
+  { }
+  {\Gamma \vdash \Mrepr\ {(t[\sigma])} = (\Mrepr\ {t})[\sigma]}
+
+\inferrule[Unrepr-Sub]
+  { }
+  {\Gamma \vdash \Munrepr\ {(t[\sigma])} = (\Munrepr\ {t})[\sigma]}
+
+\inferrule[Repr-Type-Sub]
+  { }
+  {\Gamma \vdash \MRepr\ {(T[\sigma])} = (\MRepr\ {T})[\sigma]}
+
+% Universe coherence
+\inferrule[Repr-Univ]
+  { }
+  {\Gamma \vdash \MRepr\ {\univ} = \univ}
+
+\inferrule[Repr-Code]
+  { }
+  {\Gamma \vdash \Mrepr\ {(\Code T)} = \Code T}
+
+\inferrule[Unrepr-Code]
+  { }
+  {\Gamma \vdash \Munrepr\ {(\Code T)} = \Code T}
+
+% Identity type coherence
+\inferrule[Repr-Id]
+  { }
+  {\Gamma \vdash \MRepr\ (\mta{Id}\ a\ b) = \mta{Id}\ (\Mrepr\ a)\ (\Mrepr\ b)}
+
+\inferrule[Repr-Refl]
+  { }
+  {\Gamma \vdash \Mrepr\ (\mta{refl}\ u) = \mta{refl}\ (\Mrepr\ u)}
+
+\inferrule[Unrepr-Refl]
+  { }
+  {\Gamma \vdash \Munrepr\ (\mta{refl}\ u) = \mta{refl}\ (\Munrepr\ u)}
+
+\inferrule[Repr-J]
+  { }
+  {\Gamma \vdash \Mrepr\ (\mta{J}\ C\ w\ e) = \mta{J}\ (\mta{Repr}\ C)\ (\mta{repr}\ w)\ e}
+
+\inferrule[Unrepr-J]
+  { }
+  {\Gamma \vdash \Munrepr\ (\mta{J}\ (\mta{Repr}\ C)\ w\ e) = \mta{J}\ C\ (\mta{unrepr}\ w)\ e}
+\end{mathpar}
+
+
+\subsection{Full translation from \lambdamltt to \lambdadata}
+
+
+\subsection{Displayed algebras over algebras}
+
+
+\subsection{Applying sections to algebra inputs}
+
+TODO
+
+
 \subsection{Utilities when working with algebras} \label{app:algebras}
 
-We define in an Agda-like syntax, the construction of displayed
-algebras, sections and inductive algebras as telescopes in the object theory. We
-also define realisation functions which convert an internal telescopic
-construction into one which is partly lifted to the metatheory. Some implicit
-arguments are omitted for brevity.
+\subsubsection{Realisation functions for algebras}\label{app:reprs}
 
-\subsubsection{Realisation functions for algebras}
+% \begin{fleqn}
+% \begin{align*}
+% &\emb{\_}^{\mta{alg}} : \Tms\ \Gamma\ (\mta{alg}\ T) \to \mta{Alg}\ T \\
+% &\emb{(X, a)}^{\mta{alg}} := (\mta{El}\ X@, \emb{a}^{\mta{algebra}}) \,. \\[1em]
+% &\emb{\_}^{\mta{algebra}} : \Tms\ \Gamma\ (\mta{algebra}\ T\ X) \to \mta{Algebra}\ T\ X \\
+% &\emb{\bullet}^{\mta{algebra}}\ \{T = \bullet\}\ (v, \_)\text{ impossible by $v : \mta{Var}\ \bullet$} \\
+% &\emb{(a', f)}^{\mta{algebra}}\ \{T = T' \rhd O\}\ (\mta{here}, d) := (f@)[\Msub{d}] \\
+% &\emb{(a', f)}^{\mta{algebra}}\ \{T = T' \rhd O\}\ (\mta{there}\ v, d) := \emb{a'}^{\mta{algebra}}\ (v, d) \,.
+% \end{align*}
+% \end{fleqn}
 
-\begin{fleqn}
-\begin{align*}
-&\emb{\_}^{\mta{alg}} : \Tms\ \Gamma\ (\mta{alg}\ T) \to \mta{Alg}\ T \\
-&\emb{(X, a)}^{\mta{alg}} := (\mta{El}\ X@, \emb{a}^{\mta{algebra}}) \,. \\[1em]
-&\emb{\_}^{\mta{algebra}} : \Tms\ \Gamma\ (\mta{algebra}\ T\ X) \to \mta{Algebra}\ T\ X \\
-&\emb{\bullet}^{\mta{algebra}}\ \{T = \bullet\}\ (v, \_)\text{ impossible by $v : \mta{Var}\ \bullet$} \\
-&\emb{(a', f)}^{\mta{algebra}}\ \{T = T' \rhd O\}\ (\mta{here}, d) := (f@)[\Msub{d}] \\
-&\emb{(a', f)}^{\mta{algebra}}\ \{T = T' \rhd O\}\ (\mta{there}\ v, d) := \emb{a'}^{\mta{algebra}}\ (v, d) \,.
-\end{align*}
-\end{fleqn}
+% \subsubsection{Displayed algebras}
 
-\subsubsection{Displayed algebras}
+% \begin{fleqn}
+% \begin{align*}
+% &\mta{dispIn} : (O : \mta{Op}\ \Gamma\ P) \to ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
+% &\mta{dispIn}\ (\Pi\ A\ B)\ (X, x)\ M := \bullet \rhd (a : A) \rhd \mta{dispIn}\ B[\Msub a]\ (X, x)\ M \\
+% &\mta{dispIn}\ (\Pi\iota\ p\ B)\ (X, x)\ M := \bullet \rhd (y : X[\Msub p]) \rhd (m : M[\Msub{p, y}]) \rhd \mta{dispIn}\ B\ (X, x)\ M \\
+% &\mta{dispIn}\ (\iota\ p)\ (X, x)\ M := \bullet \,. \\[1em]
+% &\mta{dispInIn} : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M) \to \Tms\ \Gamma\ (\mta{in}\ O\ X) \\
+% &\mta{dispInIn}\ \{\Pi\ A\ B\}\ (a, t)\ M := (a, \mta{dispInIn}\ \{B[\Msub a]\}\ t\ M) \\
+% &\mta{dispInIn}\ \{\Pi\iota\ p\ B\}\ (y, m, t)\ M := (y,\mta{dispInIn}\ \{B\}\ t\ M) \\
+% &\mta{dispInIn}\ \{\iota\ p\}\ (\,)\ M := (\,) \,. \\[1em]
+% &\mta{dispOut} : \{O : \Op\ \Gamma\ P\} \to (i : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M)) \\
+% &\quad\to \Tms\ \Gamma\ X[\Msub{\mta{out}\ (\mta{dispInIn}\ i)\ X}]) \to \Tms\ \Gamma\ (P \rhd X) \\
+% &\mta{dispOut}\ \{\Pi\ A\ B\}\ (a, t)\ u := \mta{dispOut}\ \{B[\Msub a]\}\ t\ u \\
+% &\mta{dispOut}\ \{\Pi\iota\ p\ B\}\ (y, m, t)\ u := \mta{dispOut}\ \{B\}\ t\ u \\
+% &\mta{dispOut}\ \{\iota\ p\}\ x := (p, x) \,. \\[1em]
+% &\mta{dispOp} : \mta{Var}\ T \to ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Ty\ \Gamma \\
+% &\mta{dispOp}\ v\ (X, x)\ M := \Pi\ (a : \mta{dispIn}\ (T\ v)\ (X, x)\ M)\ M[\Msub{\mta{dispOut}\ a\ (x\ (i, \mta{dispInIn}\ a))}]\, . \\[1em]
+% &\mta{dispAlgebra} : ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
+% &\mta{dispAlgebra}\ \bullet\ X\ M := \bullet \\
+% &\mta{dispAlgebra}\ (T \rhd O)\ (X, x, y)\ M := \mta{dispAlgebra}\ T\ (X, x)\ M \rhd \mta{dispOp}\ (X, y)\ \mta{here}\ M \,. \\[1em]
+% &\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
+% &\mta{dispAlg} := X\ x.\ \bullet \rhd (M : \Pi\ P\ \Pi\ X\ \univ) \rhd \mta{dispAlgebra}\ \emb{(X, x)}^{\mta{algebra}}\ M \,.
+% \end{align*}
+% \end{fleqn}
 
-\begin{fleqn}
-\begin{align*}
-&\mta{dispIn} : (O : \mta{Op}\ \Gamma\ P) \to ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
-&\mta{dispIn}\ (\Pi\ A\ B)\ (X, x)\ M := \bullet \rhd (a : A) \rhd \mta{dispIn}\ B[\Msub a]\ (X, x)\ M \\
-&\mta{dispIn}\ (\Pi\iota\ p\ B)\ (X, x)\ M := \bullet \rhd (y : X[\Msub p]) \rhd (m : M[\Msub{p, y}]) \rhd \mta{dispIn}\ B\ (X, x)\ M \\
-&\mta{dispIn}\ (\iota\ p)\ (X, x)\ M := \bullet \,. \\[1em]
-&\mta{dispInIn} : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M) \to \Tms\ \Gamma\ (\mta{in}\ O\ X) \\
-&\mta{dispInIn}\ \{\Pi\ A\ B\}\ (a, t)\ M := (a, \mta{dispInIn}\ \{B[\Msub a]\}\ t\ M) \\
-&\mta{dispInIn}\ \{\Pi\iota\ p\ B\}\ (y, m, t)\ M := (y,\mta{dispInIn}\ \{B\}\ t\ M) \\
-&\mta{dispInIn}\ \{\iota\ p\}\ (\,)\ M := (\,) \,. \\[1em]
-&\mta{dispOut} : \{O : \Op\ \Gamma\ P\} \to (i : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M)) \\
-&\quad\to \Tms\ \Gamma\ X[\Msub{\mta{out}\ (\mta{dispInIn}\ i)\ X}]) \to \Tms\ \Gamma\ (P \rhd X) \\
-&\mta{dispOut}\ \{\Pi\ A\ B\}\ (a, t)\ u := \mta{dispOut}\ \{B[\Msub a]\}\ t\ u \\
-&\mta{dispOut}\ \{\Pi\iota\ p\ B\}\ (y, m, t)\ u := \mta{dispOut}\ \{B\}\ t\ u \\
-&\mta{dispOut}\ \{\iota\ p\}\ x := (p, x) \,. \\[1em]
-&\mta{dispOp} : \mta{Var}\ T \to ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Ty\ \Gamma \\
-&\mta{dispOp}\ v\ (X, x)\ M := \Pi\ (a : \mta{dispIn}\ (T\ v)\ (X, x)\ M)\ M[\Msub{\mta{dispOut}\ a\ (x\ (i, \mta{dispInIn}\ a))}]\, . \\[1em]
-&\mta{dispAlgebra} : ((X, x) : \mta{Alg}\ T) \to \mta{Ty}\ (\Gamma \rhd P \rhd X) \to \Tel\ \Gamma \\
-&\mta{dispAlgebra}\ \bullet\ X\ M := \bullet \\
-&\mta{dispAlgebra}\ (T \rhd O)\ (X, x, y)\ M := \mta{dispAlgebra}\ T\ (X, x)\ M \rhd \mta{dispOp}\ (X, y)\ \mta{here}\ M \,. \\[1em]
-&\mta{dispAlg} : \Tel\ (\Gamma \rhd \mta{alg}\ T) \\
-&\mta{dispAlg} := X\ x.\ \bullet \rhd (M : \Pi\ P\ \Pi\ X\ \univ) \rhd \mta{dispAlgebra}\ \emb{(X, x)}^{\mta{algebra}}\ M \,.
-\end{align*}
-\end{fleqn}
+% \subsubsection{Realisation functions for displayed algebras}
 
-\subsubsection{Realisation functions for displayed algebras}
+% \begin{fleqn}
+% \begin{align*}
+% &\emb{\_}^{\mta{dispAlg}} : \Tms\ (\Gamma \ (\mta{dispAlg}\ (X, x)) \to \mta{DispAlg}\ (X, x) \\
+% &\emb{(M, m)}^{\mta{dispAlg}} := (\mta{El}\ M@@, \emb{m}^{\mta{dispAlgebra}}) \,. \\[1em]
+% &\emb{\_}^{\mta{dispAlgebra}} : \Tms\ \Gamma \ (\mta{dispAlgebra}\ (X, x)\ M) \to \mta{DispAlgebra}\ (X, x)\ M \\
+% &\emb{\bullet}^{\mta{dispAlgebra}}\ \{T = \bullet\}\ (v, \_)\text{ impossible by $v : \mta{Var}\ \bullet$} \\
+% &\emb{(m', u)}^{\mta{dispAlgebra}}\ \{T = T' \rhd O\}\ (\mta{here}, d) := (u@)[\Msub{d}] \\
+% &\emb{(m', u)}^{\mta{dispAlgebra}}\ \{T = T' \rhd O\}\ (\mta{there}\ v, d) := \emb{m'}^{\mta{dispAlgebra}}\ (v, d) \,.
+% \end{align*}
+% \end{fleqn}
 
-\begin{fleqn}
-\begin{align*}
-&\emb{\_}^{\mta{dispAlg}} : \Tms\ (\Gamma \ (\mta{dispAlg}\ (X, x)) \to \mta{DispAlg}\ (X, x) \\
-&\emb{(M, m)}^{\mta{dispAlg}} := (\mta{El}\ M@@, \emb{m}^{\mta{dispAlgebra}}) \,. \\[1em]
-&\emb{\_}^{\mta{dispAlgebra}} : \Tms\ \Gamma \ (\mta{dispAlgebra}\ (X, x)\ M) \to \mta{DispAlgebra}\ (X, x)\ M \\
-&\emb{\bullet}^{\mta{dispAlgebra}}\ \{T = \bullet\}\ (v, \_)\text{ impossible by $v : \mta{Var}\ \bullet$} \\
-&\emb{(m', u)}^{\mta{dispAlgebra}}\ \{T = T' \rhd O\}\ (\mta{here}, d) := (u@)[\Msub{d}] \\
-&\emb{(m', u)}^{\mta{dispAlgebra}}\ \{T = T' \rhd O\}\ (\mta{there}\ v, d) := \emb{m'}^{\mta{dispAlgebra}}\ (v, d) \,.
-\end{align*}
-\end{fleqn}
+% \subsubsection{Sections}
 
-\subsubsection{Sections}
+% \begin{fleqn}
+% \begin{align*}
+% &\mta{sec} : \Ty\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg})  \\
+% &\mta{sec}\ \{P\} := X\ x\ M\ m.\ \Pi\ P\ \Pi\ X\ M \,. \\[1em]
+% &\mta{apply} : \mta{Tms}\ \Gamma\ (\mta{in}\ O\ X) \to \mta{Sec}\ M \to \Tms\ \Gamma\ (\mta{in}\ O\ (X, x)\ M) \\
+% &\mta{apply}\ \{O = \Pi\ A\ B\}\ (a, t)\ f := (a, \mta{apply}\ \{O = B[\Msub a]\}\ t\ f) \\
+% &\mta{apply}\ \{O = \Pi\iota\ p\ B\}\ (y, t)\ f := (y, f[\Msub y], \mta{apply}\ \{O = B\}\ t\ f) \\
+% &\mta{apply}\ \{O = \iota\ p\}\ (\,)\ f := (\,) \,. \\[1em]
+% &\mta{cohOpRet} : (v : \mta{Var}\ T) \to \Tms\ \Gamma\ (\mta{dispIn}\ (T v)\ (X, x)\ M) \\ &\qquad \to \mta{DispAlgebra}\ (X, x)\ M \to \mta{Sec}\ M \to \Ty\ \Gamma \\
+% &\mta{cohOpRet}\ v\ i\ m\ f := \text{let $a$ = $\mta{dispInIn}\ i$ in } \\ & \qquad \mta{Id}\ f[\Msub{\mta{dispOut}\ i\ (x\ (v, a))}]\ (m\ (v, \mta{apply}\ a\ f)) \\[1em]
+% &\mta{cohOp} : \mta{Var}\ T \to ((X, x) : \mta{Alg}\ T) \to ((M, m) : \mta{DispAlg}\ (X, x)) \to \mta{Sec}\ M \to \Ty\ \Gamma \\
+% &\mta{cohOp}\ v\ (X, x)\ (M, m)\ f := \\ & \qquad \Pi\ (a : \mta{dispIn}\ (T\ v)\ (X, x)\ M)\ (\mta{cohOpRet}\ v\ a\ \emb{(M, m)}^{\mta{dispAlg}}\ f)\, . \\[1em]
+% &\mta{coh} : ((X, x) : \mta{Alg}\ T) \to ((M, m) : \mta{DispAlg}\ (X, x)) \to \Tel\ (\Gamma \rhd \Pi\ P\ \Pi\ X\ M) \\
+% &\mta{coh}\ \{T = \bullet\}\ X\ M := \bullet \\
+% &\mta{coh}\ \{T = T' \rhd O\}\ (X, x, y)\ (M, m, n) := \\ & \qquad f.\ (\mta{coh}\ \{T'\}\ (X, x)\ (M, m))[\Msub{f}] \rhd \mta{cohOp}\ \mta{here}\ (X, y)\ (M, n)\ f \,. \\[1em]
+% &\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
+% &\mta{section} := X\ x\ M\ m.\ \mta{sec}\ X\ x\ M\ m \rhd \mta{coh}\ \emb{(X, x)}^{\mta{alg}}\ \emb{(M, m)}^{\mta{dispAlg}} \,.
+% \end{align*}
+% \end{fleqn}
 
-\begin{fleqn}
-\begin{align*}
-&\mta{sec} : \Ty\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg})  \\
-&\mta{sec}\ \{P\} := X\ x\ M\ m.\ \Pi\ P\ \Pi\ X\ M \,. \\[1em]
-&\mta{apply} : \mta{Tms}\ \Gamma\ (\mta{in}\ O\ X) \to \mta{Sec}\ M \to \Tms\ \Gamma\ (\mta{in}\ O\ (X, x)\ M) \\
-&\mta{apply}\ \{O = \Pi\ A\ B\}\ (a, t)\ f := (a, \mta{apply}\ \{O = B[\Msub a]\}\ t\ f) \\
-&\mta{apply}\ \{O = \Pi\iota\ p\ B\}\ (y, t)\ f := (y, f[\Msub y], \mta{apply}\ \{O = B\}\ t\ f) \\
-&\mta{apply}\ \{O = \iota\ p\}\ (\,)\ f := (\,) \,. \\[1em]
-&\mta{cohOpRet} : (v : \mta{Var}\ T) \to \Tms\ \Gamma\ (\mta{dispIn}\ (T v)\ (X, x)\ M) \\ &\qquad \to \mta{DispAlgebra}\ (X, x)\ M \to \mta{Sec}\ M \to \Ty\ \Gamma \\
-&\mta{cohOpRet}\ v\ i\ m\ f := \text{let $a$ = $\mta{dispInIn}\ i$ in } \\ & \qquad \mta{Id}\ f[\Msub{\mta{dispOut}\ i\ (x\ (v, a))}]\ (m\ (v, \mta{apply}\ a\ f)) \\[1em]
-&\mta{cohOp} : \mta{Var}\ T \to ((X, x) : \mta{Alg}\ T) \to ((M, m) : \mta{DispAlg}\ (X, x)) \to \mta{Sec}\ M \to \Ty\ \Gamma \\
-&\mta{cohOp}\ v\ (X, x)\ (M, m)\ f := \\ & \qquad \Pi\ (a : \mta{dispIn}\ (T\ v)\ (X, x)\ M)\ (\mta{cohOpRet}\ v\ a\ \emb{(M, m)}^{\mta{dispAlg}}\ f)\, . \\[1em]
-&\mta{coh} : ((X, x) : \mta{Alg}\ T) \to ((M, m) : \mta{DispAlg}\ (X, x)) \to \Tel\ (\Gamma \rhd \Pi\ P\ \Pi\ X\ M) \\
-&\mta{coh}\ \{T = \bullet\}\ X\ M := \bullet \\
-&\mta{coh}\ \{T = T' \rhd O\}\ (X, x, y)\ (M, m, n) := \\ & \qquad f.\ (\mta{coh}\ \{T'\}\ (X, x)\ (M, m))[\Msub{f}] \rhd \mta{cohOp}\ \mta{here}\ (X, y)\ (M, n)\ f \,. \\[1em]
-&\mta{section} : \Tel\ (\Gamma \rhd \mta{alg}\ T \rhd \mta{dispAlg}) \\
-&\mta{section} := X\ x\ M\ m.\ \mta{sec}\ X\ x\ M\ m \rhd \mta{coh}\ \emb{(X, x)}^{\mta{alg}}\ \emb{(M, m)}^{\mta{dispAlg}} \,.
-\end{align*}
-\end{fleqn}
+% \subsubsection{Realisation functions for sections and inductive algebras}
 
-\subsubsection{Realisation functions for sections and inductive algebras}
+% \begin{fleqn}
+% \begin{align*}
+% &\emb{\_}^{\mta{coh}} : \Tms\ \Gamma \ (\mta{coh}\ (X, x)\ (M, m))[\Msub f] \to \mta{IntCoh}\ f@@ \\
+% &\emb{\bullet}^{\mta{coh}}\ \{T = \bullet\}\ (v, \_)\text{ impossible by $v : \mta{Var}\ \bullet$} \\
+% &\emb{(c, u)}^{\mta{coh}}\ \{T = T' \rhd O\}\ (\mta{here}, d) := (u@)[\Msub{d}] \\
+% &\emb{(c, u)}^{\mta{coh}}\ \{T = T' \rhd O\}\ (\mta{there}\ v, d) := \emb{c}^{\mta{coh}}\ (v, d) \,. \\[1em]
+% &\emb{\_}^{\mta{section}} : \Tms\ \Gamma \ \mta{section}[\Msub{X, x, M, m}] \to (f : \mta{Sec}\ \emb{(M, m)}^{\mta{dispAlg}}) \times \mta{IntCoh}\ f \\
+% &\emb{(X, x, M, m, f, c)}^{\mta{dispAlg}} := (f@@, \emb{m}^{\mta{coh}}) \,. \\[1em]
+% &\emb{\_}^\mta{indAlgebra} : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X]) \\ & \qquad \to (m : \mta{DispAlg}\ X) \to (f : \mta{Sec}\ m) \times  \mta{IntCoh}\ f \\
+% &\emb{l}^\mta{indAlgebra}\ (M, m) := \emb{l@(\lambda\ \lambda\ M)@m}^\mta{section}
+% \end{align*}
+% \end{fleqn}
 
-\begin{fleqn}
-\begin{align*}
-&\emb{\_}^{\mta{coh}} : \Tms\ \Gamma \ (\mta{coh}\ (X, x)\ (M, m))[\Msub f] \to \mta{IntCoh}\ f@@ \\
-&\emb{\bullet}^{\mta{coh}}\ \{T = \bullet\}\ (v, \_)\text{ impossible by $v : \mta{Var}\ \bullet$} \\
-&\emb{(c, u)}^{\mta{coh}}\ \{T = T' \rhd O\}\ (\mta{here}, d) := (u@)[\Msub{d}] \\
-&\emb{(c, u)}^{\mta{coh}}\ \{T = T' \rhd O\}\ (\mta{there}\ v, d) := \emb{c}^{\mta{coh}}\ (v, d) \,. \\[1em]
-&\emb{\_}^{\mta{section}} : \Tms\ \Gamma \ \mta{section}[\Msub{X, x, M, m}] \to (f : \mta{Sec}\ \emb{(M, m)}^{\mta{dispAlg}}) \times \mta{IntCoh}\ f \\
-&\emb{(X, x, M, m, f, c)}^{\mta{dispAlg}} := (f@@, \emb{m}^{\mta{coh}}) \,. \\[1em]
-&\emb{\_}^\mta{indAlgebra} : \mta{Tms}\ \Gamma\ (\Pi\ \mta{dispAlg}[\Msub X]\ \mta{section}[\Msub X]) \\ & \qquad \to (m : \mta{DispAlg}\ X) \to (f : \mta{Sec}\ m) \times  \mta{IntCoh}\ f \\
-&\emb{l}^\mta{indAlgebra}\ (M, m) := \emb{l@(\lambda\ \lambda\ M)@m}^\mta{section}
-\end{align*}
-\end{fleqn}
+% \subsection{Utilities when working with representations} \label{app:reprs}
 
-\subsection{Utilities when working with representations} \label{app:reprs}
+% We define the action of \mta{repr} and \mta{unrepr} on the algebra constructions above.
+% We omit the definition of $\emb{\_}^{\mta{Unrepr}}$ as it mirrors $\emb{\_}^{\mta{Repr}}$.
 
-We define the action of \mta{repr} and \mta{unrepr} on the algebra constructions above.
-We omit the definition of $\emb{\_}^{\mta{Unrepr}}$ as it mirrors $\emb{\_}^{\mta{Repr}}$.
-
-\begin{fleqn}
-\begin{align*}
-&\_^{\mta{Repr}} : \Tms\ \Gamma\ (\mta{in}\ O\ X) \to \Tms\ \Gamma\ (\mta{in}\ O\ (\mta{Repr}\ X)) \\
-&(a, t)^{\mta{Repr}}\ \{O = \Pi\ A\ B\} := (a, t^\mta{Repr}\ \{O = B[\Msub a]\}) \\
-&(x, t)^{\mta{Repr}}\ \{O = \Pi\iota\ p\ B\} := (\mta{repr}\ a, t^\mta{Repr}\ \{O = B\}) \\
-&(\,)^{\mta{Repr}}\ \{O = \iota\ p\} := (\,) \,. \\[1em]
-&\_^{\mta{Repr}} : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M) \to \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ (\mta{Repr}\ M)) \\
-&(a, t)^{\mta{Repr}}\ \{O = \Pi\ A\ B\} := (a, t^\mta{Repr}\ \{O = B[\Msub a]\}) \\
-&(y, m, t)^{\mta{Repr}}\ \{O = \Pi\iota\ p\ B\} := (y, \mta{repr}\ m, t^\mta{Repr}\ \{O = B\}) \,. \\[1em]
-&\_^{\mta{Repr}} : \mta{Algebra}\ T\ X \to \mta{Algebra}\ T\ (\mta{Repr}\ X) \\
-&f^{\mta{Repr}}\ (v, d) := \mta{repr}\ (f\ (v, d^{\mta{Unrepr}})) \,. \\[1em]
-&\_^{\mta{Repr}*} : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M) \\ & \qquad \to \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)^{\mta{Repr}}\ (p\ x .\ M[\Msub{p;\mta{unrepr}\ x}])) \\
-&(a, t)^{\mta{Repr}*}\ \{O = \Pi\ A\ B\} := (a, t^{\mta{Repr}*}\ \{O = B[\Msub a]\}) \\
-&(y, m, t)^{\mta{Repr}*}\ \{O = \Pi\iota\ p\ B\} := (\mta{repr}\ y, m, t^{\mta{Repr}*}\ \{O = B\}) \\
-&(\,)^{\mta{Repr}*}\ \{O = \iota\ p\} := (\,) \,. \\[1em]
-&\_^{\mta{Repr}} : \mta{DispAlgebra}\ (X, x)\ M \to \mta{DispAlgebra}\ (X, x)\ (\mta{Repr}\ M) \\
-&f^{\mta{Repr}}\ (v, d) := \mta{repr}\ (f\ (v, d^{\mta{Unrepr}})) \,. \\[1em]
-&\_^{\mta{Repr}*} : \mta{DispAlgebra}\ (X, x)\ M \to \mta{DispAlgebra}\ (X, x)^{\mta{Repr}}\ (p\ x .\ M[\Msub{p;\mta{unrepr}\ x}]) \\
-&f^{\mta{Repr}}\ (v, d) := f\ (v, d^{\mta{Unrepr}}) \,.
-\end{align*}
-\end{fleqn}
+% \begin{fleqn}
+% \begin{align*}
+% &\_^{\mta{Repr}} : \Tms\ \Gamma\ (\mta{in}\ O\ X) \to \Tms\ \Gamma\ (\mta{in}\ O\ (\mta{Repr}\ X)) \\
+% &(a, t)^{\mta{Repr}}\ \{O = \Pi\ A\ B\} := (a, t^\mta{Repr}\ \{O = B[\Msub a]\}) \\
+% &(x, t)^{\mta{Repr}}\ \{O = \Pi\iota\ p\ B\} := (\mta{repr}\ a, t^\mta{Repr}\ \{O = B\}) \\
+% &(\,)^{\mta{Repr}}\ \{O = \iota\ p\} := (\,) \,. \\[1em]
+% &\_^{\mta{Repr}} : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M) \to \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ (\mta{Repr}\ M)) \\
+% &(a, t)^{\mta{Repr}}\ \{O = \Pi\ A\ B\} := (a, t^\mta{Repr}\ \{O = B[\Msub a]\}) \\
+% &(y, m, t)^{\mta{Repr}}\ \{O = \Pi\iota\ p\ B\} := (y, \mta{repr}\ m, t^\mta{Repr}\ \{O = B\}) \,. \\[1em]
+% &\_^{\mta{Repr}} : \mta{Algebra}\ T\ X \to \mta{Algebra}\ T\ (\mta{Repr}\ X) \\
+% &f^{\mta{Repr}}\ (v, d) := \mta{repr}\ (f\ (v, d^{\mta{Unrepr}})) \,. \\[1em]
+% &\_^{\mta{Repr}*} : \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)\ M) \\ & \qquad \to \Tms\ \Gamma\ (\mta{dispIn}\ O\ (X, x)^{\mta{Repr}}\ (p\ x .\ M[\Msub{p;\mta{unrepr}\ x}])) \\
+% &(a, t)^{\mta{Repr}*}\ \{O = \Pi\ A\ B\} := (a, t^{\mta{Repr}*}\ \{O = B[\Msub a]\}) \\
+% &(y, m, t)^{\mta{Repr}*}\ \{O = \Pi\iota\ p\ B\} := (\mta{repr}\ y, m, t^{\mta{Repr}*}\ \{O = B\}) \\
+% &(\,)^{\mta{Repr}*}\ \{O = \iota\ p\} := (\,) \,. \\[1em]
+% &\_^{\mta{Repr}} : \mta{DispAlgebra}\ (X, x)\ M \to \mta{DispAlgebra}\ (X, x)\ (\mta{Repr}\ M) \\
+% &f^{\mta{Repr}}\ (v, d) := \mta{repr}\ (f\ (v, d^{\mta{Unrepr}})) \,. \\[1em]
+% &\_^{\mta{Repr}*} : \mta{DispAlgebra}\ (X, x)\ M \to \mta{DispAlgebra}\ (X, x)^{\mta{Repr}}\ (p\ x .\ M[\Msub{p;\mta{unrepr}\ x}]) \\
+% &f^{\mta{Repr}}\ (v, d) := f\ (v, d^{\mta{Unrepr}}) \,.
+% \end{align*}
+% \end{fleqn}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  9 APR 2025 19:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  9 APR 2025 20:58
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1190,22 +1190,24 @@ gure.1.4}) has been already used, duplicate ignored
                                                   
 l.492 
       ] [17]
-Overfull \hbox (8.95137pt too wide) detected at line 613
+Overfull \hbox (6.26028pt too wide) detected at line 603
 []
  []
 
-[18pdfTeX warning (ext4): destination with the same identifier (name{figure.1.5
-}) has been already used, duplicate ignored
+
+Overfull \hbox (9.6795pt too wide) detected at line 613
+[]
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [18pdfTeX warning (ext4): destination with the same identifier (name{figure.1.
+5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.625     B
-           y the setoid homomorphism $(\R, \R_\approx)$.pdfTeX warning (ext4): 
-destination with the same identifier (name{figure.1.6}) has been already used, 
-duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.625     B
-           y the setoid homomorphism $(\R, \R_\approx)$.]
+l.621 
+      ]
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
 (Font)              using `T1/cmr/m/sc' instead on input line 633.
@@ -1222,7 +1224,12 @@ LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
 (Font)              using `T1/cmr/m/sc' instead on input line 641.
 
-
+[19pdfTeX warning (ext4): destination with the same identifier (name{figure.1.6
+}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.672 
+      ]
 Overfull \hbox (24.79878pt too wide) in paragraph at lines 685--691
 []\T1/cmr/m/it/10 For the in-put proof $\OML/cmm/m/it/10 p$\T1/cmr/m/it/10 , th
 e for-ward di-rec-tion $[][]$ is $\OML/cmm/m/it/10 ^^Ux: [][] \OT1/cmr/m/n/10 (
@@ -1230,17 +1237,23 @@ e for-ward di-rec-tion $[][]$ is $\OML/cmm/m/it/10 ^^Ux: [][] \OT1/cmr/m/n/10 (
  )$
  []
 
-[19]) (./sections/implementation.tex
+) (./sections/implementation.tex [20]
 
-LaTeX Warning: Reference `eq:repr-ci' on page 20 undefined on input line 20.
+LaTeX Warning: Reference `eq:repr-ci' on page 21 undefined on input line 20.
 
-) [20] (./sections/conclusion.tex
+) (./sections/conclusion.tex [21]
 Overfull \hbox (2.9021pt too wide) in paragraph at lines 49--55
 \T1/cmr/m/n/10 quotient-induction, induction-induction and induction-recursion.
  Rep-re-sen-ta-tions
  []
 
-[21]) (.out/main.bbl [22]
+
+Overfull \hbox (8.78955pt too wide) in paragraph at lines 63--70
+\T1/cmr/m/n/10 which is needed for type-check-ing. We have de-vel-oped a normal
+isation-by-evaluation
+ []
+
+[22]) (.out/main.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 32--36
 []\T1/cmr/m/n/9 Adamek, J., Rosicky, J., Vi-tale, E.M.: Cam-bridge tracts in ma
 th-
@@ -1325,7 +1338,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 135--137
 mic-[]papers-[]local /
  []
 
-
+[24]
 Underfull \hbox (badness 10000) in paragraph at lines 145--148
 \T1/cmr/bx/n/9 14\T1/cmr/m/n/9 (1), 69--111 (Jan 2004), []$\T1/cmtt/m/n/9 https
  : / / www . cambridge . org / core / services /
@@ -1337,17 +1350,29 @@ Underfull \hbox (badness 10000) in paragraph at lines 145--148
 84BC585A2D /
  []
 
-[24]) (./sections/appendix.tex
-Overfull \hbox (28.1105pt too wide) detected at line 54
-[]
- []
+) (./sections/appendix.tex
 
-[25]
-Overfull \hbox (1.15874pt too wide) detected at line 89
-[]
- []
+LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
+(Font)              using `U/stmry/m/n' instead on input line 9.
 
-[26] [27]) [28] (.out/main.aux)
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [25]
+[26pdfTeX warning (ext4): destination with the same identifier (name{figure.1.7
+}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.216 \end{mathpar}
+                   pdfTeX warning (ext4): destination with the same identifier 
+(name{figure.1.8}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.216 \end{mathpar}
+                   ]) [27] (.out/main.aux)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
 
 LaTeX Warning: There were undefined references.
 
@@ -1355,13 +1380,13 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: E8697098164B610F8033512D50A9D933;275.
  ) 
 Here is how much of TeX's memory you used:
- 28200 strings out of 478994
- 532802 string characters out of 5858183
- 875906 words of memory out of 5000000
- 44931 multiletter control sequences out of 15000+600000
- 437787 words of font info for 107 fonts, out of 8000000 for 9000
+ 28232 strings out of 478994
+ 533122 string characters out of 5858183
+ 878896 words of memory out of 5000000
+ 44951 multiletter control sequences out of 15000+600000
+ 441920 words of font info for 118 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 133i,23n,133p,519b,525s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 133i,23n,133p,521b,523s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}<
 /usr/local/texlive/2021/texmf-dist/fonts/type1/public/bbold-type1/bbold10.pfb><
@@ -1404,10 +1429,10 @@ er/sfti0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super
 ftt0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sft
 t1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfxc1
 000.pfb>
-Output written on .out/main.pdf (28 pages, 643078 bytes).
+Output written on .out/main.pdf (27 pages, 643145 bytes).
 PDF statistics:
- 627 PDF objects out of 1000 (max. 8388607)
- 497 compressed objects within 5 object streams
- 128 named destinations out of 1000 (max. 500000)
+ 629 PDF objects out of 1000 (max. 8388607)
+ 499 compressed objects within 5 object streams
+ 129 named destinations out of 1000 (max. 500000)
  117 words of extra memory for PDF output out of 10000 (max. 10000000)
 
