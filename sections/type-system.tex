@@ -45,21 +45,22 @@ implied for every inference rule.
   \begin{mathpar}
   \inferrule[Tel-Empty]{ }{\Gamma \vdash \bullet \tel}
   \and
-  \inferrule[Tel-Extend]{\Gamma \vdash \Delta \tel \\ \Gamma, \Delta \vdash A \type}{\Gamma \vdash (\Delta, A) \tel}
+  \inferrule[Tel-Extend]{\Gamma \vdash A \type \\ \Gamma, A \vdash \Delta \tel}{\Gamma \vdash (A, \Delta) \tel}
   \\
   \inferrule[Spine-Empty]{ }{\Gamma \vdash (\,) :: \bullet} \and
-  \inferrule[Spine-Extend]{\Gamma \vdash \delta :: \Delta \\ \Gamma \vdash a : A[\delta]}{\Gamma \vdash (\delta, a) :: (\Delta, A)}
+  \inferrule[Spine-Extend]{\Gamma \vdash a : A \\ \Gamma \vdash \delta : \Delta[a]}{\Gamma \vdash (a, \delta) :: (A, \Delta)}
   \end{mathpar}
-  \caption{Rules for forming telescopes and spines. Extending contexts by
-  telescopes (such as $\Gamma, \Delta$) is defined mutually with these rules.}
+  \caption{Rules for forming telescopes and spines.}
 \end{figure}
 
-We write $\Delta \to X$ for an iterated function type with codomain $\Gamma, \Delta \vdash X$,
-and $(\delta :: \Delta) \to X[\delta]$ when names are highlighted.
-We will often use the notation $\delta.y$ to extract a certain index $y$ from a
-spine $\delta$. This is used when we define telescopes using named notation. For
-example, if $\delta :: (\textit{X} : A \to \univ, \textit{y} : (a : A) \to X\
-a)$, then $\delta.X : A \to \univ$ and $\delta.y : (a : A) \to \delta.X\ a$.
+Extending contexts by telescopes (such as $\Gamma, \Delta$) is defined by
+induction on telescopes. We write $\Delta \to X$ for an iterated function type
+with codomain $\Gamma, \Delta \vdash X$, and $(\delta :: \Delta) \to X[\delta]$
+when names are highlighted. We will often use the notation $\delta.y$ to extract
+a certain index $y$ from a spine $\delta$. This is used when we define
+telescopes using named notation. For example, if $\delta :: (\textit{X} : A \to
+\univ, \textit{y} : (a : A) \to X\ a)$, then $\delta.X : A \to \univ$ and
+$\delta.y : (a : A) \to \delta.X\ a$.
 
 
 \newcommand{\ValidCase}{\mta{ValidCase}}
@@ -89,7 +90,7 @@ Signatures are lists of operations, and operations build up constructor types.
   \begin{mathpar}
   \inferrule[Sig-Empty]{\Gamma \vdash \Delta \tel}{\Gamma \vdash \epsilon \sig \Delta}
   \and
-  \inferrule[Sig-Extend]{\Gamma \vdash \Delta \tel \\ \Gamma \vdash O \op \Delta}{\Gamma \vdash (S \rhd O) \sig \Delta}
+  \inferrule[Sig-Extend]{\Gamma \vdash \Delta \tel \\ \Gamma \vdash O \op \Delta \\ \Gamma \vdash S \sig \Delta}{\Gamma \vdash (O \lhd S) \sig \Delta}
   \\
   \inferrule[Op-Ext]{\Gamma \vdash A \type \\ \Gamma, A \vdash O \op \Delta}
   {\Gamma \vdash (A\ \to\external O) \op \Delta} \and
@@ -115,10 +116,10 @@ Each signature is described by an associated telescope of indices $\Delta$, and 
 
 \begin{example}[Natural numbers]\label{ex:nat-sig}
 The signature for natural numbers is indexed by the empty telescope $\bullet$. It is defined as
-$\Gamma \vdash (\epsilon \rhd \iota\ (\,) \rhd \iota\ (\,) \to\internal \iota\ (\,)) \sig \bullet$.
-We can add labels to aid readability, and omit index spines if they are empty:
+$\Gamma \vdash (\iota\ (\,) \lhd \iota\ (\,) \to\internal \iota\ (\,) \lhd \epsilon) \sig \bullet$.
+We can add labels to aid readability, omit index spines if they are empty, and omit the final $\epsilon$ from signatures:
 \[
-\Gamma \vdash (\epsilon \rhd \textit{zero} : \iota \rhd \textit{succ} : \iota\ \to\internal \iota) \sig \bullet \,.
+\Gamma \vdash (\textit{zero} : \iota \lhd \textit{succ} : \iota\ \to\internal) \sig \bullet \,.
 \]
 \end{example}
 
@@ -126,8 +127,8 @@ We can add labels to aid readability, and omit index spines if they are empty:
 The signature for vectors of elements of type $T$ and length $n$ is indexed by the telescope $(T : \univ, n : \mathbb{N})$,
 defined as
 \begin{align*}
-\Gamma \vdash (\epsilon &\rhd \n{nil} : (T : \univ) \to\external \iota\ T\ \n{zero} \\
-&\rhd \n{cons} : (T : \univ) \to\external (n' : \mathbb{N}) \to\external (t : T) \to\external \iota\ T\ n' \to\internal \iota\ T\ (\n{succ}\ n')) \\
+\Gamma \vdash (&\n{nil} : (T : \univ) \to\external \iota\ T\ \n{zero}\ \lhd \\
+&\n{cons} : (T : \univ) \to\external (n' : \mathbb{N}) \to\external (t : T) \to\external \iota\ T\ n' \to\internal \iota\ T\ (\n{succ}\ n')) \\
 &\sig (T : \univ, n : \mathbb{N}) \,.
 \end{align*}
 Later we will see how we can use the signature in \cref{ex:nat-sig} to define the type of natural numbers $\Gamma \vdash \mathbb{N} \type$.
@@ -282,10 +283,10 @@ The algebras for a signature are defined
 by case analysis on $S$:
 \begin{align*}
 &\boxed{\Gamma \vdash S\A\ X \tel} \\
-&\epsilon\A\ X = \bullet \qquad (S' \rhd O)\A\ X = ({S'}\A\ X,\ (\nu :: O\IN\ X) \to X[\nu\OUT])
+&\epsilon\A\ X = \bullet \qquad (O \lhd S')\A\ X = ((\nu :: O\IN\ X) \to X[\nu\OUT],\ {S'}\A\ X)
 \end{align*}
 An empty signature $\epsilon$ produces an empty telescope, while an extended
-signature $S' \rhd O$ produces a telescope extended with a function
+signature $O \lhd S'$ produces a telescope extended with a function
 corresponding to $O$. This function goes from the inputs of $O$ interpreted in
 $X$, to $X$ evaluated at the output indices.
 The inputs and outputs of each operation $O$ in an algebra are defined by case
@@ -308,26 +309,12 @@ $\boxed{\Gamma \vdash O\IN\ X \tel}$ & \boxed{\Gamma \vdash \{O\}\ \nu\OUT :: \D
 \end{tabular}
 \end{block}
 
-
-% We can similarly define internal displayed algebras over external algebras $(X,
-% x) : \mta{Alg}\ T$ as
-% \begin{align*}
-%     &\mta{dispAlgebra}\statement that is true in a model (X, x) : \Tel\ (\Gamma \rhd M : \Ty\ (\Gamma \rhd P \rhd X)) \\
-%     &\mta{dispAlg}\ (X, x) := \bullet \rhd M : \Ty\ (\Gamma \rhd P \rhd X) \rhd \mta{dispAlgebra}\ (X, x)
-% \end{align*}
-% and finally sections as
-% \begin{align*}
-%     &\mta{Sec}\ M := \Tm\ (\Gamma \rhd P \rhd X)\ M \\
-%     &\mta{Coh}\ f := \forall a. f[\Msub{\mta{out}\ a; x\ a}] = m\ (\mta{disp}\ f\ a) \\
-%     &\mta{Section}\ (M, m) := (f : \mta{Sec}\ M) \times \mta{Coh}\ f
-% \end{align*}
-
 A similar construction can be performed for displayed algebras over algebras.
 Displayed algebras are defined by case analysis on $S$, which is an implicit parameter of $-\D$.
 \begin{align*}
 &\boxed{\Gamma \vdash \{S\}\ \alpha\D\ Y \tel} \\
 & \{S = \epsilon\}\ (\,)\D\ Y = \bullet \\
-&\{S = S' \rhd O\}\ (\alpha', \alpha_O)\D\ Y = ({\alpha'}\D\ Y,\ (\mu :: \alpha_O\DI\ Y) \to Y[\mu\DO])
+&\{S = O \lhd S'\}\ (\alpha_O, \alpha')\D\ Y = ((\mu :: \alpha_O\DI\ Y) \to Y[\mu\DO],\ {\alpha'}\D\ Y)
 \end{align*}
 We provide the definitions of $-\DI$ and $-\DO$ in the appendix (\cref{app:algebras}), but they are similar to
 the definitions of $-\IN$ and $-\OUT$.
@@ -336,8 +323,8 @@ Next we define the coherence conditions for a displayed algebra as a telescope
 \begin{align*}
 &\boxed{\Gamma \vdash \{S\}\ \{\alpha\}\ \beta\COH\ \sigma \tel} \\
 & \{S = \epsilon\}\ \{\alpha = (\,)\}\ (\,)\COH\ \sigma = \bullet \\
-& \{S = S' \rhd O\}\ \{\alpha = (\alpha', \alpha_O)\}\ (\beta', \beta_O)\COH\ \sigma \\
-&\qquad = ({\beta'}\COH\ \sigma,\ (\nu :: O\IN\ X) \to \sigma[\alpha_O\ \nu] \equiv \beta_O\ (\sigma \, \$ \, \nu))
+& \{S = O \lhd S'\}\ \{\alpha = (\alpha_O, \alpha')\}\ (\beta_O, \beta')\COH\ \sigma \\
+&\qquad = ((\nu :: O\IN\ X) \to \sigma[\alpha_O\ \nu] \equiv \beta_O\ (\sigma \, \$ \, \nu),\  {\beta'}\COH\ \sigma)
 \end{align*}
 The notation $\sigma \, \$\, \nu$ applies the section $\sigma$ to the input $\nu$,
 yielding a displayed input by sampling the section to get the inductive

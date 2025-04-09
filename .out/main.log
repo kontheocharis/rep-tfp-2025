@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  7 APR 2025 04:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  9 APR 2025 19:22
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1164,18 +1164,18 @@ on with the same identifier (name{figure.1.1}) has been already used, duplicate
  ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.103 
+l.104 
       ]
 LaTeX Font Info:    Trying to load font information for U+bbold on input line 1
-26.
+27.
  (/usr/local/texlive/2021/texmf-dist/tex/latex/bbold/Ubbold.fd) [10pdfTeX warni
 ng (ext4): destination with the same identifier (name{figure.1.2}) has been alr
 eady used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.156 
+l.157 
       ] [11] [12]
-Overfull \hbox (13.76099pt too wide) in paragraph at lines 295--309
+Overfull \hbox (13.76099pt too wide) in paragraph at lines 296--310
  [][] 
  []
 
@@ -1183,14 +1183,14 @@ Overfull \hbox (13.76099pt too wide) in paragraph at lines 295--309
 figure.1.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.448 
+l.435 
       ] [16pdfTeX warning (ext4): destination with the same identifier (name{fi
 gure.1.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.505 
+l.492 
       ] [17]
-Overfull \hbox (8.95137pt too wide) detected at line 626
+Overfull \hbox (8.95137pt too wide) detected at line 613
 []
  []
 
@@ -1198,32 +1198,32 @@ Overfull \hbox (8.95137pt too wide) detected at line 626
 }) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.638     B
+l.625     B
            y the setoid homomorphism $(\R, \R_\approx)$.pdfTeX warning (ext4): 
 destination with the same identifier (name{figure.1.6}) has been already used, 
 duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.638     B
+l.625     B
            y the setoid homomorphism $(\R, \R_\approx)$.]
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 646.
+(Font)              using `T1/cmr/m/sc' instead on input line 633.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 646.
+(Font)              using `T1/cmr/m/sc' instead on input line 633.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 648.
+(Font)              using `T1/cmr/m/sc' instead on input line 635.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 654.
+(Font)              using `T1/cmr/m/sc' instead on input line 641.
 
 
-Overfull \hbox (24.79878pt too wide) in paragraph at lines 698--704
+Overfull \hbox (24.79878pt too wide) in paragraph at lines 685--691
 []\T1/cmr/m/it/10 For the in-put proof $\OML/cmm/m/it/10 p$\T1/cmr/m/it/10 , th
 e for-ward di-rec-tion $[][]$ is $\OML/cmm/m/it/10 ^^Ux: [][] \OT1/cmr/m/n/10 (
 [] [] ([] \OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ) \OML/cmm/m/it/10 p\OT1/cmr/m/n/10
@@ -1357,7 +1357,7 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 Here is how much of TeX's memory you used:
  28200 strings out of 478994
  532802 string characters out of 5858183
- 875905 words of memory out of 5000000
+ 875906 words of memory out of 5000000
  44931 multiletter control sequences out of 15000+600000
  437787 words of font info for 107 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1404,7 +1404,7 @@ er/sfti0700.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super
 ftt0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sft
 t1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfxc1
 000.pfb>
-Output written on .out/main.pdf (28 pages, 642864 bytes).
+Output written on .out/main.pdf (28 pages, 643078 bytes).
 PDF statistics:
  627 PDF objects out of 1000 (max. 8388607)
  497 compressed objects within 5 object streams
