@@ -9,8 +9,8 @@ definition of natural numbers looks like
     \ctorlab{1+} & : \datalab{Nat} \to \datalab{Nat}
   }
 \end{equation}
-and generates a Peano-style induction principle $\elimlab{Nat}$ of type\footnote{Recursive parameters
-like $\overline{P\ n}$ are lazy, which makes the eliminator more efficient when they
+and generates a Peano-style induction principle $\elimlab{Nat}$ of type\footnote{Inductive hypotheses
+like $\overline{P\ n}$ are lazy ($\overline{X} := \datalab{Unit} \to X$), which makes the eliminator more efficient when they
 are not used.}
 \[
    (P : \datalab{Nat} \to \univ)

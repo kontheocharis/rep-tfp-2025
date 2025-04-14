@@ -48,13 +48,6 @@ Altenkirch, T., Geniet, C.: Big step normalisation for type theory (24~Sep
   2020),
   \url{https://drops.dagstuhl.de/storage/00lipics/lipics-vol175-types2019/LIPIcs.TYPES.2019.4/LIPIcs.TYPES.2019.4.pdf}
 
-\bibitem{Altenkirch2016-zc}
-Altenkirch, T., Kaposi, A.: Type theory in type theory using quotient inductive
-  types. In: Proceedings of the 43rd Annual ACM SIGPLAN-SIGACT Symposium on
-  Principles of Programming Languages. pp. 18--29. POPL '16, Association for
-  Computing Machinery, New York, NY, USA (11~Jan 2016),
-  \url{https://doi.org/10.1145/2837614.2837638}
-
 \bibitem{Atkey2018-pj}
 Atkey, R.: Syntax and semantics of quantitative type theory. In: Proceedings of
   the 33rd Annual ACM/IEEE Symposium on Logic in Computer Science. pp. 56--65.

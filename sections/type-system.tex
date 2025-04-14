@@ -4,23 +4,23 @@ In this section, we will develop an extension of dependent type theory with
 inductive families and custom data representations. We start in
 \cref{sub:algebras} by exploring the semantics of data representations in terms
 of algebras for signatures. In \cref{sub:lambdadata} we define a core language
-with inductive families $\lambdadata$ with data representations. The base type
+with inductive families $\lambdadata$ with data representations. The base
 theory is intensional Martin-L\"of type theory (\lambdamltt) \cite{Martin-Lof1984-pz}
 with a single universe $\univ : \univ$. We omit considerations of consistency
 and universe hierarchy, though these can be added if needed. All of the examples
 in the paper so far are written in a surface language that elaborates to
 $\lambdadata$. In \cref{sub:lambdadata}, we define a modality $\MRepr$ that allows us
-to convert between inductive types and their representations. We also define a
+to convert between inductive types and their representations. Finally, in \cref{sub:translation} we define a
 translation from $\lambdadata$ to \emph{extensional} \lambdamltt, which `elaborates
 away' all inductive families to their representations.
 
 % We work in an extensional metatheory with a small universe $\Set$, $(a : A)
 % \times B$ for dependent pairs, $(a : A) \to B$ for dependent products, and $=$
 % for equality, and an Agda-like syntax.
-Syntaxes for languages are defined in an intrinsically well-formed manner
-as a setoid by definitional equality \cite{Altenkirch2016-zc}, and with de-Bruijn
+The languages we work with are defined in an intrinsically well-formed manner
+as a setoid over definitional equality, with de-Bruijn
 indices for variables. Weakening of terms is generally left implicit to reduce
-syntactic noise, and often named notation is used when de-Brujin indices are
+syntactic noise, and often named notation is used when indices are
 implied. We use $(a : A) \to B$ for dependent functions, $(a : A) \times B$ for
 dependent pairs, $a \equiv_A a'$ for propositional equality, and $a = a' : A$
 for definitional equality. Substitution is denoted with square brackets: if
@@ -29,17 +29,15 @@ also notationally identify elements of the universe $A : \univ$ with types $A
 \type$, though explicit coercions $\mta{El}$ and $\mta{code}$ between them are
 implied.
 Besides the
-usual judgement forms of \lambdamltt, we also have telescopic judgement forms:
+usual judgement forms of \lambdamltt, we also have telescopic judgement forms
 \begin{definitions}
-$\Gamma \vdash \Delta \tel$                & $\Delta$ is a telescope in $\Gamma$. \\
-$\Gamma \vdash \delta :: \Delta$           & $\delta$ is a spine (list of terms) matching telescope $\Delta$. \\
+$\Gamma \vdash \Delta \tel$                & $\Delta$ is a telescope in $\Gamma$, \\
+$\Gamma \vdash \delta :: \Delta$           & $\delta$ is a spine (list of terms) matching telescope $\Delta$,
 \end{definitions}
-
-Below are the formation rules for telescopes and term lists.
-Since everything is intrinsically well-formed, all required pre-conditions are
-implied for every inference rule.
+with accompanying rules shown in \cref{fig:tel-rules}.
 
 \begin{figure}[H]
+  \vspace{-2em}
   \begin{mathpar}
   \inferrule[Tel-Empty]{ }{\Gamma \vdash \bullet \tel}
   \and
@@ -49,6 +47,8 @@ implied for every inference rule.
   \inferrule[Spine-Extend]{\Gamma \vdash a : A \\ \Gamma \vdash \delta : \Delta[a]}{\Gamma \vdash (a, \delta) :: (A, \Delta)}
   \end{mathpar}
   \caption{Rules for forming telescopes and spines.}
+  \label{fig:tel-rules}
+  \vspace{-1em}
 \end{figure}
 
 Extending contexts by telescopes (such as $\Gamma, \Delta$) is defined by
@@ -70,18 +70,17 @@ original data type. In turn, the behaviour of the original data type is
 determined by its elimination, or induction principle. This means that a
 representation of a data type should provide an implementation of induction of
 the same `shape' as the original. Induction can be characterised in terms of
-algebras and displayed algebras of algebraic signatures.
-
-Algebraic signatures \cite{Adamek2010-ls,Kovacs2023-gq} consist of a list of operations, each with a specified
+algebras and displayed algebras of algebraic signatures \cite{Adamek2010-ls,Kovacs2023-gq}.
+Algebraic signatures consist of a list of operations, each with a specified
 arity. There are many flavours of algebraic signatures with varying degrees of
-expressiveness. For this paper, we are interested in algebraic signatures which can
+expressiveness. For this paper, we are interested in the ones which can
 be used as a syntax for defining inductive families in a type theory. Thus, we define
-two new judgement forms:
+two new judgement forms
 \begin{definitions}
-$\Gamma \vdash S \sig \Delta$    & $S$ is a signature with indices $\Delta$ in context $\Gamma$ \\
-$\Gamma \vdash O \op \Delta$     & $O$ is an operation with indices $\Delta$ in context $\Gamma$
+$\Gamma \vdash S \sig \Delta$    & $S$ is a signature with indices $\Delta$ in context $\Gamma$ , \\
+$\Gamma \vdash O \op \Delta$     & $O$ is an operation with indices $\Delta$ in context $\Gamma$ .
 \end{definitions}
-
+with accompanying rules shown in \cref{fig:tel-rules}.
 Signatures are lists of operations, and operations build up constructor types.
 
 \begin{figure}[H]
@@ -103,8 +102,7 @@ Signatures are lists of operations, and operations build up constructor types.
 Each signature is described by an associated telescope of indices $\Delta$, and a
 \emph{finite list} of operations:
 \begin{itemize}
-    \item $A \to\external O$, a (dependent) abstraction over some type $A$ from the
-      type theory, of another operation $O$.
+    \item $A \to\external O$, a (dependent) abstraction over some external type $A$, of another operation $O$.
     \item $\iota\ \delta \to\internal \ O$, an
       abstraction over a recursive occurence of
       the object being defined, with indices $\delta$, of another operation
@@ -231,8 +229,7 @@ the telescope
 In practice, in a call-by-value setting, it is desirable for the inductive
 hypotheses of a displayed algebra ($\n{ts}_W$ above) to be
 \emph{lazy} values. This improves performance when the inductive hypotheses are
-not needed. Lazy values of $T$ can be implemented as functions out of the unit
-type: $1 \to T$. We leave this as an implementation detail.
+not needed. We leave this as an implementation detail.
 
 Finally, we come to the central definition
 that classifies the algebras which
@@ -248,19 +245,19 @@ when we plug in a constructor, we get the result of the method corresponding to 
 Usually in programming languages, these conditions hold definitionally, as they are the primary means
 of computation with data.
 
-\subsubsection{Uniqueness of inductive algebras}
+% \subsubsection{Uniqueness of inductive algebras}
 
-As mentioned earlier, inductive algebras are equivalent to initial algebras.
-Since initial objects are unique up to isomorphism, this suggests the following result:
+% As mentioned earlier, inductive algebras are equivalent to initial algebras.
+% Since initial objects are unique up to isomorphism, this suggests the following result:
 
-\begin{theorem}\label{thm:unique-inductive-algebras}
-For any given signature $S$, if we can construct two inductive algebras for $S$,
-over carriers $X$ and $X'$, then there exists an isomorphism of types $X \simeq X'$. Moreover,
-this isomorphism extends to the category of $S$-algebras, meaning it respects the structure of $S$.
-\begin{proof}
-See \cref{app:algebras}.
-\end{proof}
-\end{theorem}
+% \begin{theorem}\label{thm:unique-inductive-algebras}
+% For any given signature $S$, if we can construct two inductive algebras for $S$,
+% over carriers $X$ and $X'$, then there exists an isomorphism of types $X \simeq X'$. Moreover,
+% this isomorphism extends to the category of $S$-algebras, meaning it respects the structure of $S$.
+% \begin{proof}
+% See \cref{app:algebras}.
+% \end{proof}
+% \end{theorem}
 
 
 \subsection{Defining algebras and friends}
@@ -314,7 +311,7 @@ Displayed algebras are defined by case analysis on $S$, which is an implicit par
 & \{S = \epsilon\}\ (\,)\D\ Y = \bullet \\
 &\{S = O \lhd S'\}\ (\alpha_O, \alpha')\D\ Y = ((\mu :: \alpha_O\DI\ Y) \to Y[\mu\DO],\ {\alpha'}\D\ Y)
 \end{align*}
-We provide the definitions of $-\DI$ and $-\DO$ in the appendix (\cref{app:algebras}), but they are similar to
+We omit the definitions of $-\DI$ and $-\DO$ and refer to the Agda formalisation, but they are similar to
 the definitions of $-\IN$ and $-\OUT$.
 
 Next we define the coherence conditions for a displayed algebra as a telescope
@@ -326,7 +323,7 @@ Next we define the coherence conditions for a displayed algebra as a telescope
 \end{align*}
 The notation $\sigma \, \$\, \nu$ applies the section $\sigma$ to the input $\nu$,
 yielding a displayed input by sampling the section to get the inductive
-hypotheses (defined in \cref{app:algebras})
+hypotheses.
 
 Now we can define induction for an algebra $\alpha$ as a type
 \begin{align*}
@@ -536,7 +533,7 @@ $\MRepr$ to bring it down to $\univ_C$. We do not assume this additional
 structure for simplicity, but it might be a useful feature in practice. For example,
 it would simplify the transitivity example in \cref{sub:transitivity}.
 
-\subsection{Translating to extensional \langmltt}
+\subsection{Translating to extensional \langmltt} \label{sub:translation}
 
 We now define a type- and equality-preserving translation step $\R$ shown in \cref{fig:translation} from
 \lambdadata to extensional \langmltt, meant to be applied during the
