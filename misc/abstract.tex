@@ -3,7 +3,7 @@
   Inductive families provide a convenient way of programming with dependent
   types. Yet, when it comes to compilation, their default linked-tree runtime
   representations, as well as the need to convert between different indexed
-  views of the same data when programming with dependent types, can lead to
+  views of the same data , can lead to
   unsatisfactory runtime performance. In this paper, we aim to introduce a
   language with dependent types, and inductive families with custom
   representations. Representations are a version of Wadler's views
@@ -16,8 +16,9 @@
   we can express inductive data optimisation techniques, such as representing
   \datalab{Nat}-like types as GMP-style big integers, without special casing in
   the compiler. With dependent types, reasoning about data representations is
-  also possible: we get computationally irrelevant isomorphisms between the
-  original and represented data.
+  also possible: the representation of a type becomes an internal predicate, and
+  we get computationally irrelevant isomorphisms between the original and
+  represented data.
 \end{abstract}
 
 

@@ -117,7 +117,7 @@ The signature for natural numbers is indexed by the empty telescope $\bullet$. I
 $\Gamma \vdash (\iota\ (\,) \lhd \iota\ (\,) \to\internal \iota\ (\,) \lhd \epsilon) \sig \bullet$.
 We can add labels to aid readability, omit index spines if they are empty, and omit the final $\epsilon$ from signatures:
 \[
-\Gamma \vdash (\textit{zero} : \iota \lhd \textit{succ} : \iota\ \to\internal) \sig \bullet \,.
+\Gamma \vdash (\textit{zero} : \iota \lhd \textit{succ} : \iota\ \to\internal \iota) \sig \bullet \,.
 \]
 \end{example}
 
@@ -527,10 +527,10 @@ restriction
 $$
 \MRepr : \univ \to \univ_C
 $$
-targets a universe of types $\univ_C < \univ$ closed under all standard type
+targets a universe of `concrete' types $\univ_C < \univ$ closed under all standard type
 formers, but which does not contain any $\Mdata$ types. We can then require that
 all inductive algebras $\gamma$ used in the rule \axiom{Data-Form} must have a
-\emph{concrete} carrier $X : \Delta \to \univ_C$. This does not limit
+concrete carrier $X : \Delta \to \univ_C$. This does not limit
 expressivity because we can always wrap any inductive algebra carrier with
 $\MRepr$ to bring it down to $\univ_C$. We do not assume this additional
 structure for simplicity, but it might be a useful feature in practice. For example,
