@@ -53,43 +53,29 @@ computing with more `traditional' data structures such as hash maps or binary
 search trees. We could program inductively over these structures but extract
 programs without redundancy in data representation.
 
-We could also look into automating the discovery of inductive algebras for
-`known' classes of data types through metaprogramming \cite{Dagand2017-nj}. This
-could reproduce optimisation techniques by modern proof assistants but as
-part of a standard library, with accompanying internal correctness proofs. It
-could also extend to identity function detection, by internalising the
-extraction step explored in \cref{sub:irr}.
+% We could also look into automating the discovery of inductive algebras for
+% `known' classes of data types through metaprogramming \cite{Dagand2017-nj}. This
+% could reproduce optimisation techniques by modern proof assistants but as
+% part of a standard library, with accompanying internal correctness proofs. It
+% could also extend to identity function detection, by internalising the
+% extraction step explored in \cref{sub:irr}.
 
 There are elements of our formalisation which should be developed further. We
 did not formulate decidability of equality and normalisation for $\lambdadata$,
-which is needed for typechecking. We have developed a
+which is needed for typechecking. We have implemented a
 normalisation-by-evaluation \cite{Altenkirch2020-rm} algorithm used in the
 implementation of \superfluid, but have only sketched that it has the
-desired properties (although we expect it to). We are also working on a
-mechanisation of the developments of this paper in Agda.
+desired properties.
 
-% Due to our
-% formulation in terms of algebras for theories, we expect that similar results
-% can be obtained for these theories as well.
-
-% For example, if something
-% looks
-% like a list/number/refinement, we could automatically generate an inductive
-% algebra for it if we have access to first-class datatypes
-
-On a more theoretical note, we define contexts in $\lambdadata$ as pairs of a
-global context and a local context. In the language of categories with
-families (CWF) \cite{Castellan2019-qo}, our contexts are the Grothendieck
-construction $\int _{\Sigma : \Glob} \mta{Loc}\ \Sigma$. However, the base
-category $\mta{Glob}$ only has weakenings, which we have left implicit.
-Kaposi, Kov\'acs and Altenkirch \cite{Kaposi2019-pj} showed that algebras for a
-theory form a CWF, whose initial objects are the inductive algebras. Thus we
-could have morphisms between global contexts when one's items can be represented
-in terms of another's. Then $\R$ could become a special case of a substitution
-calculus over representations.
-
-% Constructing a CWF this way means that terms, types and local contexts
-% are presheaves with representable maps over the category of signatures.
+We would like to further explore the relationship of the $\mta{Repr}$ modality with
+general systems for defining modalities, such as \emph{multi-modal type theory}
+by Gratzer \cite{Gratzer2020-kf}. Additionally, we expect that metaprogramming with
+representations is most naturally done in the context of \emph{two-level type theory}
+\cite{Kovacs2022-vb}. We would like to explore the embedding of $\lambdadata$
+in a two-level type theory, where signatures are now types in the meta-fragment.
+Then we could build up various ways to generate representations, for example
+through algebraic ornaments, without needing to laboriously prove induction
+principles by hand.
 
 \section{Conclusion}
 
@@ -99,8 +85,14 @@ preserve logical guarantees and simplicity of the surface language while
 optimising performance and usability. These representations are formalised as inductive
 algebras, and come with a framework for reasoning about them: provably zero-cost
 conversions between original and represented data.
-
 The compilation process guarantees erasure of abstraction layers, translating
 high-level constructs to their defined implementations. Our hope is that by
 decoupling logical structure from runtime representation, ergonomic type-driven
 correctness can be leveraged without sacrificing performance.
+
+
+\subsubsection{Acknowledgements}
+We would like to thank the anonymous reviewers for their feedback that significantly improved the quality of this paper.
+Additionally, we would like to thank Guillaume Allais for helpful comments on an earlier version of this paper, as well as
+Nathan Corbyn, Ellis Kesterton, and Matthew Pickering for interesting discussions on algebraic theories, ergonomics of
+inductive types, and pattern synonyms.

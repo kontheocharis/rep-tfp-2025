@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  14 APR 2025 17:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  14 APR 2025 18:00
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1238,20 +1238,10 @@ e for-ward di-rec-tion $[][]$ is $\OML/cmm/m/it/10 ^^Ux: [][] \OT1/cmr/m/n/10 (
  )$
  []
 
-) (./sections/implementation.tex [20]
-
-LaTeX Warning: Reference `eq:repr-ci' on page 21 undefined on input line 20.
-
-) (./sections/conclusion.tex [21]
+) (./sections/implementation.tex [20]) (./sections/conclusion.tex [21]
 Overfull \hbox (2.9021pt too wide) in paragraph at lines 49--55
 \T1/cmr/m/n/10 quotient-induction, induction-induction and induction-recursion.
  Rep-re-sen-ta-tions
- []
-
-
-Overfull \hbox (8.78955pt too wide) in paragraph at lines 63--70
-\T1/cmr/m/n/10 which is needed for type-check-ing. We have de-vel-oped a normal
-isation-by-evaluation
  []
 
 [22]) (.out/main.bbl
@@ -1310,48 +1300,36 @@ Overfull \hbox (221.43536pt too wide) in paragraph at lines 94--98
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 100--103
-\T1/cmr/m/n/9 2017), []$\T1/cmtt/m/n/9 https : / / www . cambridge . org / core
- / services / aop-[]cambridge-[]core /
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 100--103
-\T1/cmtt/m/n/9 content / view / 4D2DF6F4FE23599C8C1FEA6C921A3748 / S09567968160
-00356a . pdf /
- []
-
-
-Underfull \hbox (badness 1824) in paragraph at lines 130--133
+Underfull \hbox (badness 1824) in paragraph at lines 124--127
 []\T1/cmr/m/n/9 Kovács, A.: Type-theoretic sig-na-tures for al-ge-braic the-o-r
 ies and in-duc-tive
  []
 
 
-Underfull \hbox (badness 1668) in paragraph at lines 135--137
+Underfull \hbox (badness 1668) in paragraph at lines 129--131
 []\T1/cmr/m/n/9 Martin-Löf, P.: In-tu-ition-is-tic type the-ory \T1/cmr/bx/n/9 
 1\T1/cmr/m/n/9 , 1--91 (1984), []$\T1/cmtt/m/n/9 http : / / people .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 135--137
+Underfull \hbox (badness 10000) in paragraph at lines 129--131
 \T1/cmtt/m/n/9 csail . mit . edu / jgross / personal-[]website / papers / acade
 mic-[]papers-[]local /
  []
 
-[24]
-Underfull \hbox (badness 10000) in paragraph at lines 145--148
+
+Underfull \hbox (badness 10000) in paragraph at lines 139--142
 \T1/cmr/bx/n/9 14\T1/cmr/m/n/9 (1), 69--111 (Jan 2004), []$\T1/cmtt/m/n/9 https
  : / / www . cambridge . org / core / services /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--148
+Underfull \hbox (badness 10000) in paragraph at lines 139--142
 \T1/cmtt/m/n/9 aop-[]cambridge-[]core / content / view / F8A44CAC27CCA178AF69DD
 84BC585A2D /
  []
 
-) (./sections/appendix.tex
+[24]) (./sections/appendix.tex
 
 LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
 (Font)              using `U/stmry/m/n' instead on input line 9.
@@ -1374,20 +1352,17 @@ l.216 \end{mathpar}
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: E8697098164B610F8033512D50A9D933;275.
  ) 
 Here is how much of TeX's memory you used:
- 28237 strings out of 478994
- 533182 string characters out of 5858183
- 877840 words of memory out of 5000000
- 44954 multiletter control sequences out of 15000+600000
+ 28235 strings out of 478994
+ 533148 string characters out of 5858183
+ 877804 words of memory out of 5000000
+ 44952 multiletter control sequences out of 15000+600000
  444209 words of font info for 121 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 133i,23n,133p,521b,523s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 133i,23n,133p,521b,525s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}<
 /usr/local/texlive/2021/texmf-dist/fonts/type1/public/bbold-type1/bbold10.pfb><
@@ -1431,10 +1406,10 @@ fti1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sft
 t0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sftt1
 000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfxc100
 0.pfb>
-Output written on .out/main.pdf (27 pages, 656435 bytes).
+Output written on .out/main.pdf (27 pages, 654576 bytes).
 PDF statistics:
- 629 PDF objects out of 1000 (max. 8388607)
- 498 compressed objects within 5 object streams
+ 622 PDF objects out of 1000 (max. 8388607)
+ 492 compressed objects within 5 object streams
  128 named destinations out of 1000 (max. 500000)
  117 words of extra memory for PDF output out of 10000 (max. 10000000)
 
