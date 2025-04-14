@@ -45,10 +45,10 @@ original inductive family. We contribute the following:
     \item A formulation of common optimisations such as the `Nat-hack', and
         similarly for other inductive types, as well as zero-cost data reuse when
         reindexing, using representations (\cref{sec:examples}).
-    \item A dependent type system with inductive families $\lambdadata$ and its
-        extension by representations $\lambdadata$ formulated as inductive algebras
-        for theories, along with a translation to $\lambdadata$ that erases all
-        represented data types from the program (\cref{sec:type-system}).
+        \item A dependent type system $\lambdadata$ with data types formulated
+        as inductive algebras for signatures, along with a translation to
+        $\lambdamltt$ that replaces all data types with their defined inductive
+        algebras (\cref{sec:type-system}).
         \item A prototype implementation of this system in \textsc{Superfluid},
         a programming language with inductive types and dependent pattern
         matching (\cref{sec:implementation}).

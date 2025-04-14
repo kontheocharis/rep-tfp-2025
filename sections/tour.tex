@@ -40,7 +40,9 @@ In addition to the constructors and eliminators, the compiler might also define
 translations for commonly used definitions which have a more efficient
 counterpart in the target, such as recursively-defined addition, multiplication,
 etc. The recursively-defined functions are well-suited to proofs and reasoning,
-while the GMP primitives are more efficient for computation.
+while the GMP primitives are more efficient for computation. This way, the surface
+program can take advantage of the structural properties of induction, notably dependent
+pattern matching, while still benefiting from an efficient representation at runtime.
 
 The issue with this approach is that it only works for the data types which the
 compiler can recognise as special. Particularly in the presence of dependent
@@ -61,12 +63,12 @@ A representation definition looks like
     \elimlab{Nat}\ \as&\ \primlab{ubig-elim}\\ \by&\ \primlab{ubig-elim-zero-id}, \\ &\ \primlab{ubig-elim-add-one-id}
   }
 \]
-$\datalab{Nat}$ is represented as the type $\primlab{UBig}$ of GMP-style
+The inductive type $\datalab{Nat}$ is represented as the type $\primlab{UBig}$ of GMP-style
 unlimited-size unsigned integers, with translations for the constructors
 $\ctorlab{0}$ and $\ctorlab{1+}$, and the eliminator $\elimlab{Nat}$.
 Additionally, the eliminator satisfies the expected computation rules of the
 $\datalab{Nat}$ eliminator, which are postulated as propositional equalities.
-This representation is valid in a context containing the primitives
+This representation is valid in a context containing the symbols
 \begin{gather*}
   \primlab{0}, \primlab{1} : \primlab{UBig} \qquad
   \primlab{$+$},\primlab{$\times$} : \primlab{UBig} \to \primlab{UBig} \to \primlab{UBig} \\
@@ -82,27 +84,27 @@ and propositional equalities
   &\primlab{ubig-elim-add-one-id} : _{\forall Pbrn}  \primlab{ubig-elim}\ P\ b\ r\ (\primlab{1}\,\primlab{$+$}\,n)
   = r\ n\ (\lambda \wildp. \ \primlab{ubig-elim}\ P\ b\ r\ n)  \,.
 \end{align*}
-Representations can also be defined for functions on $\datalab{Nat}$, such as
-addition, multiplication, and other numeric operations, in terms of
-$\primlab{UBig}$ primitives.
-\begin{align*}
-  \Sreprvar{\datalab{add}}{\primlab{$+$}\ \by\ \primlab{$+$-id}}
-  \qquad \Sreprvar{\datalab{mul}}{\primlab{$\times$}\ \by\ \primlab{$\times$-id}}
-\end{align*}
- These will be replaced during a translation process
-back to $\lambdadata$, like rewriting rules \cite{Cockx2021-pw}, given
-that we have the appropriate lemmas to justify them in the context.
+% Representations can also be defined for functions on $\datalab{Nat}$, such as
+% addition, multiplication, and other numeric operations, in terms of
+% $\primlab{UBig}$ primitives.
+% \begin{align*}
+%   \Sreprvar{\datalab{add}}{\primlab{$+$}\ \by\ \primlab{$+$-id}}
+%   \qquad \Sreprvar{\datalab{mul}}{\primlab{$\times$}\ \by\ \primlab{$\times$-id}}
+% \end{align*}
+% These are replaced during a translation process
+% back to $\lambdadata$, like rewriting rules \cite{Cockx2021-pw}, given
+% that we have the appropriate lemmas to justify them in the context.
 
-This will effectively erase the \datalab{Nat} type from the compiled program,
-replacing all occurrences with the $\primlab{UBig}$ type and its primitives. In
-a way, the hard work is done by the postulates above; we expect that the
-underlying implementation of $\primlab{UBig}$ indeed satisfies them, which is a
-separate concern from the correctness of the representation itself. However,
-postulates are only needed when the representation target is a primitive; the
-next examples use defined types as targets, so that the coherence of the target
-eliminator follows from the coherence of other eliminators used in its
-implementation.
-
+The compiler knows how to perform pattern matching on $\datalab{Nat}$, but not
+on $\primlab{UBig}$. With this definition, the \datalab{Nat} type is erased from
+the compiled program, replaced with the $\primlab{UBig}$ type. We expect that
+the underlying implementation of $\primlab{UBig}$ indeed satisfies these
+postulated properties, which is a separate concern from the correctness of the
+representation itself. However, such postulates are only needed when the
+representation target is a primitive; the next examples use defined types as
+targets, so that the coherence of the target eliminator follows from the
+coherence of other eliminators used in its implementation.
+p
 \subsection{Vectors are just certain lists}
 
 In addition to representing inductive types as primitives, we can use
@@ -113,9 +115,10 @@ the other is `compiled away'. We can do this by representing the indexed type as
 a refinement of the unindexed type by an appropriate relation. For the case of
 $\datalab{Vec}$, we know intuitively that
 \[
-  \datalab{Vec}\ T\ n \simeq \{ l : \datalab{List}\ T \mid \lab{length}\ l = n \} := \lab{List'}\ T\ n
+  \datalab{Vec}\ T\ n \simeq \{ l : \datalab{List}\ T \mid \lab{length}\ l = n \}
 \]
-so we can start by choosing $\lab{List'}\ T\ n$ as the representation of
+which we shorthand as $\lab{List'}\ T\ n := \{ l : \datalab{List}\ T \mid \lab{length}\ l = n \}$.
+We can thus choose $\lab{List'}\ T\ n$ as the representation of
 $\datalab{Vec}\ T\ n$.\footnote{We will take the subset $\{ x : A \mid P\ x \}$ to mean a
 $\Sigma$-type $(x : A) \times P\ x$ where the right component is irrelevant and
 erased at runtime.} We are then tasked with providing terms that correspond to
@@ -157,8 +160,10 @@ rules propositionally. These are
   \lab{elim-List'-cons-id} :&\  \lab{elim-List'}\ P\ b\ r\ (\ctorlab{1+}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, \lab{cong}\ (\ctorlab{1+})\ p) \\
   & = r\ x\ (\mathit{xs}, p)\ (\lambda \wildp .\ \lab{elim-List'}\ P\ b\ r\ m\ (\mathit{xs}, p))
 \end{align*}
-which we leave as an exercise, though they are evident from the definition of
-$\lab{elim-List'}$. This completes the definition of the representation of
+The first holds definitionally, and the second requires a small amount of
+equality reasoning if the theory does not have definitional uniqueness of
+identity.
+This completes the definition of the representation of
 $\datalab{Vec}$ as $\lab{List'}$, which would be written as
 \[
   \Sreprvar{\datalab{Vec}\ T\ n}{\lab{List'}\ T\ n} \Sbody{
@@ -184,8 +189,8 @@ can define the functions
 \begin{align*}
   &\lab{forget-length} : \datalab{Vec}\ T\ n \to \datalab{List}\ T \\
   &\lab{forget-length}\ v = \letin{(l, \wildp)}{\repr{v}}{l} \\[1em]
-  &\lab{recall-length} : (l : \datalab{List}\ T) \to \datalab{Vec}\ T\ (\lab{length}\ l) \\
-  &\lab{recall-length}\ l = \unrepr{(l, \ctorlab{refl})}
+  &\lab{remember-length} : (l : \datalab{List}\ T) \to \datalab{Vec}\ T\ (\lab{length}\ l) \\
+  &\lab{remember-length}\ l = \unrepr{(l, \ctorlab{refl})}
 \end{align*}
 and in \cref{sub:irr} we will show that it holds by reflexivity that
 such functions are inverses of one another.
@@ -195,14 +200,14 @@ such functions are inverses of one another.
 The idea from the previous example can be generalised to any data type. In
 general, suppose that we have two inductive families
 \[
- \datalab{F} : P \to \univ \qquad \datalab{G} : P \to X\ p \to \univ
+ \datalab{F} : P \to \univ \qquad \datalab{G} : (p : P) \to X\ p \to \univ
 \]
 for some index family $X : P \to \univ$. If we hope to represent $\datalab{G}$
 as some refinement of $\datalab{F}$ then we must be able to provide a way to
 compute $\datalab{G}$'s extra indices $X$ from $\datalab{F}$, like we computed
 $\datalab{Vec}$'s extra $\datalab{Nat}$ index from $\datalab{List}$ with
 $\lab{length}$ in the previous example. This means that we need to provide a
-function $\lab{comp} :_{\forall p} \datalab{F}\ p \to X\ p$ which can then be
+function $\lab{comp} : {\forall p.}\ \datalab{F}\ p \to X\ p$ which can then be
 used to form the family
 \[
   \datalab{F}^{\lab{comp}}\ p\ x :=  \{ f : \datalab{F}\ p \mid \lab{comp}\ f = x \} .
@@ -218,7 +223,7 @@ forgetful map from $\datalab{G}$ to $\datalab{F}$ is the identity at runtime.
 \subsection{Zero-copy deserialisation}
 
 The machinery of representations can be used to implement zero-copy deserialisation
-of data formats into inductive types. For example, consider the following
+of data formats into inductive types. Here we sketch how this works. Consider the following
 record for a player in a game:
 \[
   \Sdata{Player}{}{} \Sbody{
@@ -274,16 +279,17 @@ buffer can be defined.
 
 \subsection{Transitivity}\label{sub:transitivity}
 
-Representations are transitive, so in the previous example, the `terminal'
-representation of $\datalab{Vec}$ also depends on the representation of
-$\datalab{List}$. It is possible to define a custom representation for
+Representations are transitive, so in the previous example, the eventual
+representation of $\datalab{Vec}$ at runtime is determined by the representation
+of $\datalab{List}$. It is possible to define a custom representation for
 $\datalab{List}$ itself, for example a heap-backed array or a finger tree, and
 $\datalab{Vec}$ would inherit this representation. However it will still be the
-case that $\Repr{(\datalab{Vec}\ T\ n)} \equiv \datalab{List}\ T$, which means the
-$\repr{}/\Repr{}$ operators only look at the immediate representation of a
-term, not its terminal representation. Regardless, we can construct predicates that
-find types which satisfy a certain `eventual' representation. For example, given a
-\datalab{Buf} type of byte buffers, we can consider the set of all types which are eventually
+case that $\Repr{(\datalab{Vec}\ T\ n)} \equiv \datalab{List}\ T$, which means
+the $\repr{}/\Repr{}$ operators only look at the immediate defined
+representation of a term. Regardless, we can construct predicates that find
+types which satisfy a certain eventual representation. For example, given a
+\datalab{Buf} type of byte buffers, we can consider the set of all types which
+are eventually
 represented as a \datalab{Buf}:
 \[
   \Sdata {ReprBuf}{(T : \univ)}{} \Sbody{
@@ -301,6 +307,6 @@ Every such type comes with a projection function to the \datalab{Buf} type
 \end{align*}
 which eventually computes to the identity function after applying $\repr{}$ the
 appropriate amount of times. Upon compilation, every type is converted to its
-terminal representation, and all $\repr{}$ calls are erased, so the
-$\lab{as-buf}$ function is effectively the identity function at
-runtime.\footnote{Given that the $r$ argument is known at compile-time and monomorphised.}
+eventual representation, and all $\repr{}$ calls are erased, so the
+$\lab{as-buf}$ function becomes the identity function at
+runtime, given that the $r$ argument is known at compile-time and monomorphised.

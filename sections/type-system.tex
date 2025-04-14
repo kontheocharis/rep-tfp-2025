@@ -33,8 +33,6 @@ usual judgement forms of \lambdamltt, we also have telescopic judgement forms:
 \begin{definitions}
 $\Gamma \vdash \Delta \tel$                & $\Delta$ is a telescope in $\Gamma$. \\
 $\Gamma \vdash \delta :: \Delta$           & $\delta$ is a spine (list of terms) matching telescope $\Delta$. \\
-$\Gamma \vdash \Delta = \Delta'$           & $\Delta$ and $\Delta'$ are equal telescopes in $\Gamma$. \\
-$\Gamma \vdash \delta = \delta' :: \Delta$ & $\delta$ and $\delta'$ are equal spines matching telescope $\Delta$.
 \end{definitions}
 
 Below are the formation rules for telescopes and term lists.
@@ -458,11 +456,9 @@ we introduce a modality
 $$
 \MRepr : \univ \to \univ ,
 $$
-which takes types to their representations. This modality definitionally
-preserves all the type formers of the theory, other than $\Mdata$. It comes with
-two term formers $\Mrepr$ and $\Munrepr$, which are definitional inverses of each other.
-We highlight the main rules of $\MRepr$ in \cref{fig:repr-rules}. The full definition
-is given in \cref{app:algebras}.
+which takes types to their representations. It comes with two term formers
+$\Mrepr$ and $\Munrepr$, which are definitional inverses of each other. We
+highlight the main rules of $\MRepr$ in \cref{fig:repr-rules}.
 
 \begin{figure}[H]
 \begin{mathpar}
@@ -477,18 +473,20 @@ is given in \cref{app:algebras}.
 {\Gamma \vdash \MRepr\ (\Mdata_\Delta\ S\ \gamma\ \delta) = \gamma.X\ \delta} \and
 \end{mathpar}
 \caption{Introduction and elimination forms, as well as computation rules
-for the $\MRepr$ modality. It also commutes with the rest of the syntax
-definitionally.}
+for the $\MRepr$ modality.}
 \label{fig:repr-rules}
 \end{figure}
 
 These rules allow us to go between a data type $D = \Mdata_\Delta\ S\ \gamma\
 \delta$ and its representation $\gamma.X\ \delta$. In the translation to
-extensional \lambdamltt that we are yet to define, this modality is also translated
-away. The computation rules for the $\MRepr$ modality will be
-justified by computation rules in extensional \lambdamltt. Since $\Mdata$ does not
-already have any associated computation rules, these rules also preserve the
-decidability of conversion checking, though we do not show this here.
+extensional \lambdamltt that we are yet to define, this modality is also
+translated away. Indeed, its purpose is purely intensional: we do not want to
+equate $\Mdata_\Delta\ S\ \gamma$ with $\gamma.X$ because that would render
+conversion checking undecidable, but we still want to make use of the fact that
+these types are `the same'. In other words, $\MRepr\ A \simeq A$ but not $\MRepr\ A
+= A$. All the contextual machinery of general modal type systems
+\cite{Gratzer2020-kf} is not necessary here because this modality is fibred over
+contexts so it presents as just a type former.
 
 One might hope for additional computation rules. For example, the representation of a constructor
 should be equal to the underlying algebra element of the constructor type's
@@ -500,10 +498,16 @@ would render conversion checking undecidable, because if one applies
 $\mta{unrepr}$ to a term $\Mrepr\ (\Mctor_{S.O}\ \nu)$ which has already been reduced
 to its representation, $\mta{unrepr}\ (\gamma.\alpha_O\ (\Mrepr\ \nu))$, there is no
 clear way to decide that this is convertible to $\Mctor_{S.O}\ \nu$ even though the
-definitional equality rules would imply that it is (due to \axiom{Repr-Eta}).
+definitional equality rules would imply that it is (due to $\axiom{Repr-Id}_2$).
 Nevertheless, we can still postulate this equality propositionally, and it is justified
-by the translation step. Similar postulates can also be made available for
-eliminators, which are listed in \cref{app:reprs}.
+by the translation step.
+
+We should also ask for compatibility equations between $\MRepr$ and the rest of
+the type formers of \lambdamltt; for example $\MRepr\ ((a : A) \times B[a]) = (a
+: \MRepr\ A) \times \MRepr\ B[\Munrepr\ a]$, which can hold definitionally
+without breaking conversion. These are given for $\univ$, $\Pi$, $\Sigma$, unit and
+identity types in the Agda formalisation.
+
 % \begin{mathpar}
 % \inferrule[Repr-Ctor]{O \in S \\ \Gamma \vdash \nu :: O\IN\ (\Mdata_\Delta\ S\ \gamma)}
 % {\Gamma \vdash \mta{repr-ctor}_{S.O}\ \nu : \Mrepr\ (\Mctor_{S.O}\ \nu) \equiv \gamma.\alpha_O\ (\Mrepr \  \nu)} \and
@@ -514,10 +518,12 @@ eliminators, which are listed in \cref{app:reprs}.
 
 \subsubsection{Subuniverse of concrete types}
 
-Currently, the modality $\MRepr$ is not idempotent. An inductive algebra used
-as a representation of a data type might itself be implemented in terms of another
-data type, which again reduces under the action of $\MRepr$. A more principled approach
-might be to view the image of $\MRepr$ as a subuniverse of $\univ$. The restriction
+As described, the modality $\MRepr$ is not definitionally idempotent: $\MRepr\
+(\MRepr\ A) = \MRepr\ A$ does not always hold. An inductive algebra used as a
+representation of a data type might itself be implemented in terms of another
+data type, which again reduces under the action of $\MRepr$. A more principled
+approach might be to view the image of $\MRepr$ as a subuniverse of $\univ$. The
+restriction
 $$
 \MRepr : \univ \to \univ_C
 $$
@@ -545,9 +551,9 @@ this paper.} and we only need to apply this transformation after type checking,
 on fully-typed terms. The translation is defined over the syntax of
 $\lambdadata$ \cite{Boulier2017-cm} such that definitional equality is
 preserved, which is shown in \cref{fig:translation}.
-$\R$ replaces data types with their underlying inductive algebras. We use
-CWF-style notation $\Con$, $\Ty$, $\Tm$, etc. to specify the syntactic classes
-of the languages, with a subscript indicating the language.
+$\R$ replaces data types with their underlying inductive algebras. We use the
+notation $\Ty$ and $\Tm$ for types and terms respectively, with a subscript
+indicating the language.
 
 \begin{figure}
 \begin{minipage}[t]{0.5\textwidth}
@@ -579,8 +585,8 @@ principle provided by representations.}
 
 All the mappings above are clearly structurally recursive.
 The translation is extended to contexts, substitutions, telescopes and spines
-pointwise, and all the rest of the syntax is preserved: $\R(A \to B) = \R A \to
-\R B$ etc. All $\Mdata$ types are translated to the carriers of their inductive
+pointwise, and all the rest of the syntax is preserved: $\R((a : A) \to B[a]) = (a : \R A) \to
+(\R B)[a]$ etc. All $\Mdata$ types are translated to the carriers of their inductive
 algebras. Invocations of $\MRepr$ are removed. One can view $\MRepr$ as locally
 applying $\R$ to a part of the program.
 The definitional equality preservation by $\R$ is shown in \cref{fig:translation-eq}.
@@ -589,7 +595,7 @@ preserved by metatheoretic reflexivity on the other side, since all
 representation operators are erased. Coherence rules for eliminators are
 preserved by reflecting the propositional coherence rules provided by their
 defined representations.
-The full transformation can be found in \cref{app:reprs}.
+We have formalised this transformation in Agda.
 
 \begin{figure}[H]
 \begin{minipage}[t]{0.45\textwidth}

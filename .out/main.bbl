@@ -96,11 +96,6 @@ Cockx, J., Devriese, D.: Proof-relevant unification: Dependent pattern matching
   ~e12 (Jan 2018),
   \url{https://www.cambridge.org/core/services/aop-cambridge-core/content/view/E54D56DC3F5D5361CCDECA824030C38E/S095679681800014Xa.pdf/div-class-title-proof-relevant-unification-dependent-pattern-matching-with-only-the-axioms-of-your-type-theory-div.pdf}
 
-\bibitem{Cockx2021-pw}
-Cockx, J., Tabareau, N., Winterhalter, T.: The taming of the rew: a type theory
-  with computational assumptions. Proc. ACM Program. Lang.  \textbf{5}(POPL),
-  1--29 (4~Jan 2021), \url{https://doi.org/10.1145/3434341}
-
 \bibitem{Dagand2017-nj}
 Dagand, P.E.: The essence of ornaments. J. Funct. Programming  \textbf{27}, ~e9
   (Jan 2017),
@@ -120,6 +115,11 @@ Goguen, H., McBride, C., McKinna, J.: Eliminating dependent pattern matching.
   In: Algebra, Meaning, and Computation, pp. 521--540. Lecture notes in
   computer science, Springer Berlin Heidelberg, Berlin, Heidelberg (2006),
   \url{https://research.google.com/pubs/archive/99.pdf}
+
+\bibitem{Gratzer2020-kf}
+Gratzer, D., Kavvos, G.A., Nuyts, A., Birkedal, L.: Multimodal dependent type
+  theory. arXiv [cs.LO]  (30~Nov 2020),
+  \url{http://dx.doi.org/10.46298/lmcs-17(3:11)2021}
 
 \bibitem{Kaposi2019-pj}
 Kaposi, A., Kov\'{a}cs, A., Altenkirch, T.: Constructing quotient
