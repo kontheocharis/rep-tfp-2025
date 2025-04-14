@@ -137,38 +137,38 @@ the constructors of $\datalab{Vec}$ but for $\lab{List'}$. These can be defined
 as
 \[
   \begin{aligned}
-  & \lab{nil} : \lab{List'}\ T\ 0 \\
+  & \lab{nil} : \lab{List'}\ T\ \ctorlab{zero} \\
   & \lab{nil} = (\ctorlab{nil}, \ctorlab{refl})
   \end{aligned}\qquad
   \begin{aligned}
-  & \lab{cons} : T \to \lab{List'}\ T\ n \to \lab{List'}\ T\ (\ctorlab{1+}\ n) \\
-  & \lab{cons}\ x\ (\mathit{xs}, p) = (\ctorlab{cons}\ x\ \mathit{xs}, \lab{cong}\ (\ctorlab{1+})\ p)
+  & \lab{cons} : T \to \lab{List'}\ T\ n \to \lab{List'}\ T\ (\ctorlab{succ}\ n) \\
+  & \lab{cons}\ x\ (\mathit{xs}, p) = (\ctorlab{cons}\ x\ \mathit{xs}, \lab{cong}\ (\ctorlab{succ})\ p)
   \end{aligned}
 \]
 Next we need to define the eliminator for $\lab{List'}$, which should have the form
 \begin{align*}
   & \lab{elim-List'} : (E : (n : \datalab{Nat}) \to \lab{List'}\ T\ n \to \lab{Type}) \\
-  & \quad \to E\ 0\ \lab{nil} \\
-  & \quad \to ((x : T) \to (n : \datalab{Nat}) \to (\mathit{xs} : \lab{List'}\ T\ n) \to \overline{E\ n\ xs} \to E\ (\ctorlab{1+}\ n)\ (\lab{cons}\ x\ \mathit{xs})) \\
+  & \quad \to E\ \ctorlab{zero}\ \lab{nil} \\
+  & \quad \to ((x : T) \to (n : \datalab{Nat}) \to (\mathit{xs} : \lab{List'}\ T\ n) \to \overline{E\ n\ xs} \to E\ (\ctorlab{succ}\ n)\ (\lab{cons}\ x\ \mathit{xs})) \\
   & \quad \to (n : \datalab{Nat}) \to (v : \lab{List'}\ T\ n) \to E\ n\ v
 \end{align*}
 Dependent pattern matching does a lot of the heavy lifting by refining the
 length index and equality proof by matching on the underlying list. However we still need to
-substitute the lemma $\lab{cong}\ (\ctorlab{1+})\ (\lab{\ctorlab{1+}-inj}\ p) = p$ in the recursive case.
+substitute the lemma $\lab{cong}\ (\ctorlab{succ})\ (\lab{\ctorlab{succ}-inj}\ p) = p$ in the recursive case.
 \begin{align*}
-  &\lab{elim-List'}\ P\ b\ r\ \ctorlab{0}\ (\ctorlab{nil}, \ctorlab{refl}) = b \\
-  &\lab{elim-List'}\ P\ b\ r\ (\ctorlab{1+}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, e) = \lab{subst}\
+  &\lab{elim-List'}\ P\ b\ r\ \ctorlab{zero}\ (\ctorlab{nil}, \ctorlab{refl}) = b \\
+  &\lab{elim-List'}\ P\ b\ r\ (\ctorlab{succ}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, e) = \lab{subst}\
   \begin{aligned}[t]
-  & (\lambda p .\ P\ (\ctorlab{1+}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, p))\ \\
-  & (\lab{\ctorlab{1+}-cong-id}\ e)\ (r\ x\ ({\mathit{xs}}, \lab{\ctorlab{1+}-inj}\ e) \\
-  & (\lambda \wildp . \ \lab{elim-List'}\ P\ b\ r\ m\ ({\mathit{xs}}, \lab{\ctorlab{1+}-inj}\ e)))
+  &(\lambda p .\ P\ (\ctorlab{succ}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, p))\ \\
+  &\hspace{-3em} (\lab{\ctorlab{succ}-cong-id}\ e)\ (r\ x\ ({\mathit{xs}}, \lab{\ctorlab{succ}-inj}\ e) \\
+  &\hspace{-3em}  (\lambda \wildp . \ \lab{elim-List'}\ P\ b\ r\ m\ ({\mathit{xs}}, \lab{\ctorlab{succ}-inj}\ e)))
   \end{aligned}
 \end{align*}
 Finally, we need to prove that the eliminator satisfies the expected computation
 rules propositionally. These are
 \begin{align*}
-  \lab{elim-List'-nil-id} : &\ \lab{elim-List'}\ P\ b\ r\ \ctorlab 0\ (\ctorlab{nil}, \ctorlab{refl}) = b \\[0.5em]
-  \lab{elim-List'-cons-id} :&\  \lab{elim-List'}\ P\ b\ r\ (\ctorlab{1+}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, \lab{cong}\ (\ctorlab{1+})\ p) \\
+  \lab{elim-List'-nil-id} : &\ \lab{elim-List'}\ P\ b\ r\ \ctorlab{zero}\ (\ctorlab{nil}, \ctorlab{refl}) = b \\[0.5em]
+  \lab{elim-List'-cons-id} :&\  \lab{elim-List'}\ P\ b\ r\ (\ctorlab{succ}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, \lab{cong}\ \ctorlab{succ}\ p) \\
   & = r\ x\ (\mathit{xs}, p)\ (\lambda \wildp .\ \lab{elim-List'}\ P\ b\ r\ m\ (\mathit{xs}, p))
 \end{align*}
 The first holds definitionally, and the second requires a small amount of

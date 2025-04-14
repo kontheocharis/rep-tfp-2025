@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  15 APR 2025 00:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  15 APR 2025 00:57
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1153,12 +1153,12 @@ Overfull \hbox (5.79044pt too wide) detected at line 90
  []
 
 [4]
-Overfull \hbox (2.36624pt too wide) detected at line 154
+Overfull \hbox (7.4761pt too wide) detected at line 154
 []
  []
 
 
-Overfull \hbox (21.45534pt too wide) detected at line 166
+Overfull \hbox (1.68239pt too wide) detected at line 166
 []
  []
 
@@ -1415,7 +1415,7 @@ fti1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sft
 t0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sftt1
 000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfxc100
 0.pfb>
-Output written on .out/main.pdf (27 pages, 650533 bytes).
+Output written on .out/main.pdf (27 pages, 650416 bytes).
 PDF statistics:
  609 PDF objects out of 1000 (max. 8388607)
  480 compressed objects within 5 object streams
