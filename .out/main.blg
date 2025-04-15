@@ -1,6 +1,6 @@
-This is BibTeX, Version 0.99d (TeX Live 2021)
+This is BibTeX, Version 0.99d (TeX Live 2023)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
-The top-level auxiliary file: .out/main.aux
+The top-level auxiliary file: main.aux
 The style file: splncs04.bst
 Database file #1: bib.bib
 Warning--to sort, need author or key in coq-extraction
@@ -11,7 +11,7 @@ Warning--missing school in Kovacs2023-gq
 Warning--empty journal in Martin-Lof1984-pz
 You've used 28 entries,
             2850 wiz_defined-function locations,
-            803 strings with 10630 characters,
+            803 strings with 10620 characters,
 and the built_in function-call counts, 15089 in all, are:
 = -- 1291
 > -- 317

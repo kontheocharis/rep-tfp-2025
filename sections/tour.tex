@@ -16,14 +16,14 @@ and generates a case analysis principle $\caselab{Nat}$ of type
   \to (s : \datalab{Nat}) \to P\ s \,.
 \]
 This is a special case of the induction principle $\elimlab{Nat}$, where the inductive hypotheses
-are also given in each method, but this can be recovered through recursion.
-Without further intervention, the $\datalab{Nat}$ type is represented in unary
-form, where each digit becomes an empty heap cell at runtime. This is
-inefficient for a lot of the basic operations on natural numbers, especially
-since computers are particularly well-equipped to deal with numbers natively, so
+are given in each method. 
+Without further intervention, $\datalab{Nat}$ is represented in unary,
+where each digit becomes a heap cell at runtime. This is
+inefficient for many basic operations on natural numbers, especially
+since computers are well-equipped to deal with numbers natively, so
 many real-world implementations will treat \datalab{Nat} specially, swapping the
 default inductive type representation with one based on GMP integers. This is
-done by performing the replacements
+done with the replacements
 \begin{align*} \label{eq:nat-repr-untyped}
   &|\ctorlab{zero}| = \texttt{0}, \\
   &|\ctorlab{succ}| = \texttt{\textbackslash x => x + 1}, \\
@@ -38,22 +38,22 @@ Idris 2 will in fact look for any \datalab{Nat}-like types and apply this optimi
 A similar optimisation is also done with list-like and boolean-like types because
 they have a canonical representation in the target runtime, Chez Scheme.}
 
-In addition to the constructors and case analysis, the compiler might also define
+In addition to the constructors and case analysis, the compiler might define
 translations for commonly used definitions which have a more efficient
-counterpart in the target, such as recursively-defined addition, multiplication,
+counterpart in the target, such as addition, multiplication,
 etc. The recursively-defined functions are well-suited to proofs and reasoning,
-while the unsigned integer primitives are more efficient for computation. This way, the surface
-program can take advantage of the structural properties of induction, notably dependent
-pattern matching, while still benefiting from an efficient representation at runtime.
+while the primitives are more efficient for computation. This way, the surface
+program can take advantage of the structural properties of induction, 
+while still benefiting from an efficient representation at runtime.
 
-The issue with this approach is that it only works for the data types which the
-compiler can recognise as special. Particularly in the presence of dependent
+However, this approach only works for the data types which the
+compiler recognises as special. Particularly in the presence of dependent
 types, other data types might end up being equivalent to \datalab{Nat} or
 another `nicely-representable' type, but in a non-trivial way that the compiler
 cannot recognise. It is also hard to know when such optimisations will fire
-and performance can become very brittle upon refactoring.
+and performance can become brittle upon refactoring.
 Hence, one of our goals is to extend this optimisation to work
-for any data type. To achieve this this, our framework requires that
+for any data type. To achieve this, our framework requires that
 representations are fully typed in a way that ensures the behaviour of the
 representation of a data type matches the behaviour of the data type itself.
 
@@ -70,7 +70,7 @@ A representation definition looks like
 The inductive type $\datalab{Nat}$ is represented as the type $\primlab{UBig}$ of big
 unsigned integers, with translations for the constructors
 $\ctorlab{zero}$ and $\ctorlab{succ}$, and the eliminator $\elimlab{Nat}$ (now with the inductive hypotheses).
-Additionally, the eliminator is shown to satisfy the expected computation rules of the
+Additionally, the eliminator must satisfy the computation rules of the
 $\datalab{Nat}$ eliminator, which are postulated as propositional equalities.
 This representation is valid in a context containing the symbols
 \begin{gather*}

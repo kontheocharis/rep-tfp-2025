@@ -173,7 +173,7 @@ the telescope
 
 \subsubsection{Induction}
 
-The actual type of natural numbers $\Gamma \vdash \mathbb{N} \type$ is just the
+The actual type of natural numbers $\Gamma \vdash \mathbb{N} \type$ is the
 carrier of an algebra over the signature of natural numbers. In particular, the
 `best' such algebra: one whose operations do not forget any information. In the
 language of category theory, this is the initial algebra in the category of
@@ -271,8 +271,7 @@ of computation with data.
 % \begin{proof}
 % See \cref{app:algebras}.
 % \end{proof}
-% \end{theorem}
-
+% \end{theorem, 
 
 \subsection{Defining algebras and friends}
 
@@ -377,7 +376,7 @@ A \emph{representation} of a signature $S$ is an inductive algebra for $S$.
 In \cref{fig:data-rules} we define the $\Mdata$ type, and its corresponding
 introduction, elimination, and computation rules.
 
-\begin{figure}[H]
+\begin{figure}[t]
 \begin{mathpar}
 \inferrule[Data-Form]
 {\Gamma \vdash S \sig \Delta \\ \Gamma \vdash \gamma :: S\INDA \\ \Gamma \vdash \delta :: \Delta}
@@ -411,7 +410,7 @@ which holds definitionally.
 
 One might think, what do we gain by adding $\Mdata$ to the theory? If we can
 provide an inductive algebra $\gamma$ for a signature $S$ ourselves, then why
-not just use $\gamma$ directly? The reason is that by having a primitive for
+not use $\gamma$ directly? The reason is that by having a primitive for
 inductive types, we can take advantage of their properties in an extensional
 way. For example, an induction principle suggests that the constructors
 corresponding to each method are disjoint. Since constructors $\Mctor$ are a
@@ -497,7 +496,7 @@ conversion checking undecidable, but we still want to make use of the fact that
 these types are `the same'. In other words, $\MRepr\ A \simeq A$ but not
 $\MRepr\ A = A$. All the contextual machinery of general modal type systems
 \cite{Gratzer2020-kf} is not necessary here because this modality is fibred over
-contexts so it presents as just a type former.
+contexts so it presents as a type former.
 
 One might hope for additional computation rules. For example, the representation
 of a constructor should be equal to the underlying algebra element of the
@@ -551,17 +550,17 @@ practice. For example, it would simplify the transitivity example in
 \subsection{Translating to extensional \langmltt} \label{sub:translation}
 
 We now define a type- and equality-preserving translation step $\R$ shown in
-\cref{fig:translation} from \lambdadata to extensional \langmltt, meant to be
+\cref{fig:translation} from \lambdadata to extensional \langmltt, to be
 applied during the compilation process. The extensional flavour of \lambdamltt
 involves adding the equality reflection rule
 \[
 \inferrule[\axiom{Reflect $p$}]{\Gamma \vdash p : a =_A a'}{\Gamma \vdash a \equiv a' : A}
 \]
 General undecidability of conversion is not a problem because type checking is
-decidable for $\lambdadata$\footnote{Not formalised in this paper.} and we only
-need to apply this transformation after type checking, on fully-typed terms. The
+decidable for $\lambdadata$\footnote{Not formalised in this paper.} and we
+apply this transformation after type checking, on fully-typed terms. The
 translation is defined over the syntax of $\lambdadata$ \cite{Boulier2017-cm}
-such that definitional equality is preserved, which is shown in
+such that definitional equality is preserved, shown in
 \cref{fig:translation}. $\R$ replaces data types with their underlying inductive
 algebras. We use the notation $\Ty$ and $\Tm$ for types and terms respectively,
 with a subscript indicating the language.
@@ -588,13 +587,13 @@ with a subscript indicating the language.
 &\text{(otherwise recurse with $\R$)}
 \end{align*}
 \end{minipage}
-\caption{Translation of $\lambdadata$ to $\lambdamltt$. It replaces data types
+\caption{Translation of $\lambdadata$ to $\lambdamltt$, replaces data types
 with their underlying inductive algebras, and eliminators by the induction
 principle provided by representations.}
 \label{fig:translation}
 \end{figure}
 
-All the mappings above are clearly structurally recursive. The translation is
+All the mappings above are structurally recursive. The translation is
 extended to contexts, substitutions, telescopes and spines pointwise, and all
 the rest of the syntax is preserved: $\R((a : A) \to B[a]) = (a : \R A) \to (\R
 B)[a]$ etc. All $\Mdata$ types are translated to the carriers of their inductive
@@ -665,9 +664,9 @@ Basic \lambdamltt with dependent functions, pairs and propositional equality as
 we have presented here is not sufficient to construct most inductive algebras in
 an empty context. Without W-types or fixpoints, we must postulate the induction
 principles we have access to, like the example with GMP integers in
-\cref{sec:examples}. In practice, we very often want to be able to construct
-inductive types `from scratch'. For this, we can simply extend the base theory
-with W-types or something similar. One especially convenient choice is to extend
+\cref{sec:examples}. In practice, we often want to be able to construct
+inductive types `from scratch'. For this, we can extend the base theory
+with W-types or something similar. One convenient choice is to extend
 the syntax of both the source and target languages of $\R$ with a class of data
 types like in \cref{fig:data-rules}, but without requiring them to be
 implemented by inductive algebras. The advantage is now that we can opt-in when

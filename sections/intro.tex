@@ -1,16 +1,16 @@
 \section{Introduction}\label{sec:intro}
 
-Inductive families are a generalisation of inductive data types found in some
-programming languages with dependent types. Every inductive definition is
+Inductive families are a generalisation of inductive data types found in
+programming languages with dependent types. An inductive definition is
 equipped with an eliminator that captures the notion of mathematical induction
-over the data, and in particular, enables structural recursion over the data.
+over the data, and enables structural recursion over the data.
 This is a powerful tool for programming as well as theorem proving. However,
 this abstraction has a cost when it comes to compilation: the runtime
 representation of inductive types is a linked tree structure. This
-representation is not always the most efficient for all operations, and often
-forces users to rely on more efficient machine primitives to achieve desirable
+representation is not always the most efficient and often
+forces users to rely on machine primitives to achieve desirable
 performance, at the cost of structural recursion and dependent pattern matching.
-This is the first problem we aim to address in this paper.
+%This is the first problem we aim to address in this paper.
 
 Despite advances in the erasure of irrelevant indices in inductive families
 \cite{Brady2004-ay} and the use of theories with irrelevant fragments
@@ -22,15 +22,16 @@ types, unless sized binary trees are defined as a refinement of binary trees
 with an erased height field (which hinders dependent pattern matching due to the
 presence of non-structural witnesses), or a Church encoding is used in a
 Curry-style context \cite{Diehl2018-ba} (which restricts the flexibility of data
-representation). This is the second problem we aim to address in this paper.
+representation).
+%This is the second problem we aim to address in this paper.
 
 Wadler's views \cite{Wadler1987-zp} provide a way to abstract over inductive
 interfaces, so that different views of the same data can be defined and
-converted between seamlessly. In the context of inductive families, views have
-been used in Epigram \cite{Mcbride2004-fd} that utilise the index refinement
+converted seamlessly. In the context of inductive families, views have
+been used in Epigram \cite{Mcbride2004-fd} that use the index refinement
 machinery of dependent pattern matching to avoid certain proof obligations with
 eliminator-like constructs. While views exhibit a nice way to transport across a
-bijection between the original data and the viewed data, they do not utilise
+bijection between the original data and the viewed data, they do not use
 this bijection to erase the view from the program.
 
 In this paper, we propose an extension $\lambdadata$ to Martin-L\"of type theory with
