@@ -38,7 +38,7 @@ $\Gamma \vdash \delta :: \Delta$           & $\delta$ is a spine (list of terms)
 with accompanying rules shown in \cref{fig:tel-rules}.
 
 \begin{figure}[H]
-  \vspace{-2em}
+  \vspace{-1em}
   \begin{mathpar}
   \inferrule[Tel-Empty]{ }{\Gamma \vdash \bullet \tel}
   \and
@@ -46,6 +46,7 @@ with accompanying rules shown in \cref{fig:tel-rules}.
   \\
   \inferrule[Spine-Empty]{ }{\Gamma \vdash (\,) :: \bullet} \and
   \inferrule[Spine-Extend]{\Gamma \vdash a : A \\ \Gamma \vdash \delta : \Delta[a]}{\Gamma \vdash (a, \delta) :: (A, \Delta)}
+  \vspace{-1em}
   \end{mathpar}
   \caption{Rules for forming telescopes and spines.}
   \label{fig:tel-rules}
@@ -83,6 +84,8 @@ $\Gamma \vdash O \op \Delta$     & $O$ is an operation with indices $\Delta$ in 
 \end{definitions}
 with accompanying rules shown in \cref{fig:tel-rules}.
 Signatures are lists of operations, and operations build up constructor types.
+
+\enlargethispage{\baselineskip}
 
 \begin{figure}[H]
   \begin{mathpar}
@@ -271,7 +274,7 @@ of computation with data.
 % \begin{proof}
 % See \cref{app:algebras}.
 % \end{proof}
-% \end{theorem, 
+% \end{theorem,
 
 \subsection{Defining algebras and friends}
 

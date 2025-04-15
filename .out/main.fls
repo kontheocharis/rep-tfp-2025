@@ -2,7 +2,7 @@ PWD /Users/constantine/git/rep-tfp-2025
 INPUT /usr/local/texlive/2021/texmf.cnf
 INPUT /usr/local/texlive/2021/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT main.tex
+INPUT /Users/constantine/git/rep-tfp-2025/main.tex
 OUTPUT .out/main.log
 INPUT ./llncs.cls
 INPUT ./llncs.cls
