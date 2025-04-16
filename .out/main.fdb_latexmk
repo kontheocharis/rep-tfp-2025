@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex .out/main"] 1744814298 ".out/main.aux" ".out/main.bbl" ".out/main" 1744814306
+["bibtex .out/main"] 1744820515 ".out/main.aux" ".out/main.bbl" ".out/main" 1744820517
   "./splncs04.bst" 1733698704 32146 aadf770ded437d161532035219ea6f45 ""
-  ".out/main.aux" 1744814306 13277 a907db74228c8e872024786f2b3b91e6 "pdflatex"
+  ".out/main.aux" 1744820517 14000 b0f3e01d36a1090f8095f2053e40291e "pdflatex"
   "bib.bib" 1739989786 123034 cd699a1a93ff407cbe2bfa4d8c5471c3 ""
   (generated)
   ".out/main.blg"
   ".out/main.bbl"
-["pdflatex"] 1744814305 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1744814306
-  ".out/main.aux" 1744814306 13277 a907db74228c8e872024786f2b3b91e6 "pdflatex"
-  ".out/main.bbl" 1744814298 7567 dbae20199030222d40059fd214bbaa66 "bibtex .out/main"
-  ".out/main.out" 1744814306 275 e8697098164b610f8033512d50a9d933 "pdflatex"
+["pdflatex"] 1744820515 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1744820517
+  ".out/main.aux" 1744820517 14000 b0f3e01d36a1090f8095f2053e40291e "pdflatex"
+  ".out/main.bbl" 1744820515 7567 dbae20199030222d40059fd214bbaa66 "bibtex .out/main"
+  ".out/main.out" 1744820517 275 e8697098164b610f8033512d50a9d933 "pdflatex"
   "/Users/constantine/git/rep-tfp-2025/main.tex" 1739834543 455 c9536a5b6d9db7bd806fd47214fc7c07 ""
-  "/dev/null" 1744814305 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "/dev/null" 1744820514 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -328,14 +328,14 @@
   "misc/macros.tex" 1744813363 5226 e71dba24ada8875ac95635789a148c2a ""
   "misc/packages.tex" 1743721224 1420 419adeb5a8f409d2fe1ab4d893b036e4 ""
   "misc/rights.tex" 1733698704 1050 6124765dfe6cb612a966ac31849f412a ""
-  "sections/appendix.tex" 1744228717 14089 ff3ef6839661c04925e15b084200eef7 ""
+  "sections/appendix.tex" 1744820514 7094 e6aaafe0624b09e368183da105bcb77f ""
   "sections/conclusion.tex" 1744814041 6338 8287de2b829df9b5beeff2c639435096 ""
   "sections/implementation.tex" 1744649176 1952 136a46feb3a8ff8da95ba90a4e5d79a3 ""
   "sections/intro.tex" 1744735601 3599 c4d36aebbff792606bdd7c85a08bc7b5 ""
   "sections/tour.tex" 1744765149 17977 4250fac8caaf69a16917ad7c8b1bcd6e ""
   "sections/type-system.tex" 1744814305 39296 f7a349469cd434c7e50c775a2e8960ed ""
   (generated)
-  ".out/main.out"
-  ".out/main.log"
   ".out/main.pdf"
+  ".out/main.log"
+  ".out/main.out"
   ".out/main.aux"

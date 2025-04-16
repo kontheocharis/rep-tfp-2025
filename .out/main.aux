@@ -162,19 +162,15 @@
 \bibcite{Wadler1987-zp}{28}
 \bibcite{Wadler1990-yo}{29}
 \citation{Castellan2019-qo}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Appendix}{24}{section.1.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Implementation}{24}{subsection.1.8.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Basic \ensuremath  {{\textsc  {mltt}}}\xspace  }{24}{subsection.1.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Appendix}{25}{section.1.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Implementation}{25}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Formalisation}{25}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Definition of \ensuremath  {{\textsc  {mltt}}}\xspace  }{25}{subsection.1.8.1}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Typing rules for \ensuremath  {{\textsc  {mltt}}}\xspace  .}}{25}{figure.1.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Homogenous equality rules for \ensuremath  {{\textsc  {mltt}}}\xspace  , omitting substitution rules such as $(\textsf  {El}\ {a}) [\sigma ] = \textsf  {El}\ {(}a[\sigma ])$.}}{25}{figure.1.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Extension to \ensuremath  {{\textsc  {datatt}}}\xspace  }{25}{subsection.1.8.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.4}Full translation from \ensuremath  {{\textsc  {mltt}}}\xspace  to \ensuremath  {{\textsc  {datatt}}}\xspace  }{26}{subsection.1.8.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.5}Displayed algebras over algebras}{26}{subsection.1.8.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.6}Applying sections to algebra inputs}{26}{subsection.1.8.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.7}Utilities when working with algebras}{26}{subsection.1.8.7}\protected@file@percent }
-\newlabel{app:algebras}{{8.7}{26}{Utilities when working with algebras}{subsection.1.8.7}{}}
-\newlabel{app:algebras@cref}{{[subsection][7][8]8.7}{[1][26][]26}}
-\newlabel{app:reprs}{{8.7}{26}{Realisation functions for algebras}{section*.9}{}}
-\newlabel{app:reprs@cref}{{[subsection][7][8]8.7}{[1][26][]26}}
-\@writefile{toc}{\contentsline {subsubsection}{Realisation functions for algebras}{26}{section*.9}\protected@file@percent }
-\gdef \@abspage@last{26}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Definitional equality rules for \ensuremath  {{\textsc  {mltt}}}\xspace  , omitting substitution rules such as $(\textsf  {El}\ {a}) [\sigma ] = \textsf  {El}\ {(}a[\sigma ])$.}}{26}{figure.1.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Definition of \ensuremath  {{\textsc  {datatt}}}\xspace  }{26}{subsection.1.8.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces (\href  {https://github.com/kontheocharis/rep-agda/blob/e6bd34adaab630f5787c63a95fa86869f6c19da4/TT/Repr.agda\#L41}{\textsc  {agda}})\ Definitional compatibility rules for $\textsf  {Repr}$. Similar rules are given for $\Sigma $ and $\top $ in the formalisation. In this version, $\textsf  {Repr}$ only applies to codomains of functions which aligns with the substitution rule. However, it is also possible to formulate it as \\ $\textsf  {Repr}\ ((x : A) \to B) = (x : \textsf  {Repr}\ A) \to \textsf  {Repr}\ B[\textsf  {unrepr}\ x]$.}}{26}{figure.1.9}\protected@file@percent }
+\newlabel{fig:lambdaind-repr-coherence-pi-univ}{{9}{26}{(\mech {https://github.com/kontheocharis/rep-agda/blob/e6bd34adaab630f5787c63a95fa86869f6c19da4/TT/Repr.agda\#L41})\^^MDefinitional compatibility rules for $\MRepr $. Similar rules are given for $\Sigma $ and $\top $ in the formalisation. In this version, $\MRepr $ only applies to codomains of functions which aligns with the substitution rule. However, it is also possible to formulate it as \\ $\MRepr \ ((x : A) \to B) = (x : \MRepr \ A) \to \MRepr \ B[\Munrepr \ x]$}{figure.1.9}{}}
+\newlabel{fig:lambdaind-repr-coherence-pi-univ@cref}{{[figure][9][]9}{[1][26][]26}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Additional propositional equalities for $\textsf  {Repr}$ on constructors and eliminators. Here, $\textsf  {repr}^*$ applies $\textsf  {Repr}$ on all the recursive arguments of a displayed algebra. The rule $\textsf  {elim-equiv}_{S}\ \{\gamma \}\ M\ \beta \ \delta \ x$ is also derivable internally by case analysis on $x$.}}{27}{figure.1.10}\protected@file@percent }
+\gdef \@abspage@last{27}
