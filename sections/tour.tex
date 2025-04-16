@@ -1,8 +1,9 @@
 \section{A tour of data representations}\label{sec:examples}
 
 A common optimisation done by programming languages with dependent types such as
-Idris 2 \cite{idris}, Agda \cite{agda}, Rocq \cite{rocq} and Lean \cite{lean} is to represent natural numbers as GMP-style \cite{gmp} big integers. The
-definition of natural numbers looks like
+Idris 2 \cite{idris}, Agda \cite{agda}, Rocq \cite{rocq} and Lean \cite{lean} is
+to represent natural numbers more efficiently. The
+definition of natural numbers is
 \begin{equation}\label{eq:nat-def}
   \Sdata{Nat}{}{} \Sbody{
     \ctorlab{zero} & : \datalab{Nat} \\
@@ -13,8 +14,9 @@ and generates a case analysis principle $\caselab{Nat}$ of type
 \[
    (P : \datalab{Nat} \to \univ)
   \to P\ \ctorlab{zero} \to ((n : \datalab{Nat}) \to P\ (\ctorlab{succ}\ n))
-  \to (s : \datalab{Nat}) \to P\ s \,.
+  \to (s : \datalab{Nat}) \to P\ s \,,
 \]
+which powers pattern matching.
 This is a special case of the induction principle $\elimlab{Nat}$, where the inductive hypotheses
 are given in each method.
 Without further intervention, $\datalab{Nat}$ is represented in unary,
@@ -22,7 +24,7 @@ where each digit becomes a heap cell at runtime. This is
 inefficient for many basic operations on natural numbers, especially
 since computers are well-equipped to deal with numbers natively, so
 many real-world implementations will treat \datalab{Nat} specially, swapping the
-default inductive type representation with one based on GMP integers. This is
+default inductive type representation with one based on GMP \cite{gmp} integers. This is
 done with the replacements
 \begin{align*} \label{eq:nat-repr-untyped}
   &|\ctorlab{zero}| = \texttt{0}, \\
@@ -46,7 +48,7 @@ while the primitives are more efficient for computation. This way, the surface
 program can take advantage of the structural properties of induction,
 while still benefiting from an efficient representation at runtime.
 
-However, this approach only works for the data types which the
+Unfortunately, this approach only works for the data types which the
 compiler recognises as `special'. Particularly in the presence of dependent
 types, other data types might end up being equivalent to \datalab{Nat} or
 another `nicely-representable' type, but in a non-trivial way that the compiler
@@ -173,8 +175,7 @@ rules propositionally. These are
   & = r\ x\ (\mathit{xs}, p)\ (\lambda \wildp .\ \lab{elim-List'}\ P\ b\ r\ m\ (\mathit{xs}, p))
 \end{align*}
 The first holds definitionally, and the second requires a small amount of
-equality reasoning if the theory does not have definitional uniqueness of
-identity.
+equality reasoning.
 This completes the definition of the representation of
 $\datalab{Vec}$ as $\lab{List'}$, which would be written as
 \[
@@ -195,17 +196,26 @@ practice, this erasure is achieved in \superfluid using quantitative type theory
 computationally irrelevant conversion functions.
 
 We can utilise this representation to convert between $\datalab{Vec}$ and
-$\datalab{List}$ at zero runtime cost, by using the $\repr{}$ and $\unrepr{}$
-operators of the language (defined in \cref{sec:type-system}). Specifically, we
+$\datalab{List}$ at zero runtime cost. We can do this using the $\repr{}$ and $\unrepr{}$
+operators of the language (defined in \cref{sec:type-system}). These allow us to convert
+between an inductive type and its representation. Specifically, we
 can define the functions
 \begin{align*}
   &\lab{forget-length} : \datalab{Vec}\ T\ n \to \datalab{List}\ T \\
   &\lab{forget-length}\ v = \letin{(l, \wildp)}{\repr{v}}{l} \\[1em]
   &\lab{remember-length} : (l : \datalab{List}\ T) \to \datalab{Vec}\ T\ (\lab{length}\ l) \\
-  &\lab{remember-length}\ l = \unrepr{(l, \ctorlab{refl})}
+  &\lab{remember-length}\ l = \unrepr{(l, \ctorlab{refl})} \,.
 \end{align*}
-and in \cref{sub:irr} we will show that it holds by reflexivity that
-such functions are inverses of one another.
+In \cref{sub:irr} we will show that such functions are inverses
+of one another and are computationally irrelevant.
+These operators are typed as
+\[
+  \Mrepr : A \to \MRepr\ A \qquad \Munrepr : \MRepr\ A \to A
+\]
+where $\MRepr\ A$ computes to the defined representation of $A$, if $A$ is a
+data type. $\MRepr$ is a kind of `intensional' modality, with the property that
+$\MRepr\ A \simeq A$. It allows us to transport across
+computationally-irrelevant functions arising from representations.
 
 \subsection{General reindexing}
 
@@ -230,7 +240,9 @@ underlying polynomial functors), then it is also equivalent to the $\Sigma$-type
 above. The `recomputation lemma' of algebraic ornaments \cite{Dagand2012-aw}
 then arises from its projections. Our system allows us to \emph{set} the
 representation of $\datalab{G}$ as $\datalab{F}^{\lab{comp}}$, so that the
-forgetful map from $\datalab{G}$ to $\datalab{F}$ is the identity at runtime.
+forgetful map from $\datalab{G}$ to $\datalab{F}$ as well as the recomputation
+map from $\datalab{F}$ to $\datalab{G}$ are erased, constructed
+with $\Mrepr$ and $\Munrepr$. We formulate this pattern in the general setting in \cref{sub:irr}.
 
 \subsection{Zero-copy deserialisation}
 
@@ -297,7 +309,7 @@ of $\datalab{List}$. It is possible to define a custom representation for
 $\datalab{List}$ itself, for example a heap-backed array or a finger tree, and
 $\datalab{Vec}$ would inherit this representation. However it will still be the
 case that $\Repr{(\datalab{Vec}\ T\ n)} \equiv \datalab{List}\ T$, which means
-the $\repr{}/\Repr{}$ operators only look at the immediate defined
+the $\Repr{}$ modality only considers the immediate defined
 representation of a term. Regardless, we can construct predicates that find
 types which satisfy a certain eventual representation. For example, given a
 \datalab{Buf} type of byte buffers, we can consider the set of all types which

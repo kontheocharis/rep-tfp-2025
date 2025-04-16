@@ -1,13 +1,13 @@
 \section{Introduction}\label{sec:intro}
 
 Inductive families are a generalisation of inductive data types found in
-programming languages with dependent types. An inductive definition is
-equipped with an eliminator that captures the notion of mathematical induction
-over the data, and enables structural recursion over the data.
-This is a powerful tool for programming as well as theorem proving. However,
-this abstraction has a cost when it comes to compilation: the standard runtime
-representation of inductive types is a linked tree structure. This
-representation is not always the most efficient and often
+programming languages with dependent types. An inductive definition is equipped
+with an eliminator that and enables structural recursion over the data, and
+captures the notion of mathematical induction. This is a powerful tool for
+programming as well as theorem proving. However, this abstraction has a cost
+when it comes to compilation: the standard runtime representation of inductive
+types is a linked tree structure. This representation is not always the most
+efficient and often
 forces users to rely on machine primitives to achieve desirable
 performance, at the cost of structural recursion and dependent pattern matching.
 %This is the first problem we aim to address in this paper.
@@ -15,22 +15,22 @@ performance, at the cost of structural recursion and dependent pattern matching.
 Despite advances in the erasure of irrelevant indices in inductive families
 \cite{Brady2004-ay} and the use of theories with irrelevant fragments
 \cite{Atkey2018-pj,Moon2021-eb}, there is still a need to convert
-between differently-indexed versions of the same data. For example, the function to
-convert from $\datalab{BinTreeOfHeight}\ T\ n$ to $\datalab{BinTree}\ T$ by forgetting the
-height index $n$ is \emph{not} erased by any current language with dependent
+between differently-indexed versions of the same data. For example, consider the function that
+converts from $\datalab{BinTreeOfHeight}\ T\ n$ to $\datalab{BinTree}\ T$ by forgetting the
+height index $n$. This is \emph{not} erased by any current language with dependent
 types, unless sized binary trees are defined as a refinement of binary trees
-with an erased height field, hindering dependent pattern matching due to the
+with an erased height field, which hinders dependent pattern matching due to the
 presence of non-structural witnesses.
 %This is the second problem we aim to address in this paper.
 
 Wadler's views \cite{Wadler1987-zp} provide a way to abstract over inductive
 interfaces, so that different views of the same data can be defined and
-converted seamlessly. In the context of inductive families, views have
+converted between seamlessly. In the context of inductive families, views have
 been used in Epigram \cite{Mcbride2004-fd} that use the index refinement
 machinery of dependent pattern matching to avoid certain proof obligations with
-eliminator-like constructs. While views exhibit a nice way to transport across a
-bijection between the original data and the viewed data, they do not use
-this bijection to erase the view from the program.
+eliminator-like constructs. While Wadler's views exhibit a nice way to transport
+across a bijection between the original data and the viewed data, they do not
+\emph{erase} the view from the final program.
 
 In this paper, we propose an extension $\lambdadata$ to Martin-L\"of type theory \cite{Martin-Lof1984-pz} with
 which allows programmers to define inductive types with custom,
@@ -45,10 +45,9 @@ original inductive family. We contribute the following:
         similarly for other inductive types, as well as zero-cost data reuse when
         reindexing, using custom \emph{representations} (\cref{sec:examples}).
         \item A dependent type system $\lambdadata$ with data types formulated
-        as inductive algebras for signatures, along with a translation to
+        in terms of inductive algebras for signatures, along with a translation to
         $\lambdamltt$ that replaces all data types with their defined inductive
         algebras (\cref{sec:type-system}). We have formalised this in Agda (\cref{app:formalisation}).
         \item A prototype implementation of this system in \textsc{Superfluid},
-        a programming language with inductive types and dependent pattern
-        matching (\cref{sec:implementation}).
+        a programming language with inductive families (\cref{sec:implementation}).
 \end{itemize}
