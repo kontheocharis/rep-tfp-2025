@@ -25,7 +25,7 @@ specify techniques like struct packing and bit-stealing. To our knowledge
 however, this does not provide control over the indirection introduced by
 \emph{inductive} types.
 
-Dependently typed languages with extraction features, notably Coq
+Dependently typed languages with extraction features, including Idris 2 \cite{idris-extraction}, Rocq
 \cite{coq-extraction} and Agda \cite{agda-extraction}, have some overlapping
 capabilities with our approach, but they do not provide any of the correctness
 guarantees. Optimisation tricks such as the Nat-hack, and its generalisation to
@@ -33,7 +33,7 @@ other types, can emulate a part of our system but are unverified and special
 casing in the compiler. Since the extended abstract version of this paper, an
 optimisation was merged into Idris 2 \cite{idris-pr} to erase the forgetful and
 recomputation functions for reindexing list/maybe/number-like types.
-There also seems to be a demand for this kind of optimisation in Agda
+There is also demand for this kind of optimisation in Agda
 \cite{agda-issue}.
 
 % We hope

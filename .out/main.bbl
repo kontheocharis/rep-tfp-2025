@@ -23,12 +23,17 @@ Lean: Programming language and theorem prover. \url{https://lean-lang.org/},
   accessed: 2024-5-3
 
 \bibitem{idris-pr}
-Make `cons`, `nil`, `just` and `nothing` constructors have uniform names by
-  {Z}-snails · pull request \#3486 · idris-lang/{Idris2}.
+Make {`CONS', `NIL', `JUST'} and {`NOTHING'} constructors have uniform names by
+  {Z}-snails · {Pull Request} \#3486 · idris-lang/{Idris2}.
   \url{https://github.com/idris-lang/Idris2/pull/3486}, accessed: 2025-2-19
 
+\bibitem{idris-extraction}
+Pragmas — idris2 0.0 documentation.
+  \url{https://idris2.readthedocs.io/en/latest/reference/pragmas.html#transform},
+  accessed: 2025-2-19
+
 \bibitem{coq-extraction}
-Program extraction — coq 8.13.2 documentation.
+Program extraction — {Coq} 8.13.2 documentation.
   \url{https://coq.inria.fr/doc/v8.13/refman/addendum/extraction.html},
   accessed: 2025-2-19
 
@@ -113,8 +118,9 @@ Cockx, J., Devriese, D.: Proof-relevant unification: Dependent pattern matching
   \url{https://www.cambridge.org/core/services/aop-cambridge-core/content/view/E54D56DC3F5D5361CCDECA824030C38E/S095679681800014Xa.pdf/div-class-title-proof-relevant-unification-dependent-pattern-matching-with-only-the-axioms-of-your-type-theory-div.pdf}
 
 \bibitem{Dagand2012-aw}
-Dagand, P.E., McBride, C.: A categorical treatment of ornaments. arXiv [cs.PL]
-  (16~Dec 2012), \url{http://arxiv.org/abs/1212.3806}
+Dagand, P.E., McBride, C.: A categorical treatment of ornaments. In: 2013 28th
+  Annual ACM/IEEE Symposium on Logic in Computer Science. IEEE (Jun 2013),
+  \url{http://dx.doi.org/10.5555/2591370.2591396}
 
 \bibitem{Diehl2018-ba}
 Diehl, L., Firsov, D., Stump, A.: Generic zero-cost reuse for dependent types.
@@ -129,12 +135,14 @@ Goguen, H., McBride, C., McKinna, J.: Eliminating dependent pattern matching.
 
 \bibitem{Gratzer2020-kf}
 Gratzer, D., Kavvos, G.A., Nuyts, A., Birkedal, L.: Multimodal dependent type
-  theory. arXiv [cs.LO]  (30~Nov 2020),
-  \url{http://dx.doi.org/10.46298/lmcs-17(3:11)2021}
+  theory. In: Proceedings of the 35th Annual ACM/IEEE Symposium on Logic in
+  Computer Science. ACM, New York, NY, USA (8~Jul 2020),
+  \url{http://dx.doi.org/10.1145/3373718.3394736}
 
 \bibitem{Kovacs2022-vb}
-Kov\'{a}cs, A.: Staged compilation with two-level type theory. arXiv [cs.PL]
-  (20~Sep 2022), \url{http://arxiv.org/abs/2209.09729}
+Kov\'{a}cs, A.: Staged compilation with two-level type theory. Proc. ACM
+  Program. Lang.  \textbf{6}(ICFP),  540--569 (29~Aug 2022),
+  \url{https://dl.acm.org/doi/10.1145/3547641}
 
 \bibitem{Kovacs2023-gq}
 Kov\'{a}cs, A.: Type-theoretic signatures for algebraic theories and inductive
