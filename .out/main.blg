@@ -3,51 +3,56 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: .out/main.aux
 The style file: splncs04.bst
 Database file #1: bib.bib
+Warning--to sort, need author or key in gmp
+Warning--to sort, need author or key in idris
+Warning--to sort, need author or key in agda
+Warning--to sort, need author or key in rocq
+Warning--to sort, need author or key in lean
 Warning--to sort, need author or key in coq-extraction
 Warning--to sort, need author or key in agda-extraction
 Warning--to sort, need author or key in idris-pr
 Warning--to sort, need author or key in agda-issue
 Warning--missing school in Kovacs2023-gq
 Warning--empty journal in Martin-Lof1984-pz
-You've used 29 entries,
+You've used 34 entries,
             2850 wiz_defined-function locations,
-            810 strings with 10850 characters,
-and the built_in function-call counts, 15595 in all, are:
-= -- 1326
-> -- 344
+            829 strings with 11252 characters,
+and the built_in function-call counts, 16799 in all, are:
+= -- 1411
+> -- 349
 < -- 22
-+ -- 149
++ -- 156
 - -- 116
-* -- 1020
-:= -- 1896
-add.period$ -- 43
-call.type$ -- 29
-change.case$ -- 167
+* -- 1060
+:= -- 1986
+add.period$ -- 48
+call.type$ -- 34
+change.case$ -- 187
 chr.to.int$ -- 0
-cite$ -- 35
-duplicate$ -- 1469
-empty$ -- 1548
+cite$ -- 45
+duplicate$ -- 1594
+empty$ -- 1718
 format.name$ -- 133
-if$ -- 3468
+if$ -- 3758
 int.to.chr$ -- 0
-int.to.str$ -- 29
-missing$ -- 261
-newline$ -- 93
+int.to.str$ -- 34
+missing$ -- 286
+newline$ -- 108
 num.names$ -- 50
-pop$ -- 522
+pop$ -- 617
 preamble$ -- 1
-purify$ -- 116
+purify$ -- 126
 quote$ -- 0
-skip$ -- 403
+skip$ -- 448
 stack$ -- 0
-substring$ -- 1017
-swap$ -- 727
+substring$ -- 1054
+swap$ -- 777
 text.length$ -- 22
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 114
-warning$ -- 6
+type$ -- 134
+warning$ -- 11
 while$ -- 122
-width$ -- 31
-write$ -- 316
-(There were 6 warnings)
+width$ -- 36
+write$ -- 356
+(There were 11 warnings)
