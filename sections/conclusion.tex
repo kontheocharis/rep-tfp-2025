@@ -46,12 +46,26 @@ There also seems to be a demand for this kind of optimisation in Agda
 % formalise the relationship between inductive families in $\lambdaind$ and the
 % standard formulation in terms of $W$-types \cite{Abbott2004-va}.
 
-In the future we aim to expand the class of theories we consider, to include
-quotient-induction, induction-induction and induction-recursion. Representations
-for quotient-inductive types in particular could give rise to ergonomic ways of
-computing with more `traditional' data structures such as hash maps or binary
-search trees. We could program inductively over these structures but extract
-programs without redundancy in data representation.
+There are elements of our formalisation which should be developed further. We
+did not formulate normalisation and decidability of equality for $\lambdadata$,
+which is needed for typechecking. We have implemented a
+normalisation-by-evaluation algorithm used in \superfluid, but have only
+sketched that it has the desired properties. On the practical side, we have not
+explored examples of representations in great detail. once the implementation of
+$\superfluid$ is more complete, we would like to explore more sophisticated and
+complete examples, along with compelling benchmarks.
+
+In the future we aim to expand the class of theories we consider, in particular
+to include quotient-induction. Representations for quotient-inductive types in
+could give rise to ergonomic ways of computing with more `traditional' data
+structures such as hash maps or binary search trees. We could program
+inductively over these structures but extract programs without redundancy in
+data representation. Additionally, quotient-inductive types could be a good
+candidate for improving typechecking ergonomics by deciding their equational
+theories, similar to Frex \cite{Allais2023-rg}. Such a system could
+apply certain representations at during typechecking rather than code generation,
+to solve equations involving free variables through a normalisation-by-evaluation  \cite{Altenkirch2020-rm}
+procedure.
 
 % We could also look into automating the discovery of inductive algebras for
 % `known' classes of data types through metaprogramming \cite{Dagand2017-nj}. This
@@ -59,15 +73,6 @@ programs without redundancy in data representation.
 % part of a standard library, with accompanying internal correctness proofs. It
 % could also extend to identity function detection, by internalising the
 % extraction step explored in \cref{sub:irr}.
-
-There are elements of our formalisation which should be developed further. We
-did not formulate decidability of equality and normalisation for $\lambdadata$,
-which is needed for typechecking. We have implemented a
-normalisation-by-evaluation \cite{Altenkirch2020-rm} algorithm used in the
-implementation of \superfluid, but have only sketched that it has the
-desired properties. On the practical side, once the implementation of $\superfluid$
-is more complete, we would like to explore more sophisticated and complete examples
-of programming with representations, along with compelling benchmarks.
 
 We would like to further explore the relationship of the $\mta{Repr}$ modality with
 general systems for defining modalities, such as \emph{multi-modal type theory}

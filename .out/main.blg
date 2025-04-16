@@ -9,45 +9,45 @@ Warning--to sort, need author or key in idris-pr
 Warning--to sort, need author or key in agda-issue
 Warning--missing school in Kovacs2023-gq
 Warning--empty journal in Martin-Lof1984-pz
-You've used 28 entries,
+You've used 29 entries,
             2850 wiz_defined-function locations,
-            803 strings with 10630 characters,
-and the built_in function-call counts, 15089 in all, are:
-= -- 1291
-> -- 317
+            810 strings with 10850 characters,
+and the built_in function-call counts, 15595 in all, are:
+= -- 1326
+> -- 344
 < -- 22
-+ -- 138
-- -- 106
-* -- 984
-:= -- 1823
-add.period$ -- 42
-call.type$ -- 28
-change.case$ -- 159
++ -- 149
+- -- 116
+* -- 1020
+:= -- 1896
+add.period$ -- 43
+call.type$ -- 29
+change.case$ -- 167
 chr.to.int$ -- 0
-cite$ -- 34
-duplicate$ -- 1424
-empty$ -- 1508
-format.name$ -- 122
-if$ -- 3367
+cite$ -- 35
+duplicate$ -- 1469
+empty$ -- 1548
+format.name$ -- 133
+if$ -- 3468
 int.to.chr$ -- 0
-int.to.str$ -- 28
-missing$ -- 250
-newline$ -- 90
-num.names$ -- 48
-pop$ -- 499
+int.to.str$ -- 29
+missing$ -- 261
+newline$ -- 93
+num.names$ -- 50
+pop$ -- 522
 preamble$ -- 1
-purify$ -- 109
+purify$ -- 116
 quote$ -- 0
-skip$ -- 395
+skip$ -- 403
 stack$ -- 0
-substring$ -- 1004
-swap$ -- 707
+substring$ -- 1017
+swap$ -- 727
 text.length$ -- 22
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 110
+type$ -- 114
 warning$ -- 6
-while$ -- 119
-width$ -- 30
-write$ -- 306
+while$ -- 122
+width$ -- 31
+write$ -- 316
 (There were 6 warnings)

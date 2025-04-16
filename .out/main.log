@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  16 APR 2025 15:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  16 APR 2025 15:34
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1225,13 +1225,7 @@ l.676
                                                   
 l.676 
       ]) (./sections/implementation.tex [19]) (./sections/conclusion.tex
-[20]
-Overfull \hbox (2.9021pt too wide) in paragraph at lines 49--55
-\T1/cmr/m/n/10 quotient-induction, induction-induction and induction-recursion.
- Rep-re-sen-ta-tions
- []
-
-[21]) (.out/main.bbl
+[20] [21]) (.out/main.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 32--36
 []\T1/cmr/m/n/9 Adamek, J., Rosicky, J., Vi-tale, E.M.: Cam-bridge tracts in ma
 th-
@@ -1268,50 +1262,50 @@ gebra ? format =
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 47--50
+Underfull \hbox (badness 10000) in paragraph at lines 52--55
 []$\T1/cmtt/m/n/9 https : / / drops . dagstuhl . de / storage / 00lipics / lipi
 cs-[]vol175-[]types2019 /
  []
 
 [22]
-Underfull \hbox (badness 10000) in paragraph at lines 87--91
+Underfull \hbox (badness 10000) in paragraph at lines 92--96
 \T1/cmtt/m/n/9 content / view / E54D56DC3F5D5361CCDECA824030C38E / S09567968180
 0014Xa . pdf /
  []
 
 
-Overfull \hbox (221.43536pt too wide) in paragraph at lines 87--91
+Overfull \hbox (221.43536pt too wide) in paragraph at lines 92--96
 \T1/cmtt/m/n/9 div-[]class-[]title-[]proof-[]relevant-[]unification-[]dependent
 -[]pattern-[]matching-[]with-[]only-[]the-[]axioms-[]of-[]your-[]type-[]theory-
 []div .
  []
 
 
-Underfull \hbox (badness 1824) in paragraph at lines 117--120
+Underfull \hbox (badness 1824) in paragraph at lines 122--125
 []\T1/cmr/m/n/9 Kovács, A.: Type-theoretic sig-na-tures for al-ge-braic the-o-r
 ies and in-duc-tive
  []
 
 
-Underfull \hbox (badness 1668) in paragraph at lines 122--124
+Underfull \hbox (badness 1668) in paragraph at lines 127--129
 []\T1/cmr/m/n/9 Martin-Löf, P.: In-tu-ition-is-tic type the-ory \T1/cmr/bx/n/9 
 1\T1/cmr/m/n/9 , 1--91 (1984), []$\T1/cmtt/m/n/9 http : / / people .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 122--124
+Underfull \hbox (badness 10000) in paragraph at lines 127--129
 \T1/cmtt/m/n/9 csail . mit . edu / jgross / personal-[]website / papers / acade
 mic-[]papers-[]local /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 132--135
+Underfull \hbox (badness 10000) in paragraph at lines 137--140
 \T1/cmr/bx/n/9 14\T1/cmr/m/n/9 (1), 69--111 (Jan 2004), []$\T1/cmtt/m/n/9 https
  : / / www . cambridge . org / core / services /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 132--135
+Underfull \hbox (badness 10000) in paragraph at lines 137--140
 \T1/cmtt/m/n/9 aop-[]cambridge-[]core / content / view / F8A44CAC27CCA178AF69DD
 84BC585A2D /
  []
@@ -1343,10 +1337,10 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: E8697098164B610F8033512D50A9D933;275.
  ) 
 Here is how much of TeX's memory you used:
- 28226 strings out of 478994
- 532968 string characters out of 5858183
- 877636 words of memory out of 5000000
- 44953 multiletter control sequences out of 15000+600000
+ 28228 strings out of 478994
+ 533001 string characters out of 5858183
+ 877672 words of memory out of 5000000
+ 44954 multiletter control sequences out of 15000+600000
  444209 words of font info for 121 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  133i,23n,133p,495b,525s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1393,10 +1387,10 @@ fti1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sft
 t0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sftt1
 000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfxc100
 0.pfb>
-Output written on .out/main.pdf (26 pages, 651387 bytes).
+Output written on .out/main.pdf (26 pages, 652698 bytes).
 PDF statistics:
- 606 PDF objects out of 1000 (max. 8388607)
- 478 compressed objects within 5 object streams
- 118 named destinations out of 1000 (max. 500000)
+ 611 PDF objects out of 1000 (max. 8388607)
+ 482 compressed objects within 5 object streams
+ 119 named destinations out of 1000 (max. 500000)
  117 words of extra memory for PDF output out of 10000 (max. 10000000)
 

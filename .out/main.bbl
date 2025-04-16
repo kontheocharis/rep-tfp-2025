@@ -43,6 +43,11 @@ Allais, G.: Builtin types viewed as inductive families. In: Programming
 Allais, G.: Seamless, correct, and generic programming over serialised data.
   arXiv [cs.PL]  (20~Oct 2023), \url{http://arxiv.org/abs/2310.13441}
 
+\bibitem{Allais2023-rg}
+Allais, G., Brady, E., Corbyn, N., Kammar, O., Yallop, J.: Frex:
+  dependently-typed algebraic simplification. arXiv.org  (2023),
+  \url{http://dx.doi.org/10.48550/ARXIV.2306.15375}
+
 \bibitem{Altenkirch2020-rm}
 Altenkirch, T., Geniet, C.: Big step normalisation for type theory (24~Sep
   2020),
