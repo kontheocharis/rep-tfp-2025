@@ -631,10 +631,8 @@ formalised this transformation in Agda.
 &\text{(otherwise recurse with $\R_\approx$)}
 \end{align*}
 \end{minipage}
-\caption{Equality translation of $\lambdadata$ to $\lambdamltt$. This amounts to
-an inductive proof that $\R$ preserves equality. The computation rule for
-eliminators is translated by reflecting the coherence of sections produced by
-applying the induction on representations.}
+\caption{Equality translation of $\lambdadata$ to extensional $\lambdamltt$. This amounts to
+an inductive proof that $\R$ preserves equality.}
 \label{fig:translation-eq}
 \end{figure}
 
@@ -648,7 +646,7 @@ applying the induction on representations.}
     $\R$ is a left-inverse of the inclusion $i : \lambdamltt
     \hookrightarrow \lambdadata$:
     \[
-    \inferrule{\Gamma \vdash a : A}{\Gamma \vdash \R(i(a)) = a : A} \quad \text{(in \lambdamltt)}.
+    \inferrule{\Gamma \vdash a : A}{\Gamma \vdash \R(i(a)) = a : A} \quad \text{(in extensional \lambdamltt)}.
     \]
     % \begin{proof}
     %     The inclusion produces types without $\Mdata$ or $\MRepr$. Thus, the
