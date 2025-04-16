@@ -51,11 +51,13 @@ did not formulate normalisation and decidability of equality for $\lambdadata$,
 which is needed for typechecking. We have implemented a
 normalisation-by-evaluation algorithm used in \superfluid, but have only
 sketched that it has the desired properties. On the practical side, we have not
-explored examples of representations in great detail. once the implementation of
+explored examples of representations in great detail. Once the implementation of
 $\superfluid$ is more complete, we would like to explore more sophisticated and
-complete examples, along with compelling benchmarks.
+complete examples, along with compelling benchmarks. We would also like to
+describe \superfluid's feature of representing global function definitions more
+formally in the future.
 
-In the future we aim to expand the class of theories we consider, in particular
+As a next step we aim to expand the class of theories we consider, in particular
 to include quotient-induction. Representations for quotient-inductive types in
 could give rise to ergonomic ways of computing with more `traditional' data
 structures such as hash maps or binary search trees. We could program
@@ -63,7 +65,7 @@ inductively over these structures but extract programs without redundancy in
 data representation. Additionally, quotient-inductive types could be a good
 candidate for improving typechecking ergonomics by deciding their equational
 theories, similar to Frex \cite{Allais2023-rg}. Such a system could
-apply certain representations at during typechecking rather than code generation,
+apply certain representations during typechecking rather than code generation,
 to solve equations involving free variables through a normalisation-by-evaluation  \cite{Altenkirch2020-rm}
 procedure.
 

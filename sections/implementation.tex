@@ -19,7 +19,14 @@ Currently we do not require proofs of eliminator coherence, but they are
 straightforward to add. We also treat the rule for representing constructors
 ($\Mrepr\ (\Mctor_{S.O}\ \nu) = \gamma.\alpha_O\ (\Mrepr\ \nu)$) as definitional
 in the implementation, at the cost of breaking decidability of equality, but
-with the benefit of fewer manual transports. We are currently working on adding
+with the benefit of fewer manual transports. \superfluid also supports the definition of
+representations for global functions in addition to inductive families. This is a
+simple symbol-replacement mechanism (like Idris's \texttt{\%transform} pragma)
+so that we can still take advantage of inductively defined functions---such as addition
+on natural numbers---for theorem proving, but use the optimised primitive addition
+when generating code.
+
+We are currently working on adding
 dependent pattern matching that is elaborated to internal eliminators, so that
 we can take advantage of the structural unification rules for data types
 \cite{McBride2006-fp}. We have written some of the examples in this paper in
