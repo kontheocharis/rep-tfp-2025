@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex .out/main"] 1744825108 ".out/main.aux" ".out/main.bbl" ".out/main" 1744825195
+["bibtex .out/main"] 1744825108 ".out/main.aux" ".out/main.bbl" ".out/main" 1744825597
   "./splncs04.bst" 1733698704 32146 aadf770ded437d161532035219ea6f45 ""
-  ".out/main.aux" 1744825195 14388 f13f0e0ea57d83124c82bcd4cb9d5929 "pdflatex"
+  ".out/main.aux" 1744825596 14388 f13f0e0ea57d83124c82bcd4cb9d5929 "pdflatex"
   "bib.bib" 1744825096 124457 7d4ead2f600be55fae36092063b66303 ""
   (generated)
   ".out/main.bbl"
   ".out/main.blg"
-["pdflatex"] 1744825194 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1744825195
-  ".out/main.aux" 1744825195 14388 f13f0e0ea57d83124c82bcd4cb9d5929 "pdflatex"
+["pdflatex"] 1744825595 "/Users/constantine/git/rep-tfp-2025/main.tex" ".out/main.pdf" "main" 1744825597
+  ".out/main.aux" 1744825596 14388 f13f0e0ea57d83124c82bcd4cb9d5929 "pdflatex"
   ".out/main.bbl" 1744825108 8480 679fad97bd869631848f5a5e40e0cf40 "bibtex .out/main"
-  ".out/main.out" 1744825195 275 e8697098164b610f8033512d50a9d933 "pdflatex"
+  ".out/main.out" 1744825596 275 e8697098164b610f8033512d50a9d933 "pdflatex"
   "/Users/constantine/git/rep-tfp-2025/main.tex" 1744820614 482 d99d602ea0bc11e24c02b89d9b24c379 ""
-  "/dev/null" 1744825194 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "/dev/null" 1744825595 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -332,10 +332,10 @@
   "sections/conclusion.tex" 1744825125 6487 5756842b5723b3fe64a6447bec9b35fa ""
   "sections/implementation.tex" 1744821530 2351 790c4685c1c2ea944446e38afc178061 ""
   "sections/intro.tex" 1744825194 3542 fb7eb8e5402f14bbf44a25e628953249 ""
-  "sections/tour.tex" 1744824620 18039 b7209a3d17dc0fbba28425a43470c814 ""
+  "sections/tour.tex" 1744825595 18039 b68af05c3e6215c0ec1f037205818c5a ""
   "sections/type-system.tex" 1744821050 39296 f7a349469cd434c7e50c775a2e8960ed ""
   (generated)
+  ".out/main.log"
   ".out/main.pdf"
   ".out/main.out"
   ".out/main.aux"
-  ".out/main.log"
