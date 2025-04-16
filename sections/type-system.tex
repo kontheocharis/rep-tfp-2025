@@ -376,8 +376,13 @@ This leads us to the formal definition of a representation:
 \begin{definition}
 A \emph{representation} of a signature $S$ is an inductive algebra for $S$.
 \end{definition}
+
 In \cref{fig:data-rules} we define the $\Mdata$ type, and its corresponding
 introduction, elimination, and computation rules.
+Constructors form an algebra for the signature $S$ over
+$\Mdata_\Delta\ S\ \gamma$, denoted by $\Mctor_S = (\Mctor_{S.O})_{O \in S}$.
+Similarly, the eliminator forms a coherent section over the constructor algebra,
+which holds definitionally.
 
 \begin{figure}[t]
 \begin{mathpar}
@@ -406,18 +411,13 @@ $\alpha$ for $S$.}
 \label{fig:data-rules}
 \end{figure}
 
-Constructors form an algebra for the signature $S$ over
-$\Mdata_\Delta\ S\ \gamma$, denoted by $\Mctor_S = (\Mctor_{S.O})_{O \in S}$.
-Similarly, the eliminator forms a coherent section over the constructor algebra,
-which holds definitionally.
-
 One might think, what do we gain by adding $\Mdata$ to the theory? If we can
 provide an inductive algebra $\gamma$ for a signature $S$ ourselves, then why
 not use $\gamma$ directly? The reason is that by having a primitive for
 inductive types, we can take advantage of their properties in an extensional
 way. For example, an induction principle suggests that the constructors
-corresponding to each method are disjoint. Since constructors $\Mctor$ are a
-primitive term in the theory, we can make use of this when formulating a
+corresponding to each method are disjoint. Since constructors $\Mctor$ are
+primitive terms in the theory, we can make use of this when formulating a
 unification algorithm. Aside from disjointness, we can also rely on other
 properties such as injectivity, acyclicity, and `no-confusion'. McBride
 \cite{McBride2006-fp} originally explored the properties which arise from the
@@ -432,17 +432,16 @@ definitional equality contradiction. However, it \emph{is} derivable
 definitionally that for all $x : \mathbb{N}$, $\Mctor_{\n{zero}} \neq
 \Mctor_{\n{succ}}\ x$, where $\mathbb{N} = \Mdata\ {\n{NatSig}}\ (\n{N},
 \n{zero}_{\n{N}}, \n{succ}_{\n{N}}, \n{elim}_{\n{N}})$ because the
-metatheoretic syntax does not equate $\Mctor_i$ and
+syntax does not equate $\Mctor_i$ and
 $\Mctor_j$ unless $i = j$.
 
-Another way to state this is that the existence of $\Mdata$ enables the use of
+Importantly, the existence of $\Mdata$ enables the use of
 \emph{dependent pattern matching} on its inhabitants. Nested pattern matching on
 $\mathbb{N}$, for example, can be elaborated to invocations of
 $\Melim_{\mathbb{N}}$, which has the expected computation rules as shown in
 \cref{fig:data-rules}. Converting dependent pattern matching to eliminators has
 been explored in depth by Goguen, McBride and McKinna \cite{Goguen2006-sy}, as
-well as by Cockx and Devriese \cite{Cockx2018-bv} in absence of Axiom K. These
-methods can be used to implement pattern matching on $\Mdata$.
+well as by Cockx and Devriese \cite{Cockx2018-bv} in absence of Axiom K.
 
 \subsection{Reasoning about representations} \label{sub:lambdadata}
 
@@ -637,28 +636,24 @@ applying the induction on representations.}
 \label{fig:translation-eq}
 \end{figure}
 
-\begin{theorem}
+\newcommand{\mech}[1]{\href{#1}{\checkmark\textsc{Agda}}}
+
+\begin{theorem}[\mech{https://github.com/kontheocharis/rep-agda/blob/0c038fa53d05b796570d0a8c0f0e5e06bedef062/TT/Translation.agda\#L19}]
     $\R$ preserves typing and definitional equality.
-    \begin{proof}
-    By the setoid homomorphism $(\R, \R_\approx)$.
-    \end{proof}
 \end{theorem}
 
-$\R$ is not injective in general, because two data types with distinct
-signatures might have the same representation.
-
-\begin{theorem}
-    $\R$ is a left-inverse of the evident inclusion $i : \lambdamltt
+\begin{theorem}[\mech{https://github.com/kontheocharis/rep-agda/blob/e6bd34adaab630f5787c63a95fa86869f6c19da4/TT/Translation.agda\#L124}]
+    $\R$ is a left-inverse of the inclusion $i : \lambdamltt
     \hookrightarrow \lambdadata$:
     \[
     \inferrule{\Gamma \vdash a : A}{\Gamma \vdash \R(i(a)) = a : A} \quad \text{(in \lambdamltt)}.
     \]
-    \begin{proof}
-        The inclusion produces types without $\Mdata$ or $\MRepr$. Thus, the
-        action of $\R$ on the image of $i$ does not invoke the equality
-        reflection rule. With that constraint, and by induction on the syntax,
-        $\R \circ i$ is the identity function on $\lambdamltt$.
-    \end{proof}
+    % \begin{proof}
+    %     The inclusion produces types without $\Mdata$ or $\MRepr$. Thus, the
+    %     action of $\R$ on the image of $i$ does not invoke the equality
+    %     reflection rule. With that constraint, and by induction on the syntax,
+    %     $\R \circ i$ is the identity function on $\lambdamltt$.
+    % \end{proof}
 \end{theorem}
 
 \subsubsection{Inductive types in an empty context}
@@ -681,38 +676,43 @@ the approach we take in \superfluid.
 
 \subsection{Computational irrelevance}\label{sub:irr}
 
-In order to reason about computational irrelevance, we assume that there is an
-additional program extraction step from the target of $\R$ into some
-simply-typed or untyped calculus \lambdaprog, denoted by vertical bars $|x|$. As
-opposed to $\R$, it might not preserve the definitional equality of the syntax;
-we might want to compile two definitionally equal terms differently. For
-example, we might not always want to reduce function application redexes. We
-will use the \texttt{monospace} font for terms in \lambdaprog.
+In a compiler, there will be an additional program extraction step from the
+target of $\R$ into some simply-typed or untyped language, to be handled by the
+code-generation backend. We call this language \lambdaprog, and the transformation by
+vertical bars $|x|$. As opposed to $\R$, it might not preserve the definitional
+equality of the syntax; we might want to compile two definitionally equal terms
+differently. For example, we might not always want to reduce function
+application redexes. We will use the \texttt{monospace} font for terms in
+\lambdaprog.
+
+\newcommand{\Pid}{\ensuremath{\texttt{\textbackslash x => x}}}
 
 \begin{definition}
     A function $\Gamma \vdash f : (a : A) \to B$, is \emph{computationally irrelevant} if
-    $|\R A| = |\R B|$ and $|\R f| = \texttt{id}$.
+    $|\R A| = |\R B|$ and $|\R f| = \Pid$.
 \end{definition}
 
-\begin{theorem}\label{thm:repr-inj}
-	The type former $\MRepr{}$ is injective up to internal isomorphism, i.e.
+\begin{theorem}[\mech{https://github.com/kontheocharis/rep-agda/blob/e6bd34adaab630f5787c63a95fa86869f6c19da4/TT/Lemmas.agda\#L147}]
+  \label{thm:repr-inj}
+	The type former $\MRepr{}$ is injective up to equivalence, i.e.
 	\begin{equation}
 	\inferrule{\Gamma \vdash p : \MRepr\ T =_{\univ} \MRepr\ T'}{\Gamma\ \vdash \text{conv}_p : T \simeq T'},
 	\end{equation}
-	Moreover, this isomorphism is computationally irrelevant.
+	 and if $|-|$ erases internal equality reasoning, $\text{conv}_p$ is computationally irrelevant.
 	\begin{proof}
-	For the input proof $p$, the forward direction $\text{conv}_p$ is
-	$\lambda x.\ \Munrepr_{T'}\ (\mta{J}\ \mta{id}\ (\Mrepr\ x)\ p)$
-	and the backward direction $\text{conv}_p^{-1}$ is
-	$\lambda x.\ \Munrepr_{T}\ (\mta{J}\ \mta{id}\ (\Mrepr\ x)\ (\mta{sym}\
-	p))$. The coherences hold definitionally. Applying $\R$, we get $\lambda x.\
-	\mta{J}\ \mta{id}\ x\ p$, which is the identity function after $|-|$.
+	For the input proof $p$, for $\text{conv}_p$ we have
+	$\lambda x.\ \Munrepr_{T'}\ (\mta{coe}\ (\Mrepr\ x)\ p)$
+	and for $\text{conv}_p^{-1}$ we have
+	$\lambda x.\ \Munrepr_{T}\ (\mta{coe}\ (\Mrepr\ x)\ (\mta{sym}\
+	p))$. Both directions map to $\lambda x.\ \mta{coe}\ \_\ x$ by $\R$ which becomes \Pid{} by $|-|$.
 	\end{proof}
 \end{theorem}
 
-\subsubsection{Zero-cost refinements}
-
-Consider extending our languages with usage-aware `subset' dependent pairs
+This is a rather useful conversion, and more like it can be derived from the
+low-level $\mta{repr}$ and $\mta{unrepr}$ operators, such as $T \simeq \MRepr\
+T$. In addition, we can reason about the computational irrelevance of
+refinements. Consider extending both source and target languages of $\R$ with
+usage-aware `subset' dependent pairs
 \[
 \inferrule{\Gamma \vdash A \type \\ \Gamma, A \vdash B \type}{\Gamma \vdash \{A \mid B\} \type}
 \]
@@ -736,4 +736,4 @@ Then, we can construct computationally irrelevant functions
 \end{aligned}
 \end{align*}
 By reasoning similar to \cref{thm:repr-inj}, $|\R\ \mta{forget}_i| = |\R\
-\mta{remember}| = \texttt{id}$.
+\mta{remember}| = \Pid$.
