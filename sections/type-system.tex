@@ -327,7 +327,9 @@ Displayed algebras are defined by case analysis on $S$, which is an implicit par
 & \{S = \epsilon\}\ (\,)\D\ Y = \bullet \\
 &\{S = O \lhd S'\}\ (\alpha_O, \alpha')\D\ Y = ((\mu :: \alpha_O\DI\ Y) \to Y[\mu\DO],\ {\alpha'}\D\ Y)
 \end{align*}
-We omit the definitions of $-\DI$ and $-\DO$ and refer to the Agda formalisation, but they are similar to
+We omit the definitions of $-\DI$ and $-\DO$ and
+\href{https://github.com/kontheocharis/rep-agda/blob/e6bd34adaab630f5787c63a95fa86869f6c19da4/TT/Sig.agda\#L107}{refer to the Agda formalisation},
+but they are similar to
 the definitions of $-\IN$ and $-\OUT$.
 
 Next we define the coherence conditions for a displayed algebra as a telescope
@@ -636,7 +638,7 @@ applying the induction on representations.}
 \label{fig:translation-eq}
 \end{figure}
 
-\newcommand{\mech}[1]{\href{#1}{\checkmark\textsc{Agda}}}
+\newcommand{\mech}[1]{\href{#1}{\textsc{agda}}}
 
 \begin{theorem}[\mech{https://github.com/kontheocharis/rep-agda/blob/0c038fa53d05b796570d0a8c0f0e5e06bedef062/TT/Translation.agda\#L19}]
     $\R$ preserves typing and definitional equality.

@@ -16,7 +16,7 @@ and generates a case analysis principle $\caselab{Nat}$ of type
   \to (s : \datalab{Nat}) \to P\ s \,.
 \]
 This is a special case of the induction principle $\elimlab{Nat}$, where the inductive hypotheses
-are given in each method. 
+are given in each method.
 Without further intervention, $\datalab{Nat}$ is represented in unary,
 where each digit becomes a heap cell at runtime. This is
 inefficient for many basic operations on natural numbers, especially
@@ -43,7 +43,7 @@ translations for commonly used definitions which have a more efficient
 counterpart in the target, such as addition, multiplication,
 etc. The recursively-defined functions are well-suited to proofs and reasoning,
 while the primitives are more efficient for computation. This way, the surface
-program can take advantage of the structural properties of induction, 
+program can take advantage of the structural properties of induction,
 while still benefiting from an efficient representation at runtime.
 
 However, this approach only works for the data types which the
@@ -128,11 +128,12 @@ $\datalab{Vec}$, we know intuitively that
 \[
   \datalab{Vec}\ T\ n \simeq \{ l : \datalab{List}\ T \mid \lab{length}\ l = n \}
 \]
-which we shorthand as $\lab{List'}\ T\ n := \{ l : \datalab{List}\ T \mid \lab{length}\ l = n \}$.
+which we shorthand as $\lab{List'}\ T\ n := \{ l : \datalab{List}\ T \mid
+\lab{length}\ l = n \}$. We will take the subset $\{ x : A \mid P\ x \}$ to mean
+a $\Sigma$-type $(x : A) \times P\ x$ where the right component is irrelevant
+and erased at runtime.
 We can thus choose $\lab{List'}\ T\ n$ as the representation of
-$\datalab{Vec}\ T\ n$.\footnote{We will take the subset $\{ x : A \mid P\ x \}$ to mean a
-$\Sigma$-type $(x : A) \times P\ x$ where the right component is irrelevant and
-erased at runtime.} We are then tasked with providing terms that correspond to
+$\datalab{Vec}\ T\ n$. We are then tasked with providing terms that correspond to
 the constructors of $\datalab{Vec}$ but for $\lab{List'}$. These can be defined
 as
 \[
@@ -234,7 +235,7 @@ forgetful map from $\datalab{G}$ to $\datalab{F}$ is the identity at runtime.
 \subsection{Zero-copy deserialisation}
 
 The machinery of representations can be used to implement zero-copy deserialisation
-of data formats into inductive types. Here we sketch how this works. Consider the following
+of data formats into inductive types. Here we sketch how this could work. Consider the following
 record for a player in a game:
 \[
   \Sdata{Player}{}{} \Sbody{
