@@ -708,9 +708,7 @@ application redexes. We will use the \texttt{monospace} font for terms in
 	\end{proof}
 \end{theorem}
 
-This is a rather useful conversion, and more like it can be derived from the
-low-level $\mta{repr}$ and $\mta{unrepr}$ operators, such as $T \simeq \MRepr\
-T$. In addition, we can reason about the computational irrelevance of
+In addition, we can reason about the computational irrelevance of
 refinements. Consider extending both source and target languages of $\R$ with
 usage-aware `subset' dependent pairs
 \[
@@ -718,8 +716,8 @@ usage-aware `subset' dependent pairs
 \]
 in such a way that $\MRepr$ and $\R$ preserve them, but the extraction step
 erases the right component, i.e. $|\{A \mid B\}| = |A|$, $|(x, y)| = |x|$ and
-$|\pi_1 x| = |x|$.\footnote{This can be implemented using quantitative type
-theory for example.} Suppose we have an inductive family $G = \mta{data}_I\ S_G\
+$|\pi_1 x| = |x|$. This can be implemented using quantitative type
+theory for example. Suppose we have an inductive family $G = \mta{data}_I\ S_G\
 \gamma_G$ over some index type $I$, and an inductive type $F = \mta{data}\ S_F\
 \gamma_F$ such that $G$ is represented by a refinement $r : F \to I$,
 \[
