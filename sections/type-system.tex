@@ -516,7 +516,7 @@ the definitional equality rules would imply that it is (due to
 \hyperlink{Repr-Id2}{$\axiom{Repr-Id}_2$}). Nevertheless, we can still postulate this equality
 propositionally, and it is justified by the translation step.
 
-We should also ask for compatibility equations between $\MRepr$ and the rest of
+We can also ask for compatibility equations between $\MRepr$ and the rest of
 the type formers of \lambdamltt; for example $\MRepr\ ((a : A) \times B[a]) = (a
 : \MRepr\ A) \times \MRepr\ B[\Munrepr\ a]$, which can hold definitionally
 without breaking conversion. These are given for $\univ$, $\Pi$, $\Sigma$, unit
@@ -532,7 +532,7 @@ and identity types in the Agda formalisation.
 
 \subsubsection{Subuniverse of concrete types}
 
-As described, the modality $\MRepr$ is not definitionally idempotent: $\MRepr\
+As described, the modality $\MRepr$ is not idempotent: $\MRepr\
 (\MRepr\ A) = \MRepr\ A$ does not always hold. An inductive algebra used as a
 representation of a data type might itself be implemented in terms of another
 data type, which again reduces under the action of $\MRepr$. A more principled
@@ -542,7 +542,7 @@ $$
 \MRepr : \univ \to \univ_C
 $$
 targets a universe of `concrete' types $\univ_C < \univ$ closed under all
-standard type formers, but which does not contain any $\Mdata$ types. We can
+standard type formers, but without any $\Mdata$ types. We can
 then require that all inductive algebras $\gamma$ used in the rule
 \hyperlink{Data-Form}{\axiom{Data-Form}} must have a concrete carrier $X : \Delta \to \univ_C$. This
 does not limit expressivity because we can always wrap any inductive algebra
@@ -597,7 +597,8 @@ principle provided by representations.}
 \label{fig:translation}
 \end{figure}
 
-All the mappings above are structurally recursive. The translation is
+All the mappings above are structurally recursive, demonstrated by the construction
+of a  \emph{model} of \lambdadata in the Agda formalisation. The translation is
 extended to contexts, substitutions, telescopes and spines pointwise, and all
 the rest of the syntax is preserved: $\R((a : A) \to B[a]) = (a : \R A) \to (\R
 B)[a]$ etc. All $\Mdata$ types are translated to the carriers of their inductive

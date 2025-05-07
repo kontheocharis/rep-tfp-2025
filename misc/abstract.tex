@@ -5,19 +5,19 @@
   representations, as well as the need to convert between different indexed
   views of the same data, can lead to
   unsatisfactory runtime performance. In this paper, we introduce a
-  language with dependent types, and inductive families with custom
+  language with dependent types, and inductive families with customisable
   representations. Representations are a version of Wadler's views
   \cite{Wadler1987-zp}, refined to inductive families like in Epigram
   \cite{Mcbride2004-fd}, but with compilation guarantees: a represented
   inductive family will not leave any runtime traces behind, without relying on
   heuristics such as deforestation. This way, we can build a library of
   convenient inductive families based on a minimal set of primitives, whose
-  re-indexing and conversion functions are erased at compile-time. We show how
-  we can express inductive data optimisation techniques, such as representing
+  re-indexing and conversion functions are erased during compilation. We show how
+  we can express optimisation techniques such as representing
   \datalab{Nat}-like types as GMP-style \cite{gmp} big integers, without special casing in
   the compiler. With dependent types, reasoning about data representations is
-  also possible: the representation of a type becomes an internal predicate, and
-  we get computationally irrelevant isomorphisms between the original and
+  also possible through a provided modality. This yields
+  computationally irrelevant isomorphisms between the original and
   represented data.
 \end{abstract}
 

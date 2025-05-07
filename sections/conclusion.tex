@@ -79,12 +79,14 @@ procedure.
 We would like to further explore the relationship of the $\mta{Repr}$ modality with
 general systems for defining modalities, such as \emph{multi-modal type theory}
 by Gratzer \cite{Gratzer2020-kf}. Additionally, we expect that metaprogramming with
-representations is most naturally done in the context of \emph{two-level type theory}
+representations is most naturally done in the context of \emph{two-level type theory} (2LTT)
 \cite{Kovacs2022-vb}. We would like to explore the embedding of $\lambdadata$
 in a two-level type theory, where signatures become types in the meta-fragment.
 Then we could develop various methods of generating representations internally,
 for example through algebraic ornaments, without needing to laboriously prove
-induction principles by hand.
+induction principles by hand. The translation step in \cref{sub:translation}
+can already be viewed as a kind of staging procedure, and could potentially be
+integrated with the one of 2LTT.
 
 \section{Conclusion}
 
@@ -96,13 +98,12 @@ algebras, and come with a framework for reasoning about them: provably zero-cost
 conversions between original and represented data.
 The compilation process guarantees erasure of abstraction layers, translating
 high-level constructs to their defined implementations. Our hope is that by
-decoupling logical structure from runtime representation, ergonomic type-driven
-correctness can be leveraged without sacrificing performance.
+decoupling logical structure from runtime representation, type-driven
+correctness can be leveraged further without great sacrifices in performance.
 
 
 \subsubsection{Acknowledgements}
 We thank the anonymous reviewers for their feedback that
 significantly improved the quality of this paper, Guillaume Allais for helpful
 comments on the extended abstract, as well as Nathan Corbyn, Ellis
-Kesterton, and Matthew Pickering for interesting discussions on algebraic
-theories, ergonomics of inductive types, and pattern synonyms.
+Kesterton, and Matthew Pickering for interesting discussions surrounding it.
