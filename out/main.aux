@@ -52,6 +52,7 @@
 \newlabel{sub:transitivity}{{2.5}{7}{Transitivity}{subsection.1.2.5}{}}
 \newlabel{sub:transitivity@cref}{{[subsection][5][2]2.5}{[1][7][]7}}
 \citation{Martin-Lof1984-pz}
+\citation{Altenkirch2016-zc}
 \@writefile{toc}{\contentsline {section}{\numberline {3}A type system for data representations}{8}{section.1.3}\protected@file@percent }
 \newlabel{sec:type-system}{{3}{8}{A type system for data representations}{section.1.3}{}}
 \newlabel{sec:type-system@cref}{{[section][3][]3}{[1][8][]8}}
@@ -129,8 +130,8 @@
 \citation{agda-extraction}
 \citation{idris-pr}
 \citation{agda-issue}
+\citation{Abel2013-fq}
 \citation{Allais2023-rg}
-\citation{Altenkirch2020-rm}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Related work}{21}{section.1.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {6}Future work}{21}{section.1.6}\protected@file@percent }
 \citation{Gratzer2020-kf}
@@ -150,42 +151,43 @@
 \bibcite{agda-issue}{9}
 \bibcite{rocq}{10}
 \bibcite{Abbott2004-va}{11}
-\bibcite{Adamek2010-ls}{12}
-\bibcite{Allais2023-pf}{13}
-\bibcite{Allais2023-zq}{14}
-\bibcite{Allais2023-rg}{15}
-\bibcite{Altenkirch2020-rm}{16}
-\bibcite{Atkey2018-pj}{17}
-\bibcite{Atkey2011-ex}{18}
-\bibcite{Baudon2023-cy}{19}
-\bibcite{Boulier2017-cm}{20}
-\bibcite{Brady2004-ay}{21}
-\bibcite{Castellan2019-qo}{22}
-\bibcite{Cockx2018-bv}{23}
-\bibcite{Dagand2012-aw}{24}
-\bibcite{Diehl2018-ba}{25}
-\bibcite{Goguen2006-sy}{26}
-\bibcite{Gratzer2020-kf}{27}
-\bibcite{Kovacs2022-vb}{28}
-\bibcite{Kovacs2023-gq}{29}
-\bibcite{Martin-Lof1984-pz}{30}
-\bibcite{McBride2006-fp}{31}
-\bibcite{Mcbride2004-fd}{32}
-\bibcite{Moon2021-eb}{33}
-\bibcite{Wadler1987-zp}{34}
-\bibcite{Wadler1990-yo}{35}
+\bibcite{Abel2013-fq}{12}
+\bibcite{Adamek2010-ls}{13}
+\bibcite{Allais2023-pf}{14}
+\bibcite{Allais2023-zq}{15}
+\bibcite{Allais2023-rg}{16}
+\bibcite{Altenkirch2016-zc}{17}
+\bibcite{Atkey2018-pj}{18}
+\bibcite{Atkey2011-ex}{19}
+\bibcite{Baudon2023-cy}{20}
+\bibcite{Boulier2017-cm}{21}
+\bibcite{Brady2004-ay}{22}
+\bibcite{Castellan2019-qo}{23}
+\bibcite{Cockx2018-bv}{24}
+\bibcite{Dagand2012-aw}{25}
+\bibcite{Diehl2018-ba}{26}
+\bibcite{Goguen2006-sy}{27}
+\bibcite{Gratzer2020-kf}{28}
+\bibcite{Kovacs2022-vb}{29}
+\bibcite{Kovacs2023-gq}{30}
+\bibcite{Martin-Lof1984-pz}{31}
+\bibcite{McBride2006-fp}{32}
+\bibcite{Mcbride2004-fd}{33}
+\bibcite{Moon2021-eb}{34}
+\bibcite{Wadler1987-zp}{35}
+\bibcite{Wadler1990-yo}{36}
 \citation{Castellan2019-qo}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Appendix}{25}{section.1.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Implementation}{25}{section*.9}\protected@file@percent }
-\newlabel{app:formalisation}{{8}{25}{Formalisation}{section*.10}{}}
-\newlabel{app:formalisation@cref}{{[section][8][]8}{[1][25][]25}}
-\@writefile{toc}{\contentsline {paragraph}{Formalisation}{25}{section*.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Definition of \ensuremath  {{\textsc  {mltt}}}\xspace  }{25}{subsection.1.8.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Typing rules for \ensuremath  {{\textsc  {mltt}}}\xspace  .}}{25}{figure.1.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Definitional equality rules for \ensuremath  {{\textsc  {mltt}}}\xspace  , omitting substitution rules such as $(\textsf  {El}\ {a}) [\sigma ] = \textsf  {El}\ {(}a[\sigma ])$.}}{26}{figure.1.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Definition of \ensuremath  {{\textsc  {datatt}}}\xspace  }{26}{subsection.1.8.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces (\href  {https://github.com/kontheocharis/rep-agda/blob/e6bd34adaab630f5787c63a95fa86869f6c19da4/TT/Repr.agda\#L41}{\textsc  {agda}})\ Definitional compatibility rules for $\textsf  {Repr}$. Similar rules are given for $\Sigma $ and $\top $ in the formalisation. In this version, $\textsf  {Repr}$ only applies to codomains of functions which aligns with the substitution rule. However, it is also possible to formulate it as \\ $\textsf  {Repr}\ ((x : A) \to B) = (x : \textsf  {Repr}\ A) \to \textsf  {Repr}\ B[\textsf  {unrepr}\ x]$.}}{26}{figure.1.9}\protected@file@percent }
-\newlabel{fig:lambdaind-repr-coherence-pi-univ}{{9}{26}{(\mech {https://github.com/kontheocharis/rep-agda/blob/e6bd34adaab630f5787c63a95fa86869f6c19da4/TT/Repr.agda\#L41})\^^MDefinitional compatibility rules for $\MRepr $. Similar rules are given for $\Sigma $ and $\top $ in the formalisation. In this version, $\MRepr $ only applies to codomains of functions which aligns with the substitution rule. However, it is also possible to formulate it as \\ $\MRepr \ ((x : A) \to B) = (x : \MRepr \ A) \to \MRepr \ B[\Munrepr \ x]$}{figure.1.9}{}}
-\newlabel{fig:lambdaind-repr-coherence-pi-univ@cref}{{[figure][9][]9}{[1][26][]26}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Additional propositional equalities for $\textsf  {Repr}$ on constructors and eliminators. Here, $\textsf  {repr}^*$ applies $\textsf  {Repr}$ on all the recursive arguments of a displayed algebra. The rule $\textsf  {elim-equiv}_{S}\ \{\gamma \}\ M\ \beta \ \delta \ x$ is also derivable internally by case analysis on $x$.}}{27}{figure.1.10}\protected@file@percent }
-\gdef \@abspage@last{27}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Appendix}{26}{section.1.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Implementation}{26}{section*.9}\protected@file@percent }
+\newlabel{app:formalisation}{{8}{26}{Formalisation}{section*.10}{}}
+\newlabel{app:formalisation@cref}{{[section][8][]8}{[1][26][]26}}
+\@writefile{toc}{\contentsline {paragraph}{Formalisation}{26}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Definition of \ensuremath  {{\textsc  {mltt}}}\xspace  }{26}{subsection.1.8.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Typing rules for \ensuremath  {{\textsc  {mltt}}}\xspace  .}}{26}{figure.1.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Definitional equality rules for \ensuremath  {{\textsc  {mltt}}}\xspace  , omitting substitution rules such as $(\textsf  {El}\ {a}) [\sigma ] = \textsf  {El}\ {(}a[\sigma ])$.}}{27}{figure.1.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Definition of \ensuremath  {{\textsc  {datatt}}}\xspace  }{27}{subsection.1.8.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces (\href  {https://github.com/kontheocharis/rep-agda/blob/e6bd34adaab630f5787c63a95fa86869f6c19da4/TT/Repr.agda\#L41}{\textsc  {agda}})\ Definitional compatibility rules for $\textsf  {Repr}$. Similar rules are given for $\Sigma $ and $\top $ in the formalisation. In this version, $\textsf  {Repr}$ only applies to codomains of functions which aligns with the substitution rule. However, it is also possible to formulate it as \\ $\textsf  {Repr}\ ((x : A) \to B) = (x : \textsf  {Repr}\ A) \to \textsf  {Repr}\ B[\textsf  {unrepr}\ x]$.}}{27}{figure.1.9}\protected@file@percent }
+\newlabel{fig:lambdaind-repr-coherence-pi-univ}{{9}{27}{(\mech {https://github.com/kontheocharis/rep-agda/blob/e6bd34adaab630f5787c63a95fa86869f6c19da4/TT/Repr.agda\#L41})\^^MDefinitional compatibility rules for $\MRepr $. Similar rules are given for $\Sigma $ and $\top $ in the formalisation. In this version, $\MRepr $ only applies to codomains of functions which aligns with the substitution rule. However, it is also possible to formulate it as \\ $\MRepr \ ((x : A) \to B) = (x : \MRepr \ A) \to \MRepr \ B[\Munrepr \ x]$}{figure.1.9}{}}
+\newlabel{fig:lambdaind-repr-coherence-pi-univ@cref}{{[figure][9][]9}{[1][27][]27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Additional propositional equalities for $\textsf  {Repr}$ on constructors and eliminators. Here, $\textsf  {repr}^*$ applies $\textsf  {Repr}$ on all the recursive arguments of a displayed algebra. The rule $\textsf  {elim-equiv}_{S}\ \{\gamma \}\ M\ \beta \ \delta \ x$ is also derivable internally by case analysis on $x$.}}{28}{figure.1.10}\protected@file@percent }
+\gdef \@abspage@last{28}

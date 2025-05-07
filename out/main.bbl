@@ -51,6 +51,10 @@ Abbott, M., Altenkirch, T., Ghani, N.: Representing nested inductive types
   notes in computer science, Springer Berlin Heidelberg, Berlin, Heidelberg
   (2004), \url{https://link.springer.com/chapter/10.1007/978-3-540-27836-8_8}
 
+\bibitem{Abel2013-fq}
+Abel, A.: Normalization by evaluation: Dependent types and impredicativity
+  \url{https://www2.tcs.ifi.lmu.de/~abel/talkHabil2013.pdf}
+
 \bibitem{Adamek2010-ls}
 Adamek, J., Rosicky, J., Vitale, E.M.: Cambridge tracts in mathematics:
   Algebraic theories: A categorical introduction to general algebra series
@@ -71,10 +75,12 @@ Allais, G., Brady, E., Corbyn, N., Kammar, O., Yallop, J.: Frex:
   dependently-typed algebraic simplification. arXiv.org  (2023),
   \url{http://dx.doi.org/10.48550/ARXIV.2306.15375}
 
-\bibitem{Altenkirch2020-rm}
-Altenkirch, T., Geniet, C.: Big step normalisation for type theory (24~Sep
-  2020),
-  \url{https://drops.dagstuhl.de/storage/00lipics/lipics-vol175-types2019/LIPIcs.TYPES.2019.4/LIPIcs.TYPES.2019.4.pdf}
+\bibitem{Altenkirch2016-zc}
+Altenkirch, T., Kaposi, A.: Type theory in type theory using quotient inductive
+  types. In: Proceedings of the 43rd Annual ACM SIGPLAN-SIGACT Symposium on
+  Principles of Programming Languages. pp. 18--29. POPL '16, Association for
+  Computing Machinery, New York, NY, USA (11~Jan 2016),
+  \url{https://doi.org/10.1145/2837614.2837638}
 
 \bibitem{Atkey2018-pj}
 Atkey, R.: Syntax and semantics of quantitative type theory. In: Proceedings of

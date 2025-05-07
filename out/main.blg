@@ -13,47 +13,49 @@ Warning--to sort, need author or key in coq-extraction
 Warning--to sort, need author or key in agda-extraction
 Warning--to sort, need author or key in idris-pr
 Warning--to sort, need author or key in agda-issue
+Warning--empty journal in Abel2013-fq
+Warning--empty year in Abel2013-fq
 Warning--missing school in Kovacs2023-gq
 Warning--empty journal in Martin-Lof1984-pz
-You've used 35 entries,
+You've used 36 entries,
             2850 wiz_defined-function locations,
-            838 strings with 11594 characters,
-and the built_in function-call counts, 17373 in all, are:
-= -- 1464
-> -- 350
-< -- 24
-+ -- 157
-- -- 116
-* -- 1090
-:= -- 2027
-add.period$ -- 51
-call.type$ -- 35
-change.case$ -- 195
+            846 strings with 11754 characters,
+and the built_in function-call counts, 17921 in all, are:
+= -- 1514
+> -- 357
+< -- 25
++ -- 160
+- -- 118
+* -- 1125
+:= -- 2095
+add.period$ -- 54
+call.type$ -- 36
+change.case$ -- 201
 chr.to.int$ -- 0
-cite$ -- 47
-duplicate$ -- 1646
-empty$ -- 1791
-format.name$ -- 133
-if$ -- 3907
+cite$ -- 50
+duplicate$ -- 1702
+empty$ -- 1842
+format.name$ -- 135
+if$ -- 4030
 int.to.chr$ -- 0
-int.to.str$ -- 35
-missing$ -- 296
-newline$ -- 111
-num.names$ -- 50
-pop$ -- 642
+int.to.str$ -- 36
+missing$ -- 308
+newline$ -- 114
+num.names$ -- 52
+pop$ -- 662
 preamble$ -- 1
-purify$ -- 128
+purify$ -- 131
 quote$ -- 0
-skip$ -- 471
+skip$ -- 488
 stack$ -- 0
-substring$ -- 1085
-swap$ -- 818
-text.length$ -- 24
+substring$ -- 1114
+swap$ -- 843
+text.length$ -- 25
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 138
-warning$ -- 12
-while$ -- 125
-width$ -- 37
-write$ -- 367
-(There were 12 warnings)
+type$ -- 142
+warning$ -- 14
+while$ -- 130
+width$ -- 38
+write$ -- 379
+(There were 14 warnings)

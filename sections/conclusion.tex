@@ -17,8 +17,8 @@ Work by Allais \cite{Allais2023-pf,Allais2023-zq} uses a combination of views,
 erasure by quantitative type theory, and universes of flattened data types to
 achieve performance improvements when working with serialised data in Idris 2.
 Our approach differs because we have access to `native' data representations, so
-we do not need to rely on encodings. Additionally, they rely on heuristic
-compiler optimisations to erase their views. On the topic of memory layout
+we do not need to rely on encodings. Additionally, they rely on partial evaluation
+to erase their views, which does not always fire. On the topic of memory layout
 optimisation, Baudon \cite{Baudon2023-cy} develops Ribbit, a DSL for the
 specification of the memory representation of algebraic data types, which can
 specify techniques like struct packing and bit-stealing. To our knowledge
@@ -49,7 +49,7 @@ There is also demand for this kind of optimisation in Agda
 There are elements of our formalisation which should be developed further. We
 did not formulate normalisation and decidability of equality for $\lambdadata$,
 which is needed for typechecking. We have implemented a
-normalisation-by-evaluation algorithm used in \superfluid, but have only
+normalisation-by-evaluation \cite{Abel2013-fq} algorithm used in \superfluid, but have only
 sketched that it has the desired properties. On the practical side, we have not
 explored examples of representations in great detail. Once the implementation of
 $\superfluid$ is more complete, we would like to explore more sophisticated and
@@ -66,7 +66,7 @@ data representation. Additionally, quotient-inductive types could be a good
 candidate for improving typechecking ergonomics by deciding their equational
 theories, similar to Frex \cite{Allais2023-rg}. Such a system could
 apply certain representations during typechecking rather than code generation,
-to solve equations involving free variables through a normalisation-by-evaluation  \cite{Altenkirch2020-rm}
+to solve equations involving free variables through a normalisation-by-evaluation
 procedure.
 
 % We could also look into automating the discovery of inductive algebras for
@@ -85,7 +85,7 @@ in a two-level type theory, where signatures become types in the meta-fragment.
 Then we could develop various methods of generating representations internally,
 for example through algebraic ornaments, without needing to laboriously prove
 induction principles by hand. The translation step in \cref{sub:translation}
-can already be viewed as a kind of staging procedure, and could potentially be
+can already be viewed as a kind of staging procedure, and could be
 integrated with the one of 2LTT.
 
 \section{Conclusion}
@@ -104,6 +104,6 @@ correctness can be leveraged further without great sacrifices in performance.
 
 \subsubsection{Acknowledgements}
 We thank the anonymous reviewers for their feedback that
-significantly improved the quality of this paper, Guillaume Allais for helpful
+improved the quality of this paper, Guillaume Allais for helpful
 comments on the extended abstract, as well as Nathan Corbyn, Ellis
 Kesterton, and Matthew Pickering for interesting discussions surrounding it.

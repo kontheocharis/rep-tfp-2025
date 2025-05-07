@@ -1,24 +1,23 @@
 \section{A type system for data representations}\label{sec:type-system}
 
-In this section, we will develop an extension of dependent type theory with
-inductive families and custom data representations. We start in
-\cref{sub:algebras} by exploring the semantics of data representations in terms
-of algebras for signatures. In \cref{sub:lambdadata} we define a core language
-with inductive families $\lambdadata$ with data representations. The base theory
-is intensional Martin-L\"of type theory (\lambdamltt) \cite{Martin-Lof1984-pz}
-with a single universe $\univ : \univ$. We omit considerations of consistency
-and universe hierarchy, though these can be added if needed. All of the examples
-in the paper so far are written in a surface language that elaborates to
-$\lambdadata$. In \cref{sub:lambdadata}, we define the modality $\MRepr$ that
-allows us to convert between inductive types and their representations. Finally,
-in \cref{sub:translation} we define a translation from $\lambdadata$ to
+In this section, we develop an extension of dependent type theory with inductive
+families and custom data representations. We start in \cref{sub:algebras} by
+exploring the semantics of data representations in terms of inductive algebras
+for signatures. In \cref{sub:lambdadata} we define a core language $\lambdadata$
+with these features. The base theory is intensional Martin-L\"of type theory
+(\lambdamltt) \cite{Martin-Lof1984-pz} with a single universe $\univ : \univ$.
+We omit considerations of consistency and universe hierarchy, though these can
+be added if needed. In \cref{sub:lambdadata}, we define the modality $\MRepr$
+that allows us to convert between inductive types and their representations.
+Finally, in \cref{sub:translation} we define a translation from $\lambdadata$ to
 \emph{extensional} \lambdamltt, which `elaborates away' all inductive families
-to their representations.
+to their representations. All of the examples in the paper so far have been
+written in a surface language that elaborates to $\lambdadata$.
 
 % We work in an extensional metatheory with a small universe $\Set$, $(a : A)
 % \times B$ for dependent pairs, $(a : A) \to B$ for dependent products, and $=$
 % for equality, and an Agda-like syntax.
-The languages we work with are defined in an intrinsically well-formed manner
+The languages we work with are defined in an intrinsically well-formed manner \cite{Altenkirch2016-zc}
 as a setoid over definitional equality, with de-Bruijn
 indices for variables. Weakening of terms is generally left implicit to reduce
 syntactic noise, and often named notation is used when indices are
@@ -27,8 +26,7 @@ dependent pairs, $a \equiv_A a'$ for propositional equality, and $a = a' : A$
 for definitional equality. Substitution is denoted with square brackets: if
 $\Gamma, A \vdash B$ and $\Gamma \vdash a : A$ then $\Gamma \vdash B[a]$. We
 also notationally identify elements of the universe $A : \univ$ with types $A
-\type$, though explicit coercions $\mta{El}$ and $\mta{code}$ between them are
-implied.
+\type$.
 Besides the
 usual judgement forms of \lambdamltt, we also have telescopic judgement forms
 \begin{definitions}
@@ -106,7 +104,7 @@ Signatures are lists of operations, and operations build up constructor types.
 Each signature is described by an associated telescope of indices $\Delta$, and a
 \emph{finite list} of operations:
 \begin{itemize}
-    \item $A \to\external O$, a (dependent) abstraction over some external type $A$, of another operation $O$.
+    \item $(x : A) \to\external O[x]$, a (dependent) abstraction over some external type $A$, of another operation $O$.
     \item $\iota\ \delta \to\internal \ O$, an
       abstraction over a recursive occurence of
       the object being defined, with indices $\delta$, of another operation
@@ -135,7 +133,7 @@ the telescope $(T : \univ, n : \mathbb{N})$, defined as
 \to\external \iota\ T\ n' \to\internal \iota\ T\ (\n{succ}\ n')) \\ &\sig (T :
 \univ, n : \mathbb{N}) \,.
 \end{align*}
-Later we will see how we can use the signature in \cref{ex:nat-sig} to define
+Later (\cref{sub:constructing-inductive-families}) we will see how we can use the signature in \cref{ex:nat-sig} to define
 the type of natural numbers $\Gamma \vdash \mathbb{N} \type$.
 \end{example}
 
@@ -294,7 +292,7 @@ The algebras for a signature are defined
 by case analysis on $S$:
 \begin{align*}
 &\boxed{\Gamma \vdash S\A\ X \tel} \\
-&\epsilon\A\ X = \bullet \qquad (O \lhd S')\A\ X = ((\nu :: O\IN\ X) \to X[\nu\OUT],\ {S'}\A\ X)
+&\epsilon\A\ X = \bullet \qquad (O \lhd S')\A\ X = ((\nu :: O\IN\ X) \to X[\nu\OUT],\ {S'}\A\ X) \,.
 \end{align*}
 An empty signature $\epsilon$ produces an empty telescope, while an extended
 signature $O \lhd S'$ produces a telescope extended with a function
@@ -315,17 +313,17 @@ $\boxed{\Gamma \vdash O\IN\ X \tel}$ & \boxed{\Gamma \vdash \{O\}\ \nu\OUT :: \D
 {$\begin{aligned}
 &\{O = A \to\external O'\}\ (a, \nu')\OUT = {\nu'}\OUT \\
 &\{O = \iota\ \delta \to\internal O'\}\ (x,\ \nu')\OUT = {\nu'}\OUT  \\
-&\{O = \iota\ \delta\}\ (\,)\OUT = \delta
+&\{O = \iota\ \delta\}\ (\,)\OUT = \delta \,.
 \end{aligned}$}
 \end{tabular}
 \end{block}
 
 A similar construction can be performed for displayed algebras over algebras.
-Displayed algebras are defined by case analysis on $S$, which is an implicit parameter of $-\D$.
+Displayed algebras are defined by case analysis on $S$, which is an implicit parameter of $-\D$:
 \begin{align*}
 &\boxed{\Gamma \vdash \{S\}\ \alpha\D\ Y \tel} \\
 & \{S = \epsilon\}\ (\,)\D\ Y = \bullet \\
-&\{S = O \lhd S'\}\ (\alpha_O, \alpha')\D\ Y = ((\mu :: \alpha_O\DI\ Y) \to Y[\mu\DO],\ {\alpha'}\D\ Y)
+&\{S = O \lhd S'\}\ (\alpha_O, \alpha')\D\ Y = ((\mu :: \alpha_O\DI\ Y) \to Y[\mu\DO],\ {\alpha'}\D\ Y) \,.
 \end{align*}
 We omit the definitions of $-\DI$ and $-\DO$ and
 \href{https://github.com/kontheocharis/rep-agda/blob/e6bd34adaab630f5787c63a95fa86869f6c19da4/TT/Sig.agda\#L107}{refer to the Agda formalisation},
@@ -337,7 +335,7 @@ Next we define the coherence conditions for a displayed algebra as a telescope
 &\boxed{\Gamma \vdash \{S\}\ \{\alpha\}\ \beta\COH\ \sigma \tel} \\
 & \{S = \epsilon\}\ \{\alpha = (\,)\}\ (\,)\COH\ \sigma = \bullet \\
 & \{S = O \lhd S'\}\ \{\alpha = (\alpha_O, \alpha')\}\ (\beta_O, \beta')\COH\ \sigma \\
-&\qquad = ((\nu :: O\IN\ X) \to \sigma[\alpha_O\ \nu] \equiv \beta_O\ (\sigma \, \$ \, \nu),\  {\beta'}\COH\ \sigma)
+&\qquad = ((\nu :: O\IN\ X) \to \sigma[\alpha_O\ \nu] \equiv \beta_O\ (\sigma \, \$ \, \nu),\  {\beta'}\COH\ \sigma) \,.
 \end{align*}
 The notation $\sigma \, \$\, \nu$ applies the section $\sigma$ to the input $\nu$,
 yielding a displayed input by sampling the section to get the inductive
@@ -347,14 +345,14 @@ Now we can define induction for an algebra $\alpha$ as a type
 \begin{align*}
 &\boxed{\Gamma \vdash \{S\}\ \alpha\IND \type} \\
 &\{S\}\ \alpha\IND = (Y : (\delta :: \Delta) \to X[\delta] \to \univ) \to (\beta :: \alpha\D\ (\delta.\ x.\ Y\ \delta\ x)) \\
-&\qquad\to (\sigma : (\delta :: \Delta) \to (x : X[\delta]) \to Y\ \delta\ x)) \times (\rho :: \beta\COH\ (\delta.\ x.\ \sigma\ \delta\ x)).
+&\qquad\to (\sigma : (\delta :: \Delta) \to (x : X[\delta]) \to Y\ \delta\ x)) \times (\rho :: \beta\COH\ (\delta.\ x.\ \sigma\ \delta\ x)) \,,
 \end{align*}
 where $Y$ is the motive, $\beta$ are the methods, and $\sigma$ is the output section which must
 satisfy the propositional coherence conditions $\rho$.
 Finally, we can package an inductive algebra over a signature as a telescope
 \begin{align*}
 &\boxed{\Gamma \vdash S\INDA \tel} \\
-&S\INDA = (X : \Delta \to \univ,\ \alpha :: S\A\ (\delta.\ X\ \delta),\ \kappa : \alpha\IND),
+&S\INDA = (X : \Delta \to \univ,\ \alpha :: S\A\ (\delta.\ X\ \delta),\ \kappa : \alpha\IND) \,,
 \end{align*}
 by collecting the carrier $X$, algebra $\alpha$ and induction $\kappa$ all together.
 
@@ -368,13 +366,13 @@ different to the usual way that inductive families are defined in type theory,
 for example W-types \cite{Abbott2004-va}, where all we need to provide is
 a signature.\footnote{
 Notice that the data defining a W-type $(A : \univ, B : A \to \univ)$ can be viewed as a kind of signature, where $A$ describes the
-operations and their non-recursive parameters, while $B$ describes the recursive parameters.}
+operations and their non-recursive parameters, while $B$ describes the arities of the recursive parameters.}
 Here, we must also implement the signature and prove
 the induction principle by providing $\gamma$, rather than it being `provided' by
 the type theory. For example, if our type theory W-types, then we can
 implement the signature using W-types. In effect, this will later allow us to
 `elaborate away' inductive definitions to their defined representations.
-This leads us to the formal definition of a representation:
+This leads to the formal definition of a representation:
 \begin{definition}
 A \emph{representation} of a signature $S$ is an inductive algebra for $S$.
 \end{definition}
@@ -427,7 +425,7 @@ existence of induction principles, or equivalently, initiality.
 
 For example, if we have an inductive algebra $(\n{N}, \n{zero}_{\n{N}},
 \n{succ}_{\n{N}}, \n{elim}_{\n{N}})$ for the natural numbers signature
-$\n{NatSig}$, we can prove propositionally that for all $x : \n{N}$,
+$\n{NatSig}$ (\cref{ex:nat-sig}), we can prove propositionally that for all $x : \n{N}$,
 $\n{zero}_{\n{N}} \neq \n{succ}_{\n{N}}\ x$, by invoking $\n{elim}_{\n{N}}$.
 However, the typechecker does not know this fact; it is not derivable as a
 definitional equality contradiction. However, it \emph{is} derivable
@@ -599,7 +597,7 @@ principle provided by representations.}
 
 All the mappings above are structurally recursive, demonstrated by the construction
 of a  \emph{model} of \lambdadata in the Agda formalisation. The translation is
-extended to contexts, substitutions, telescopes and spines pointwise, and all
+extended to contexts, substitutions, telescopes and spines pointwise, and
 the rest of the syntax is preserved: $\R((a : A) \to B[a]) = (a : \R A) \to (\R
 B)[a]$ etc. All $\Mdata$ types are translated to the carriers of their inductive
 algebras. Invocations of $\MRepr$ are removed. One can view $\MRepr$ as locally
@@ -608,8 +606,7 @@ by $\R$ is shown in \cref{fig:translation-eq}. The isomorphism of
 $\Mrepr/\Munrepr$, as well as the rule \hyperlink{Repr-Data}{\axiom{Repr-Data}} are preserved by
 metatheoretic reflexivity on the other side, since all representation operators
 are erased. Coherence rules for eliminators are preserved by reflecting the
-propositional coherence rules provided by their defined representations. We have
-formalised this transformation in Agda.
+propositional coherence rules provided by their defined representations.
 
 \begin{figure}[H]
 \begin{minipage}[t]{0.45\textwidth}
@@ -668,7 +665,7 @@ inductive types `from scratch'. For this, we can extend the base theory
 with W-types or something similar. One convenient choice is to extend
 the syntax of both the source and target languages of $\R$ with a class of data
 types like in \cref{fig:data-rules}, but without requiring them to be
-implemented by inductive algebras. The advantage is now that we can opt-in when
+implemented by inductive algebras. The advantage is that now we can opt-in when
 we want to represent inductive types specially, but otherwise fall back to some
 kind of default implementation. The downside is that now the target still
 contains inductive types, though this is okay for compilation purposes if we

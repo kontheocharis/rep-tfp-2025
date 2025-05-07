@@ -133,7 +133,8 @@ $\datalab{Vec}$, we know intuitively that
 which we shorthand as $\lab{List'}\ T\ n := \{ l : \datalab{List}\ T \mid
 \lab{length}\ l = n \}$. We will take the subset $\{ x : A \mid P\ x \}$ to mean
 a $\Sigma$-type $(x : A) \times P\ x$ where the right component is irrelevant
-and erased at runtime.
+and erased at runtime. We also assume that $\datalab{Vec}$'s $n$
+index is computationally irrelevant.
 We can thus choose $\lab{List'}\ T\ n$ as the representation of
 $\datalab{Vec}\ T\ n$. We are then tasked with providing terms that correspond to
 the constructors of $\datalab{Vec}$ but for $\lab{List'}$. These can be defined
@@ -225,7 +226,7 @@ general, suppose that we have two inductive families
  \datalab{F} : P \to \univ \qquad \datalab{G} : (p : P) \to X\ p \to \univ
 \]
 for some index family $X : P \to \univ$. If we hope to represent $\datalab{G}$
-as some refinement of $\datalab{F}$ then we must be able to provide a way to
+as some refinement of $\datalab{F}$ then we must provide a way to
 compute $\datalab{G}$'s extra indices $X$ from $\datalab{F}$, like we computed
 $\datalab{Vec}$'s extra $\datalab{Nat}$ index from $\datalab{List}$ with
 $\lab{length}$ in the previous example. This means that we need to provide a
@@ -262,8 +263,8 @@ has a maximum size. Additionally, we can index the $\datalab{Inventory}$ type by
 the number of items it contains, which might be defined similarly to $\datalab{Vec}$:
 \[
   \Sdata{Inventory}{(n : \datalab{Nat})}{} \Sbody{
-    \ctorlab{empty} : &\ \datalab{Inventory}\ \ctorlab 0 \\
-    \ctorlab{add} : &\ \datalab{Item} \to \datalab{Inventory}\ n \to  \datalab{Inventory}\ (\ctorlab{1+}\ n)
+    \ctorlab{empty} : &\ \datalab{Inventory}\ \ctorlab{zero} \\
+    \ctorlab{add} : &\ \datalab{Item} \to \datalab{Inventory}\ n \to  \datalab{Inventory}\ (\ctorlab{succ}\ n)
   }
 \]
 We can use the full power of inductive families to model the domain of our

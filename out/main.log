@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  7 MAY 2025 19:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.12.29)  7 MAY 2025 21:58
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1150,12 +1150,12 @@ Overfull \hbox (5.79044pt too wide) detected at line 92
  []
 
 [4]
-Overfull \hbox (7.4761pt too wide) detected at line 157
+Overfull \hbox (7.4761pt too wide) detected at line 158
 []
  []
 
 
-Overfull \hbox (1.68239pt too wide) detected at line 169
+Overfull \hbox (1.68239pt too wide) detected at line 170
 []
  []
 
@@ -1164,18 +1164,18 @@ on with the same identifier (name{figure.1.1}) has been already used, duplicate
  ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.105 
+l.103 
       ]
 LaTeX Font Info:    Trying to load font information for U+bbold on input line 1
-31.
+29.
  (/usr/local/texlive/2021/texmf-dist/tex/latex/bbold/Ubbold.fd) [10pdfTeX warni
 ng (ext4): destination with the same identifier (name{figure.1.2}) has been alr
 eady used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.162 
+l.160 
       ] [11] [12]
-Overfull \hbox (13.76099pt too wide) in paragraph at lines 307--321
+Overfull \hbox (13.76099pt too wide) in paragraph at lines 305--319
  [][] 
  []
 
@@ -1183,45 +1183,48 @@ Overfull \hbox (13.76099pt too wide) in paragraph at lines 307--321
 figure.1.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.466 
+l.464 
       ] [16pdfTeX warning (ext4): destination with the same identifier (name{fi
 gure.1.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.510 \ \nu) \,.\]
+l.508 \ \nu) \,.\]
                    Unfortunately, having this as a computation rule would re...
 ] [17]
-Overfull \hbox (6.26028pt too wide) detected at line 623
+Overfull \hbox (6.26028pt too wide) detected at line 620
 []
  []
 
 
-Overfull \hbox (9.6795pt too wide) detected at line 633
+Overfull \hbox (9.6795pt too wide) detected at line 630
 []
  []
+
+
+LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
+(Font)              using `T1/cmr/m/sc' instead on input line 644.
+
+
+LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
+(Font)              using `T1/cmr/m/sc' instead on input line 645.
 
 
 LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
 (Font)              using `T1/cmr/m/sc' instead on input line 647.
 
 
-LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 648.
+Underfull \vbox (badness 1924) has occurred while \output is active []
 
-
-LaTeX Font Warning: Font shape `T1/cmr/m/scit' undefined
-(Font)              using `T1/cmr/m/sc' instead on input line 650.
-
-[18pdfTeX warning (ext4): destination with the same identifier (name{figure.1.5
-}) has been already used, duplicate ignored
+ [18pdfTeX warning (ext4): destination with the same identifier (name{figure.1.
+5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.651     \]
+l.648     \]
             pdfTeX warning (ext4): destination with the same identifier (name{f
 igure.1.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.651     \]
+l.648     \]
             ] [19]) (./sections/implementation.tex) (./sections/conclusion.tex
 [20] [21]) (out/main.bbl [22]
 Underfull \hbox (badness 2409) in paragraph at lines 31--34
@@ -1231,102 +1234,95 @@ cmtt/m/n/9 io / en /
  []
 
 
-Underfull \hbox (badness 1701) in paragraph at lines 55--59
+Underfull \hbox (badness 1701) in paragraph at lines 59--63
 []\T1/cmr/m/n/9 Adamek, J., Rosicky, J., Vi-tale, E.M.: Cam-bridge tracts in ma
 th-e-mat-ics:
  []
 
 
-Underfull \hbox (badness 4967) in paragraph at lines 55--59
+Underfull \hbox (badness 4967) in paragraph at lines 59--63
 \T1/cmr/m/n/9 Al-ge-braic the-o-ries: A cat-e-gor-i-cal in-tro-duc-tion to gen-
 eral al-ge-bra se-ries
  []
 
 
-Underfull \hbox (badness 3482) in paragraph at lines 55--59
+Underfull \hbox (badness 3482) in paragraph at lines 59--63
 \T1/cmr/m/n/9 num-ber 184. Cam-bridge Uni-ver-sity Press, Cam-bridge, Eng-land 
 (18 Nov
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 55--59
+Underfull \hbox (badness 10000) in paragraph at lines 59--63
 \T1/cmr/m/n/9 2010), []$\T1/cmtt/m/n/9 https : / / www\OML/cmm/m/it/9 :\T1/cmtt
 /m/n/9 cambridge\OML/cmm/m/it/9 :\T1/cmtt/m/n/9 org / academic / subjects / mat
 hematics / logic -[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 55--59
+Underfull \hbox (badness 10000) in paragraph at lines 59--63
 \T1/cmtt/m/n/9 categories -[] and -[] sets / algebraic -[] theories -[] categor
 ical -[] introduction -[]
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 75--78
-[]$\T1/cmtt/m/n/9 https : / / drops\OML/cmm/m/it/9 :\T1/cmtt/m/n/9 dagstuhl\OML
-/cmm/m/it/9 :\T1/cmtt/m/n/9 de / storage / 00lipics / lipics -[] vol175 -[] typ
-es2019 /
- []
-
 [23]
-Underfull \hbox (badness 10000) in paragraph at lines 115--119
+Underfull \hbox (badness 10000) in paragraph at lines 121--125
 []$\T1/cmtt/m/n/9 https : / / www\OML/cmm/m/it/9 :\T1/cmtt/m/n/9 cambridge\OML/
 cmm/m/it/9 :\T1/cmtt/m/n/9 org / core / services / aop -[] cambridge -[] core /
  content /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 115--119
+Underfull \hbox (badness 10000) in paragraph at lines 121--125
 \T1/cmtt/m/n/9 view / E54D56DC3F5D5361CCDECA824030C38E / S095679681800014Xa\OML
 /cmm/m/it/9 :\T1/cmtt/m/n/9 pdf / div -[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 115--119
+Underfull \hbox (badness 10000) in paragraph at lines 121--125
 \T1/cmtt/m/n/9 class -[] title -[] proof -[] relevant -[] unification -[] depen
 dent -[] pattern -[] matching -[]
  []
 
 
-Underfull \hbox (badness 4634) in paragraph at lines 148--151
+Underfull \hbox (badness 4634) in paragraph at lines 154--157
 []\T1/cmr/m/n/9 Kovács, A.: Type-theoretic sig-na-tures for al-ge-braic the-o-r
 ies and in-duc-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 148--151
+Underfull \hbox (badness 10000) in paragraph at lines 154--157
 \T1/cmr/m/n/9 tive types. Ph.D. the-sis (2023), []$\T1/cmtt/m/n/9 https : / / a
 ndraskovacs\OML/cmm/m/it/9 :\T1/cmtt/m/n/9 github\OML/cmm/m/it/9 :\T1/cmtt/m/n/
 9 io / pdfs /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 153--155
+Underfull \hbox (badness 10000) in paragraph at lines 159--161
 []\T1/cmr/m/n/9 Martin-Löf, P.: In-tu-ition-is-tic type the-ory \T1/cmr/bx/n/9 
 1\T1/cmr/m/n/9 , 1--91 (1984), []$\T1/cmtt/m/n/9 http :
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 153--155
+Underfull \hbox (badness 10000) in paragraph at lines 159--161
 \T1/cmtt/m/n/9 / / people\OML/cmm/m/it/9 :\T1/cmtt/m/n/9 csail\OML/cmm/m/it/9 :
 \T1/cmtt/m/n/9 mit\OML/cmm/m/it/9 :\T1/cmtt/m/n/9 edu / jgross / personal -[] w
 ebsite / papers / academic -[] papers -[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 163--166
+Underfull \hbox (badness 10000) in paragraph at lines 169--172
 \T1/cmr/bx/n/9 14\T1/cmr/m/n/9 (1), 69--111 (Jan 2004), []$\T1/cmtt/m/n/9 https
  : / / www\OML/cmm/m/it/9 :\T1/cmtt/m/n/9 cambridge\OML/cmm/m/it/9 :\T1/cmtt/m/
 n/9 org / core / services /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 163--166
+Underfull \hbox (badness 10000) in paragraph at lines 169--172
 \T1/cmtt/m/n/9 aop -[] cambridge -[] core / content / view / F8A44CAC27CCA178AF
 69DD84BC585A2D /
  []
 
-) (./sections/appendix.tex [24]
+[24]) (./sections/appendix.tex [25]
 
 LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
 (Font)              using `U/stmry/m/n' instead on input line 14.
@@ -1334,7 +1330,7 @@ LaTeX Font Warning: Font shape `U/stmry/b/n' undefined
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[25
+[26
 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1.7}) 
 has been already used, duplicate ignored
@@ -1351,7 +1347,7 @@ Overfull \hbox (2.46397pt too wide) in paragraph at lines 149--187
 [][] [][] 
  []
 
-) [26pdfTeX warning (ext4): destination with the same identifier (name{figure.1
+) [27pdfTeX warning (ext4): destination with the same identifier (name{figure.1
 .8}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
@@ -1361,7 +1357,7 @@ l.33
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
 l.33 
-     ] [27pdfTeX warning (ext4): destination with the same identifier (name{fig
+     ] [28pdfTeX warning (ext4): destination with the same identifier (name{fig
 ure.1.10}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
@@ -1374,10 +1370,10 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: E8697098164B610F8033512D50A9D933;275.
  ) 
 Here is how much of TeX's memory you used:
- 28260 strings out of 478994
- 533308 string characters out of 5858183
- 883190 words of memory out of 5000000
- 44963 multiletter control sequences out of 15000+600000
+ 28263 strings out of 478994
+ 533344 string characters out of 5858183
+ 883224 words of memory out of 5000000
+ 44964 multiletter control sequences out of 15000+600000
  444522 words of font info for 122 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  133i,23n,133p,718b,523s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1424,10 +1420,10 @@ fti1000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sft
 t0900.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sftt1
 000.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/cm-super/sfxc100
 0.pfb>
-Output written on out/main.pdf (27 pages, 661631 bytes).
+Output written on out/main.pdf (28 pages, 661878 bytes).
 PDF statistics:
- 670 PDF objects out of 1000 (max. 8388607)
- 531 compressed objects within 6 object streams
- 142 named destinations out of 1000 (max. 500000)
+ 680 PDF objects out of 1000 (max. 8388607)
+ 539 compressed objects within 6 object streams
+ 144 named destinations out of 1000 (max. 500000)
  117 words of extra memory for PDF output out of 10000 (max. 10000000)
 
