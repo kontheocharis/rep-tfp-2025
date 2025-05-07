@@ -40,12 +40,12 @@ with accompanying rules shown in \cref{fig:tel-rules}.
 \begin{figure}[H]
   \vspace{-1em}
   \begin{mathpar}
-  \inferrule[Tel-Empty]{ }{\Gamma \vdash \bullet \tel}
+  \inferrule[\htarget{Tel-Empty}]{ }{\Gamma \vdash \bullet \tel}
   \and
-  \inferrule[Tel-Extend]{\Gamma \vdash A \type \\ \Gamma, A \vdash \Delta \tel}{\Gamma \vdash (A, \Delta) \tel}
+  \inferrule[\htarget{Tel-Extend}]{\Gamma \vdash A \type \\ \Gamma, A \vdash \Delta \tel}{\Gamma \vdash (A, \Delta) \tel}
   \\
-  \inferrule[Spine-Empty]{ }{\Gamma \vdash (\,) :: \bullet} \and
-  \inferrule[Spine-Extend]{\Gamma \vdash a : A \\ \Gamma \vdash \delta : \Delta[a]}{\Gamma \vdash (a, \delta) :: (A, \Delta)}
+  \inferrule[\htarget{Spine-Empty}]{ }{\Gamma \vdash (\,) :: \bullet} \and
+  \inferrule[\htarget{Spine-Extend}]{\Gamma \vdash a : A \\ \Gamma \vdash \delta : \Delta[a]}{\Gamma \vdash (a, \delta) :: (A, \Delta)}
   \vspace{-1em}
   \end{mathpar}
   \caption{Rules for forming telescopes and spines.}
@@ -89,17 +89,17 @@ Signatures are lists of operations, and operations build up constructor types.
 
 \begin{figure}[H]
   \begin{mathpar}
-  \inferrule[Sig-Empty]{\Gamma \vdash \Delta \tel}{\Gamma \vdash \epsilon \sig \Delta}
-  \and
-  \inferrule[Sig-Extend]{\Gamma \vdash \Delta \tel \\ \Gamma \vdash O \op \Delta \\ \Gamma \vdash S \sig \Delta}{\Gamma \vdash (O \lhd S) \sig \Delta}
-  \\
-  \inferrule[Op-Ext]{\Gamma \vdash A \type \\ \Gamma, A \vdash O \op \Delta}
-  {\Gamma \vdash (A\ \to\external O) \op \Delta} \and
-  \inferrule[Op-Int]{\Gamma \vdash \delta :: \Delta \\ \Gamma \vdash O \op \Delta}
-  {\Gamma \vdash (\iota\ \delta \to\internal O) \op \Delta} \and
-  \inferrule[Op-Ret]{\Gamma \vdash \delta :: \Delta}
-  {\Gamma \vdash (\iota\ \delta) \op \Delta}
-  \end{mathpar}
+    \inferrule[\htarget{Sig-Empty}]{\Gamma \vdash \Delta \tel}{\Gamma \vdash \epsilon \sig \Delta}
+    \and
+    \inferrule[\htarget{Sig-Extend}]{\Gamma \vdash \Delta \tel \\ \Gamma \vdash O \op \Delta \\ \Gamma \vdash S \sig \Delta}{\Gamma \vdash (O \lhd S) \sig \Delta}
+    \\
+    \inferrule[\htarget{Op-Ext}]{\Gamma \vdash A \type \\ \Gamma, A \vdash O \op \Delta}
+    {\Gamma \vdash (A\ \to\external O) \op \Delta} \and
+    \inferrule[\htarget{Op-Int}]{\Gamma \vdash \delta :: \Delta \\ \Gamma \vdash O \op \Delta}
+    {\Gamma \vdash (\iota\ \delta \to\internal O) \op \Delta} \and
+    \inferrule[\htarget{Op-Ret}]{\Gamma \vdash \delta :: \Delta}
+    {\Gamma \vdash (\iota\ \delta) \op \Delta}
+    \end{mathpar}
   \caption{Rules for forming signatures and operations.}
 \end{figure}
 
@@ -388,19 +388,19 @@ which holds definitionally.
 
 \begin{figure}[t]
 \begin{mathpar}
-\inferrule[Data-Form]
+\inferrule[\htarget{Data-Form}]
 {\Gamma \vdash S \sig \Delta \\ \Gamma \vdash \gamma :: S\INDA \\ \Gamma \vdash \delta :: \Delta}
 {\Gamma \vdash \Mdata_\Delta\ S\ \gamma\ \delta \type} \and
-\inferrule[Data-Intro]
+\inferrule[\htarget{Data-Intro}]
 {O \in S \\ \Gamma \vdash \nu :: O\IN\ (\Mdata_\Delta\ S\ \gamma)}
 {\Gamma \vdash \Mctor_{S.O}\ \nu : \Mdata_\Delta\ S\ \gamma\ \nu\OUT} \and
-\inferrule[Data-Elim]
+\inferrule[\htarget{Data-Elim}]
 {\Gamma,\ \delta :: \Delta,\ \Mdata_\Delta\ S\ \gamma\ \delta \vdash M \type \\
 \Gamma \vdash \beta :: \Mctor_S\D\ M \\
 \Gamma \vdash \delta :: \Delta \\
 \Gamma \vdash x : \Mdata_\Delta\ S\ \gamma\ \delta}
 {\Gamma \vdash \Melim_S\ M\ \beta\ \delta\ x : M[\delta, x]} \and
-\inferrule[Data-Comp]
+\inferrule[\htarget{Data-Comp}]
 {O \in S \\ \Gamma \vdash \nu :: O\IN\ (\Mdata_\Delta\ S\ \gamma) \\
 \Gamma,\ \delta :: \Delta,\ \Mdata_\Delta\ S\ \gamma\ \delta \vdash M \type \\
 \Gamma \vdash \beta :: \Mctor_S\D\ M}
@@ -476,15 +476,15 @@ highlight the main rules of $\MRepr$ in \cref{fig:repr-rules}.
 
 \begin{figure}[H]
 \begin{mathpar}
-\inferrule[Repr-Form]{\Gamma \vdash A \type}{\Gamma \vdash \MRepr\ A \type} \and
-\inferrule[Repr-Intro]{\Gamma \vdash a : A}{\Gamma \vdash \Mrepr\ a : \MRepr\ A} \and
-\inferrule[Repr-Elim]{\Gamma \vdash a : \MRepr\ A}{\Gamma \vdash \Munrepr\ a : A} \and
-\inferrule[$\axiom{Repr-Id}_1$]{\Gamma \vdash a : \MRepr\ A}
+\inferrule[\htarget{Repr-Form}]{\Gamma \vdash A \type}{\Gamma \vdash \MRepr\ A \type} \and
+\inferrule[\htarget{Repr-Intro}]{\Gamma \vdash a : A}{\Gamma \vdash \Mrepr\ a : \MRepr\ A} \and
+\inferrule[\htarget{Repr-Elim}]{\Gamma \vdash a : \MRepr\ A}{\Gamma \vdash \Munrepr\ a : A} \and
+\inferrule[\hypertarget{Repr-Id1}{$\axiom{Repr-Id}_1$}]{\Gamma \vdash a : \MRepr\ A}
 {\Gamma \vdash \Mrepr\ (\Munrepr\ a) = a : \MRepr\ A} \and
-\inferrule[$\axiom{Repr-Id}_2$]{\Gamma \vdash a : A}
+\inferrule[\hypertarget{Repr-Id2}{$\axiom{Repr-Id}_2$}]{\Gamma \vdash a : A}
 {\Gamma \vdash \Munrepr\ (\Mrepr\ a) = a : A} \and
-\inferrule[Repr-Data]{\Gamma \vdash S \sig \Delta \\ \Gamma \vdash \gamma :: S\INDA \\ \Gamma \vdash \delta :: \Delta}
-{\Gamma \vdash \MRepr\ (\Mdata_\Delta\ S\ \gamma\ \delta) = \gamma.X\ \delta} \and
+\inferrule[\htarget{Repr-Data}]{\Gamma \vdash S \sig \Delta \\ \Gamma \vdash \gamma :: S\INDA \\ \Gamma \vdash \delta :: \Delta}
+{\Gamma \vdash \MRepr\ (\Mdata_\Delta\ S\ \gamma\ \delta) = \gamma.X\ \delta}
 \end{mathpar}
 \caption{Introduction and elimination forms, as well as computation rules
 for the $\MRepr$ modality.}
@@ -513,7 +513,7 @@ $\Mrepr\ (\Mctor_{S.O}\ \nu)$ which has already been reduced to its
 representation, $\mta{unrepr}\ (\gamma.\alpha_O\ (\Mrepr\ \nu))$, there is no
 clear way to decide that this is convertible to $\Mctor_{S.O}\ \nu$ even though
 the definitional equality rules would imply that it is (due to
-$\axiom{Repr-Id}_2$). Nevertheless, we can still postulate this equality
+\hyperlink{Repr-Id2}{$\axiom{Repr-Id}_2$}). Nevertheless, we can still postulate this equality
 propositionally, and it is justified by the translation step.
 
 We should also ask for compatibility equations between $\MRepr$ and the rest of
@@ -544,7 +544,7 @@ $$
 targets a universe of `concrete' types $\univ_C < \univ$ closed under all
 standard type formers, but which does not contain any $\Mdata$ types. We can
 then require that all inductive algebras $\gamma$ used in the rule
-\axiom{Data-Form} must have a concrete carrier $X : \Delta \to \univ_C$. This
+\hyperlink{Data-Form}{\axiom{Data-Form}} must have a concrete carrier $X : \Delta \to \univ_C$. This
 does not limit expressivity because we can always wrap any inductive algebra
 carrier with $\MRepr$ to bring it down to $\univ_C$. We do not assume this
 additional structure for simplicity, but it might be a useful feature in
@@ -604,7 +604,7 @@ B)[a]$ etc. All $\Mdata$ types are translated to the carriers of their inductive
 algebras. Invocations of $\MRepr$ are removed. One can view $\MRepr$ as locally
 applying $\R$ to a part of the program. The definitional equality preservation
 by $\R$ is shown in \cref{fig:translation-eq}. The isomorphism of
-$\Mrepr/\Munrepr$, as well as the rule \axiom{Data-Repr} are preserved by
+$\Mrepr/\Munrepr$, as well as the rule \hyperlink{Repr-Data}{\axiom{Repr-Data}} are preserved by
 metatheoretic reflexivity on the other side, since all representation operators
 are erased. Coherence rules for eliminators are preserved by reflecting the
 propositional coherence rules provided by their defined representations. We have

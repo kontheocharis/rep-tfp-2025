@@ -1,0 +1,59 @@
+This is BibTeX, Version 0.99d (TeX Live 2021)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: out/main.aux
+The style file: splncs04.bst
+Database file #1: bib.bib
+Warning--to sort, need author or key in gmp
+Warning--to sort, need author or key in idris
+Warning--to sort, need author or key in agda
+Warning--to sort, need author or key in rocq
+Warning--to sort, need author or key in lean
+Warning--to sort, need author or key in idris-extraction
+Warning--to sort, need author or key in coq-extraction
+Warning--to sort, need author or key in agda-extraction
+Warning--to sort, need author or key in idris-pr
+Warning--to sort, need author or key in agda-issue
+Warning--missing school in Kovacs2023-gq
+Warning--empty journal in Martin-Lof1984-pz
+You've used 35 entries,
+            2850 wiz_defined-function locations,
+            838 strings with 11594 characters,
+and the built_in function-call counts, 17373 in all, are:
+= -- 1464
+> -- 350
+< -- 24
++ -- 157
+- -- 116
+* -- 1090
+:= -- 2027
+add.period$ -- 51
+call.type$ -- 35
+change.case$ -- 195
+chr.to.int$ -- 0
+cite$ -- 47
+duplicate$ -- 1646
+empty$ -- 1791
+format.name$ -- 133
+if$ -- 3907
+int.to.chr$ -- 0
+int.to.str$ -- 35
+missing$ -- 296
+newline$ -- 111
+num.names$ -- 50
+pop$ -- 642
+preamble$ -- 1
+purify$ -- 128
+quote$ -- 0
+skip$ -- 471
+stack$ -- 0
+substring$ -- 1085
+swap$ -- 818
+text.length$ -- 24
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 138
+warning$ -- 12
+while$ -- 125
+width$ -- 37
+write$ -- 367
+(There were 12 warnings)
