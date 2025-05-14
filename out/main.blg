@@ -9,12 +9,12 @@ Warning--missing school in Kovacs2023-gq
 Warning--empty journal in Martin-Lof1984-pz
 You've used 36 entries,
             2850 wiz_defined-function locations,
-            856 strings with 11843 characters,
-and the built_in function-call counts, 17892 in all, are:
+            855 strings with 11804 characters,
+and the built_in function-call counts, 17888 in all, are:
 = -- 1514
 > -- 357
 < -- 25
-+ -- 160
++ -- 158
 - -- 118
 * -- 1114
 := -- 2094
@@ -38,7 +38,7 @@ purify$ -- 141
 quote$ -- 0
 skip$ -- 496
 stack$ -- 0
-substring$ -- 1114
+substring$ -- 1112
 swap$ -- 845
 text.length$ -- 25
 text.prefix$ -- 0

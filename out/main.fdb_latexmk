@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex out/main"] 1747224417 "out/main.aux" "out/main.bbl" "out/main" 1747224493
+["bibtex out/main"] 1747225076 "out/main.aux" "out/main.bbl" "out/main" 1747225111
   "./splncs04.bst" 1733698704 32146 aadf770ded437d161532035219ea6f45 ""
-  "bib.bib" 1747224301 16173 f4ff4a9cd8b2b47936e5b841c39f5070 ""
-  "out/main.aux" 1747224419 14440 ef7fd3b6bc169cce8440b9b1fbff51b8 "pdflatex"
+  "bib.bib" 1747225111 16068 beb10f7a55b4d50e65575b0e0d3e5244 ""
+  "out/main.aux" 1747225077 14440 ef7fd3b6bc169cce8440b9b1fbff51b8 "pdflatex"
   (generated)
-  "out/main.blg"
   "out/main.bbl"
-["pdflatex"] 1747224417 "/Users/constantine/git/rep-tfp-2025/main.tex" "out/main.pdf" "main" 1747224493
+  "out/main.blg"
+["pdflatex"] 1747225076 "/Users/constantine/git/rep-tfp-2025/main.tex" "out/main.pdf" "main" 1747225111
   "/Users/constantine/git/rep-tfp-2025/main.tex" 1747224493 483 2d2b7f45dc9f3902aa2d436279b59d6a ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
@@ -51,7 +51,6 @@
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecxc0500.tfm" 1136768653 3072 a168e26acaa1586bbaa99f38ade214d2 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecxc0700.tfm" 1136768653 3072 7ceced0e3e4ad1e9e7d0707cdf6aff18 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecxc1000.tfm" 1136768653 3072 0fb1076023cd8addae57cf5c95cb8e0d ""
-  "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/tcrm0900.tfm" 1136768653 1536 c4f439db76ef96a9c53bc437f35ffe20 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy7.tfm" 1246382020 1120 7f9f170e8aa57527ad6c49feafd45d54 ""
@@ -310,9 +309,9 @@
   "misc/macros.tex" 1746637613 5319 53c80dc464583cf3ab93b84a6e85a38c ""
   "misc/packages.tex" 1747222167 1399 be8a300eb12dcc164e63697d1c22b311 ""
   "misc/rights.tex" 1733698704 1050 6124765dfe6cb612a966ac31849f412a ""
-  "out/main.aux" 1747224419 14440 ef7fd3b6bc169cce8440b9b1fbff51b8 "pdflatex"
-  "out/main.bbl" 1747224417 8773 251f4e12fe9615e3fc27049728fdab5a "bibtex out/main"
-  "out/main.out" 1747224419 275 e8697098164b610f8033512d50a9d933 "pdflatex"
+  "out/main.aux" 1747225077 14440 ef7fd3b6bc169cce8440b9b1fbff51b8 "pdflatex"
+  "out/main.bbl" 1747225076 8738 81c419597d946195c87e467714d373d5 "bibtex out/main"
+  "out/main.out" 1747225077 275 e8697098164b610f8033512d50a9d933 "pdflatex"
   "sections/appendix.tex" 1747224412 7962 98576645927273b37addd1fd593d9bae ""
   "sections/conclusion.tex" 1747223734 6580 85a594aa3f110f19e4e6666719a896e6 ""
   "sections/implementation.tex" 1746637613 2351 790c4685c1c2ea944446e38afc178061 ""
@@ -320,7 +319,7 @@
   "sections/tour.tex" 1746645809 18712 08cbb0d38d0a09a3283cba982a896115 ""
   "sections/type-system.tex" 1746647221 39644 610d08052a757700cf087f1f4cadc5e4 ""
   (generated)
-  "out/main.pdf"
-  "out/main.log"
   "out/main.out"
+  "out/main.pdf"
   "out/main.aux"
+  "out/main.log"
