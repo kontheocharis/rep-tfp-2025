@@ -77,7 +77,7 @@ expressiveness. For this paper, we are interested in the ones which can
 be used as a syntax for defining inductive families in a type theory. Thus, we define
 two new judgement forms
 \begin{definitions}
-$\Gamma \vdash S \sig \Delta$    & $S$ is a signature with indices $\Delta$ in context $\Gamma$ \\
+$\Gamma \vdash S \sig \Delta$    & $S$ is a signature with indices $\Delta$ in context $\Gamma$ , \\
 $\Gamma \vdash O \op \Delta$     & $O$ is an operation with indices $\Delta$ in context $\Gamma$ ,
 \end{definitions}
 with accompanying rules shown in \cref{fig:tel-rules}.
@@ -556,7 +556,7 @@ We now define a type- and equality-preserving translation step $\R$ shown in
 applied during the compilation process. The extensional flavour of \lambdamltt
 involves adding the equality reflection rule
 \[
-\inferrule[\axiom{Reflect $p$}]{\Gamma \vdash p : a =_A a'}{\Gamma \vdash a \equiv a' : A}
+\inferrule[\axiom{Reflect $p$}]{\Gamma \vdash p : a =_A a'}{\Gamma \vdash a \equiv a' : A} \,.
 \]
 General undecidability of conversion is not a problem because type checking is
 decidable for $\lambdadata$\footnote{Not formalised in this paper.} and we
