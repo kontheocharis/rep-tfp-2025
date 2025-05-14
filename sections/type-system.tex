@@ -77,8 +77,8 @@ expressiveness. For this paper, we are interested in the ones which can
 be used as a syntax for defining inductive families in a type theory. Thus, we define
 two new judgement forms
 \begin{definitions}
-$\Gamma \vdash S \sig \Delta$    & $S$ is a signature with indices $\Delta$ in context $\Gamma$ , \\
-$\Gamma \vdash O \op \Delta$     & $O$ is an operation with indices $\Delta$ in context $\Gamma$ .
+$\Gamma \vdash S \sig \Delta$    & $S$ is a signature with indices $\Delta$ in context $\Gamma$ \\
+$\Gamma \vdash O \op \Delta$     & $O$ is an operation with indices $\Delta$ in context $\Gamma$ ,
 \end{definitions}
 with accompanying rules shown in \cref{fig:tel-rules}.
 Signatures are lists of operations, and operations build up constructor types.
@@ -147,7 +147,8 @@ signatures with an extra telescope that must be uniform across operations.
 \subsection{Interpreting signatures in the type theory} \label{sub:algebras}
 
 In order to make use of our definition for algebraic signatures, we would like
-to be able to interpret their structure as types in the type theory.
+to be able to interpret their structure as types in the type theory we are working
+with.
 
 \subsubsection{Algebras}
 
@@ -281,9 +282,8 @@ the follwing objects:
 \begin{definitions}
 $\Gamma \vdash S\A\ X \tel$ & Algebras for a signature $\Gamma \vdash S \sig \Delta$ over a carrier $\Gamma, \Delta \vdash X \type$. \\
 $\Gamma \vdash \alpha\D\ Y \tel$ & Displayed algebras for an algebra $\Gamma \vdash \alpha :: S\A\ X$ over a motive $\Gamma, \Delta, X \vdash Y \type$. \\
-$\Gamma \vdash \beta\COH\ \sigma \tel$ & Propositional coherences for a section $\Gamma, \Delta, X \vdash \sigma : Y$ of a displayed algebra $\Gamma \vdash \beta :: \alpha\D\ Y$.
+$\Gamma \vdash \beta\COH\ \sigma \tel$ & Propositional coherence for a section $\Gamma, \Delta, X \vdash \sigma : Y$ of a displayed algebra $\Gamma \vdash \beta :: \alpha\D\ Y$.
 \end{definitions}
-
 All constructions labelled with superscripts are not part of the syntax of the
 type system, but rather functions in the metatheory which compute syntactic
 objects such as telescopes.
@@ -368,10 +368,10 @@ a signature.\footnote{
 Notice that the data defining a W-type $(A : \univ, B : A \to \univ)$ can be viewed as a kind of signature, where $A$ describes the
 operations and their non-recursive parameters, while $B$ describes the arities of the recursive parameters.}
 Here, we must also implement the signature and prove
-the induction principle by providing $\gamma$, rather than it being `provided' by
-the type theory. For example, if our type theory W-types, then we can
-implement the signature using W-types. In effect, this will later allow us to
-`elaborate away' inductive definitions to their defined representations.
+the induction principle by providing $\gamma$, rather than it being `built-in' to
+the type theory. For example, if the type theory has W-types, then we can
+construct $\gamma$ using an appropriate W-type. In effect, this will later allow us to
+translate away inductive definitions to their defined representations.
 This leads to the formal definition of a representation:
 \begin{definition}
 A \emph{representation} of a signature $S$ is an inductive algebra for $S$.
@@ -678,7 +678,7 @@ In a compiler, there will be an additional program extraction step from the
 target of $\R$ into some simply-typed or untyped language, to be handled by the
 code-generation backend. We call this language \lambdaprog, and the transformation by
 vertical bars $|x|$. As opposed to $\R$, it might not preserve the definitional
-equality of the syntax; we might want to compile two definitionally equal terms
+equality of the syntax---we might want to compile two definitionally equal terms
 differently. For example, we might not always want to reduce function
 application redexes. We will use the \texttt{monospace} font for terms in
 \lambdaprog.
@@ -717,7 +717,7 @@ erases the right component, i.e. $|\{A \mid B\}| = |A|$, $|(x, y)| = |x|$ and
 $|\pi_1 x| = |x|$. This can be implemented using quantitative type
 theory for example. Suppose we have an inductive family $G = \mta{data}_I\ S_G\
 \gamma_G$ over some index type $I$, and an inductive type $F = \mta{data}\ S_F\
-\gamma_F$ such that $G$ is represented by a refinement $r : F \to I$,
+\gamma_F$ such that $G$ is represented by a refinement $r : F \to I$, meaning
 \[
     \gamma_G = (\lambda i.\ \{ f : F \mid r\ f \equiv_I i \}, \alpha, \kappa) \,.
 \]
