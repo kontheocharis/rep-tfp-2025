@@ -14,6 +14,7 @@
 \usepackage{tikz}
 \usetikzlibrary{cd}
 \usepackage{ifmtarg}
+\usepackage{float}
 
 \usepackage{esvect}
 \usepackage{tabulary}
@@ -26,14 +27,11 @@
 \renewcommand{\ULdepth}{1.8pt}
 \contourlength{0.8pt}
 \newcommand{\myuline}[1]{%
-  \uline{\phantom{#1}}%
-  \llap{\contour{white}{#1}}%
+	\uline{\phantom{#1}}%
+	\llap{\contour{white}{#1}}%
 }
 
-\usepackage[outputdir=.out]{minted}
-
 \usepackage{adjustbox}
-
 
 % Use upright Greek letters
 \DeclareMathSymbol{\Gamma}{\mathalpha}{operators}{0}

@@ -14,11 +14,11 @@ The Agda formalisation of the developments of this paper at \url{https://github.
 \subsection{Definition of \lambdamltt}
 
 For reference, we define Martin-Löf type theory with $\univ :
-\univ$, $\Pi$, $\Sigma$, propositional equality and unit. We omit the
+	\univ$, $\Pi$, $\Sigma$, propositional equality and unit. We omit the
 definition of the substitution calculus and equality coercions
 (see \cite[5.1.2]{Castellan2019-qo}). We use de-Brujin indices, keeping weakening
 implicit, and abuse notation for substitutions of terms: $A[t]$ for $A[\mta{id},
-t]$.
+			t]$.
 
 \newcommand{\refl}{\mta{refl}}
 \newcommand{\fst}{\mta{fst}}
@@ -28,114 +28,113 @@ t]$.
 \newcommand{\lam}{\mta{lam}}
 \newcommand{\J}{\mta{J}}
 
-
 \begin{figure}[h]
-\begin{mathpar}
-% Universe formation
-\inferrule[Univ-Form]
-  { }
-  {\Gamma \vdash \univ \type}
+	\begin{mathpar}
+		% Universe formation
+		\inferrule[Univ-Form]
+		{ }
+		{\Gamma \vdash \univ \type}
 
-% Element formation
-\inferrule[El-Form]
-  {\Gamma \vdash a : \univ}
-  {\Gamma \vdash \El a \type}
+		% Element formation
+		\inferrule[El-Form]
+		{\Gamma \vdash a : \univ}
+		{\Gamma \vdash \El a \type}
 
-% Element formation
-\inferrule[Univ-Intro]
-  {\Gamma \vdash A \type}
-  {\Gamma \vdash \code A : \univ}
+		% Element formation
+		\inferrule[Univ-Intro]
+		{\Gamma \vdash A \type}
+		{\Gamma \vdash \code A : \univ}
 
-% Pi type formation
-\inferrule[Pi-Form]
-  {\Gamma \vdash A \type \\ \Gamma, x : A \vdash B \type}
-  {\Gamma \vdash (x : A) \to B \type}
+		% Pi type formation
+		\inferrule[Pi-Form]
+		{\Gamma \vdash A \type \\ \Gamma, x : A \vdash B \type}
+		{\Gamma \vdash (x : A) \to B \type}
 
-% Lambda abstraction (introduction)
-\inferrule[Pi-Intro]
-  {\Gamma, x : A \vdash b : B}
-  {\Gamma \vdash \lambda\ x.\ b : (x : A) \to B}
+		% Lambda abstraction (introduction)
+		\inferrule[Pi-Intro]
+		{\Gamma, x : A \vdash b : B}
+		{\Gamma \vdash \lambda\ x.\ b : (x : A) \to B}
 
-% Function application (elimination)
-\inferrule[Pi-Elim]
-  {\Gamma \vdash f : (x : A) \to B \\ \Gamma \vdash a : A}
-  {\Gamma \vdash f\ a : B[a]}
+		% Function application (elimination)
+		\inferrule[Pi-Elim]
+		{\Gamma \vdash f : (x : A) \to B \\ \Gamma \vdash a : A}
+		{\Gamma \vdash f\ a : B[a]}
 
-% Equality formation
-\inferrule[Eq-Form]
-  {\Gamma \vdash A \type \\ \Gamma \vdash a : A \\ \Gamma \vdash b : A}
-  {\Gamma \vdash a \equiv_A b \type}
+		% Equality formation
+		\inferrule[Eq-Form]
+		{\Gamma \vdash A \type \\ \Gamma \vdash a : A \\ \Gamma \vdash b : A}
+		{\Gamma \vdash a \equiv_A b \type}
 
-% Reflexivity (introduction)
-\inferrule[Eq-Intro]
-  {\Gamma \vdash a : A}
-  {\Gamma \vdash \refl\ a : a \equiv_A a}
+		% Reflexivity (introduction)
+		\inferrule[Eq-Intro]
+		{\Gamma \vdash a : A}
+		{\Gamma \vdash \refl\ a : a \equiv_A a}
 
-% J (equality elimination)
-\inferrule[Eq-Elim]
-  {\Gamma \vdash A \type \\
-   \Gamma, a : A, b : A, a \equiv_A b \vdash P \type \\
-   \Gamma, a : A \vdash r : P[a, a, \refl\ a] \\
-   \Gamma \vdash a : A \\ \Gamma \vdash b : A \\ \Gamma \vdash p : a \equiv_A b}
-  {\Gamma \vdash \J\ P\ d\ p : P[a, b, p]}
+		% J (equality elimination)
+		\inferrule[Eq-Elim]
+		{\Gamma \vdash A \type \\
+			\Gamma, a : A, b : A, a \equiv_A b \vdash P \type \\
+			\Gamma, a : A \vdash r : P[a, a, \refl\ a] \\
+			\Gamma \vdash a : A \\ \Gamma \vdash b : A \\ \Gamma \vdash p : a \equiv_A b}
+		{\Gamma \vdash \J\ P\ d\ p : P[a, b, p]}
 
-% Unit type formation
-\inferrule[Unit-Form]
-  { }
-  {\Gamma \vdash \top \type}
+		% Unit type formation
+		\inferrule[Unit-Form]
+		{ }
+		{\Gamma \vdash \top \type}
 
-% Unit introduction
-\inferrule[Unit-Intro]
-  { }
-  {\Gamma \vdash \mta{tt} : \top}
+		% Unit introduction
+		\inferrule[Unit-Intro]
+		{ }
+		{\Gamma \vdash \mta{tt} : \top}
 
-% Sigma type formation
-\inferrule[Sigma-Form]
-  {\Gamma \vdash A \type \\ \Gamma, x : A \vdash B \type}
-  {\Gamma \vdash (x : A) \times B \type}
+		% Sigma type formation
+		\inferrule[Sigma-Form]
+		{\Gamma \vdash A \type \\ \Gamma, x : A \vdash B \type}
+		{\Gamma \vdash (x : A) \times B \type}
 
-% Pair introduction
-\inferrule[Sigma-Intro]
-  {\Gamma \vdash a : A \\ \Gamma \vdash b : B[a]}
-  {\Gamma \vdash (a, b) : (x : A) \times B}
+		% Pair introduction
+		\inferrule[Sigma-Intro]
+		{\Gamma \vdash a : A \\ \Gamma \vdash b : B[a]}
+		{\Gamma \vdash (a, b) : (x : A) \times B}
 
-% First projection (elimination)
-\inferrule[Sigma-Elim-Fst]
-  {\Gamma \vdash p : (x : A) \times B}
-  {\Gamma \vdash \fst\ p : A}
+		% First projection (elimination)
+		\inferrule[Sigma-Elim-Fst]
+		{\Gamma \vdash p : (x : A) \times B}
+		{\Gamma \vdash \fst\ p : A}
 
-% Second projection (elimination)
-\inferrule[Sigma-Elim-Snd]
-  {\Gamma \vdash p : (x : A) \times B}
-  {\Gamma \vdash \snd\ p : B[\fst\ p]}
-\end{mathpar}
-\caption{Typing rules for \lambdamltt.}
+		% Second projection (elimination)
+		\inferrule[Sigma-Elim-Snd]
+		{\Gamma \vdash p : (x : A) \times B}
+		{\Gamma \vdash \snd\ p : B[\fst\ p]}
+	\end{mathpar}
+	\caption{Typing rules for \lambdamltt.}
 \end{figure}
 
 \begin{figure}[h]
-\begin{minipage}[t]{0.5\textwidth}
-\begin{align*}
-  &\boxed{\text{Universes}} \\
-  & {\El (\code A) = A} \\
-  & {\code (\El t) = t} \\[1em]
-  &\boxed{\text{$\Pi$ types}} \\
-  & { (\lambda\ x.\ b)\ a = b[a]} \\
-  & { \lambda\ x.\ (f\ x) = f }
-\end{align*}
-\end{minipage} \qquad
-\begin{minipage}[t]{0.5\textwidth}
-\begin{align*}
-&\boxed{\text{Equality and unit}} \\
-& { \J\ P\ r\ (\refl\ a) = r\ a } \\
-& { x = \mta{tt}} \\[1em]
-&\boxed{\text{$\Sigma$ types}} \\
-& { \fst\ (a, b) = a} \\
-& { \snd\ (a, b) = b} \\
-& { (\fst\ p, \snd\ p) = p }
-\end{align*}
-\end{minipage}
-\caption{Definitional equality rules for \lambdamltt, omitting substitution rules
-such as $(\El a) [\sigma] = \El (a[\sigma])$.}
+	\begin{minipage}[t]{0.5\textwidth}
+		\begin{align*}
+			 & \boxed{\text{Universes}}      \\
+			 & {\El (\code A) = A}           \\
+			 & {\code (\El t) = t}           \\[1em]
+			 & \boxed{\text{$\Pi$ types}}    \\
+			 & { (\lambda\ x.\ b)\ a = b[a]} \\
+			 & { \lambda\ x.\ (f\ x) = f }
+		\end{align*}
+	\end{minipage} \qquad
+	\begin{minipage}[t]{0.5\textwidth}
+		\begin{align*}
+			 & \boxed{\text{Equality and unit}} \\
+			 & { \J\ P\ r\ (\refl\ a) = r\ a }  \\
+			 & { x = \mta{tt}}                  \\[1em]
+			 & \boxed{\text{$\Sigma$ types}}    \\
+			 & { \fst\ (a, b) = a}              \\
+			 & { \snd\ (a, b) = b}              \\
+			 & { (\fst\ p, \snd\ p) = p }
+		\end{align*}
+	\end{minipage}
+	\caption{Definitional equality rules for \lambdamltt, omitting substitution rules
+		such as $(\El a) [\sigma] = \El (a[\sigma])$.}
 \end{figure}
 
 \subsection{Definition of \lambdadata}
@@ -146,56 +145,56 @@ definitional equality rules of $\MRepr$ that make it commute with most of the
 syntax, as well as some propositional equalities that are justified by the translation $\R$.
 
 \begin{figure}[H]
-  \begin{minipage}[t]{0.4\textwidth}%
-  \begin{align*}
-  & \boxed{\text{$\eta$ rules}} \\
-  & \Munrepr\ (\Mrepr\ t) = t \\
-  & \Mrepr\ (\Munrepr\ t) = t \\[1em]
-  & \boxed{\text{Stability under substitution}} \\
-  & \Mrepr\ {(t[\sigma])} = (\Mrepr\ {t})[\sigma] \\
-  & \Munrepr\ {(t[\sigma])} = (\Munrepr\ {t})[\sigma] \\
-  & \MRepr\ {(T[\sigma])} = (\MRepr\ {T})[\sigma] \\[1em]
-  & \boxed{\text{Compatibility with $\Pi$ types}} \\
-  & \MRepr\ {((x : A) \to B)} = (x : A) \to \MRepr\ B \\
-  & \Mrepr\ {(\lambda\ x.\ b)} = \lambda\ x.\ (\Mrepr\ b) \\
-  & \Munrepr\ {(\lambda\ x.\ b)} = \lambda\ x.\ (\Munrepr\ b) \\
-  & \Mrepr\ (f\ a) = (\Mrepr\ f)\ a \\
-  & \Munrepr\ (f\ a) = (\Munrepr\ f)\ a
-  \end{align*}
-  \end{minipage}\qquad
-  \begin{minipage}[t]{0.5\textwidth}%
-  \begin{align*}
-  & \boxed{\text{Compatibility with universes}} \\
-  & \MRepr\ {\univ} = \univ \\
-  & \Mrepr\ {(\Code A)} = \Code A \\
-  & \Munrepr\ {(\Code A)} = \Code A \\[1em]
-  & \boxed{\text{Compatibility with equality}} \\
-  & \MRepr\ (a \equiv_A b) = \Mrepr\ a \equiv_{\MRepr A} \Mrepr\ b \\
-  & \Mrepr\ (\mta{refl}\ a) = \mta{refl}\ (\Mrepr\ a) \\
-  & \Munrepr\ (\mta{refl}\ a)  = \mta{refl}\ (\Munrepr\ a) \\
-  & \Mrepr\ (\mta{J}\ P\ d\ p) = \mta{J}\ (\mta{Repr}\ P)\ (\mta{repr}\ d)\ p \\
-  & \Munrepr\ (\mta{J}\ (\mta{Repr}\ P)\ d\ p) = \mta{J}\ P\ (\mta{unrepr}\ d)\ p \\[1em]
-  & \boxed{\text{Compatibility with eliminators}} \\
-  & \Mrepr\ (\mta{elim}_S\ M\ \beta\ \delta\ x) \\ &\qquad = \mta{elim}_S\ (\MRepr\ M)\ (\Mrepr\ \beta)\ \delta\ x \\
-  & \Munrepr\ (\mta{elim}_S\ (\MRepr\ M)\ \beta\ \delta\ x)\\ &\qquad = \mta{elim}_S\ M\ (\Munrepr\ \beta)\ \delta\ x
-  \end{align*}
-  \end{minipage}%
-  \caption{(\mech{https://github.com/kontheocharis/rep-agda/blob/e6bd34adaab630f5787c63a95fa86869f6c19da4/TT/Repr.agda\#L41})\
-  Definitional compatibility rules for $\MRepr$. Similar rules are given for
-  $\Sigma$ and $\top$ in the formalisation. In this version, $\MRepr$ only applies to codomains
-  of functions which aligns with the substitution rule. However, it is also
-  possible to formulate it as \\ $\MRepr\ ((x : A) \to B) = (x : \MRepr\ A) \to \MRepr\ B[\Munrepr\ x]$.}
-  \label{fig:lambdaind-repr-coherence-pi-univ}
+	\begin{minipage}[t]{0.4\textwidth}%
+		\begin{align*}
+			 & \boxed{\text{$\eta$ rules}}                               \\
+			 & \Munrepr\ (\Mrepr\ t) = t                                 \\
+			 & \Mrepr\ (\Munrepr\ t) = t                                 \\[1em]
+			 & \boxed{\text{Stability under substitution}}               \\
+			 & \Mrepr\ {(t[\sigma])} = (\Mrepr\ {t})[\sigma]             \\
+			 & \Munrepr\ {(t[\sigma])} = (\Munrepr\ {t})[\sigma]         \\
+			 & \MRepr\ {(T[\sigma])} = (\MRepr\ {T})[\sigma]             \\[1em]
+			 & \boxed{\text{Compatibility with $\Pi$ types}}             \\
+			 & \MRepr\ {((x : A) \to B)} = (x : A) \to \MRepr\ B         \\
+			 & \Mrepr\ {(\lambda\ x.\ b)} = \lambda\ x.\ (\Mrepr\ b)     \\
+			 & \Munrepr\ {(\lambda\ x.\ b)} = \lambda\ x.\ (\Munrepr\ b) \\
+			 & \Mrepr\ (f\ a) = (\Mrepr\ f)\ a                           \\
+			 & \Munrepr\ (f\ a) = (\Munrepr\ f)\ a
+		\end{align*}
+	\end{minipage}\qquad
+	\begin{minipage}[t]{0.5\textwidth}%
+		\begin{align*}
+			 & \boxed{\text{Compatibility with universes}}                                   \\
+			 & \MRepr\ {\univ} = \univ                                                       \\
+			 & \Mrepr\ {(\Code A)} = \Code A                                                 \\
+			 & \Munrepr\ {(\Code A)} = \Code A                                               \\[1em]
+			 & \boxed{\text{Compatibility with equality}}                                    \\
+			 & \MRepr\ (a \equiv_A b) = \Mrepr\ a \equiv_{\MRepr A} \Mrepr\ b                \\
+			 & \Mrepr\ (\mta{refl}\ a) = \mta{refl}\ (\Mrepr\ a)                             \\
+			 & \Munrepr\ (\mta{refl}\ a)  = \mta{refl}\ (\Munrepr\ a)                        \\
+			 & \Mrepr\ (\mta{J}\ P\ d\ p) = \mta{J}\ (\mta{Repr}\ P)\ (\mta{repr}\ d)\ p     \\
+			 & \Munrepr\ (\mta{J}\ (\mta{Repr}\ P)\ d\ p) = \mta{J}\ P\ (\mta{unrepr}\ d)\ p \\[1em]
+			 & \boxed{\text{Compatibility with eliminators}}                                 \\
+			 & \Mrepr\ (\mta{elim}_S\ M\ \beta\ \delta\ x)                                   \\ &\qquad = \mta{elim}_S\ (\MRepr\ M)\ (\Mrepr\ \beta)\ \delta\ x \\
+			 & \Munrepr\ (\mta{elim}_S\ (\MRepr\ M)\ \beta\ \delta\ x)                       \\ &\qquad = \mta{elim}_S\ M\ (\Munrepr\ \beta)\ \delta\ x
+		\end{align*}
+	\end{minipage}%
+	\caption{(\mech{https://github.com/kontheocharis/rep-agda/blob/e6bd34adaab630f5787c63a95fa86869f6c19da4/TT/Repr.agda\#L41})\
+		Definitional compatibility rules for $\MRepr$. Similar rules are given for
+		$\Sigma$ and $\top$ in the formalisation. In this version, $\MRepr$ only applies to codomains
+		of functions which aligns with the substitution rule. However, it is also
+		possible to formulate it as \\ $\MRepr\ ((x : A) \to B) = (x : \MRepr\ A) \to \MRepr\ B[\Munrepr\ x]$.}
+	\label{fig:lambdaind-repr-coherence-pi-univ}
 \end{figure}
 
 \begin{figure}[H]
-\vspace{2em}
-  \begin{align*}
-  & \mta{repr-ctor}_{S.O}\ \{\gamma\}\ \nu : \\ & \qquad \Mrepr\ (\Mctor_{S.O}\ \{\gamma\} \nu) \equiv \gamma.\alpha_O\ (\Mrepr\ \nu) \\[1em]
-  & \mta{elim-equiv}_{S}\ \{\gamma\}\ M\ \beta\ \delta\ x :  \\ & \qquad
-  \mta{elim}_{S}\ \{\gamma\}\ M\ \beta\ \delta\ x \equiv \gamma.\kappa\ (\delta.\ x.\ M[\delta, \Munrepr\ x])\ (\Mrepr^*\ \beta)\ \delta\ (\Mrepr\ x)
-  \end{align*}
-  \caption{Additional propositional equalities for $\MRepr$ on constructors and eliminators. Here, $\Mrepr^*$ applies $\MRepr$ on all the recursive
-    arguments of a displayed algebra. The rule $\mta{elim-equiv}_{S}\ \{\gamma\}\ M\ \beta\ \delta\ x$ is also derivable internally by case analysis
-    on $x$.}
+	\vspace{2em}
+	\begin{align*}
+		 & \mta{repr-ctor}_{S.O}\ \{\gamma\}\ \nu :                \\ & \qquad \Mrepr\ (\Mctor_{S.O}\ \{\gamma\} \nu) \equiv \gamma.\alpha_O\ (\Mrepr\ \nu) \\[1em]
+		 & \mta{elim-equiv}_{S}\ \{\gamma\}\ M\ \beta\ \delta\ x : \\   & \qquad
+		    \mta{elim}_{S}\ \{\gamma\}\ M\ \beta\ \delta\ x \equiv \gamma.\kappa\ (\delta.\ x.\ M[\delta, \Munrepr\ x])\ (\Mrepr^*\ \beta)\ \delta\ (\Mrepr\ x)
+	\end{align*}
+	\caption{Additional propositional equalities for $\MRepr$ on constructors and eliminators. Here, $\Mrepr^*$ applies $\MRepr$ on all the recursive
+		arguments of a displayed algebra. The rule $\mta{elim-equiv}_{S}\ \{\gamma\}\ M\ \beta\ \delta\ x$ is also derivable internally by case analysis
+		on $x$.}
 \end{figure}

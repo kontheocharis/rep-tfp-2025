@@ -3,59 +3,49 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: out/main.aux
 The style file: splncs04.bst
 Database file #1: bib.bib
-Warning--to sort, need author or key in gmp
-Warning--to sort, need author or key in idris
-Warning--to sort, need author or key in agda
-Warning--to sort, need author or key in rocq
-Warning--to sort, need author or key in lean
-Warning--to sort, need author or key in idris-extraction
-Warning--to sort, need author or key in coq-extraction
-Warning--to sort, need author or key in agda-extraction
-Warning--to sort, need author or key in idris-pr
-Warning--to sort, need author or key in agda-issue
-Warning--empty journal in Abel2013-fq
+Warning--missing school in Abel2013-fq
 Warning--empty year in Abel2013-fq
 Warning--missing school in Kovacs2023-gq
 Warning--empty journal in Martin-Lof1984-pz
 You've used 36 entries,
             2850 wiz_defined-function locations,
-            846 strings with 11754 characters,
-and the built_in function-call counts, 17921 in all, are:
+            856 strings with 11843 characters,
+and the built_in function-call counts, 17892 in all, are:
 = -- 1514
 > -- 357
 < -- 25
 + -- 160
 - -- 118
-* -- 1125
-:= -- 2095
-add.period$ -- 54
+* -- 1114
+:= -- 2094
+add.period$ -- 55
 call.type$ -- 36
-change.case$ -- 201
+change.case$ -- 210
 chr.to.int$ -- 0
-cite$ -- 50
-duplicate$ -- 1702
-empty$ -- 1842
+cite$ -- 40
+duplicate$ -- 1698
+empty$ -- 1837
 format.name$ -- 135
-if$ -- 4030
+if$ -- 4024
 int.to.chr$ -- 0
 int.to.str$ -- 36
-missing$ -- 308
+missing$ -- 307
 newline$ -- 114
 num.names$ -- 52
-pop$ -- 662
+pop$ -- 649
 preamble$ -- 1
-purify$ -- 131
+purify$ -- 141
 quote$ -- 0
-skip$ -- 488
+skip$ -- 496
 stack$ -- 0
 substring$ -- 1114
-swap$ -- 843
+swap$ -- 845
 text.length$ -- 25
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 142
-warning$ -- 14
+warning$ -- 4
 while$ -- 130
 width$ -- 38
-write$ -- 379
-(There were 14 warnings)
+write$ -- 381
+(There were 4 warnings)

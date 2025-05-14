@@ -3,48 +3,6 @@
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
 
-\bibitem{agda}
-The agda wiki. \url{https://wiki.portal.chalmers.se/agda/pmwiki.php}, accessed:
-  2024-5-3
-
-\bibitem{agda-extraction}
-{agda2hs} documentation — {agda2hs} documentation.
-  \url{https://agda.github.io/agda2hs/}, accessed: 2025-2-19
-
-\bibitem{gmp}
-The {GNU} {MP} bignum library. \url{https://gmplib.org/}, accessed: 2024-12-8
-
-\bibitem{idris}
-Idris: A language for type-driven development.
-  \url{https://www.idris-lang.org/}, accessed: 2024-5-3
-
-\bibitem{lean}
-Lean: Programming language and theorem prover. \url{https://lean-lang.org/},
-  accessed: 2024-5-3
-
-\bibitem{idris-pr}
-Make {`CONS', `NIL', `JUST'} and {`NOTHING'} constructors have uniform names by
-  {Z}-snails · {Pull Request} \#3486 · idris-lang/{Idris2}.
-  \url{https://github.com/idris-lang/Idris2/pull/3486}, accessed: 2025-2-19
-
-\bibitem{idris-extraction}
-Pragmas — idris2 0.0 documentation.
-  \url{https://idris2.readthedocs.io/en/latest/reference/pragmas.html#transform},
-  accessed: 2025-2-19
-
-\bibitem{coq-extraction}
-Program extraction — {Coq} 8.13.2 documentation.
-  \url{https://coq.inria.fr/doc/v8.13/refman/addendum/extraction.html},
-  accessed: 2025-2-19
-
-\bibitem{agda-issue}
-Should agda optimise away the erasure from vec to list? · issue \#7701 ·
-  agda/agda. \url{https://github.com/idris-lang/Idris2/pull/3486}, accessed:
-  2025-2-19
-
-\bibitem{rocq}
-Welcome to a world of. \url{https://rocq-prover.org/}, accessed: 2025-4-16
-
 \bibitem{Abbott2004-va}
 Abbott, M., Altenkirch, T., Ghani, N.: Representing nested inductive types
   using {W}-types. In: Automata, Languages and Programming, pp. 59--71. Lecture
@@ -52,8 +10,8 @@ Abbott, M., Altenkirch, T., Ghani, N.: Representing nested inductive types
   (2004), \url{https://link.springer.com/chapter/10.1007/978-3-540-27836-8_8}
 
 \bibitem{Abel2013-fq}
-Abel, A.: Normalization by evaluation: Dependent types and impredicativity
-  \url{https://www2.tcs.ifi.lmu.de/~abel/talkHabil2013.pdf}
+Abel, A.: Normalization by evaluation: Dependent types and impredicativity.
+  Ph.D. thesis, \url{https://www2.tcs.ifi.lmu.de/~abel/talkHabil2013.pdf}
 
 \bibitem{Adamek2010-ls}
 Adamek, J., Rosicky, J., Vitale, E.M.: Cambridge tracts in mathematics:
@@ -157,7 +115,7 @@ Kov\'{a}cs, A.: Type-theoretic signatures for algebraic theories and inductive
 
 \bibitem{Martin-Lof1984-pz}
 Martin-L{\"{o}}f, P.: Intuitionistic type theory  \textbf{1},  1--91 (1984),
-  \url{http://people.csail.mit.edu/jgross/personal-website/papers/academic-papers-local/Martin-Lof80.pdf}
+  \url{https://intuitionistic.wordpress.com/wp-content/uploads/2010/07/martin-lof-tt.pdf}
 
 \bibitem{McBride2006-fp}
 McBride, C., Goguen, H., McKinna, J.: A few constructions on constructors. In:
@@ -186,5 +144,47 @@ Wadler, P.: Views: a way for pattern matching to cohabit with data abstraction.
 Wadler, P.: Deforestation: transforming programs to eliminate trees. Theor.
   Comput. Sci.  \textbf{73}(2),  231--248 (1~Jun 1990),
   \url{https://www.sciencedirect.com/science/article/pii/030439759090147A}
+
+\bibitem{agda}
+The {Agda} wiki. \url{https://wiki.portal.chalmers.se/agda/pmwiki.php},
+  accessed: 2024-5-3
+
+\bibitem{gmp}
+The {GNU} {MP} bignum library. \url{https://gmplib.org/}, accessed: 2024-12-8
+
+\bibitem{idris}
+Idris: A language for type-driven development.
+  \url{https://www.idris-lang.org/}, accessed: 2024-5-3
+
+\bibitem{lean}
+Lean: Programming language and theorem prover. \url{https://lean-lang.org/},
+  accessed: 2024-5-3
+
+\bibitem{rocq}
+Welcome to a world of. \url{https://rocq-prover.org/}, accessed: 2025-4-16
+
+\bibitem{agda-extraction}
+{agda2hs} documentation — {agda2hs} documentation.
+  \url{https://agda.github.io/agda2hs/}, accessed: 2025-2-19
+
+\bibitem{agda-issue}
+Should agda optimise away the erasure from vec to list? · issue \#7701 ·
+  agda/agda. \url{https://github.com/idris-lang/Idris2/pull/3486}, accessed:
+  2025-2-19
+
+\bibitem{coq-extraction}
+Program extraction — {Coq} 8.13.2 documentation.
+  \url{https://coq.inria.fr/doc/v8.13/refman/addendum/extraction.html},
+  accessed: 2025-2-19
+
+\bibitem{idris-extraction}
+Pragmas — idris2 0.0 documentation.
+  \url{https://idris2.readthedocs.io/en/latest/reference/pragmas.html#transform},
+  accessed: 2025-2-19
+
+\bibitem{idris-pr}
+Make {`CONS', `NIL', `JUST'} and {`NOTHING'} constructors have uniform names by
+  {Z}-snails · {Pull Request} \#3486 · idris-lang/{Idris2}.
+  \url{https://github.com/idris-lang/Idris2/pull/3486}, accessed: 2025-2-19
 
 \end{thebibliography}
