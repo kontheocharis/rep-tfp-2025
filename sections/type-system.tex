@@ -30,8 +30,8 @@ also notationally identify elements of the universe $A : \univ$ with types $A
 Besides the
 usual judgement forms of \lambdamltt, we also have telescopic judgement forms
 \begin{definitions}
-$\Gamma \vdash \Delta \tel$                & $\Delta$ is a telescope in $\Gamma$, \\
-$\Gamma \vdash \delta :: \Delta$           & $\delta$ is a spine (list of terms) matching telescope $\Delta$,
+$\Gamma \vdash \Delta \tel$                & $\Delta$ is a telescope in $\Gamma$ \\
+$\Gamma \vdash \delta :: \Delta$           & $\delta$ is a spine (list of terms) matching telescope $\Delta$
 \end{definitions}
 with accompanying rules shown in \cref{fig:tel-rules}.
 
@@ -77,8 +77,8 @@ expressiveness. For this paper, we are interested in the ones which can
 be used as a syntax for defining inductive families in a type theory. Thus, we define
 two new judgement forms
 \begin{definitions}
-$\Gamma \vdash S \sig \Delta$    & $S$ is a signature with indices $\Delta$ in context $\Gamma$ , \\
-$\Gamma \vdash O \op \Delta$     & $O$ is an operation with indices $\Delta$ in context $\Gamma$ ,
+$\Gamma \vdash S \sig \Delta$    & $S$ is a signature with indices $\Delta$ in context $\Gamma$  \\
+$\Gamma \vdash O \op \Delta$     & $O$ is an operation with indices $\Delta$ in context $\Gamma$
 \end{definitions}
 with accompanying rules shown in \cref{fig:tel-rules}.
 Signatures are lists of operations, and operations build up constructor types.

@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex out/main"] 1747263702 "out/main.aux" "out/main.bbl" "out/main" 1747264997
+["bibtex out/main"] 1747263702 "out/main.aux" "out/main.bbl" "out/main" 1747265180
   "./splncs04.bst" 1733698704 32146 aadf770ded437d161532035219ea6f45 ""
   "bib.bib" 1747225111 16068 beb10f7a55b4d50e65575b0e0d3e5244 ""
-  "out/main.aux" 1747264997 14440 ef7fd3b6bc169cce8440b9b1fbff51b8 "pdflatex"
+  "out/main.aux" 1747265179 14440 ef7fd3b6bc169cce8440b9b1fbff51b8 "pdflatex"
   (generated)
   "out/main.blg"
   "out/main.bbl"
-["pdflatex"] 1747264996 "/Users/constantine/git/rep-tfp-2025/main.tex" "out/main.pdf" "main" 1747264997
+["pdflatex"] 1747265178 "/Users/constantine/git/rep-tfp-2025/main.tex" "out/main.pdf" "main" 1747265180
   "/Users/constantine/git/rep-tfp-2025/main.tex" 1747224493 483 2d2b7f45dc9f3902aa2d436279b59d6a ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
@@ -309,17 +309,17 @@
   "misc/macros.tex" 1747263728 5335 8074f3f89044af6eb57b2cb8aac04f8b ""
   "misc/packages.tex" 1747222167 1399 be8a300eb12dcc164e63697d1c22b311 ""
   "misc/rights.tex" 1733698704 1050 6124765dfe6cb612a966ac31849f412a ""
-  "out/main.aux" 1747264997 14440 ef7fd3b6bc169cce8440b9b1fbff51b8 "pdflatex"
+  "out/main.aux" 1747265179 14440 ef7fd3b6bc169cce8440b9b1fbff51b8 "pdflatex"
   "out/main.bbl" 1747263702 8738 81c419597d946195c87e467714d373d5 "bibtex out/main"
-  "out/main.out" 1747264997 275 e8697098164b610f8033512d50a9d933 "pdflatex"
+  "out/main.out" 1747265179 275 e8697098164b610f8033512d50a9d933 "pdflatex"
   "sections/appendix.tex" 1747224412 7962 98576645927273b37addd1fd593d9bae ""
   "sections/conclusion.tex" 1747223734 6580 85a594aa3f110f19e4e6666719a896e6 ""
   "sections/implementation.tex" 1746637613 2351 790c4685c1c2ea944446e38afc178061 ""
   "sections/intro.tex" 1746637613 3535 ec6d90de5b7c846c36eb980a8ac52e11 ""
-  "sections/tour.tex" 1746645809 18712 08cbb0d38d0a09a3283cba982a896115 ""
-  "sections/type-system.tex" 1747264996 39686 9e026faa28d18bf7f71460b7cf345a7d ""
+  "sections/tour.tex" 1747265138 18728 89dadc41190a7cfe913d3d615c17a612 ""
+  "sections/type-system.tex" 1747265178 39681 a977619fd3d3f87ae33ee28441b67140 ""
   (generated)
   "out/main.aux"
-  "out/main.out"
   "out/main.pdf"
   "out/main.log"
+  "out/main.out"

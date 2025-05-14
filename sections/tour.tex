@@ -146,7 +146,7 @@ as
   \end{aligned}\qquad
   \begin{aligned}
   & \lab{cons} : T \to \lab{List'}\ T\ n \to \lab{List'}\ T\ (\ctorlab{succ}\ n) \\
-  & \lab{cons}\ x\ (\mathit{xs}, p) = (\ctorlab{cons}\ x\ \mathit{xs}, \lab{cong}\ (\ctorlab{succ})\ p)
+  & \lab{cons}\ x\ (\mathit{xs}, p) = (\ctorlab{cons}\ x\ \mathit{xs}, \lab{cong}\ (\ctorlab{succ})\ p) \,.
   \end{aligned}
 \]
 Next we need to define the eliminator for $\lab{List'}$, which should have the form
@@ -154,7 +154,7 @@ Next we need to define the eliminator for $\lab{List'}$, which should have the f
   & \lab{elim-List'} : (E : (n : \datalab{Nat}) \to \lab{List'}\ T\ n \to \lab{Type}) \\
   & \quad \to E\ \ctorlab{zero}\ \lab{nil} \\
   & \quad \to ((x : T) \to (n : \datalab{Nat}) \to (\mathit{xs} : \lab{List'}\ T\ n) \to \overline{E\ n\ xs} \to E\ (\ctorlab{succ}\ n)\ (\lab{cons}\ x\ \mathit{xs})) \\
-  & \quad \to (n : \datalab{Nat}) \to (v : \lab{List'}\ T\ n) \to E\ n\ v
+  & \quad \to (n : \datalab{Nat}) \to (v : \lab{List'}\ T\ n) \to E\ n\ v \,.
 \end{align*}
 Dependent pattern matching does a lot of the heavy lifting by refining the
 length index and equality proof by matching on the underlying list. However we still need to
@@ -165,7 +165,7 @@ substitute the lemma $\lab{cong}\ (\ctorlab{succ})\ (\lab{\ctorlab{succ}-inj}\ p
   \begin{aligned}[t]
   &(\lambda p .\ P\ (\ctorlab{succ}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, p))\ \\
   &\hspace{-3em} (\lab{\ctorlab{succ}-cong-id}\ e)\ (r\ x\ ({\mathit{xs}}, \lab{\ctorlab{succ}-inj}\ e) \\
-  &\hspace{-3em}  (\lambda \wildp . \ \lab{elim-List'}\ P\ b\ r\ m\ ({\mathit{xs}}, \lab{\ctorlab{succ}-inj}\ e)))
+  &\hspace{-3em}  (\lambda \wildp . \ \lab{elim-List'}\ P\ b\ r\ m\ ({\mathit{xs}}, \lab{\ctorlab{succ}-inj}\ e))) \,.
   \end{aligned}
 \end{align*}
 Finally, we need to prove that the eliminator satisfies the expected computation
@@ -173,7 +173,7 @@ rules propositionally. These are
 \begin{align*}
   \lab{elim-List'-nil-id} : &\ \lab{elim-List'}\ P\ b\ r\ \ctorlab{zero}\ (\ctorlab{nil}, \ctorlab{refl}) = b \\[0.5em]
   \lab{elim-List'-cons-id} :&\  \lab{elim-List'}\ P\ b\ r\ (\ctorlab{succ}\ m)\ (\ctorlab{cons}\ x\ \mathit{xs}, \lab{cong}\ \ctorlab{succ}\ p) \\
-  & = r\ x\ (\mathit{xs}, p)\ (\lambda \wildp .\ \lab{elim-List'}\ P\ b\ r\ m\ (\mathit{xs}, p))
+  & = r\ x\ (\mathit{xs}, p)\ (\lambda \wildp .\ \lab{elim-List'}\ P\ b\ r\ m\ (\mathit{xs}, p)) \,.
 \end{align*}
 The first holds definitionally, and the second requires a small amount of
 equality reasoning.
